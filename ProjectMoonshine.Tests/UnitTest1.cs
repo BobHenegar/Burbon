@@ -5,7 +5,8 @@ namespace ProjectMoonshine.Tests
 {
     public class UnitTest1
     {
-        [Fact]
+        [Theory]
+        [InlineData()]
         public void Test1()
         {
             throw new NotImplementedException();
