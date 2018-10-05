@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.PhoneType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PhtType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhtAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhtModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhtAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhtModifiedUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhtType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhtAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhtModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhtAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhtModifiedUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PhtKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PhtKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PhtKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Address>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrZip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrAddress1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrAddress2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrAddress3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrModifiedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrPerson)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrAddress2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrAddress3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrModifiedUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrPerson.PerKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

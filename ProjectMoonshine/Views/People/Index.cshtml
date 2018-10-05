@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Person>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PerFirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerMiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerLastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerDateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerModifiedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerMiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerDateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PerModifiedUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CusKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PerKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PerKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PerKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

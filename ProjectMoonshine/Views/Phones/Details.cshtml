@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Phone
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Phone</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoPerKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoPerKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoExtention)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoExtention)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoPrimary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoPrimary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoModifiedUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoModifiedUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PhoKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Email>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlPrimary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlModifiedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlPrimary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlModifiedUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailType.EltKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EmlKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EmlKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EmlKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,87 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Address
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Address</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrCity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrCity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrState)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrState)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrZip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrZip)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrModifiedUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrModifiedUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrPerson)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrPerson.PerKey)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="AdrKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

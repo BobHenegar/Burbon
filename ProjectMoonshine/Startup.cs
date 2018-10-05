@@ -26,15 +26,14 @@ namespace ProjectMoonshine
         public void ConfigureServices(IServiceCollection services)
         {
             var config = new ConfigurationBuilder()
-                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.json", false)
 #if DEBUG
+                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.json", optional: true)
 #else
-                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.Development.json", false)
+                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.Development.json", optional: false)
 #endif
                 .Build();
             services.AddDbContextPool<ApplicationDbContext>(options =>
                 options
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .UseSqlServer(config.GetConnectionString("Database"),
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 

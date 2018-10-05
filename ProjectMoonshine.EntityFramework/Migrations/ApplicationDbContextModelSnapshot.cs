@@ -19,41 +19,313 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.ErrorLog", b =>
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
-                    b.Property<Guid>("LogId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("AdrKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTimeOffset>("AddDate")
+                    b.Property<DateTimeOffset>("AdrAddDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("Controller")
-                        .HasMaxLength(100);
+                    b.Property<string>("AdrAddUser")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("DeletedDate");
+                    b.Property<string>("AdrAddress1");
 
-                    b.Property<string>("ExceptionType")
-                        .HasMaxLength(100);
+                    b.Property<string>("AdrAddress2");
 
-                    b.Property<string>("Line")
-                        .HasMaxLength(100);
+                    b.Property<string>("AdrAddress3");
 
-                    b.Property<string>("LogLevel")
-                        .HasMaxLength(100);
+                    b.Property<string>("AdrCity");
 
-                    b.Property<string>("Message");
+                    b.Property<DateTimeOffset?>("AdrModifiedDate")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Method")
-                        .HasMaxLength(100);
+                    b.Property<string>("AdrModifiedUser")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("ModifiedDate");
+                    b.Property<Guid>("AdrPerKey");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("AdrState");
 
-                    b.HasKey("LogId");
+                    b.Property<string>("AdrZip");
 
-                    b.ToTable("ErrorLogs");
+                    b.Property<Guid?>("AdtAddressTypeAdtKey");
+
+                    b.HasKey("AdrKey");
+
+                    b.HasIndex("AdrPerKey");
+
+                    b.HasIndex("AdtAddressTypeAdtKey");
+
+                    b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.AddressType", b =>
+                {
+                    b.Property<Guid>("AdtKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("AdtAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("AdtAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("AdtModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdtModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdtType")
+                        .HasMaxLength(10);
+
+                    b.HasKey("AdtKey");
+
+                    b.ToTable("AddressType");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
+                {
+                    b.Property<Guid>("CusKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("CusAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("CusAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("CusModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CusModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("CusKey");
+
+                    b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
+                {
+                    b.Property<Guid>("EmlKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("EmlAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("EmlAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EmlAddress")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("EmlEltKey")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("EmlModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EmlModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("EmlPrimary")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("PersonPerKey");
+
+                    b.HasKey("EmlKey");
+
+                    b.HasIndex("EmlEltKey");
+
+                    b.HasIndex("PersonPerKey");
+
+                    b.ToTable("Email");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EmailType", b =>
+                {
+                    b.Property<Guid>("EltKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("EltAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("EltAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("EltModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EltModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EltType")
+                        .HasMaxLength(10);
+
+                    b.HasKey("EltKey");
+
+                    b.ToTable("EmailType");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
+                {
+                    b.Property<Guid>("PerKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid?>("CusPerKey")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<DateTimeOffset>("PerAddDate")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("PerAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("PerDateOfBirth");
+
+                    b.Property<string>("PerFirstName");
+
+                    b.Property<string>("PerGender");
+
+                    b.Property<string>("PerLastName");
+
+                    b.Property<string>("PerMiddleName");
+
+                    b.Property<DateTimeOffset?>("PerModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("PerModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("PerKey");
+
+                    b.HasIndex("CusPerKey");
+
+                    b.ToTable("Person");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Phone", b =>
+                {
+                    b.Property<Guid>("PhoKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<Guid?>("PersonPerKey");
+
+                    b.Property<DateTimeOffset>("PhoAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("PhoAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhoExtention");
+
+                    b.Property<DateTimeOffset?>("PhoModifiedDate")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("PhoModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhoNumber");
+
+                    b.Property<Guid>("PhoPerKey")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<bool>("PhoPrimary");
+
+                    b.Property<Guid?>("PhoneTypePhtKey");
+
+                    b.HasKey("PhoKey");
+
+                    b.HasIndex("PersonPerKey");
+
+                    b.HasIndex("PhoneTypePhtKey");
+
+                    b.ToTable("Phone");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.PhoneType", b =>
+                {
+                    b.Property<Guid>("PhtKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("PhtAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("PhtAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("PhtModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhtModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhtType");
+
+                    b.HasKey("PhtKey");
+
+                    b.ToTable("PhoneType");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")
+                        .WithMany("Addresses")
+                        .HasForeignKey("AdrPerKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.AddressType", "AdtAddressType")
+                        .WithMany()
+                        .HasForeignKey("AdtAddressTypeAdtKey");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.EmailType", "EmailType")
+                        .WithMany()
+                        .HasForeignKey("EmlEltKey")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person")
+                        .WithMany("Emails")
+                        .HasForeignKey("PersonPerKey");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CusPerKey");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Phone", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
+                        .WithMany("Phones")
+                        .HasForeignKey("PersonPerKey");
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.PhoneType", "PhoneType")
+                        .WithMany()
+                        .HasForeignKey("PhoneTypePhtKey");
                 });
 #pragma warning restore 612, 618
         }

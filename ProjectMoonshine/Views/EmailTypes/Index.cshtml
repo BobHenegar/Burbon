@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.EmailType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EltType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EltAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EltModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EltAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EltModifiedUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EltType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EltAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EltModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EltAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EltModifiedUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EltKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EltKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EltKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

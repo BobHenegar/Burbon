@@ -36,27 +36,27 @@ namespace ProjectMoonshine.Middleware
         }
         private async Task LogErrorMessageAsync(Exception ex, string path)
         {
-            await Task.Run(async () =>
-            {
-                using (var scope = services.CreateScope())
-                {
-                    using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
-                    {
-                        var s = new StackTrace(ex);
-                        var thisAsm = Assembly.GetExecutingAssembly();
-                        var methodName = s.GetFrames().Select(f => f.GetMethod()).First(m => m.Module.Assembly == thisAsm).Name;
-                        var log = new ErrorLog()
-                        {
-                            ExceptionType = ex.GetType().FullName,
-                            Message = ex.RecursivelyFormatException(),
-                            Controller = ex.Source,
-                            Method = methodName
-                        };
-                        await context.ErrorLogs.AddAsync(log);
-                        await context.SaveChangesAsync();
-                    }
-                }
-            }).ConfigureAwait(false);
+            //await Task.Run(async () =>
+            //{
+            //    using (var scope = services.CreateScope())
+            //    {
+            //        using (var context = scope.ServiceProvider.GetService<ApplicationDbContext>())
+            //        {
+            //            var s = new StackTrace(ex);
+            //            var thisAsm = Assembly.GetExecutingAssembly();
+            //            var methodName = s.GetFrames().Select(f => f.GetMethod()).First(m => m.Module.Assembly == thisAsm).Name;
+            //            var log = new ErrorLog()
+            //            {
+            //                ExceptionType = ex.GetType().FullName,
+            //                Message = ex.RecursivelyFormatException(),
+            //                Controller = ex.Source,
+            //                Method = methodName
+            //            };
+            //            await context.ErrorLogs.AddAsync(log);
+            //            await context.SaveChangesAsync();
+            //        }
+            //    }
+            //}).ConfigureAwait(false);
         }
     }
 }

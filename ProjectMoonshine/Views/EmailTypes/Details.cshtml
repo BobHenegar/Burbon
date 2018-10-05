@@ -1,0 +1,48 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.EmailType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmailType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EltType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EltType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EltAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EltAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EltModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EltModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EltAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EltAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EltModifiedUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EltModifiedUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EltKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,63 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Email
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Email</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlPrimary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlPrimary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlModifiedUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlModifiedUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailType.EltKey)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EmlKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

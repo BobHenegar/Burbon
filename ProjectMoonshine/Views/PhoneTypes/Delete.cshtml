@@ -1,0 +1,51 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.PhoneType
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PhoneType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhtType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhtType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhtAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhtAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhtModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhtModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhtAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhtAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhtModifiedUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhtModifiedUser)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="PhtKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

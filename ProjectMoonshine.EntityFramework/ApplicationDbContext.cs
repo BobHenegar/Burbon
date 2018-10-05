@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ProjectMoonshine.EntityFramework.Models;
@@ -8,7 +10,14 @@ namespace ProjectMoonshine.EntityFramework
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<AddressType> AddressTypes { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Email> Emails { get; set; }
+        public DbSet<EmailType> EmailTypes { get; set; }
+        public DbSet<Person> Persons { get; set; }
+        public DbSet<Phone> Phones { get; set; }
+        public DbSet<PhoneType> PhoneTypes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
              : base(options)
@@ -31,21 +40,11 @@ namespace ProjectMoonshine.EntityFramework
         //     then this method will not be run.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            foreach(var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if (typeof(EntityBase).IsAssignableFrom(entityType.ClrType))
-                {
-                    modelBuilder
-                        .Entity(entityType.ClrType)
-                        .Property(nameof(EntityBase.AddDate))
-                        .HasDefaultValueSql("GETDATE()");
-                }
+                if(entityType.ClrType.IsAssignableFrom(typeof(EntityBase)))
+                {}
             }
-
-            //modelBuilder
-            //    .Entity<Server>()
-            //    .Property(e => e.ServerId)
-            //    .HasDefaultValueSql("NEWID()");
         }
 
 
@@ -63,5 +62,26 @@ namespace ProjectMoonshine.EntityFramework
         {
             return base.Update(entity);
         }
+
+        //private void AddTimestamps()
+        //{
+        //    var entities = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+        //    var currentUsername = !string.IsNullOrEmpty(System.Web.HttpContext.Current?.User?.Identity?.Name)
+        //        ? HttpContext.Current.User.Identity.Name
+        //        : "Anonymous";
+
+        //    foreach (var entity in entities)
+        //    {
+        //        if (entity.State == EntityState.Added)
+        //        {
+        //            ((BaseEntity)entity.Entity).DateCreated = DateTime.UtcNow;
+        //            ((BaseEntity)entity.Entity).UserCreated = currentUsername;
+        //        }
+
+        //        ((BaseEntity)entity.Entity).DateModified = DateTime.UtcNow;
+        //        ((BaseEntity)entity.Entity).UserModified = currentUsername;
+        //    }
+        //}
     }
 }
