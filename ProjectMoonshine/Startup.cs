@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.Middleware;
 
 namespace ProjectMoonshine
 {
@@ -26,7 +27,8 @@ namespace ProjectMoonshine
         {
             var config = new ConfigurationBuilder()
                 .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.json", false)
-#if !DEBUG
+#if DEBUG
+#else
                 .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.Development.json", false)
 #endif
                 .Build();
@@ -70,7 +72,7 @@ namespace ProjectMoonshine
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+            app.UseErrorLogging();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

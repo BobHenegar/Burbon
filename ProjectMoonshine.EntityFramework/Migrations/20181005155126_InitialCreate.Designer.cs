@@ -10,7 +10,7 @@ using ProjectMoonshine.EntityFramework;
 namespace ProjectMoonshine.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181005143330_InitialCreate")]
+    [Migration("20181005155126_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
