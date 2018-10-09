@@ -11,9 +11,10 @@ namespace ProjectMoonshine.EntityFramework.Models
     {
         [NotMapped]
         public const string Prefix = "Per";
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid PerKey { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid CusPerKey { get; set; }
 
         public string PerFirstName { get; set; }
@@ -24,12 +25,21 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset PerDateOfBirth { get; set; }
 
         public string PerGender { get; set; }
+        public DateTimeOffset PerAddDate { get; set; }
+        public DateTimeOffset? PerChangeDate { get; set; }
+        public string PerAddUser { get; set; }
+        public string PerChangeUser { get; set; }
+
+        #region Navigation Properties
 
         [ForeignKey("CusPerKey")]
         public virtual Customer Customer { get; set; }
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Email> Emails { get; set; }
         public virtual IList<Phone> Phones { get; set; }
+
+
+        #endregion Navigation Properties
     }
 }
 

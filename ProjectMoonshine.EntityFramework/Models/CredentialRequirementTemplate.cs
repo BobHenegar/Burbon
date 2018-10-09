@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class CredentialRequirementTemplate
+    [Table("CredentialRequirementTemplate")]
+    public class CredentialRequirementTemplate : EntityBase
     {
-        public Guid ct8_key { get; set; }
-        public String ct8_template { get; set; }
-        public Guid ct8_obj_key { get; set; }
-        public String ct8_description { get; set; }
-        public String ct8AddUser { get; set; }
-        public DateTimeOffset ct8AddDate { get; set; }
-        public String ct8ChangeUser { get; set; }
-        public DateTimeOffset ct8ChangeDate { get; set; }
-        public String ct8_check_procedure { get; set; }
-        public String ct8_find_procedure { get; set; }
-        public Boolean ct8_set_data_key_flag { get; set; }
-        public Guid ct8_dyn_key { get; set; }
-        public Guid ct8_wbc_key { get; set; }
-        public String ct8_init_method_behavior { get; set; }
-        public String ct8_eval_method_behavior { get; set; }
-}
+        [NotMapped]
+        public const string Prefix = "Ct8";
+        [Key]
+        public Guid Ct8Key { get; set; }
+        public string Ct8Template { get; set; }
+        public string Ct8Description { get; set; }
+        public string Ct8CheckProcedure { get; set; }
+        public string Ct8FindProcedure { get; set; }
+        public bool Ct8SetDataKeyFlag { get; set; }
+        public Guid Ct8DynKey { get; set; }
+        public Guid Ct8WbcKey { get; set; }
+        public string Ct8InitMethodBehavior { get; set; }
+        public string Ct8EvalMethodBehavior { get; set; }
+        public DateTimeOffset Ct8AddDate { get; set; }
+        public DateTimeOffset? Ct8ChangeDate { get; set; }
+        public string Ct8AddUser { get; set; }
+        public string Ct8ChangeUser { get; set; }
+    }
 }

@@ -1,24 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class CredentialProcessTypeXCredentialRequirementType
+    [Table("CredentialProcessTypeXCredentialRequirementType")]
+    public class CredentialProcessTypeXCredentialRequirementType : EntityBase
     {
-        public Guid ct5_key { get; set; }
-        public Guid ct5_ct2_key { get; set; }
-        public Guid ct5_ct3_key { get; set; }
-        public DateTimeOffset ct5_start_date { get; set; }
-        public DateTimeOffset ct5_end_date { get; set; }
-        public Int16 ct5_order { get; set; }
-        public Boolean ct5_submit_prereq_flag { get; set; }
-        public Boolean ct5_exam_prereq_flag { get; set; }
-        public Boolean ct5_review_prereq_flag { get; set; }
-        public String ct5AddUser { get; set; }
-        public DateTimeOffset ct5AddDate { get; set; }
-        public String ct5ChangeUser { get; set; }
-        public DateTimeOffset ct5ChangeDate { get; set; }
+        [NotMapped]
+        public const string Prefix = "Ct5";
+        [Key]
+        public Guid Ct5Key { get; set; }
+        public Guid Ct5Ct2Key { get; set; }
+        public Guid Ct5Ct3Key { get; set; }
+        public DateTimeOffset Ct5StartDate { get; set; }
+        public DateTimeOffset Ct5EndDate { get; set; }
+        public int Ct5Order { get; set; }
+        public bool Ct5SubmitPrereqFlag { get; set; }
+        public bool Ct5ExamPrereqFlag { get; set; }
+        public bool Ct5ReviewPrereqFlag { get; set; }
+        public DateTimeOffset Ct5AddDate { get; set; }
+        public DateTimeOffset? Ct5ChangeDate { get; set; }
+        public string Ct5AddUser { get; set; }
+        public string Ct5ChangeUser { get; set; }
+
+        #region Navigation Properties
+        [ForeignKey("Ct5Ct2Key")]
+        public virtual CredentialProcessType CredentialProcessType { get; set; }
+        public virtual CredentialRequirementType CredentialRequirementType { get; set; }
+
+        #endregion Navigation Properties
     }
 }

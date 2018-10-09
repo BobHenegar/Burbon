@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.Managers;
 using ProjectMoonshine.Middleware;
 
 namespace ProjectMoonshine
@@ -36,6 +37,13 @@ namespace ProjectMoonshine
                 options
                     .UseSqlServer(config.GetConnectionString("Database"),
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
+
+            services
+                .AddTransient<IAddressManager, AddressManager>()
+                .AddTransient<ICredentialManager, CredentialManager>()
+                .AddTransient<IAddressManager, AddressManager>()
+                .AddTransient<IAddressManager, AddressManager>()
+                .AddTransient<IAddressManager, AddressManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

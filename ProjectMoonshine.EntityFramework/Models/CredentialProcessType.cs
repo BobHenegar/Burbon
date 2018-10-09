@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -10,7 +11,7 @@ namespace ProjectMoonshine.Models
     {
         [NotMapped]
         public const string Prefix = "Ct2";
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid Ct2Key { get; set; }
 
         public string Ct2Process { get; set; }
@@ -21,7 +22,7 @@ namespace ProjectMoonshine.Models
 
         public DateTimeOffset Ct2StartDate { get; set; }
 
-        public DateTimeOffset Ct2EndDate { get; set; }
+        public DateTimeOffset? Ct2EndDate { get; set; }
 
         public string Ct2DataTableName { get; set; }
 
@@ -35,7 +36,7 @@ namespace ProjectMoonshine.Models
 
         public Guid Ct2NextCt2key { get; set; }
 
-        public Int16 Ct2DueDateNumber { get; set; }
+        public int Ct2DueDateNumber { get; set; }
 
         public string Ct2DueDateUnit { get; set; }
 
@@ -43,19 +44,20 @@ namespace ProjectMoonshine.Models
 
         public string Ct2LongDescription { get; set; }
 
-        public string Ct2AddUser { get; set; }
-
-        public DateTimeOffset Ct2AddDate { get; set; }
-
-        public string Ct2ChangeUser { get; set; }
-
-        public DateTimeOffset Ct2ChangeDate { get; set; }
-
         public string Ct2CalculateStartDateSp { get; set; }
 
         public string Ct2CalculateDueDateSp { get; set; }
 
         public string Ct2SetOwnerSp { get; set; }
+
+        public DateTimeOffset Ct2AddDate { get; set; }
+        public DateTimeOffset? Ct2ChangeDate { get; set; }
+        public string Ct2AddUser { get; set; }
+        public string Ct2ChangeUser { get; set; }
+
+        #region Navigation Properties
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        #endregion Navigation Properties
     }
 
 }

@@ -10,17 +10,28 @@ namespace ProjectMoonshine.EntityFramework.Models
     {
         [NotMapped]
         public const string Prefix = "Eml";
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public Guid EmlKey { get; set; }
-
-        public Guid? EmlEltKey { get; set; }
+        
+        public Guid EmlPerKey { get; set; }
 
         [DisplayName("EmailAddress")]
         public string EmlAddress { get; set; }
-        public bool EmlPrimary { get; set; }
-        
 
-        [ForeignKey("EmlEltKey")]
-        public virtual EmailType EmailType { get; set; }
+        [DefaultValue(false)]
+        public bool EmlIsPrimaryEmail { get; set; }
+
+        [DefaultValue(false)]
+        public bool EmlIsWorkEmail { get; set; }
+
+        [DefaultValue(false)]
+        public bool EmlIsPersonalEmail { get; set; }
+        public DateTimeOffset EmlAddDate { get; set; }
+        public DateTimeOffset? EmlChangeDate { get; set; }
+        public string EmlAddUser { get; set; }
+        public string EmlChangeUser { get; set; }
+
+        #region Navigation Properties
+        #endregion Navigation Properties
     }
 }

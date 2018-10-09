@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class RequirementDedendency
+    [Table("RequirementDedendency")]
+    public class RequirementDedendency : EntityBase
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ct9_key { get; set; }
-        public Guid ct9_ct5_key { get; set; }
-        public Guid ct9_depends_on_ct5_key { get; set; }
-        public string ct9AddUser { get; set; }
-        public DateTimeOffset ct9AddDate { get; set; }
-        public string ct9ChangeUser { get; set; }
-        public DateTimeOffset ct9ChangeDate { get; set; }
+        [NotMapped]
+        public const string Prefix = "Ct9";
+        [Key]
+        public Guid Ct9Key { get; set; }
+        public Guid Ct9Ct5Key { get; set; }
+        public Guid? Ct9DependsOnCt5Key { get; set; }
+        public DateTimeOffset Vt5AddDate { get; set; }
+        public DateTimeOffset? Vt5ChangeDate { get; set; }
+        public string Ct5AddUser { get; set; }
+        public string Ct5ChangeUser { get; set; }
+
+
+        #region Navigation Properties
+
+        #endregion Navigation Properties
     }
 }

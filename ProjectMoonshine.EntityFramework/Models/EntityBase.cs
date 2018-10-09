@@ -5,19 +5,9 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    /// <summary>
+    /// Declaration for marker class for all owned entity framework models
+    /// </summary>
     public abstract class EntityBase
-    {
-
-        [NotMapped]
-        public DateTimeOffset AddDate { get; set; }
-
-        [NotMapped]
-        public DateTimeOffset? ChangeDate { get; set; }
-
-        [NotMapped]
-        public string AddUser { get; set; }
-
-        [NotMapped]
-        public string ChangeUser { get; set; }
-    }
+    {}
 }
