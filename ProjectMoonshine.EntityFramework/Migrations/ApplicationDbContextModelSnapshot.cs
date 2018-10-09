@@ -215,6 +215,92 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.Models.CredentialType", b =>
+                {
+                    b.Property<Guid>("Ct1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<Guid?>("Ct1AddDynKey");
+
+                    b.Property<string>("Ct1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1ClassAssembly");
+
+                    b.Property<string>("Ct1ClassName");
+
+                    b.Property<string>("Ct1Credential");
+
+                    b.Property<string>("Ct1CstType");
+
+                    b.Property<string>("Ct1DataTableName");
+
+                    b.Property<string>("Ct1DataTablePrefix");
+
+                    b.Property<string>("Ct1Description");
+
+                    b.Property<string>("Ct1Designation");
+
+                    b.Property<string>("Ct1DesignationHtml");
+
+                    b.Property<Guid?>("Ct1EditDynKey");
+
+                    b.Property<DateTimeOffset>("Ct1EndDate");
+
+                    b.Property<string>("Ct1InitCt2Class");
+
+                    b.Property<Guid?>("Ct1InitCt2Key");
+
+                    b.Property<string>("Ct1InitCt2Method");
+
+                    b.Property<string>("Ct1InitStatus");
+
+                    b.Property<string>("Ct1LongDescription");
+
+                    b.Property<string>("Ct1Order");
+
+                    b.Property<Guid?>("Ct1OrgCstKey");
+
+                    b.Property<string>("Ct1ReinstateCt2Class");
+
+                    b.Property<Guid?>("Ct1ReinstateCt2Key");
+
+                    b.Property<string>("Ct1ReinstateCt2Method");
+
+                    b.Property<string>("Ct1ReinstateStatus");
+
+                    b.Property<string>("Ct1RenewCt2Class");
+
+                    b.Property<Guid?>("Ct1RenewCt2Key");
+
+                    b.Property<string>("Ct1RenewCt2Method");
+
+                    b.Property<string>("Ct1RenewStatus");
+
+                    b.Property<string>("Ct1SetCredentialNumberSp");
+
+                    b.Property<DateTimeOffset>("Ct1StartDate");
+
+                    b.Property<string>("Ct1SyncCt1Key");
+
+                    b.Property<bool>("Ct1SyncFlag");
+
+                    b.HasKey("Ct1Key");
+
+                    b.ToTable("CredentialType");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")

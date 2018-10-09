@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework
 {
@@ -18,6 +19,8 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<Email> Emails { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Phone> Phones { get; set; }
+
+        public DbSet<CredentialType> CredentialTypes { get; set; }
 
 
         public const string Prefix = "Prefix";
