@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    class CredentialRequirement
+    public class CredentialRequirement
     {
         [Key]
         public Guid cr3Key { get; set; }
