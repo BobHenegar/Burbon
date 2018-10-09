@@ -12,18 +12,27 @@ namespace ProjectMoonshine.Models
         public const string Prefix = "Ct8";
         [Key]
         public Guid Ct8Key { get; set; }
+
         public string Ct8Template { get; set; }
+
         public string Ct8Description { get; set; }
+
         public string Ct8CheckProcedure { get; set; }
+
         public string Ct8FindProcedure { get; set; }
+
         public bool Ct8SetDataKeyFlag { get; set; }
-        public Guid Ct8DynKey { get; set; }
-        public Guid Ct8WbcKey { get; set; }
+
         public string Ct8InitMethodBehavior { get; set; }
+
         public string Ct8EvalMethodBehavior { get; set; }
+
         public DateTimeOffset Ct8AddDate { get; set; }
+
         public DateTimeOffset? Ct8ChangeDate { get; set; }
+
         public string Ct8AddUser { get; set; }
+
         public string Ct8ChangeUser { get; set; }
     }
 }

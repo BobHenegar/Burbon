@@ -24,16 +24,6 @@ namespace ProjectMoonshine.Models
 
         public DateTimeOffset? Ct2EndDate { get; set; }
 
-        public string Ct2DataTableName { get; set; }
-
-        public Guid Ct2AddDynKey { get; set; }
-
-        public Guid Ct2EditDynKey { get; set; }
-
-        public Guid Ct2InitialCctKey { get; set; }
-
-        public Guid Ct2CompletionCctKey { get; set; }
-
         public Guid Ct2NextCt2key { get; set; }
 
         public int Ct2DueDateNumber { get; set; }
@@ -51,8 +41,11 @@ namespace ProjectMoonshine.Models
         public string Ct2SetOwnerSp { get; set; }
 
         public DateTimeOffset Ct2AddDate { get; set; }
+
         public DateTimeOffset? Ct2ChangeDate { get; set; }
+
         public string Ct2AddUser { get; set; }
+
         public string Ct2ChangeUser { get; set; }
 
         #region Navigation Properties
