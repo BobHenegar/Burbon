@@ -62,10 +62,8 @@ namespace ProjectMoonshine.Controllers
             if (ModelState.IsValid)
             {
                 person.PerKey = Guid.NewGuid();
-                _context.Customers.Add(new Customer()
-                {
-                    Person = person
-                });
+                person.Customer = new Customer();
+                _context.Persons.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

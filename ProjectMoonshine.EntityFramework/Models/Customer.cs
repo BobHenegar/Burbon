@@ -11,7 +11,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public const string Prefix = "Cus";
         [Key]
         public Guid CusKey { get; set; }
-        public Guid CusPerKey { get; set; }
+        public Guid? CusPerKey { get; set; }
         public DateTimeOffset CusAddDate { get; set; }
         public DateTimeOffset? CusChangeDate { get; set; }
         public string CusAddUser { get; set; }

@@ -92,7 +92,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CusPerKey");
+                    b.Property<Guid?>("CusPerKey");
 
                     b.HasKey("CusKey");
 
