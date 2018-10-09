@@ -9,68 +9,73 @@
 <div>
     <h4>Person</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PerFirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerFirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerMiddleName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerMiddleName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerLastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerLastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerDateOfBirth)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerDateOfBirth)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerGender)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerGender)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerAddDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerAddDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerChangeDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerAddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerChangeUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Customer.CusKey)
-        </dd>
-    </dl>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PerFirstName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerFirstName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerMiddleName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerMiddleName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerLastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerLastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerDateOfBirth)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerDateOfBirth)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerGender)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerGender)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerAddDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerAddDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerChangeDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerChangeDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerAddUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerAddUser)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PerChangeUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PerChangeUser)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Customer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Customer.CusKey)
+            </dd>
+        </dl>
+    </div>
+    @await Html.PartialAsync("_AddressPartialView", Model.Addresses.FirstOrDefault())
+    @await Html.PartialAsync("_PhonePartialView", Model.Phones.FirstOrDefault())
+    @*@await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())*@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PerKey">Edit</a> |

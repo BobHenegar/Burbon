@@ -36,12 +36,14 @@ namespace ProjectMoonshine.Controllers
 
             var person = await _context.Persons
                 .Include(p => p.Customer)
+                .Include(p => p.Addresses)
+                .Include(p => p.Emails)
+                .Include(p => p.Phones)
                 .FirstOrDefaultAsync(m => m.PerKey == id);
             if (person == null)
             {
                 return NotFound();
             }
-
             return View(person);
         }
 
