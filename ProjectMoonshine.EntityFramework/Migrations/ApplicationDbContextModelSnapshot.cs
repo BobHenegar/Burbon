@@ -75,62 +75,62 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
                 {
-                    b.Property<Guid>("cr1Key")
+                    b.Property<Guid>("Cr1Key")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<DateTimeOffset>("cr1AddDate")
+                    b.Property<DateTimeOffset>("Cr1AddDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("cr1AddUser")
+                    b.Property<string>("Cr1AddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("cr1ApplicationCr2Key");
+                    b.Property<Guid>("Cr1ApplicationCr2Key");
 
-                    b.Property<DateTimeOffset?>("cr1ChangeDate")
+                    b.Property<DateTimeOffset?>("Cr1ChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("cr1ChangeUser")
+                    b.Property<string>("Cr1ChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("cr1CredentialDate");
+                    b.Property<DateTimeOffset>("Cr1CredentialDate");
 
-                    b.Property<string>("cr1CredentialNumber");
+                    b.Property<string>("Cr1CredentialNumber");
 
-                    b.Property<Guid>("cr1CstKey");
+                    b.Property<Guid>("Cr1CstKey");
 
-                    b.Property<string>("cr1Ct1Credential");
+                    b.Property<string>("Cr1Ct1Credential");
 
-                    b.Property<Guid>("cr1Ct2CurrentProcess");
+                    b.Property<Guid>("Cr1Ct2CurrentProcess");
 
-                    b.Property<Guid>("cr1CurrentCr2Key");
+                    b.Property<Guid>("Cr1CurrentCr2Key");
 
-                    b.Property<Guid>("cr1DataKey");
+                    b.Property<Guid>("Cr1DataKey");
 
-                    b.Property<DateTimeOffset>("cr1EffectiveDate");
+                    b.Property<DateTimeOffset>("Cr1EffectiveDate");
 
-                    b.Property<bool>("cr1ExtensionUsedFlag");
+                    b.Property<bool>("Cr1ExtensionUsedFlag");
 
-                    b.Property<string>("cr1LegalFirstName");
+                    b.Property<string>("Cr1LegalFirstName");
 
-                    b.Property<string>("cr1LegalLastName");
+                    b.Property<string>("Cr1LegalLastName");
 
-                    b.Property<Guid>("cr1NextCr2Key");
+                    b.Property<Guid>("Cr1NextCr2Key");
 
-                    b.Property<string>("cr1Note");
+                    b.Property<string>("Cr1Note");
 
-                    b.Property<string>("cr1Owner");
+                    b.Property<string>("Cr1Owner");
 
-                    b.Property<string>("cr1Status");
+                    b.Property<string>("Cr1Status");
 
-                    b.Property<DateTimeOffset>("cr1StatusChangeDate");
+                    b.Property<DateTimeOffset>("Cr1StatusChangeDate");
 
-                    b.Property<string>("cr1StatusChangeUser");
+                    b.Property<string>("Cr1StatusChangeUser");
 
-                    b.Property<DateTimeOffset>("cr1ValidThruDate");
+                    b.Property<DateTimeOffset>("Cr1ValidThruDate");
 
-                    b.HasKey("cr1Key");
+                    b.HasKey("Cr1Key");
 
                     b.ToTable("Credentials");
                 });
