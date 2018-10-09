@@ -1,0 +1,80 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Email
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Email</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmlKey" />
+            <div class="form-group">
+                <label asp-for="EmlPerKey" class="control-label"></label>
+                <input asp-for="EmlPerKey" class="form-control" />
+                <span asp-validation-for="EmlPerKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmlAddress" class="control-label"></label>
+                <input asp-for="EmlAddress" class="form-control" />
+                <span asp-validation-for="EmlAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="EmlIsPrimaryEmail" /> @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="EmlIsWorkEmail" /> @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="EmlIsPersonalEmail" /> @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmlAddDate" class="control-label"></label>
+                <input asp-for="EmlAddDate" class="form-control" />
+                <span asp-validation-for="EmlAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmlChangeDate" class="control-label"></label>
+                <input asp-for="EmlChangeDate" class="form-control" />
+                <span asp-validation-for="EmlChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmlAddUser" class="control-label"></label>
+                <input asp-for="EmlAddUser" class="form-control" />
+                <span asp-validation-for="EmlAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmlChangeUser" class="control-label"></label>
+                <input asp-for="EmlChangeUser" class="form-control" />
+                <span asp-validation-for="EmlChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

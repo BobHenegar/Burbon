@@ -48,9 +48,14 @@ namespace ProjectMoonshine.EntityFramework
         //     then this method will not be run.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!System.Diagnostics.Debugger.IsAttached)
+            // Uncomment to debug OnModelCreating
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                System.Diagnostics.Debugger.Launch();
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -68,17 +73,12 @@ namespace ProjectMoonshine.EntityFramework
                     }
                     var prefix = fields.First().GetRawConstantValue();
                     // Add type prefix to the table
-                    TablePrefixs.Add(entityType.BaseType.ToString(), prefix.ToString());
+                    TablePrefixs.Add(entityType.ClrType.Name, prefix.ToString());
 
                     var addDate = prefix + "AddDate";
                     var changeDate = prefix + "ChangeDate";
                     var addUser = prefix + "AddUser";
                     var changeUser = prefix + "ChangeUser";
-
-                    entityType.AddProperty(addDate, typeof(DateTimeOffset));
-                    entityType.AddProperty(changeDate, typeof(DateTimeOffset?));
-                    entityType.AddProperty(addUser, typeof(string));
-                    entityType.AddProperty(changeUser, typeof(string));
 
                     modelBuilder
                         .Entity(entityType.ClrType)

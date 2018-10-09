@@ -28,4 +28,10 @@
     <Folder Include="RequetResponseModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Home\Index_original.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

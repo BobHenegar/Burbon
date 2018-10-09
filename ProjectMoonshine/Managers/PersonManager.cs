@@ -12,12 +12,18 @@ namespace ProjectMoonshine.Managers
     public class PersonManager : IPersonManager
     {
         private readonly IAddressManager addressManager;
+        private readonly IPhoneManager phoneManager;
+        private readonly IEmailManager emailManager;
         private readonly ApplicationDbContext context;
         public PersonManager(ApplicationDbContext _context,
-            IAddressManager _addressManager)
+            IAddressManager _addressManager,
+            IPhoneManager _phoneManager,
+            IEmailManager _emailManager)
         {
             context = _context;
             addressManager = _addressManager;
+            phoneManager = _phoneManager;
+            emailManager = _emailManager;
         }
 
         public async Task AddPersonAsync()
