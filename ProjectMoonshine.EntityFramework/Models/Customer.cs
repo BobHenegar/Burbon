@@ -12,10 +12,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid CusKey { get; set; }
         public Guid CusPerKey { get; set; }
-        public DateTimeOffset CstAddDate { get; set; }
-        public DateTimeOffset? CstChangeDate { get; set; }
-        public string CstAddUser { get; set; }
-        public string CstChangeUser { get; set; }
+        public DateTimeOffset CusAddDate { get; set; }
+        public DateTimeOffset? CusChangeDate { get; set; }
+        public string CusAddUser { get; set; }
+        public string CusChangeUser { get; set; }
 
         #region Navigation Properties
         [ForeignKey("CusPerKey")]

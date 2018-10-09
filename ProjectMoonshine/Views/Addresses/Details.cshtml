@@ -1,0 +1,108 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Address
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Address</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrCity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrCity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrState)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrState)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrZip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrZip)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddress3)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddress3)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsPrimaryAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsMailingAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsWorkAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsHomeAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrPerson)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrPerson.PerKey)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AdrKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

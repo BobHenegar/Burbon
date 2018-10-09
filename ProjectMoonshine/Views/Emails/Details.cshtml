@@ -1,0 +1,72 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Email
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Email</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlPerKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlPerKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlIsPrimaryEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlIsWorkEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlIsPersonalEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EmlKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

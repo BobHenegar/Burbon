@@ -1,0 +1,87 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Phone
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Phone</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoExtention)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoExtention)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsPrimary)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsPrimary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsHome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsHome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsMobile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsMobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsWork)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsWork)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Person.PerKey)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="PhoKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

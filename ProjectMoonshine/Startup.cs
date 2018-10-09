@@ -55,18 +55,22 @@ namespace ProjectMoonshine
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            //using (var context = services.BuildServiceProvider().GetService<ApplicationDbContext>())
-            //{
-            //    if (context != null)
-            //    {
-            //        var applied = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
-            //        if (applied.Any())
-            //        {
-            //            context.Database.Migrate();
-            //            context.SaveChanges();
-            //        }
-            //    }
-            //}
+            using (var context = services.BuildServiceProvider().GetService<ApplicationDbContext>())
+            {
+                if (context != null)
+                {
+                    if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181009155927_InitialCreate"))
+                    {
+                        context.Database.EnsureDeleted();
+                    }
+                    var applied = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
+                    if (applied.Any())
+                    {
+                        context.Database.Migrate();
+                        context.SaveChanges();
+                    }
+                }
+            }
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
