@@ -21,13 +21,18 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
-                    b.Property<Guid>("AdrKey")
+                    b.Property<Guid>("AddressKey")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .HasColumnName("AdrKey");
+
+                    b.Property<DateTimeOffset>("AddDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AddUser")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("AdrAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AdrAddUser")
                         .ValueGeneratedOnAdd();
@@ -54,7 +59,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("AdtAddressTypeAdtKey");
 
-                    b.HasKey("AdrKey");
+                    b.Property<DateTimeOffset?>("ModifiedDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ModifiedUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Prefix");
+
+                    b.HasKey("AddressKey");
 
                     b.HasIndex("AdrPerKey");
 
@@ -66,12 +79,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.AddressType", b =>
                 {
                     b.Property<Guid>("AdtKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("AdtAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("AdtAddUser")
                         .ValueGeneratedOnAdd();
@@ -93,12 +104,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
                 {
                     b.Property<Guid>("CusKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("CusAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CusAddUser")
                         .ValueGeneratedOnAdd();
@@ -117,12 +126,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
                 {
                     b.Property<Guid>("EmlKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("EmlAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("EmlAddUser")
                         .ValueGeneratedOnAdd();
@@ -156,12 +163,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EmailType", b =>
                 {
                     b.Property<Guid>("EltKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("EltAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("EltAddUser")
                         .ValueGeneratedOnAdd();
@@ -183,15 +188,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
                 {
                     b.Property<Guid>("PerKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("CusPerKey")
                         .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<DateTimeOffset>("PerAddDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("PerAddUser")
                         .ValueGeneratedOnAdd();
@@ -222,14 +225,12 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Phone", b =>
                 {
                     b.Property<Guid>("PhoKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("PersonPerKey");
 
                     b.Property<DateTimeOffset>("PhoAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("PhoAddUser")
                         .ValueGeneratedOnAdd();
@@ -263,12 +264,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.PhoneType", b =>
                 {
                     b.Property<Guid>("PhtKey")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("PhtAddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("PhtAddUser")
                         .ValueGeneratedOnAdd();
