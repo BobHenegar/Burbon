@@ -22,6 +22,7 @@ namespace ProjectMoonshine.Managers
 
         public async Task AddPersonAsync()
         {
+            throw new NotImplementedException();
             await context.Persons.AddAsync(new Person()
             {
                 //Implement Person Here
@@ -29,17 +30,26 @@ namespace ProjectMoonshine.Managers
             await context.SaveChangesAsync();
         }
 
-        public async Task DeletePersonAsync()
+        public async Task DeletePersonAsync(Guid Id)
         {
-            throw new NotImplementedException();
+            context.Addresses.RemoveRange(context.Addresses.Where(x => x.AdrPerKey == Id));
+            context.Emails.RemoveRange(context.Emails.Where(x => x.EmlPerKey == Id));
+            context.Phones.RemoveRange(context.Phones.Where(x => x.PhoPerKey == Id));
+            context.Persons.Remove(context.Persons.First(x => x.PerKey == Id));
+            await context.SaveChangesAsync();
         }
 
-        public Task UpdatePersonAddressesAsync()
+        public async Task UpdatePersonAddressesAsync(Guid Id, PersonViewModel model)
         {
-            throw new NotImplementedException();
+
+            var person = context.Persons.AsTracking()
+                .Include(i => i.Addresses)
+                .First(x => x.PerKey == Id);
+
+            await context.SaveChangesAsync();
         }
 
-        public Task UpdatePersonAsync(Guid Id, PersonViewModel model)
+        public async Task UpdatePersonAsync(Guid Id, PersonViewModel model)
         {
 
             var person = context.Persons.AsTracking()
@@ -52,7 +62,7 @@ namespace ProjectMoonshine.Managers
             await context.SaveChangesAsync();
         }
 
-        public Task UpdatePersonEmailsAsync(Guid Id, PersonViewModel model)
+        public async Task UpdatePersonEmailsAsync(Guid Id, PersonViewModel model)
         {
 
             var person = context.Persons.AsTracking()
@@ -65,7 +75,7 @@ namespace ProjectMoonshine.Managers
             await context.SaveChangesAsync();
         }
 
-        public Task UpdatePersonPhonesAsync(Guid Id, PersonViewModel model)
+        public async Task UpdatePersonPhonesAsync(Guid Id, PersonViewModel model)
         {
 
             var person = context.Persons.AsTracking()

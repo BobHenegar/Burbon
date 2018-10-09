@@ -9,7 +9,7 @@ namespace ProjectMoonshine.Managers
     public interface IPersonManager
     {
         Task AddPersonAsync();
-        Task DeletePersonAsync();
+        Task DeletePersonAsync(Guid Id);
         Task UpdatePersonAsync(Guid Id, PersonViewModel model);
         Task UpdatePersonPhonesAsync(Guid Id, PersonViewModel model);
         Task UpdatePersonEmailsAsync(Guid Id, PersonViewModel model);
