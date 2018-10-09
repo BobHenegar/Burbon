@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,6 +9,7 @@ namespace ProjectMoonshine.Models
 {
     public class CredentialRequirementType
     {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ct3_key { get; set; }
         public String ct3_requirement { get; set; }
         public String ct3_description { get; set; }
@@ -59,10 +62,10 @@ namespace ProjectMoonshine.Models
         public String ct3_met_image_url { get; set; }
         public String ct3_statement_content { get; set; }
         public Int16 ct3_default_order { get; set; }
-        public String ct3_add_user { get; set; }
-        public DateTimeOffset ct3_add_date { get; set; }
-        public String ct3_change_user { get; set; }
-        public DateTimeOffset ct3_change_date { get; set; }
+        public String ct3AddUser { get; set; }
+        public DateTimeOffset ct3AddDate { get; set; }
+        public String ct3ChangeUser { get; set; }
+        public DateTimeOffset ct3ChangeDate { get; set; }
         public Guid ct3_edit_wiz_key { get; set; }
         public Int16 ct3_min_exam_score { get; set; }
         public Boolean ct3_submit_process_flag { get; set; }

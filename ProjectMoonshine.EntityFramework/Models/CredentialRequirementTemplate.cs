@@ -11,10 +11,10 @@ namespace ProjectMoonshine.Models
         public String ct8_template { get; set; }
         public Guid ct8_obj_key { get; set; }
         public String ct8_description { get; set; }
-        public String ct8_add_user { get; set; }
-        public DateTimeOffset ct8_add_date { get; set; }
-        public String ct8_change_user { get; set; }
-        public DateTimeOffset ct8_change_date { get; set; }
+        public String ct8AddUser { get; set; }
+        public DateTimeOffset ct8AddDate { get; set; }
+        public String ct8ChangeUser { get; set; }
+        public DateTimeOffset ct8ChangeDate { get; set; }
         public String ct8_check_procedure { get; set; }
         public String ct8_find_procedure { get; set; }
         public Boolean ct8_set_data_key_flag { get; set; }

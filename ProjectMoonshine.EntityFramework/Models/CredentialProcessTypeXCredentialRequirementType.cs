@@ -16,9 +16,9 @@ namespace ProjectMoonshine.Models
         public Boolean ct5_submit_prereq_flag { get; set; }
         public Boolean ct5_exam_prereq_flag { get; set; }
         public Boolean ct5_review_prereq_flag { get; set; }
-        public String ct5_add_user { get; set; }
-        public DateTimeOffset ct5_add_date { get; set; }
-        public String ct5_change_user { get; set; }
-        public DateTimeOffset ct5_change_date { get; set; }
+        public String ct5AddUser { get; set; }
+        public DateTimeOffset ct5AddDate { get; set; }
+        public String ct5ChangeUser { get; set; }
+        public DateTimeOffset ct5ChangeDate { get; set; }
     }
 }
