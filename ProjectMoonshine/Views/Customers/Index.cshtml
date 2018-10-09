@@ -24,9 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.CusChangeUser)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Person)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,9 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CusChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Person.PerKey)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CusKey">Edit</a> |

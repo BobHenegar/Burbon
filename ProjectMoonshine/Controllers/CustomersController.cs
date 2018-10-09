@@ -22,8 +22,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Customers.Include(c => c.Person);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Customers/Details/5
@@ -35,7 +34,6 @@ namespace ProjectMoonshine.Controllers
             }
 
             var customer = await _context.Customers
-                .Include(c => c.Person)
                 .FirstOrDefaultAsync(m => m.CusKey == id);
             if (customer == null)
             {
@@ -48,7 +46,6 @@ namespace ProjectMoonshine.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            ViewData["CusPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CusKey,CusPerKey,CusAddDate,CusChangeDate,CusAddUser,CusChangeUser")] Customer customer)
+        public async Task<IActionResult> Create([Bind("CusKey,CusAddDate,CusChangeDate,CusAddUser,CusChangeUser")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +63,6 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", customer.CusPerKey);
             return View(customer);
         }
 
@@ -83,7 +79,6 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", customer.CusPerKey);
             return View(customer);
         }
 
@@ -92,7 +87,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CusKey,CusPerKey,CusAddDate,CusChangeDate,CusAddUser,CusChangeUser")] Customer customer)
+        public async Task<IActionResult> Edit(Guid id, [Bind("CusKey,CusAddDate,CusChangeDate,CusAddUser,CusChangeUser")] Customer customer)
         {
             if (id != customer.CusKey)
             {
@@ -119,7 +114,6 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", customer.CusPerKey);
             return View(customer);
         }
 
@@ -132,7 +126,6 @@ namespace ProjectMoonshine.Controllers
             }
 
             var customer = await _context.Customers
-                .Include(c => c.Person)
                 .FirstOrDefaultAsync(m => m.CusKey == id);
             if (customer == null)
             {

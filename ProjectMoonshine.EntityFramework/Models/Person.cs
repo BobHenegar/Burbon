@@ -15,8 +15,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid PerKey { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid CusPerKey { get; set; }
-
+        public Guid PerCusKey { get; set; }
         public string PerFirstName { get; set; }
         public string PerMiddleName { get; set; }
 
@@ -32,7 +31,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
 
-        [ForeignKey("CusPerKey")]
+        [ForeignKey("PerCusKey")]
         public virtual Customer Customer { get; set; }
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Email> Emails { get; set; }

@@ -48,7 +48,7 @@ namespace ProjectMoonshine.Controllers
         // GET: People/Create
         public IActionResult Create()
         {
-            ViewData["CusPerKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
             return View();
         }
 
@@ -57,17 +57,17 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
+        public async Task<IActionResult> Create([Bind("PerKey,PerCusKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
         {
             if (ModelState.IsValid)
             {
                 person.PerKey = Guid.NewGuid();
                 person.Customer = new Customer();
-                _context.Persons.Add(person);
+                _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.CusPerKey);
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
             return View(person);
         }
 
@@ -84,7 +84,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.CusPerKey);
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
             return View(person);
         }
 
@@ -93,7 +93,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,PerCusKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
         {
             if (id != person.PerKey)
             {
@@ -120,7 +120,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CusPerKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.CusPerKey);
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
             return View(person);
         }
 

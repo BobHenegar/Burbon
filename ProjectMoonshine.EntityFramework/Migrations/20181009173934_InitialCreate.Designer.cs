@@ -10,7 +10,7 @@ using ProjectMoonshine.EntityFramework;
 namespace ProjectMoonshine.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181009155927_InitialCreate")]
+    [Migration("20181009173934_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,11 +94,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CusPerKey");
-
                     b.HasKey("CusKey");
-
-                    b.HasIndex("CusPerKey");
 
                     b.ToTable("Customer");
                 });
@@ -147,9 +143,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid?>("CusPerKey")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<DateTimeOffset>("PerAddDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
@@ -161,6 +154,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("PerChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("PerCusKey")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
@@ -175,7 +171,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasKey("PerKey");
 
-                    b.HasIndex("CusPerKey");
+                    b.HasIndex("PerCusKey");
 
                     b.ToTable("Person");
                 });
@@ -229,14 +225,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
-                {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("CusPerKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person")
@@ -249,7 +237,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CusPerKey")
+                        .HasForeignKey("PerCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

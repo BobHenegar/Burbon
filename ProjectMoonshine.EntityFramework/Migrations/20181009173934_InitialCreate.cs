@@ -8,11 +8,26 @@ namespace ProjectMoonshine.EntityFramework.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Customer",
+                columns: table => new
+                {
+                    CusKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    CusAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
+                    CusChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    CusAddUser = table.Column<string>(nullable: true),
+                    CusChangeUser = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.CusKey);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Person",
                 columns: table => new
                 {
                     PerKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    CusPerKey = table.Column<Guid>(nullable: true),
+                    PerCusKey = table.Column<Guid>(nullable: false),
                     PerFirstName = table.Column<string>(nullable: true),
                     PerMiddleName = table.Column<string>(nullable: true),
                     PerLastName = table.Column<string>(nullable: true),
@@ -26,6 +41,12 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Person", x => x.PerKey);
+                    table.ForeignKey(
+                        name: "FK_Person_Customer_PerCusKey",
+                        column: x => x.PerCusKey,
+                        principalTable: "Customer",
+                        principalColumn: "CusKey",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,28 +76,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     table.ForeignKey(
                         name: "FK_Address_Person_AdrPerKey",
                         column: x => x.AdrPerKey,
-                        principalTable: "Person",
-                        principalColumn: "PerKey",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customer",
-                columns: table => new
-                {
-                    CusKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    CusPerKey = table.Column<Guid>(nullable: false),
-                    CusAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    CusChangeDate = table.Column<DateTimeOffset>(nullable: true),
-                    CusAddUser = table.Column<string>(nullable: true),
-                    CusChangeUser = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customer", x => x.CusKey);
-                    table.ForeignKey(
-                        name: "FK_Customer_Person_CusPerKey",
-                        column: x => x.CusPerKey,
                         principalTable: "Person",
                         principalColumn: "PerKey",
                         onDelete: ReferentialAction.Restrict);
@@ -143,40 +142,23 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 column: "AdrPerKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_CusPerKey",
-                table: "Customer",
-                column: "CusPerKey");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Email_PersonPerKey",
                 table: "Email",
                 column: "PersonPerKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Person_CusPerKey",
+                name: "IX_Person_PerCusKey",
                 table: "Person",
-                column: "CusPerKey");
+                column: "PerCusKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Phone_PhoPerKey",
                 table: "Phone",
                 column: "PhoPerKey");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Person_Customer_CusPerKey",
-                table: "Person",
-                column: "CusPerKey",
-                principalTable: "Customer",
-                principalColumn: "CusKey",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Customer_Person_CusPerKey",
-                table: "Customer");
-
             migrationBuilder.DropTable(
                 name: "Address");
 
