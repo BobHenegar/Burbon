@@ -48,7 +48,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Phones/Create
         public IActionResult Create()
         {
-            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey");
+            ViewData["PhoPerKey"] = new SelectList(_context.Persons.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
             return View();
         }
 

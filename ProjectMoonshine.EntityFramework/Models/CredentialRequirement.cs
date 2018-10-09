@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    class CredentialRequirement
+    public class CredentialRequirement
     {
         [Key]
         public Guid cr3Key { get; set; }
@@ -14,7 +14,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public Guid cr3Cr2Key { get; set; }
 
-        public Guid cr3CstKey { get; set; }
+        public Guid cr3CPerKey { get; set; }
 
         public String cr3Status { get; set; }
 
@@ -79,6 +79,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset cr3ReceivedDate { get; set; }
 
         public Int16 cr3ExamAttempts { get; set; }
+
+        public virtual Credential Credential { get; set; }
+        public virtual CredentialProcess CredentialProcess { get; set; }
+        public virtual Person Person { get; set; }
+
+
     }
 
 }
