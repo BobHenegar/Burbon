@@ -4,6 +4,8 @@
     <h4>Primary Address</h4>
     <hr />
     <dl class="dl-horizontal">
+        @if(Model != null)
+        {
         <dt>
             @Html.DisplayNameFor(model => model.AdrCity)
         </dt>
@@ -64,38 +66,18 @@
         <dd>
             @Html.DisplayFor(model => model.AdrIsHomeAddress)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrAddDate)
-        </dt>
+        }
+        else
+        {
         <dd>
-            @Html.DisplayFor(model => model.AdrAddDate)
+            <p>No Addresses on Record</p>
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrChangeDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrAddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrChangeUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrPerson)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrPerson.PerKey)
-        </dd>
+        }
     </dl>
+    @if (Model != null)
+    {
     <div>
         <a style="float:right;" asp-action="Edit" asp-route-id="@Model.AdrKey">Edit Address</a>
     </div>
+    }
 </div>

@@ -4,12 +4,8 @@
     <h4>Email</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlPerKey)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlPerKey)
-        </dd>
+        @if (Model != null)
+        {
         <dt>
             @Html.DisplayNameFor(model => model.EmlAddress)
         </dt>
@@ -34,32 +30,18 @@
         <dd>
             @Html.DisplayFor(model => model.EmlIsPersonalEmail)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlAddDate)
-        </dt>
+        }
+        else
+        {
         <dd>
-            @Html.DisplayFor(model => model.EmlAddDate)
+            <p>No Emails on Record</p>
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlChangeDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlAddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlChangeUser)
-        </dd>
+        }
     </dl>
+    @if (Model != null)
+    {
     <div>
         <a style="float:right;" asp-action="Edit" asp-route-id="@Model.EmlKey">Edit Email</a>
     </div>
+    }
 </div>

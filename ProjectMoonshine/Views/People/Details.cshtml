@@ -9,7 +9,7 @@
 <div>
     <h4>Person</h4>
     <hr />
-    <div>
+    <div  style="width:50%" >
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.PerFirstName)
@@ -72,12 +72,11 @@
                 @Html.DisplayFor(model => model.Customer.CusKey)
             </dd>
         </dl>
+        <div style="float:right;">
+            <a asp-action="Edit" asp-route-id="@Model.PerKey">Edit Person</a> | <a asp-action="Index">Back to List</a>
+        </div>
     </div>
     @await Html.PartialAsync("_AddressPartialView", Model.Addresses.FirstOrDefault())
     @await Html.PartialAsync("_PhonePartialView", Model.Phones.FirstOrDefault())
-    @*@await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())*@
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.PerKey">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())
 </div>
