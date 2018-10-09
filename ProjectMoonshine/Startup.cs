@@ -41,9 +41,10 @@ namespace ProjectMoonshine
             services
                 .AddTransient<IAddressManager, AddressManager>()
                 .AddTransient<ICredentialManager, CredentialManager>()
-                .AddTransient<IAddressManager, AddressManager>()
-                .AddTransient<IAddressManager, AddressManager>()
-                .AddTransient<IAddressManager, AddressManager>();
+                .AddTransient<IEmailManager, EmailManager>()
+                .AddTransient<IPhoneManager, PhoneManager>()
+                .AddTransient<ICredentialManager, CredentialManager>()
+                .AddTransient<IRequirementManager, RequirementManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
