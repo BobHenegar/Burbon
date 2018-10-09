@@ -43,13 +43,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("AdrAddress3");
 
+                    b.Property<DateTimeOffset?>("AdrChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AdrChangeUser")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("AdrCity");
-
-                    b.Property<DateTimeOffset?>("AdrModifiedDate")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AdrModifiedUser")
-                        .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("AdrPerKey");
 
@@ -87,10 +87,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("AdtAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("AdtModifiedDate")
+                    b.Property<DateTimeOffset?>("AdtChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AdtModifiedUser")
+                    b.Property<string>("AdtChangeUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AdtType")
@@ -112,11 +112,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("CusAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("CusModifiedDate")
+                    b.Property<DateTimeOffset?>("CusChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CusModifiedUser")
+                    b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("CusPerKey");
 
                     b.HasKey("CusKey");
 
@@ -134,20 +136,17 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("EmlAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("EmlAddress")
+                    b.Property<string>("EmlAddress");
+
+                    b.Property<DateTimeOffset?>("EmlChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("EmlEltKey")
+                    b.Property<string>("EmlChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("EmlModifiedDate")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid?>("EmlEltKey");
 
-                    b.Property<string>("EmlModifiedUser")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("EmlPrimary")
-                        .ValueGeneratedOnAdd();
+                    b.Property<bool>("EmlPrimary");
 
                     b.Property<Guid?>("PersonPerKey");
 
@@ -171,10 +170,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("EltAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("EltModifiedDate")
+                    b.Property<DateTimeOffset?>("EltChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("EltModifiedUser")
+                    b.Property<string>("EltChangeUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("EltType")
@@ -190,13 +189,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid>("PerKey")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CusPerKey")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<Guid>("CusPerKey");
 
                     b.Property<DateTimeOffset>("PerAddDate")
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("PerAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("PerChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PerChangeUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
@@ -209,15 +214,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("PerMiddleName");
 
-                    b.Property<DateTimeOffset?>("PerModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("PerModifiedUser")
-                        .ValueGeneratedOnAdd();
-
                     b.HasKey("PerKey");
 
-                    b.HasIndex("CusPerKey");
+                    b.HasIndex("CusPerKey")
+                        .IsUnique();
 
                     b.ToTable("Person");
                 });
@@ -235,18 +235,17 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("PhoAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("PhoExtention");
-
-                    b.Property<DateTimeOffset?>("PhoModifiedDate")
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<string>("PhoModifiedUser")
+                    b.Property<DateTimeOffset?>("PhoChangeDate")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhoChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("PhoExtention");
 
                     b.Property<string>("PhoNumber");
 
-                    b.Property<Guid>("PhoPerKey")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<Guid?>("PhoPerKey");
 
                     b.Property<bool>("PhoPrimary");
 
@@ -272,10 +271,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("PhtAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset?>("PhtModifiedDate")
+                    b.Property<DateTimeOffset?>("PhtChangeDate")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("PhtModifiedUser")
+                    b.Property<string>("PhtChangeUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("PhtType");
@@ -301,8 +300,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.EmailType", "EmailType")
                         .WithMany()
-                        .HasForeignKey("EmlEltKey")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EmlEltKey");
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person")
                         .WithMany("Emails")
@@ -312,8 +310,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CusPerKey");
+                        .WithOne("Person")
+                        .HasForeignKey("ProjectMoonshine.EntityFramework.Models.Person", "CusPerKey")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Phone", b =>

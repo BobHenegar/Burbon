@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectMoonshine.EntityFramework.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     AdtKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     AdtType = table.Column<string>(maxLength: 10, nullable: true),
                     AdtAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    AdtModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     AdtAddUser = table.Column<string>(nullable: true),
-                    AdtModifiedUser = table.Column<string>(nullable: true)
+                    AdtChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    AdtChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,10 +28,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 columns: table => new
                 {
                     CusKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    CusPerKey = table.Column<Guid>(nullable: true),
                     CusAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    CusModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     CusAddUser = table.Column<string>(nullable: true),
-                    CusModifiedUser = table.Column<string>(nullable: true)
+                    CusChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    CusChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,9 +46,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     EltKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     EltType = table.Column<string>(maxLength: 10, nullable: true),
                     EltAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    EltModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     EltAddUser = table.Column<string>(nullable: true),
-                    EltModifiedUser = table.Column<string>(nullable: true)
+                    EltChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    EltChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -61,9 +62,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     PhtKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
                     PhtType = table.Column<string>(nullable: true),
                     PhtAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    PhtModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     PhtAddUser = table.Column<string>(nullable: true),
-                    PhtModifiedUser = table.Column<string>(nullable: true)
+                    PhtChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    PhtChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,9 +83,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     PerDateOfBirth = table.Column<DateTimeOffset>(nullable: false),
                     PerGender = table.Column<string>(nullable: true),
                     PerAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    PerModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     PerAddUser = table.Column<string>(nullable: true),
-                    PerModifiedUser = table.Column<string>(nullable: true)
+                    PerChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    PerChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,11 +110,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     AdrAddress1 = table.Column<string>(nullable: true),
                     AdrAddress2 = table.Column<string>(nullable: true),
                     AdrAddress3 = table.Column<string>(nullable: true),
+                    AdtAddressTypeAdtKey = table.Column<Guid>(nullable: true),
                     AdrAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    AdrModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     AdrAddUser = table.Column<string>(nullable: true),
-                    AdrModifiedUser = table.Column<string>(nullable: true),
-                    AdtAddressTypeAdtKey = table.Column<Guid>(nullable: true)
+                    AdrChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    AdrChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,13 +138,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 columns: table => new
                 {
                     EmlKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    EmlEltKey = table.Column<Guid>(nullable: false),
+                    EmlEltKey = table.Column<Guid>(nullable: true),
                     EmlAddress = table.Column<string>(nullable: true),
                     EmlPrimary = table.Column<bool>(nullable: false),
                     EmlAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    EmlModifiedDate = table.Column<DateTimeOffset>(nullable: true),
                     EmlAddUser = table.Column<string>(nullable: true),
-                    EmlModifiedUser = table.Column<string>(nullable: true),
+                    EmlChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    EmlChangeUser = table.Column<string>(nullable: true),
                     PersonPerKey = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -154,7 +155,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         column: x => x.EmlEltKey,
                         principalTable: "EmailType",
                         principalColumn: "EltKey",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Email_Person_PersonPerKey",
                         column: x => x.PersonPerKey,
@@ -168,16 +169,16 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 columns: table => new
                 {
                     PhoKey = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
-                    PhoPerKey = table.Column<Guid>(nullable: false),
+                    PhoPerKey = table.Column<Guid>(nullable: true),
                     PhoNumber = table.Column<string>(nullable: true),
                     PhoExtention = table.Column<string>(nullable: true),
                     PhoPrimary = table.Column<bool>(nullable: false),
-                    PhoAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
-                    PhoModifiedDate = table.Column<DateTimeOffset>(nullable: true),
-                    PhoAddUser = table.Column<string>(nullable: true),
-                    PhoModifiedUser = table.Column<string>(nullable: true),
                     PhoneTypePhtKey = table.Column<Guid>(nullable: true),
-                    PersonPerKey = table.Column<Guid>(nullable: true)
+                    PersonPerKey = table.Column<Guid>(nullable: true),
+                    PhoAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
+                    PhoAddUser = table.Column<string>(nullable: true),
+                    PhoChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    PhoChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,7 +220,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Person_CusPerKey",
                 table: "Person",
-                column: "CusPerKey");
+                column: "CusPerKey",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Phone_PersonPerKey",

@@ -5,21 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("AddressType")]
-    public class AddressType
+    public class AddressType : EntityBase
     {
+        [NotMapped]
+        public const string Prefix = "Adt";
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid AdtKey { get; set; }
 
         [StringLength(10)]
         public string AdtType { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset AdtAddDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? AdtModifiedDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AdtAddUser { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AdtModifiedUser { get; set; }
-
     }
 }

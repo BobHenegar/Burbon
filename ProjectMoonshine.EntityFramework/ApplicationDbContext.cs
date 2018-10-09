@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +20,7 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<Person> Persons { get; set; }
         public DbSet<Phone> Phones { get; set; }
         public DbSet<PhoneType> PhoneTypes { get; set; }
+        public const string Prefix = "Prefix";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
              : base(options)
@@ -40,13 +43,65 @@ namespace ProjectMoonshine.EntityFramework
         //     then this method will not be run.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach(var entityType in modelBuilder.Model.GetEntityTypes())
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if(entityType.ClrType.IsAssignableFrom(typeof(EntityBase)))
-                {}
+                if (typeof(EntityBase).IsAssignableFrom(entityType.ClrType))
+                {
+                    FieldInfo[] fields = entityType.ClrType.GetFields(BindingFlags.Public
+                        | BindingFlags.Static
+                        | BindingFlags.FlattenHierarchy);
+                    // should only be one constant for these
+                    if(fields.Count() > 1)
+                    {
+                        throw new Exception("More than 1 const field on object!");
+                    }
+                    var prefix = fields.First().GetRawConstantValue();
+
+                    var addDate = prefix + nameof(EntityBase.AddDate);
+                    var changeDate = prefix + nameof(EntityBase.ChangeDate);
+                    var addUser = prefix + nameof(EntityBase.AddUser);
+                    var changeUser = prefix + nameof(EntityBase.ChangeUser);
+
+                    entityType.AddProperty(addDate, typeof(DateTimeOffset));
+                    entityType.AddProperty(changeDate, typeof(DateTimeOffset?));
+                    entityType.AddProperty(addUser, typeof(string));
+                    entityType.AddProperty(changeUser, typeof(string));
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property($"{prefix}Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(addDate)
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(changeDate)
+                        .ValueGeneratedOnAdd();
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(changeUser)
+                        .ValueGeneratedOnAdd();
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(addUser)
+                        .ValueGeneratedOnAdd();
+
+                }
             }
         }
 
+        public void TestOnModelCreating()
+        {
+            OnModelCreating(new ModelBuilder(new Microsoft.EntityFrameworkCore.Metadata.Conventions.ConventionSet()));
+        }
 
         public new async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {

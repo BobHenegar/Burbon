@@ -7,15 +7,17 @@ namespace ProjectMoonshine.EntityFramework.Models
 {
     public abstract class EntityBase
     {
-        public string Prefix { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset AddDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? ModifiedDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AddUser { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string ModifiedUser { get; set; }
 
+        [NotMapped]
+        public DateTimeOffset AddDate { get; set; }
+
+        [NotMapped]
+        public DateTimeOffset? ChangeDate { get; set; }
+
+        [NotMapped]
+        public string AddUser { get; set; }
+
+        [NotMapped]
+        public string ChangeUser { get; set; }
     }
 }

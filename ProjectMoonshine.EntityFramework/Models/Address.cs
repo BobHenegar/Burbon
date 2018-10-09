@@ -9,13 +9,10 @@ namespace ProjectMoonshine.EntityFramework.Models
     [Table("Address")]
     public class Address : EntityBase
     {
-        public Address()
-        {
-            Prefix = "Adr";
-        }
+        [NotMapped]
+        public const string Prefix = "Adr";
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("AdrKey")]
-        public Guid AddressKey { get; set; }
+        public Guid AdrKey { get; set; }
         public Guid AdrPerKey { get; set; }
         public string AdrCity { get; set; }
         public string AdrState { get; set; }
@@ -23,19 +20,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string AdrAddress1 { get; set; }
         public string AdrAddress2 { get; set; }
         public string AdrAddress3 { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset AdrAddDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? AdrModifiedDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AdrAddUser { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AdrModifiedUser { get; set; }
-
-        public virtual AddressType AdtAddressType { get; set; }
-
 
         [ForeignKey("AdrPerKey")]
-        public virtual Person AdrPerson {get;set;}
+        public virtual Person AdrPerson {get;set; }
+        public virtual AddressType AdtAddressType { get; set; }
     }
 }
