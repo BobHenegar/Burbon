@@ -34,7 +34,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
-                .FirstOrDefaultAsync(m => m.cr1Key == id);
+                .FirstOrDefaultAsync(m => m.Cr1Key == id);
             if (credential == null)
             {
                 return NotFound();
@@ -54,11 +54,11 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("cr1Key,cr1Ct1Credential,cr1CredentialNumber,cr1CstKey,cr1Status,cr1StatusChangeDate,cr1StatusChangeUser,cr1CredentialDate,cr1EffectiveDate,cr1ValidThruDate,cr1Ct2CurrentProcess,cr1CurrentCr2Key,cr1NextCr2Key,cr1ApplicationCr2Key,cr1ExtensionUsedFlag,cr1Note,cr1Owner,cr1DataKey,cr1AddDate,cr1ChangeDate,cr1AddUser,cr1ChangeUser,cr1LegalFirstName,cr1LegalLastName")] Credential credential)
+        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Credential,Cr1CredentialNumber,Cr1CstKey,Cr1Status,Cr1StatusChangeDate,Cr1StatusChangeUser,Cr1CredentialDate,Cr1EffectiveDate,Cr1ValidThruDate,Cr1Ct2CurrentProcess,Cr1CurrentCr2Key,Cr1NextCr2Key,Cr1ApplicationCr2Key,Cr1ExtensionUsedFlag,Cr1Note,Cr1Owner,Cr1DataKey,Cr1AddDate,Cr1ChangeDate,Cr1AddUser,Cr1ChangeUser,Cr1LegalFirstName,Cr1LegalLastName")] Credential credential)
         {
             if (ModelState.IsValid)
             {
-                credential.cr1Key = Guid.NewGuid();
+                credential.Cr1Key = Guid.NewGuid();
                 _context.Add(credential);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -87,9 +87,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("cr1Key,cr1Ct1Credential,cr1CredentialNumber,cr1CstKey,cr1Status,cr1StatusChangeDate,cr1StatusChangeUser,cr1CredentialDate,cr1EffectiveDate,cr1ValidThruDate,cr1Ct2CurrentProcess,cr1CurrentCr2Key,cr1NextCr2Key,cr1ApplicationCr2Key,cr1ExtensionUsedFlag,cr1Note,cr1Owner,cr1DataKey,cr1AddDate,cr1ChangeDate,cr1AddUser,cr1ChangeUser,cr1LegalFirstName,cr1LegalLastName")] Credential credential)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Credential,Cr1CredentialNumber,Cr1CstKey,Cr1Status,Cr1StatusChangeDate,Cr1StatusChangeUser,Cr1CredentialDate,Cr1EffectiveDate,Cr1ValidThruDate,Cr1Ct2CurrentProcess,Cr1CurrentCr2Key,Cr1NextCr2Key,Cr1ApplicationCr2Key,Cr1ExtensionUsedFlag,Cr1Note,Cr1Owner,Cr1DataKey,Cr1AddDate,Cr1ChangeDate,Cr1AddUser,Cr1ChangeUser,Cr1LegalFirstName,Cr1LegalLastName")] Credential credential)
         {
-            if (id != credential.cr1Key)
+            if (id != credential.Cr1Key)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CredentialExists(credential.cr1Key))
+                    if (!CredentialExists(credential.Cr1Key))
                     {
                         return NotFound();
                     }
@@ -126,7 +126,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
-                .FirstOrDefaultAsync(m => m.cr1Key == id);
+                .FirstOrDefaultAsync(m => m.Cr1Key == id);
             if (credential == null)
             {
                 return NotFound();
@@ -148,7 +148,7 @@ namespace ProjectMoonshine.Controllers
 
         private bool CredentialExists(Guid id)
         {
-            return _context.Credentials.Any(e => e.cr1Key == id);
+            return _context.Credentials.Any(e => e.Cr1Key == id);
         }
     }
 }
