@@ -14,7 +14,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public Guid cr2Cr1Key { get; set; }
 
-        public Guid cr2CstKey { get; set; }
+        public Guid cr2PerKey { get; set; }
 
         public Guid cr2Cr2Key { get; set; }
 
@@ -89,5 +89,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         public String cr2ChangeUser { get; set; }
 
         public DateTimeOffset cr2ChangeDate { get; set; }
+
+        public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }
+        public virtual Credential Credential { get; set; }
+        public virtual Person Person { get; set; }
+
+
     }
 }

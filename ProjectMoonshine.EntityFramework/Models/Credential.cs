@@ -14,7 +14,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public String cr1CredentialNumber { get; set; }
 
-        public Guid cr1CstKey { get; set; }
+        public Guid cr1PerKey { get; set; }
 
         public String cr1Status { get; set; }
 
@@ -55,6 +55,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         public String cr1LegalFirstName { get; set; }
 
         public String cr1LegalLastName { get; set; }
+
+
+        public virtual List<CredentialProcess> CredentialProcesses { get; set; }
+        public virtual Person Person { get; set; }
+        }
     }
 
-}
+
+
