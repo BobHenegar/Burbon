@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AddressKey" />
+            <input type="hidden" asp-for="AdrKey" />
             <div class="form-group">
                 <label asp-for="AdrPerKey" class="control-label"></label>
                 <select asp-for="AdrPerKey" class="form-control" asp-items="ViewBag.AdrPerKey"></select>
@@ -49,14 +49,42 @@
                 <span asp-validation-for="AdrAddress3" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsPrimaryAddress" /> @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsMailingAddress" /> @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsWorkAddress" /> @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsHomeAddress" /> @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label asp-for="AdrAddDate" class="control-label"></label>
                 <input asp-for="AdrAddDate" class="form-control" />
                 <span asp-validation-for="AdrAddDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdrModifiedDate" class="control-label"></label>
-                <input asp-for="AdrModifiedDate" class="form-control" />
-                <span asp-validation-for="AdrModifiedDate" class="text-danger"></span>
+                <label asp-for="AdrChangeDate" class="control-label"></label>
+                <input asp-for="AdrChangeDate" class="form-control" />
+                <span asp-validation-for="AdrChangeDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AdrAddUser" class="control-label"></label>
@@ -64,9 +92,9 @@
                 <span asp-validation-for="AdrAddUser" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdrModifiedUser" class="control-label"></label>
-                <input asp-for="AdrModifiedUser" class="form-control" />
-                <span asp-validation-for="AdrModifiedUser" class="text-danger"></span>
+                <label asp-for="AdrChangeUser" class="control-label"></label>
+                <input asp-for="AdrChangeUser" class="form-control" />
+                <span asp-validation-for="AdrChangeUser" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

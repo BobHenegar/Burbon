@@ -1,40 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class RequirementTypeXRequirmentType
+    [Table("RequirementTypeXRequirmentType")]
+    public class RequirementTypeXRequirmentType : EntityBase
     {
+        [NotMapped]
+        public const string Prefix = "Ct0";
+        [Key]
+        public Guid Ct0Key { get; set; }
+        public string Ct0Type { get; set; }
 
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ct0_key { get; set; }
+        public Guid? Ct0ParentCt3Key { get; set; }
 
-        public String ct0_type { get; set; }
+        public Guid? Ct0ChildCt3Key { get; set; }
+        public string Ct0Description { get; set; }
+        public DateTimeOffset Ct0StartDate { get; set; }
+        public DateTimeOffset? Ct0EndDate { get; set; }
+        public int Ct0Order { get; set; }
+        public string Ct0ParentCt3State { get; set; }
+        public DateTimeOffset Ct0AddDate { get; set; }
+        public DateTimeOffset? Ct0ChangeDate { get; set; }
+        public string Ct0AddUser { get; set; }
+        public string Ct0ChangeUser { get; set; }
 
-        public Guid ct0_parent_ct3_key { get; set; }
+        #region Navigation Properties
 
-        public Guid ct0_child_ct3_key { get; set; }
-
-        public String ct0_description { get; set; }
-
-        public DateTimeOffset ct0_start_date { get; set; }
-
-        public DateTimeOffset ct0_end_date { get; set; }
-
-        public Int16 ct0_order { get; set; }
-
-        public String ct0_parent_ct3_state { get; set; }
-
-        public String ct0AddUser { get; set; }
-
-        public DateTimeOffset ct0AddDate { get; set; }
-
-        public String ct0ChangeUser { get; set; }
-
-        public DateTimeOffset ct0ChangeDate { get; set; }
+        #endregion Navigation Properties
     }
 }

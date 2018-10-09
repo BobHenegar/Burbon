@@ -57,13 +57,15 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerModifiedDate,PerAddUser,PerModifiedUser")] Person person)
+        public async Task<IActionResult> Create([Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
         {
             if (ModelState.IsValid)
             {
                 person.PerKey = Guid.NewGuid();
-                person.CusPerKey = new Guid("BEBE4CC5-99E8-4E12-AD4A-49113B7D072D");
-                _context.Add(person);
+                _context.Customers.Add(new Customer()
+                {
+                    Person = person
+                });
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -93,7 +95,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerModifiedDate,PerAddUser,PerModifiedUser")] Person person)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,CusPerKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
         {
             if (id != person.PerKey)
             {

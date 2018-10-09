@@ -1,4 +1,6 @@
 using System;
+using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework;
 using Xunit;
 
 namespace ProjectMoonshine.Tests
@@ -9,7 +11,15 @@ namespace ProjectMoonshine.Tests
         [InlineData()]
         public void Test1()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var context = new ApplicationDbContext(new DbContextOptions<ApplicationDbContext>());
+                context.TestOnModelCreating();
+            }
+            catch (Exception ex)
+            {
+                Assert.True(ex.Message == null, ex.Message);
+            }
         }
     }
 }

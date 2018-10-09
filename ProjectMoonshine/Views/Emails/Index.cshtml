@@ -13,25 +13,31 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.EmlPerKey)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.EmlAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlPrimary)
+                @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmlAddDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlModifiedDate)
+                @Html.DisplayNameFor(model => model.EmlChangeDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EmlAddUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlModifiedUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailType)
+                @Html.DisplayNameFor(model => model.EmlChangeUser)
             </th>
             <th></th>
         </tr>
@@ -40,25 +46,31 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.EmlPerKey)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.EmlAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EmlPrimary)
+                @Html.DisplayFor(modelItem => item.EmlIsPrimaryEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlIsWorkEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmlIsPersonalEmail)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmlAddDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EmlModifiedDate)
+                @Html.DisplayFor(modelItem => item.EmlChangeDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmlAddUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EmlModifiedUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailType.EltKey)
+                @Html.DisplayFor(modelItem => item.EmlChangeUser)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.EmlKey">Edit</a> |

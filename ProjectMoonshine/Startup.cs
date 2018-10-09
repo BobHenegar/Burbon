@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
+using ProjectMoonshine.Managers;
 using ProjectMoonshine.Middleware;
 
 namespace ProjectMoonshine
@@ -37,6 +39,14 @@ namespace ProjectMoonshine
                     .UseSqlServer(config.GetConnectionString("Database"),
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 
+            services
+                .AddTransient<IAddressManager, AddressManager>()
+                .AddTransient<ICredentialManager, CredentialManager>()
+                .AddTransient<IEmailManager, EmailManager>()
+                .AddTransient<IPhoneManager, PhoneManager>()
+                .AddTransient<ICredentialManager, CredentialManager>()
+                .AddTransient<IRequirementManager, RequirementManager>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -50,9 +60,14 @@ namespace ProjectMoonshine
             {
                 if (context != null)
                 {
-                    var applied = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
-                    if (applied.Any())
+                    if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181009155927_InitialCreate"))
                     {
+                        context.Database.EnsureDeleted();
+                    }
+                    var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
+                    if (migrationsToApply.Any())
+                    {
+                        context.RunMigrations(migrationsToApply.ToList());
                         context.Database.Migrate();
                         context.SaveChanges();
                     }

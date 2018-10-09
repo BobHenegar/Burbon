@@ -22,7 +22,8 @@ namespace ProjectMoonshine.Controllers
         // GET: Phones
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Phones.ToListAsync());
+            var applicationDbContext = _context.Phones.Include(p => p.Person);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Phones/Details/5
@@ -34,6 +35,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var phone = await _context.Phones
+                .Include(p => p.Person)
                 .FirstOrDefaultAsync(m => m.PhoKey == id);
             if (phone == null)
             {
@@ -46,6 +48,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Phones/Create
         public IActionResult Create()
         {
+            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoPrimary,PhoAddDate,PhoModifiedDate,PhoAddUser,PhoModifiedUser")] Phone phone)
+        public async Task<IActionResult> Create([Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoIsPrimary,PhoIsHome,PhoIsMobile,PhoIsWork,PhoAddDate,PhoChangeDate,PhoAddUser,PhoChangeUser")] Phone phone)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +66,7 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 
@@ -79,6 +83,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 
@@ -87,7 +92,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoPrimary,PhoAddDate,PhoModifiedDate,PhoAddUser,PhoModifiedUser")] Phone phone)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoIsPrimary,PhoIsHome,PhoIsMobile,PhoIsWork,PhoAddDate,PhoChangeDate,PhoAddUser,PhoChangeUser")] Phone phone)
         {
             if (id != phone.PhoKey)
             {
@@ -114,6 +119,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 
@@ -126,6 +132,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var phone = await _context.Phones
+                .Include(p => p.Person)
                 .FirstOrDefaultAsync(m => m.PhoKey == id);
             if (phone == null)
             {

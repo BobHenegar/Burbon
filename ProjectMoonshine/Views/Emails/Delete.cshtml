@@ -12,16 +12,34 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.EmlPerKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlPerKey)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.EmlAddress)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.EmlAddress)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EmlPrimary)
+            @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EmlPrimary)
+            @Html.DisplayFor(model => model.EmlIsPrimaryEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlIsWorkEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmlIsPersonalEmail)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.EmlAddDate)
@@ -30,10 +48,10 @@
             @Html.DisplayFor(model => model.EmlAddDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EmlModifiedDate)
+            @Html.DisplayNameFor(model => model.EmlChangeDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EmlModifiedDate)
+            @Html.DisplayFor(model => model.EmlChangeDate)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.EmlAddUser)
@@ -42,16 +60,10 @@
             @Html.DisplayFor(model => model.EmlAddUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EmlModifiedUser)
+            @Html.DisplayNameFor(model => model.EmlChangeUser)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.EmlModifiedUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmailType.EltKey)
+            @Html.DisplayFor(model => model.EmlChangeUser)
         </dd>
     </dl>
     

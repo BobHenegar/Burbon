@@ -14,6 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PhoKey" />
             <div class="form-group">
+                <label asp-for="PhoPerKey" class="control-label"></label>
+                <select asp-for="PhoPerKey" class="form-control" asp-items="ViewBag.PhoPerKey"></select>
+                <span asp-validation-for="PhoPerKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PhoNumber" class="control-label"></label>
                 <input asp-for="PhoNumber" class="form-control" />
                 <span asp-validation-for="PhoNumber" class="text-danger"></span>
@@ -26,7 +31,28 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="PhoPrimary" /> @Html.DisplayNameFor(model => model.PhoPrimary)
+                        <input asp-for="PhoIsPrimary" /> @Html.DisplayNameFor(model => model.PhoIsPrimary)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="PhoIsHome" /> @Html.DisplayNameFor(model => model.PhoIsHome)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="PhoIsMobile" /> @Html.DisplayNameFor(model => model.PhoIsMobile)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="PhoIsWork" /> @Html.DisplayNameFor(model => model.PhoIsWork)
                     </label>
                 </div>
             </div>
@@ -36,14 +62,19 @@
                 <span asp-validation-for="PhoAddDate" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PhoChangeDate" class="control-label"></label>
+                <input asp-for="PhoChangeDate" class="form-control" />
+                <span asp-validation-for="PhoChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="PhoAddUser" class="control-label"></label>
                 <input asp-for="PhoAddUser" class="form-control" />
                 <span asp-validation-for="PhoAddUser" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PhoModifiedUser" class="control-label"></label>
-                <input asp-for="PhoModifiedUser" class="form-control" />
-                <span asp-validation-for="PhoModifiedUser" class="text-danger"></span>
+                <label asp-for="PhoChangeUser" class="control-label"></label>
+                <input asp-for="PhoChangeUser" class="form-control" />
+                <span asp-validation-for="PhoChangeUser" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

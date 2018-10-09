@@ -14,14 +14,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CusKey" />
             <div class="form-group">
+                <label asp-for="CusPerKey" class="control-label"></label>
+                <select asp-for="CusPerKey" class="form-control" asp-items="ViewBag.CusPerKey"></select>
+                <span asp-validation-for="CusPerKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CusAddDate" class="control-label"></label>
                 <input asp-for="CusAddDate" class="form-control" />
                 <span asp-validation-for="CusAddDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CusModifiedDate" class="control-label"></label>
-                <input asp-for="CusModifiedDate" class="form-control" />
-                <span asp-validation-for="CusModifiedDate" class="text-danger"></span>
+                <label asp-for="CusChangeDate" class="control-label"></label>
+                <input asp-for="CusChangeDate" class="form-control" />
+                <span asp-validation-for="CusChangeDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CusAddUser" class="control-label"></label>
@@ -29,9 +34,9 @@
                 <span asp-validation-for="CusAddUser" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CusModifiedUser" class="control-label"></label>
-                <input asp-for="CusModifiedUser" class="form-control" />
-                <span asp-validation-for="CusModifiedUser" class="text-danger"></span>
+                <label asp-for="CusChangeUser" class="control-label"></label>
+                <input asp-for="CusChangeUser" class="form-control" />
+                <span asp-validation-for="CusChangeUser" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

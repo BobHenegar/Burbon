@@ -1,54 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class CredentialProcessType
+    [Table("CredentialProcessType")]
+    public class CredentialProcessType : EntityBase
     {
+        [NotMapped]
+        public const string Prefix = "Ct2";
         [Key]
-        public Guid ct2Key { get; set; }
+        public Guid Ct2Key { get; set; }
 
-        public String ct2Process { get; set; }
+        public string Ct2Process { get; set; }
 
-        public String ct2Description { get; set; }
+        public string Ct2Description { get; set; }
 
-        public String ct2TrocessType { get; set; }
+        public string Ct2ProcessType { get; set; }
 
-        public DateTimeOffset ct2StartSate { get; set; }
+        public DateTimeOffset Ct2StartDate { get; set; }
 
-        public DateTimeOffset ct2EndDate { get; set; }
+        public DateTimeOffset? Ct2EndDate { get; set; }
 
-        public String ct2Cr2StartStatus { get; set; }
+        public string Ct2DataTableName { get; set; }
 
-        public String ct2Cr2_submittedStatus { get; set; }
+        public Guid Ct2AddDynKey { get; set; }
 
-        public String ct2Cr2CompletionStatus { get; set; }
+        public Guid Ct2EditDynKey { get; set; }
 
-        public String ct2Cr1StartStatus { get; set; }
+        public Guid Ct2InitialCctKey { get; set; }
 
-        public String ct2Cr1CompletionStatus { get; set; }
+        public Guid Ct2CompletionCctKey { get; set; }
 
-        public Guid ct2NextCt2Key { get; set; }
+        public Guid Ct2NextCt2key { get; set; }
 
-        public Int16 ct2DueDateNumber { get; set; }
+        public int Ct2DueDateNumber { get; set; }
 
-        public String ct2DueDateUnit { get; set; }
+        public string Ct2DueDateUnit { get; set; }
 
-        public String ct2DueDateRounding { get; set; }
+        public string Ct2DueDateRounding { get; set; }
 
-        public String ct2LongDescription { get; set; }
+        public string Ct2LongDescription { get; set; }
 
-        public String ct2AddUser { get; set; }
+        public string Ct2CalculateStartDateSp { get; set; }
 
-        public DateTimeOffset ct2AddDate { get; set; }
+        public string Ct2CalculateDueDateSp { get; set; }
 
-        public String ct2ChangeUser { get; set; }
+        public string Ct2SetOwnerSp { get; set; }
 
-        public DateTimeOffset ct2ChangeDate { get; set; }
+        public DateTimeOffset Ct2AddDate { get; set; }
+        public DateTimeOffset? Ct2ChangeDate { get; set; }
+        public string Ct2AddUser { get; set; }
+        public string Ct2ChangeUser { get; set; }
 
+        #region Navigation Properties
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        #endregion Navigation Properties
     }
 
 }

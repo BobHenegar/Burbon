@@ -48,16 +48,40 @@
             @Html.DisplayFor(model => model.AdrAddress3)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsPrimaryAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsMailingAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsWorkAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdrIsHomeAddress)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.AdrAddDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AdrAddDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AdrModifiedDate)
+            @Html.DisplayNameFor(model => model.AdrChangeDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AdrModifiedDate)
+            @Html.DisplayFor(model => model.AdrChangeDate)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.AdrAddUser)
@@ -66,10 +90,10 @@
             @Html.DisplayFor(model => model.AdrAddUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AdrModifiedUser)
+            @Html.DisplayNameFor(model => model.AdrChangeUser)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AdrModifiedUser)
+            @Html.DisplayFor(model => model.AdrChangeUser)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.AdrPerson)
@@ -80,7 +104,7 @@
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="AddressKey" />
+        <input type="hidden" asp-for="AdrKey" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
         <a asp-action="Index">Back to List</a>
     </form>

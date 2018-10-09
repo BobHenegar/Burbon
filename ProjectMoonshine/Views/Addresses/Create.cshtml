@@ -47,6 +47,34 @@
                 <span asp-validation-for="AdrAddress3" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsPrimaryAddress" /> @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsMailingAddress" /> @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsWorkAddress" /> @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="AdrIsHomeAddress" /> @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </form>

@@ -5,17 +5,9 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    /// <summary>
+    /// Declaration for marker class for all owned entity framework models
+    /// </summary>
     public abstract class EntityBase
-    {
-        public string Prefix { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset AddDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? ModifiedDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string AddUser { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string ModifiedUser { get; set; }
-
-    }
+    {}
 }

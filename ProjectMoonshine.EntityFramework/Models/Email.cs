@@ -1,34 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("Email")]
-    public class Email
+    public class Email : EntityBase
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [NotMapped]
+        public const string Prefix = "Eml";
+        [Key]
         public Guid EmlKey { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid EmlEltKey { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        
+        public Guid EmlPerKey { get; set; }
 
+        [DisplayName("EmailAddress")]
         public string EmlAddress { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public bool EmlPrimary { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
+        [DefaultValue(false)]
+        public bool EmlIsPrimaryEmail { get; set; }
+
+        [DefaultValue(false)]
+        public bool EmlIsWorkEmail { get; set; }
+
+        [DefaultValue(false)]
+        public bool EmlIsPersonalEmail { get; set; }
         public DateTimeOffset EmlAddDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTimeOffset? EmlModifiedDate { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTimeOffset? EmlChangeDate { get; set; }
         public string EmlAddUser { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string EmlModifiedUser { get; set; }
+        public string EmlChangeUser { get; set; }
 
-
-        [ForeignKey("EmlEltKey")]
-        public virtual EmailType EmailType { get; set; }
+        #region Navigation Properties
+        #endregion Navigation Properties
     }
 }

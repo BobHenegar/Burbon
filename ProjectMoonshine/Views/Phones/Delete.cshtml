@@ -12,12 +12,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.PhoPerKey)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PhoPerKey)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.PhoNumber)
         </dt>
         <dd>
@@ -30,10 +24,28 @@
             @Html.DisplayFor(model => model.PhoExtention)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PhoPrimary)
+            @Html.DisplayNameFor(model => model.PhoIsPrimary)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PhoPrimary)
+            @Html.DisplayFor(model => model.PhoIsPrimary)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsHome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsHome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsMobile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsMobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoIsWork)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoIsWork)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PhoAddDate)
@@ -42,10 +54,10 @@
             @Html.DisplayFor(model => model.PhoAddDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PhoModifiedDate)
+            @Html.DisplayNameFor(model => model.PhoChangeDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PhoModifiedDate)
+            @Html.DisplayFor(model => model.PhoChangeDate)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PhoAddUser)
@@ -54,10 +66,16 @@
             @Html.DisplayFor(model => model.PhoAddUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PhoModifiedUser)
+            @Html.DisplayNameFor(model => model.PhoChangeUser)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PhoModifiedUser)
+            @Html.DisplayFor(model => model.PhoChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Person.PerKey)
         </dd>
     </dl>
     

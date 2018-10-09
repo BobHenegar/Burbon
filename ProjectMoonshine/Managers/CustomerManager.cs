@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectMoonshine.Models
+namespace ProjectMoonshine.Managers
 {
-    public class Customer
+    public class CustomerManager : ICustomerManager
     {
     }
 }

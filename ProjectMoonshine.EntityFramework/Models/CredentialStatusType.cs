@@ -1,36 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Models
 {
-    public class CredentialStatusType
+    [Table("CredentialStatusType")]
+    public class CredentialStatusType : EntityBase
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ct6_key { get; set; }
-        public String ct6_code { get; set; }
-        public String ct6_description { get; set; }
-        public String ct6_external_description { get; set; }
-        public Guid ct6_type { get; set; }
-        public Guid ct6_type_key { get; set; }
-        public DateTimeOffset ct6_start_date { get; set; }
-        public DateTimeOffset ct6_end_date { get; set; }
-        public String ct6_state { get; set; }
-        public Boolean ct6_external_flag { get; set; }
-        public Guid ct6_cct_key { get; set; }
-        public String ct6AddUser { get; set; }
+        [NotMapped]
+        public const string Prefix = "Ct6";
+        [Key]
+        public Guid Ct6Key { get; set; }
+        public string Ct6Code { get; set; }
+        public string Ct6Description { get; set; }
+        public string Ct6ExternalDescription { get; set; }
+        public Guid Ct6Type { get; set; }
+        public Guid Ct6TypeKey { get; set; }
+        public DateTimeOffset Ct6StartDate { get; set; }
+        public DateTimeOffset Ct6EndDate { get; set; }
+        public string Ct6State { get; set; }
+        public bool Ct6ExternalFlag { get; set; }
+        public Guid Ct6CctKey { get; set; }
+        public Guid Ct6St1Key { get; set; }
+        public string Ct6ParentCt6Code { get; set; }
+        public bool Ct6TerminateProcessFlag { get; set; }
+        public bool Ct6SetProcessOwnerFlag { get; set; }
+        public bool Ct6SetCredentialNumberFlag { get; set; }
+        public bool Ct6EwebReadOnlyFlag { get; set; }
+
         public DateTimeOffset ct6AddDate { get; set; }
-        public String ct6ChangeUser { get; set; }
-        public DateTimeOffset ct6ChangeDate { get; set; }
-        public Guid ct6_st1_key { get; set; }
-        public String ct6_parent_ct6_code { get; set; }
-        public Boolean ct6_terminate_process_flag { get; set; }
-        public Boolean ct6_set_process_owner_flag { get; set; }
-        public Boolean ct6_set_credential_number_flag { get; set; }
-        public Boolean ct6_eweb_read_only_flag { get; set; }
+        public DateTimeOffset? ct6ChangeDate { get; set; }
+        public string Ct6AddUser { get; set; }
+        public string Ct6ChangeUser { get; set; }
 
     }
 }

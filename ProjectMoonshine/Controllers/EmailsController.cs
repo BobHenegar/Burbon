@@ -22,8 +22,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Emails.Include(e => e.EmailType);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Emails.ToListAsync());
         }
 
         // GET: Emails/Details/5
@@ -35,7 +34,6 @@ namespace ProjectMoonshine.Controllers
             }
 
             var email = await _context.Emails
-                .Include(e => e.EmailType)
                 .FirstOrDefaultAsync(m => m.EmlKey == id);
             if (email == null)
             {
@@ -48,7 +46,6 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails/Create
         public IActionResult Create()
         {
-            ViewData["EmlEltKey"] = new SelectList(_context.EmailTypes, "EltKey", "EltKey");
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmlKey,EmlEltKey,EmlAddress,EmlPrimary,EmlAddDate,EmlModifiedDate,EmlAddUser,EmlModifiedUser")] Email email)
+        public async Task<IActionResult> Create([Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +63,6 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmlEltKey"] = new SelectList(_context.EmailTypes, "EltKey", "EltKey", email.EmlEltKey);
             return View(email);
         }
 
@@ -83,7 +79,6 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmlEltKey"] = new SelectList(_context.EmailTypes, "EltKey", "EltKey", email.EmlEltKey);
             return View(email);
         }
 
@@ -92,7 +87,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EmlKey,EmlEltKey,EmlAddress,EmlPrimary,EmlAddDate,EmlModifiedDate,EmlAddUser,EmlModifiedUser")] Email email)
+        public async Task<IActionResult> Edit(Guid id, [Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
         {
             if (id != email.EmlKey)
             {
@@ -119,7 +114,6 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmlEltKey"] = new SelectList(_context.EmailTypes, "EltKey", "EltKey", email.EmlEltKey);
             return View(email);
         }
 
@@ -132,7 +126,6 @@ namespace ProjectMoonshine.Controllers
             }
 
             var email = await _context.Emails
-                .Include(e => e.EmailType)
                 .FirstOrDefaultAsync(m => m.EmlKey == id);
             if (email == null)
             {

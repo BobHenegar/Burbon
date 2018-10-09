@@ -36,7 +36,7 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.AdrPerson)
-                .FirstOrDefaultAsync(m => m.AddressKey == id);
+                .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {
                 return NotFound();
@@ -57,11 +57,11 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AddressKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrAddDate,AdrModifiedDate,AdrAddUser,AdrModifiedUser")] Address address)
+        public async Task<IActionResult> Create([Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
         {
             if (ModelState.IsValid)
             {
-                address.AddressKey = Guid.NewGuid();
+                address.AdrKey = Guid.NewGuid();
                 _context.Add(address);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -92,9 +92,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AddressKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrAddDate,AdrModifiedDate,AdrAddUser,AdrModifiedUser")] Address address)
+        public async Task<IActionResult> Edit(Guid id, [Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
         {
-            if (id != address.AddressKey)
+            if (id != address.AdrKey)
             {
                 return NotFound();
             }
@@ -108,7 +108,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AddressExists(address.AddressKey))
+                    if (!AddressExists(address.AdrKey))
                     {
                         return NotFound();
                     }
@@ -133,7 +133,7 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.AdrPerson)
-                .FirstOrDefaultAsync(m => m.AddressKey == id);
+                .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {
                 return NotFound();
@@ -155,7 +155,7 @@ namespace ProjectMoonshine.Controllers
 
         private bool AddressExists(Guid id)
         {
-            return _context.Addresses.Any(e => e.AddressKey == id);
+            return _context.Addresses.Any(e => e.AdrKey == id);
         }
     }
 }

@@ -31,16 +31,28 @@
                 @Html.DisplayNameFor(model => model.AdrAddress3)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AdrAddDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrModifiedDate)
+                @Html.DisplayNameFor(model => model.AdrChangeDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AdrAddUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrModifiedUser)
+                @Html.DisplayNameFor(model => model.AdrChangeUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AdrPerson)
@@ -70,24 +82,36 @@
                 @Html.DisplayFor(modelItem => item.AdrAddress3)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.AdrIsPrimaryAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrIsWorkAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdrIsHomeAddress)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.AdrAddDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdrModifiedDate)
+                @Html.DisplayFor(modelItem => item.AdrChangeDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdrAddUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdrModifiedUser)
+                @Html.DisplayFor(modelItem => item.AdrChangeUser)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdrPerson.PerKey)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AddressKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AddressKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AddressKey">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
             </td>
         </tr>
 }

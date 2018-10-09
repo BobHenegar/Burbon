@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -11,17 +14,22 @@ namespace ProjectMoonshine.EntityFramework
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<AddressType> AddressTypes { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Email> Emails { get; set; }
-        public DbSet<EmailType> EmailTypes { get; set; }
         public DbSet<Person> Persons { get; set; }
         public DbSet<Phone> Phones { get; set; }
-        public DbSet<PhoneType> PhoneTypes { get; set; }
+
+
+        public const string Prefix = "Prefix";
+
+        private Dictionary<string, string> TablePrefixs { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
              : base(options)
-        { }
+        {
+            TablePrefixs = new Dictionary<string, string>();
+        }
         //
         // Summary:
         //     Override this method to further configure the model that was discovered by convention
@@ -40,13 +48,72 @@ namespace ProjectMoonshine.EntityFramework
         //     then this method will not be run.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach(var entityType in modelBuilder.Model.GetEntityTypes())
+            // Uncomment to debug OnModelCreating
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                if(entityType.ClrType.IsAssignableFrom(typeof(EntityBase)))
-                {}
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(EntityBase).IsAssignableFrom(entityType.ClrType))
+                {
+                    FieldInfo[] fields = entityType.ClrType
+                        .GetFields(BindingFlags.Public
+                        | BindingFlags.Static
+                        | BindingFlags.FlattenHierarchy);
+
+                    // Should only be one constant for these
+                    if(fields.Count() > 1)
+                    {
+                        throw new Exception("No more than 1 const field on object allowed");
+                    }
+                    var prefix = fields.First().GetRawConstantValue();
+                    // Add type prefix to the table
+                    TablePrefixs.Add(entityType.ClrType.Name, prefix.ToString());
+
+                    var addDate = prefix + "AddDate";
+                    var changeDate = prefix + "ChangeDate";
+                    var addUser = prefix + "AddUser";
+                    var changeUser = prefix + "ChangeUser";
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property($"{prefix}Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(addDate)
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(changeDate)
+                        .ValueGeneratedOnAdd();
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(changeUser)
+                        .ValueGeneratedOnAdd();
+
+                    modelBuilder
+                        .Entity(entityType.ClrType)
+                        .Property(addUser)
+                        .ValueGeneratedOnAdd();
+                }
             }
         }
 
+        public void TestOnModelCreating()
+        {
+            OnModelCreating(new ModelBuilder(new Microsoft.EntityFrameworkCore.Metadata.Conventions.ConventionSet()));
+        }
 
         public new async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -58,30 +125,26 @@ namespace ProjectMoonshine.EntityFramework
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-        public new EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class
+        public TEntity Update<TEntity>(TEntity entity, string currentUser) where TEntity : class
         {
-            return base.Update(entity);
+            AddTimestamps(ChangeTracker, currentUser);
+            return base.Update(entity).Entity;
         }
 
-        //private void AddTimestamps()
-        //{
-        //    var entities = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+        private void AddTimestamps(ChangeTracker tracker, string username)
+        {
+            var entities = tracker.Entries().Where(x => x.Entity.GetType().BaseType == typeof(EntityBase) && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-        //    var currentUsername = !string.IsNullOrEmpty(System.Web.HttpContext.Current?.User?.Identity?.Name)
-        //        ? HttpContext.Current.User.Identity.Name
-        //        : "Anonymous";
+            foreach (var entity in entities)
+            {
 
-        //    foreach (var entity in entities)
-        //    {
-        //        if (entity.State == EntityState.Added)
-        //        {
-        //            ((BaseEntity)entity.Entity).DateCreated = DateTime.UtcNow;
-        //            ((BaseEntity)entity.Entity).UserCreated = currentUsername;
-        //        }
-
-        //        ((BaseEntity)entity.Entity).DateModified = DateTime.UtcNow;
-        //        ((BaseEntity)entity.Entity).UserModified = currentUsername;
-        //    }
-        //}
+                if (typeof(EntityBase).IsAssignableFrom(entity.GetType().BaseType))
+                {
+                    var Prefix = TablePrefixs.Where(x => x.Key == entity.GetType().ToString()).First().Value;
+                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
+                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
+                }
+            }
+        }
     }
 }
