@@ -10,8 +10,8 @@ using ProjectMoonshine.EntityFramework;
 namespace ProjectMoonshine.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181009161808_CreateCustomerFirst")]
-    partial class CreateCustomerFirst
+    [Migration("20181009190239_Added Credential Model")]
+    partial class AddedCredentialModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,6 +75,68 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
+                {
+                    b.Property<Guid>("Cr1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Cr1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Cr1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Cr1ApplicationCr2Key");
+
+                    b.Property<DateTimeOffset?>("Cr1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Cr1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("Cr1CredentialDate");
+
+                    b.Property<string>("Cr1CredentialNumber");
+
+                    b.Property<Guid>("Cr1CstKey");
+
+                    b.Property<string>("Cr1Ct1Credential");
+
+                    b.Property<Guid>("Cr1Ct2CurrentProcess");
+
+                    b.Property<Guid>("Cr1CurrentCr2Key");
+
+                    b.Property<Guid>("Cr1DataKey");
+
+                    b.Property<DateTimeOffset>("Cr1EffectiveDate");
+
+                    b.Property<bool>("Cr1ExtensionUsedFlag");
+
+                    b.Property<string>("Cr1LegalFirstName");
+
+                    b.Property<string>("Cr1LegalLastName");
+
+                    b.Property<Guid>("Cr1NextCr2Key");
+
+                    b.Property<string>("Cr1Note");
+
+                    b.Property<string>("Cr1Owner");
+
+                    b.Property<string>("Cr1Status");
+
+                    b.Property<DateTimeOffset>("Cr1StatusChangeDate");
+
+                    b.Property<string>("Cr1StatusChangeUser");
+
+                    b.Property<DateTimeOffset>("Cr1ValidThruDate");
+
+                    b.HasKey("Cr1Key");
+
+                    b.ToTable("Credentials");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
                 {
                     b.Property<Guid>("CusKey")
@@ -94,11 +156,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CusPerKey");
-
                     b.HasKey("CusKey");
-
-                    b.HasIndex("CusPerKey");
 
                     b.ToTable("Customer");
                 });
@@ -147,9 +205,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid>("CusPerKey")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<DateTimeOffset>("PerAddDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
@@ -161,6 +216,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("PerChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("PerCusKey")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
@@ -175,7 +233,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasKey("PerKey");
 
-                    b.HasIndex("CusPerKey");
+                    b.HasIndex("PerCusKey");
 
                     b.ToTable("Person");
                 });
@@ -221,19 +279,97 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.Models.CredentialType", b =>
+                {
+                    b.Property<Guid>("Ct1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<Guid?>("Ct1AddDynKey");
+
+                    b.Property<string>("Ct1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1ClassAssembly");
+
+                    b.Property<string>("Ct1ClassName");
+
+                    b.Property<string>("Ct1Credential");
+
+                    b.Property<string>("Ct1CstType");
+
+                    b.Property<string>("Ct1DataTableName");
+
+                    b.Property<string>("Ct1DataTablePrefix");
+
+                    b.Property<string>("Ct1Description");
+
+                    b.Property<string>("Ct1Designation");
+
+                    b.Property<string>("Ct1DesignationHtml");
+
+                    b.Property<Guid?>("Ct1EditDynKey");
+
+                    b.Property<DateTimeOffset>("Ct1EndDate");
+
+                    b.Property<string>("Ct1InitCt2Class");
+
+                    b.Property<Guid?>("Ct1InitCt2Key");
+
+                    b.Property<string>("Ct1InitCt2Method");
+
+                    b.Property<string>("Ct1InitStatus");
+
+                    b.Property<string>("Ct1LongDescription");
+
+                    b.Property<string>("Ct1Order");
+
+                    b.Property<Guid?>("Ct1OrgCstKey");
+
+                    b.Property<string>("Ct1ReinstateCt2Class");
+
+                    b.Property<Guid?>("Ct1ReinstateCt2Key");
+
+                    b.Property<string>("Ct1ReinstateCt2Method");
+
+                    b.Property<string>("Ct1ReinstateStatus");
+
+                    b.Property<string>("Ct1RenewCt2Class");
+
+                    b.Property<Guid?>("Ct1RenewCt2Key");
+
+                    b.Property<string>("Ct1RenewCt2Method");
+
+                    b.Property<string>("Ct1RenewStatus");
+
+                    b.Property<string>("Ct1SetCredentialNumberSp");
+
+                    b.Property<DateTimeOffset>("Ct1StartDate");
+
+                    b.Property<string>("Ct1SyncCt1Key");
+
+                    b.Property<bool>("Ct1SyncFlag");
+
+                    b.HasKey("Ct1Key");
+
+                    b.ToTable("CredentialType");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")
                         .WithMany("Addresses")
                         .HasForeignKey("AdrPerKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
-                {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("CusPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -249,7 +385,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CusPerKey")
+                        .HasForeignKey("PerCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

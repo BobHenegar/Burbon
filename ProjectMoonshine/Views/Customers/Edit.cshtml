@@ -14,11 +14,6 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="CusKey" />
             <div class="form-group">
-                <label asp-for="CusPerKey" class="control-label"></label>
-                <select asp-for="CusPerKey" class="form-control" asp-items="ViewBag.CusPerKey"></select>
-                <span asp-validation-for="CusPerKey" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="CusAddDate" class="control-label"></label>
                 <input asp-for="CusAddDate" class="form-control" />
                 <span asp-validation-for="CusAddDate" class="text-danger"></span>
