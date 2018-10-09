@@ -22,6 +22,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CredentialType> CredentialTypes { get; set; }
 
+        public DbSet<Credential> Credentials { get; set; }
+
 
         public const string Prefix = "Prefix";
 

@@ -73,6 +73,68 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
+                {
+                    b.Property<Guid>("Cr1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Cr1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Cr1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Cr1ApplicationCr2Key");
+
+                    b.Property<DateTimeOffset?>("Cr1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Cr1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("Cr1CredentialDate");
+
+                    b.Property<string>("Cr1CredentialNumber");
+
+                    b.Property<Guid>("Cr1CstKey");
+
+                    b.Property<string>("Cr1Ct1Credential");
+
+                    b.Property<Guid>("Cr1Ct2CurrentProcess");
+
+                    b.Property<Guid>("Cr1CurrentCr2Key");
+
+                    b.Property<Guid>("Cr1DataKey");
+
+                    b.Property<DateTimeOffset>("Cr1EffectiveDate");
+
+                    b.Property<bool>("Cr1ExtensionUsedFlag");
+
+                    b.Property<string>("Cr1LegalFirstName");
+
+                    b.Property<string>("Cr1LegalLastName");
+
+                    b.Property<Guid>("Cr1NextCr2Key");
+
+                    b.Property<string>("Cr1Note");
+
+                    b.Property<string>("Cr1Owner");
+
+                    b.Property<string>("Cr1Status");
+
+                    b.Property<DateTimeOffset>("Cr1StatusChangeDate");
+
+                    b.Property<string>("Cr1StatusChangeUser");
+
+                    b.Property<DateTimeOffset>("Cr1ValidThruDate");
+
+                    b.HasKey("Cr1Key");
+
+                    b.ToTable("Credentials");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
                 {
                     b.Property<Guid>("CusKey")
