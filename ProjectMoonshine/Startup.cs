@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.Managers;
 using ProjectMoonshine.Middleware;
 
@@ -63,9 +64,10 @@ namespace ProjectMoonshine
                     {
                         context.Database.EnsureDeleted();
                     }
-                    var applied = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
-                    if (applied.Any())
+                    var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
+                    if (migrationsToApply.Any())
                     {
+                        context.RunMigrations(migrationsToApply.ToList());
                         context.Database.Migrate();
                         context.SaveChanges();
                     }

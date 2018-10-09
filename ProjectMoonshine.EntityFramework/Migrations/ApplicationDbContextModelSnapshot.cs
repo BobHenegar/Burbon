@@ -145,7 +145,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<Guid?>("CusPerKey")
+                    b.Property<Guid>("CusPerKey")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset>("PerAddDate")
