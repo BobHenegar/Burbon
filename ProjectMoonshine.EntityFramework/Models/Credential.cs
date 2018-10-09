@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -11,7 +12,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Cr1Key { get; set; }
 
-        public String Cr1Ct1Credential { get; set; }
+        [DisplayName("Credential Type")]
+        public string Cr1Ct1Credential { get; set; }
 
         public String Cr1CredentialNumber { get; set; }
 
