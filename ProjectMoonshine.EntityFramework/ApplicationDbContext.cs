@@ -20,9 +20,9 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<Person> People { get; set; }
         public DbSet<Phone> Phones { get; set; }
 
-        public DbSet<CredentialType> CredentialTypes { get; set; }
+        //public DbSet<CredentialType> CredentialTypes { get; set; }
 
-        public DbSet<Credential> Credentials { get; set; }
+        //public DbSet<Credential> Credentials { get; set; }
 
 
         public const string Prefix = "Prefix";

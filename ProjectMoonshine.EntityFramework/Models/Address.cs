@@ -69,7 +69,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         [ForeignKey("AdrPerKey")]
-        public virtual Person AdrPerson {get;set; }
+        public virtual Person Person {get;set; }
         #endregion Navigation Properties
     }
 }

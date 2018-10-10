@@ -55,7 +55,7 @@
                 @Html.DisplayNameFor(model => model.AdrChangeUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrPerson)
+                @Html.DisplayNameFor(model => model.Person)
             </th>
             <th></th>
         </tr>
@@ -106,7 +106,7 @@
                 @Html.DisplayFor(modelItem => item.AdrChangeUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdrPerson.PerKey)
+                @Html.DisplayFor(modelItem => item.AdrPerKey)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |

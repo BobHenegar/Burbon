@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [Table("Credential")]
     public class Credential
     {
         [NotMapped]
-        public const string Prefix = "cr1";
+        public const string Prefix = "Cr1";
 
         [Key]
         public Guid Cr1Key { get; set; }
@@ -20,7 +19,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr1CredentialNumber { get; set; }
 
-        public Guid Cr1CstKey { get; set; }
+        public Guid Cr1PerKey { get; set; }
 
         public string Cr1Status { get; set; }
 
@@ -59,6 +58,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr1LegalLastName { get; set; }
     }
+}
 
 
 

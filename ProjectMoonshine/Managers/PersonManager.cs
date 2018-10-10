@@ -35,7 +35,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<IList<Person>> GetAllPeopleAsync(string searchString, string sortOrder)
+        public IQueryable<Person> GetAllPeople(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
             var people = context.People.AsQueryable();
@@ -66,6 +66,16 @@ namespace ProjectMoonshine.Managers
                 case "middleName_desc":
                     {
                         people = people.OrderByDescending(x => x.PerMiddleName);
+                        break;
+                    }
+                case "lastName":
+                    {
+                        people = people.OrderBy(x => x.PerLastName);
+                        break;
+                    }
+                case "lastName_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerLastName);
                         break;
                     }
                 case "dateOfBirth":
@@ -104,8 +114,7 @@ namespace ProjectMoonshine.Managers
                         break;
                     }
             }
-            var result = await people.ToListAsync();
-            return result;
+            return people;
         }
 
         // <inheritdoc />

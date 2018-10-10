@@ -15,11 +15,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         public const string Prefix = "Pho";
         [Key]
         public Guid PhoKey { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
         public Guid PhoPerKey { get; set; }
 
         [Required]
-        [E164PhoneNumber]
         [DisplayName("Phone Number")]
         public string PhoNumber { get; set; }
 

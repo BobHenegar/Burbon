@@ -96,13 +96,13 @@
             @Html.DisplayFor(model => model.AdrChangeUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AdrPerson)
+            @Html.DisplayNameFor(model => model.Person)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AdrPerson.PerKey)
+            @Html.DisplayFor(model => model.AdrPerKey)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="AdrKey" />
         <input type="submit" value="Delete" class="btn btn-default" /> |

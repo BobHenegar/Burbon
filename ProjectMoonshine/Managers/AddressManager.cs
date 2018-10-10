@@ -34,7 +34,7 @@ namespace ProjectMoonshine.Managers
         {
             var result = await context
                             .Addresses
-                            .Include(a => a.AdrPerson)
+                            .Include(a => a.Person)
                             .Skip(page * resultsPerPage)
                             .Take(resultsPerPage)
                             .ToListAsync();

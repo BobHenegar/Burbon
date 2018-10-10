@@ -26,7 +26,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Addresses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Addresses.Include(a => a.AdrPerson);
+            var applicationDbContext = _context.Addresses.Include(a => a.Person);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -39,7 +39,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var address = await _context.Addresses
-                .Include(a => a.AdrPerson)
+                .Include(a => a.Person)
                 .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {
@@ -136,7 +136,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var address = await _context.Addresses
-                .Include(a => a.AdrPerson)
+                .Include(a => a.Person)
                 .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {

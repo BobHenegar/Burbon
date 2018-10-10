@@ -16,7 +16,6 @@ namespace ProjectMoonshine.ViewModels
         public Guid PhoPerKey { get; set; }
 
         [Required]
-        [E164PhoneNumber]
         [DisplayName("Phone Number")]
         public string PhoNumber { get; set; }
 

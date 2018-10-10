@@ -25,23 +25,26 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: People
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
-            int currentPage = page.HasValue ? page.Value : 0;
+            int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
             {
-                ViewBag.FirstNameSortParam = string.IsNullOrEmpty(sortOrder) ? "firstName" : sortOrder;
+                sortOrder = "firstName";
+                ViewBag.LastSortParam = sortOrder;
             }
             else
             {
-                ViewBag.MiddleNameSortParam = sortOrder == "firstName" ? "firstName_desc" : sortOrder;
-                ViewBag.MiddleNameSortParam = sortOrder == "middleName" ? "middleName_desc" : sortOrder;
-                ViewBag.LastNameSortParam = sortOrder == "lastName" ? "lastName_desc" : sortOrder;
-                ViewBag.BirthDateSortParam = sortOrder == "dateOfBirth" ? "dateOfBirth_desc" : sortOrder;
-                ViewBag.GenderSortParam = sortOrder == "gender" ? "gender_desc" : sortOrder;
-                ViewBag.AddDateSortParm = sortOrder == "addDate" ? "addDate_desc" : sortOrder;
+                if(sortOrder == lastOrder)
+                {
+                    int index = sortOrder.IndexOf("_desc");
+                    string cleanPath = (index < 0)
+                        ? sortOrder = sortOrder + "_desc"
+                        : sortOrder.Remove(index, "_desc".Length);
+                }
             }
-            var result = await _personManager.GetAllPeopleAsync(searchString, sortOrder);
+            ViewBag.LastSortParam = sortOrder;
+            var result = _personManager.GetAllPeople(searchString, sortOrder);
             return View(result.ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 

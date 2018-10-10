@@ -21,22 +21,22 @@
         <thead>
             <tr>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerFirstName), "Index", new { sortOrder = ViewBag.FirstNameSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerFirstName), "Index", new { sortOrder = "firstName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerMiddleName), "Index", new { sortOrder = ViewBag.MiddleNameSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerMiddleName), "Index", new { sortOrder = "middleName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerLastName), "Index", new { sortOrder = ViewBag.LastNameSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerLastName), "Index", new { sortOrder = "lastName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerDateOfBirth), "Index", new { sortOrder = ViewBag.BirthDateSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerDateOfBirth), "Index", new { sortOrder = "dateOfBirth", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerGender), "Index", new { sortOrder = ViewBag.GenderSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerGender), "Index", new { sortOrder = "dateOfBirth", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerAddDate), "Index", new { sortOrder = ViewBag.AddDateSortParm, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().Customer)
@@ -67,7 +67,7 @@
                         @Html.DisplayFor(modelItem => item.PerAddDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Customer.CusKey)
+                        @Html.DisplayFor(modelItem => item.PerCusKey)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.PerKey">Edit</a> |

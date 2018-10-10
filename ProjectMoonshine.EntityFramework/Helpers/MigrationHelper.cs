@@ -11,23 +11,22 @@ namespace ProjectMoonshine.EntityFramework.Helpers
         public static void RunMigrations(this ApplicationDbContext context, List<string> migrationsApplied)
         {
             // Place newest migrations at the bottom!
-            if (migrationsApplied.Contains("20181009161808_CreateCustomerFirst"))
-            { }
         }
         public static void SeedData(this ApplicationDbContext context)
         {
             if(context.People.Count() < 10)
             {
-                var randomGen = new Random();
-                for (var i = 0; i< 50000; ++i)
+                for (var i = 0; i< 5000; ++i)
                 {
+                    var randomGen = new Random();
                     var isHomeOrWork = randomGen.Next(0, 1) == 1 ? true : false;
                     context.People.Add(new Person()
                     {
                         Customer = new Customer(),
                         PerFirstName = Faker.Name.First(),
                         PerLastName = Faker.Name.Last(),
-                        PerDateOfBirth = new DateTimeOffset().AddYears(-1 * randomGen.Next(25, 91)),
+                        PerDateOfBirth = DateTimeOffset.Now.AddYears(-1 * randomGen.Next(25, 91)),
+                        PerGender = isHomeOrWork ? "Male" : "Female",
                         Addresses = new List<Address>()
                         {
                             new Address
@@ -63,8 +62,8 @@ namespace ProjectMoonshine.EntityFramework.Helpers
                         }
 
                     });
-                    context.SaveChanges();
                 }
+                context.SaveChanges();
             }
         }
     }

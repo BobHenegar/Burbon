@@ -36,6 +36,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string EmlChangeUser { get; set; }
 
         #region Navigation Properties
+        [ForeignKey("EmlPerKey")]
+        public Person Person { get; set; }
         #endregion Navigation Properties
     }
 }
