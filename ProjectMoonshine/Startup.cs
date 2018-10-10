@@ -60,7 +60,7 @@ namespace ProjectMoonshine
             {
                 if (context != null)
                 {
-                    if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181009173934_InitialCreate"))
+                    if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181010144526_InitialCreate"))
                     {
                         context.Database.EnsureDeleted();
                     }
