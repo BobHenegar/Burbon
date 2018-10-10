@@ -45,57 +45,57 @@ namespace ProjectMoonshine.Managers
             {
                 case "city":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrCity);
+                        addresses = addresses.OrderBy(x => x.AdrCity ?? "zzzz");
                         break;
                     }
                 case "city_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrCity ?? "zzzz");
+                        addresses = addresses.OrderByDescending(x => x.AdrCity);
                         break;
                     }
                 case "state":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrState);
+                        addresses = addresses.OrderBy(x => x.AdrState ?? "zzzz");
                         break;
                     }
                 case "state_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrState ?? "zzzz");
+                        addresses = addresses.OrderByDescending(x => x.AdrState);
                         break;
                     }
                 case "zip":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrZip);
+                        addresses = addresses.OrderBy(x => x.AdrZip ?? "zzzz");
                         break;
                     }
                 case "zip_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrZip ?? "zzzz");
+                        addresses = addresses.OrderByDescending(x => x.AdrZip);
                         break;
                     }
                 case "adr1":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrAddress1);
+                        addresses = addresses.OrderBy(x => x.AdrAddress1 ?? "zzzz");
                         break;
                     }
                 case "adr1_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrAddress1 ?? "zzzz");
+                        addresses = addresses.OrderByDescending(x => x.AdrAddress1);
                         break;
                     }
                 case "adr2":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrAddress2);
+                        addresses = addresses.OrderBy(x => x.AdrAddress2 ?? "zzzz");
                         break;
                     }
                 case "adr2_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrAddress2 ?? "zzzz");
+                        addresses = addresses.OrderByDescending(x => x.AdrAddress2);
                         break;
                     }
                 case "adr3":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrAddress3);
+                        addresses = addresses.OrderBy(x => x.AdrAddress3 ?? "zzzz");
                         break;
                     }
                 case "adr3_desc":
