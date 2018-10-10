@@ -7,23 +7,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class PeopleController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPersonManager _personManager;
 
-        public PeopleController(ApplicationDbContext context)
+        public PeopleController(ApplicationDbContext context,
+            IPersonManager personManager)
         {
             _context = context;
+            _personManager = personManager;
         }
 
         // GET: People
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var applicationDbContext = _context.Persons.Include(p => p.Customer);
-            return View(await applicationDbContext.ToListAsync());
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                ViewBag.FirstNameSortParam = string.IsNullOrEmpty(sortOrder) ? "firstName" : sortOrder;
+            }
+            else
+            {
+                ViewBag.MiddleNameSortParam = sortOrder == "firstName" ? "firstName_desc" : sortOrder;
+                ViewBag.MiddleNameSortParam = sortOrder == "middleName" ? "middleName_desc" : sortOrder;
+                ViewBag.LastNameSortParam = sortOrder == "lastName" ? "lastName_desc" : sortOrder;
+                ViewBag.BirthDateSortParam = sortOrder == "dateOfBirth" ? "dateOfBirth_desc" : sortOrder;
+                ViewBag.GenderSortParam = sortOrder == "gender" ? "gender_desc" : sortOrder;
+                ViewBag.AddDateSortParm = sortOrder == "addDate" ? "addDate_desc" : sortOrder;
+            }
+            var result = await _personManager.GetAllPeopleAsync(page, searchString, sortOrder);
+            return View(result);
         }
 
         // GET: People/Details/5
@@ -34,7 +51,7 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
+            var person = await _context.People
                 .Include(p => p.Customer)
                 .Include(p => p.Addresses)
                 .Include(p => p.Emails)
@@ -81,7 +98,7 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons.FindAsync(id);
+            var person = await _context.People.FindAsync(id);
             if (person == null)
             {
                 return NotFound();
@@ -134,7 +151,7 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
+            var person = await _context.People
                 .Include(p => p.Customer)
                 .FirstOrDefaultAsync(m => m.PerKey == id);
             if (person == null)
@@ -150,15 +167,15 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var person = await _context.Persons.FindAsync(id);
-            _context.Persons.Remove(person);
+            var person = await _context.People.FindAsync(id);
+            _context.People.Remove(person);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PersonExists(Guid id)
         {
-            return _context.Persons.Any(e => e.PerKey == id);
+            return _context.People.Any(e => e.PerKey == id);
         }
     }
 }

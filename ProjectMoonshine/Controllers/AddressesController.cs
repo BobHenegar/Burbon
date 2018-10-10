@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Managers;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
     public class AddressesController : Controller
     {
+        private readonly IAddressManager _addressManager;
         private readonly ApplicationDbContext _context;
-
-        public AddressesController(ApplicationDbContext context)
+        public AddressesController(ApplicationDbContext context,
+            IAddressManager addressManager)
         {
             _context = context;
+            _addressManager = addressManager;
         }
 
         // GET: Addresses
@@ -48,7 +52,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Addresses/Create
         public IActionResult Create()
         {
-            ViewData["AdrPerKey"] = new SelectList(_context.Persons.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName}), "PerKey", "Text");
+            ViewData["AdrPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName}), "PerKey", "Text");
             return View();
         }
 
@@ -57,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
+        public async Task<IActionResult> Create(AddressViewModel address)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +70,7 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdrPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", address.AdrPerKey);
+            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
             return View(address);
         }
 
@@ -83,7 +87,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["AdrPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", address.AdrPerKey);
+            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
             return View(address);
         }
 
@@ -92,7 +96,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
+        public async Task<IActionResult> Edit(Guid id, AddressViewModel address)
         {
             if (id != address.AdrKey)
             {
@@ -119,7 +123,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdrPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", address.AdrPerKey);
+            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
             return View(address);
         }
 

@@ -12,20 +12,24 @@ namespace ProjectMoonshine.EntityFramework.Models
         public const string Prefix = "Eml";
         [Key]
         public Guid EmlKey { get; set; }
-        
+
         public Guid EmlPerKey { get; set; }
 
-        [DisplayName("EmailAddress")]
+        [DisplayName("Email Address")]
         public string EmlAddress { get; set; }
 
+        [DisplayName("Is Primary Email?")]
         [DefaultValue(false)]
         public bool EmlIsPrimaryEmail { get; set; }
 
+        [DisplayName("Is Work Email?")]
         [DefaultValue(false)]
         public bool EmlIsWorkEmail { get; set; }
 
+        [DisplayName("Is Personal Email?")]
         [DefaultValue(false)]
         public bool EmlIsPersonalEmail { get; set; }
+
         public DateTimeOffset EmlAddDate { get; set; }
         public DateTimeOffset? EmlChangeDate { get; set; }
         public string EmlAddUser { get; set; }

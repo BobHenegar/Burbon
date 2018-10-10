@@ -48,7 +48,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Phones/Create
         public IActionResult Create()
         {
-            ViewData["PhoPerKey"] = new SelectList(_context.Persons.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+            ViewData["PhoPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
+            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 
@@ -83,7 +83,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
+            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 
@@ -119,7 +119,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PhoPerKey"] = new SelectList(_context.Persons, "PerKey", "PerKey", phone.PhoPerKey);
+            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
 

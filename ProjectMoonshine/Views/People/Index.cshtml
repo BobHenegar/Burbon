@@ -9,35 +9,33 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm("Index", "People", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("FilterString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PerFirstName)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerFirstName), "Index", new { sortOrder = ViewBag.FirstNameSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PerMiddleName)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerMiddleName), "Index", new { sortOrder = ViewBag.MiddleNameSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PerLastName)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerLastName), "Index", new { sortOrder = ViewBag.LastNameSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PerDateOfBirth)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerDateOfBirth), "Index", new { sortOrder = ViewBag.BirthDateSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PerGender)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerGender), "Index", new { sortOrder = ViewBag.GenderSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PerAddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PerChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PerAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PerChangeUser)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.PerAddDate), "Index", new { sortOrder = ViewBag.AddDateSortParm, filterString = ViewBag.FilterString })
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Customer)
@@ -46,44 +44,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerFirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerMiddleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerDateOfBirth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerGender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PerChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CusKey)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PerKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PerKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PerKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerMiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerLastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerDateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerGender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CusKey)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PerKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PerKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PerKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

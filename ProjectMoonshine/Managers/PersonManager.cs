@@ -5,93 +5,120 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
     public class PersonManager : IPersonManager
     {
-        private readonly IAddressManager addressManager;
-        private readonly IPhoneManager phoneManager;
-        private readonly IEmailManager emailManager;
         private readonly ApplicationDbContext context;
-        public PersonManager(ApplicationDbContext _context,
-            IAddressManager _addressManager,
-            IPhoneManager _phoneManager,
-            IEmailManager _emailManager)
+        public PersonManager(ApplicationDbContext _context)
         {
             context = _context;
-            addressManager = _addressManager;
-            phoneManager = _phoneManager;
-            emailManager = _emailManager;
         }
-
-        public async Task AddPersonAsync()
+        // <inheritdoc />
+        public Task<Guid> AddPersonAsync(Credential model)
         {
             throw new NotImplementedException();
-            await context.Persons.AddAsync(new Person()
+        }
+
+        // <inheritdoc />
+        public Task<Guid> AddPersonAsync(PersonViewModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        // <inheritdoc />
+        public Task<bool> DeletePersonAsync(Guid perKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        // <inheritdoc />
+        public async Task<IList<Person>> GetAllPeopleAsync(int? page, string searchString, string sortOrder)
+        {
+            var toSkip = page.HasValue ? 0 : page.Value * GlobalConstants.PageSize;
+            //Defer query executing until our sorting and pagination is finished
+            var people = context.People.AsQueryable();
+            if (!String.IsNullOrEmpty(searchString))
             {
-                //Implement Person Here
-            });
-            await context.SaveChangesAsync();
+                searchString = searchString.ToLower();
+                people = people.Where(s => s.PerLastName.ToLower().Contains(searchString)
+                                       || s.PerFirstName.ToLower().Contains(searchString)
+                                       || s.PerMiddleName.ToLower().Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "firstName":
+                    {
+                        people = people.OrderBy(x => x.PerFirstName);
+                        break;
+                    }
+                case "firstName_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerFirstName);
+                        break;
+                    }
+                case "middleName":
+                    {
+                        people = people.OrderBy(x => x.PerMiddleName);
+                        break;
+                    }
+                case "middleName_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerMiddleName);
+                        break;
+                    }
+                case "dateOfBirth":
+                    {
+                        people = people.OrderBy(x => x.PerDateOfBirth);
+                        break;
+                    }
+                case "dateOfBirth_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerFirstName);
+                        break;
+                    }
+                case "gender":
+                    {
+                        people = people.OrderBy(x => x.PerGender);
+                        break;
+                    }
+                case "gender_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerGender);
+                        break;
+                    }
+                case "addDate":
+                    {
+                        people = people.OrderBy(x => x.PerAddDate);
+                        break;
+                    }
+                case "addDate_desc":
+                    {
+                        people = people.OrderByDescending(x => x.PerAddDate);
+                        break;
+                    }
+                default:
+                    {
+                        people = people.OrderBy(x => x.PerFirstName);
+                        break;
+                    }
+            }
+            var result = await people.Skip(toSkip).Take(GlobalConstants.PageSize).ToListAsync();
+            return result;
         }
 
-        public async Task DeletePersonAsync(Guid Id)
+        // <inheritdoc />
+        public Task<Person> GetPersonByIdAsync(Guid adrKey)
         {
-            context.Addresses.RemoveRange(context.Addresses.Where(x => x.AdrPerKey == Id));
-            context.Emails.RemoveRange(context.Emails.Where(x => x.EmlPerKey == Id));
-            context.Phones.RemoveRange(context.Phones.Where(x => x.PhoPerKey == Id));
-            context.Persons.Remove(context.Persons.First(x => x.PerKey == Id));
-            await context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task UpdatePersonAddressesAsync(Guid Id, PersonViewModel model)
+        // <inheritdoc />
+        public async Task<bool> UpdatePersonAsync(Guid perKey, PersonViewModel model)
         {
-
-            var person = context.Persons.AsTracking()
-                .Include(i => i.Addresses)
-                .First(x => x.PerKey == Id);
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task UpdatePersonAsync(Guid Id, PersonViewModel model)
-        {
-
-            var person = context.Persons.AsTracking()
-                .Include(i => i.Phones)
-                .Include(i => i.Addresses)
-                .Include(i => i.Customer)
-                .Include(i => i.Emails)
-                .First(x => x.PerKey == Id);
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task UpdatePersonEmailsAsync(Guid Id, PersonViewModel model)
-        {
-
-            var person = context.Persons.AsTracking()
-                .Include(i => i.Phones)
-                .Include(i => i.Addresses)
-                .Include(i => i.Customer)
-                .Include(i => i.Emails)
-                .First(x => x.PerKey == Id);
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task UpdatePersonPhonesAsync(Guid Id, PersonViewModel model)
-        {
-
-            var person = context.Persons.AsTracking()
-                .Include(i => i.Phones)
-                .Include(i => i.Addresses)
-                .Include(i => i.Customer)
-                .Include(i => i.Emails)
-                .First(x => x.PerKey == Id);
-
-            await context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
     }
 }

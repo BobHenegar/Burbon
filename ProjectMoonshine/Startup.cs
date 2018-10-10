@@ -86,7 +86,10 @@ namespace ProjectMoonshine
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            //Hide and log errors only in when not deployed
+#if !DEBUG
             app.UseErrorLogging();
+#endif
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

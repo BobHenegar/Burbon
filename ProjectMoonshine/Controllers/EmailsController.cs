@@ -46,7 +46,7 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails/Create
         public IActionResult Create()
         {
-            ViewData["EmlPerKey"] = new SelectList(_context.Persons.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+            ViewData["EmlPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
             return View();
         }
 

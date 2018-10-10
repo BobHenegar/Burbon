@@ -17,7 +17,7 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Email> Emails { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<Person> People { get; set; }
         public DbSet<Phone> Phones { get; set; }
 
         public DbSet<CredentialType> CredentialTypes { get; set; }
@@ -84,6 +84,10 @@ namespace ProjectMoonshine.EntityFramework
                     var changeDate = prefix + "ChangeDate";
                     var addUser = prefix + "AddUser";
                     var changeUser = prefix + "ChangeUser";
+
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property(nameof(EntityBase.RowVersion))
+                        .IsConcurrencyToken();
 
                     modelBuilder
                         .Entity(entityType.ClrType)
