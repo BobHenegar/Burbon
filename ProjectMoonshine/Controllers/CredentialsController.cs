@@ -50,7 +50,8 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Create()
         {
             ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential");
-            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            ViewData["Cr1CusKey"] = new SelectList(_context.People.Select(s => new {s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerCusKey", "Text");
             return View();
         }
 
@@ -64,7 +65,8 @@ namespace ProjectMoonshine.Controllers
             if (ModelState.IsValid)
             {
                 credential.Cr1Key = Guid.NewGuid();
-                _context.Add(credential);
+                credential.Add(_context);
+                //_context.Add(credential);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

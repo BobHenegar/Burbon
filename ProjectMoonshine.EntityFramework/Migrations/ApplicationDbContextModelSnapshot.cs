@@ -90,13 +90,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr1AddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("Cr1ChangeDate")
+                    b.Property<DateTimeOffset?>("Cr1ChangeDate")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cr1ChangeUser")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("Cr1Ct1Key");
+
+                    b.Property<Guid?>("Cr1CurrentCr2Key");
 
                     b.Property<Guid>("Cr1CusKey");
 
@@ -108,9 +110,47 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasIndex("Cr1Ct1Key");
 
+                    b.HasIndex("Cr1CurrentCr2Key");
+
                     b.HasIndex("Cr1CusKey");
 
                     b.ToTable("Credentials");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialProcess", b =>
+                {
+                    b.Property<Guid>("Cr2Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Cr2AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Cr2AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Cr2ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Cr2ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Cr2Cr1Key");
+
+                    b.Property<Guid>("Cr2Ct2Key");
+
+                    b.Property<Guid?>("CredentialCr1Key");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Cr2Key");
+
+                    b.HasIndex("CredentialCr1Key");
+
+                    b.ToTable("CredentialProcesses");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
@@ -272,6 +312,38 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.Models.CredentialProcessType", b =>
+                {
+                    b.Property<Guid>("Ct2Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct2AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ct2AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct2ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct2ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct2Description");
+
+                    b.Property<string>("Ct2Process");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Ct2Key");
+
+                    b.ToTable("CredentialProcessType");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.Models.CredentialType", b =>
                 {
                     b.Property<Guid>("Ct1Key")
@@ -327,10 +399,21 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Cr1Ct1Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcess", "CurrentCredentialProcess")
+                        .WithMany()
+                        .HasForeignKey("Cr1CurrentCr2Key");
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany("Credentials")
                         .HasForeignKey("Cr1CusKey")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialProcess", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Credential", "Credential")
+                        .WithMany("CredentialProcesses")
+                        .HasForeignKey("CredentialCr1Key");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>

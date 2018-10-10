@@ -68,16 +68,16 @@ namespace ProjectMoonshine
                     {
                         context.Database.EnsureDeleted();
                     }
-                    var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
-                     if (migrationsToApply.Any()
-                        && (Environment.GetEnvironmentVariable("isDesignTime") == null))
-                    {
-                        context.RunMigrations(migrationsToApply.ToList());
-                        context.Database.Migrate();
-                        context.SaveChanges();
-                        context.SeedData();
-                        context.SaveChanges();
-                    }
+                    //var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
+                    // if (migrationsToApply.Any()
+                    //    && (Environment.GetEnvironmentVariable("isDesignTime") == null))
+                    //{
+                    //    context.RunMigrations(migrationsToApply.ToList());
+                    //    context.Database.Migrate();
+                    //    context.SaveChanges();
+                    //    context.SeedData();
+                    //    context.SaveChanges();
+                    //}
                 }
             }
         }
