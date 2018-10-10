@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,5 +16,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset? CusChangeDate { get; set; }
         public string CusAddUser { get; set; }
         public string CusChangeUser { get; set; }
+
+        public virtual List<Credential> Credentials { get; set; }
     }
 }

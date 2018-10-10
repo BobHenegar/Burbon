@@ -66,15 +66,43 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("AdrZip")
                         .HasMaxLength(10);
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("AdrKey");
 
                     b.HasIndex("AdrPerKey");
 
                     b.ToTable("Address");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
+                {
+                    b.Property<Guid>("Cr1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Cr1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Cr1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("Cr1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Cr1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Cr1Ct1Key");
+
+                    b.Property<Guid>("Cr1CusKey");
+
+                    b.HasKey("Cr1Key");
+
+                    b.HasIndex("Cr1Ct1Key");
+
+                    b.HasIndex("Cr1CusKey");
+
+                    b.ToTable("Credentials");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
@@ -95,10 +123,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("CusKey");
 
@@ -136,10 +160,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("PersonPerKey");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("EmlKey");
 
                     b.HasIndex("PersonPerKey");
@@ -171,20 +191,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
 
-                    b.Property<string>("PerFirstName")
-                        .IsRequired();
+                    b.Property<string>("PerFirstName");
 
-                    b.Property<string>("PerGender")
-                        .IsRequired();
+                    b.Property<string>("PerGender");
 
-                    b.Property<string>("PerLastName")
-                        .IsRequired();
+                    b.Property<string>("PerLastName");
 
                     b.Property<string>("PerMiddleName");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PerKey");
 
@@ -222,15 +235,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("PhoIsWork");
 
-                    b.Property<string>("PhoNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoNumber");
 
                     b.Property<Guid>("PhoPerKey")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PhoKey");
 
@@ -239,11 +247,60 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.Models.CredentialType", b =>
+                {
+                    b.Property<Guid>("Ct1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ct1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct1Credential");
+
+                    b.Property<string>("Ct1Description");
+
+                    b.Property<DateTimeOffset?>("Ct1EndDate");
+
+                    b.Property<int>("Ct1Order");
+
+                    b.Property<Guid?>("Ct1RenewCt2Key");
+
+                    b.Property<DateTimeOffset?>("Ct1StartDate");
+
+                    b.HasKey("Ct1Key");
+
+                    b.ToTable("CredentialType");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")
                         .WithMany("Addresses")
                         .HasForeignKey("AdrPerKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
+                {
+                    b.HasOne("ProjectMoonshine.Models.CredentialType", "CredentialType")
+                        .WithMany("Credentials")
+                        .HasForeignKey("Cr1Ct1Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany("Credentials")
+                        .HasForeignKey("Cr1CusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
