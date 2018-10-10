@@ -13,7 +13,7 @@
 @using (Html.BeginForm("Index", "People", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("FilterString", ViewBag.CurrentFilter as string)
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
@@ -33,7 +33,7 @@
                     @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerDateOfBirth), "Index", new { sortOrder = "dateOfBirth", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
-                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerGender), "Index", new { sortOrder = "dateOfBirth", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                    @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerGender), "Index", new { sortOrder = "gender", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })

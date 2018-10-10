@@ -39,7 +39,7 @@ namespace ProjectMoonshine.Managers
         {
             //Defer query executing until our sorting and pagination is finished
             var people = context.People.AsQueryable();
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
                 people = people.Where(s => s.PerLastName.ToLower().Contains(searchString)

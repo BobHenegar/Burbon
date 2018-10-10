@@ -9,8 +9,7 @@ namespace ProjectMoonshine.Managers
 {
     public interface IAddressManager
     {
-        Task<IList<Address>> GetAllAddressesAsync(int page, int resultsPerPage);
-        Task<Guid> AddPersonAddressAsync(Guid perKey);
+        IQueryable<Address> GetAllAddresses(string searchString, string sortOrder);
         Task<Guid> AddAddressAsync(AddressViewModel model);
         Task<bool> DeleteAddressAsync(Guid perKey);
         Task<Address> GetAddressByIdAsync(Guid adrKey);

@@ -9,7 +9,7 @@ namespace ProjectMoonshine.Managers
 {
     public interface IEmailManager
     {
-        Task<IList<Email>> GetAllEmailsAsync(int page, int resultsPerPage);
+        IQueryable<Email> GetAllEmails(string searchString, string sortOrder);
         Task<Guid> AddEmailAsync(EmailViewModel model);
         Task<bool> DeleteEmailAsync(Guid emlKey);
         Task<Email> GetEmailByIdAsync(Guid adrKey);
