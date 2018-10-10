@@ -8,6 +8,28 @@ namespace ProjectMoonshine.EntityFramework.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CredentialType",
+                columns: table => new
+                {
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Ct1Key = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    Ct1Credential = table.Column<string>(nullable: true),
+                    Ct1Description = table.Column<string>(nullable: true),
+                    Ct1StartDate = table.Column<DateTimeOffset>(nullable: true),
+                    Ct1EndDate = table.Column<DateTimeOffset>(nullable: true),
+                    Ct1RenewCt2Key = table.Column<Guid>(nullable: true),
+                    Ct1Order = table.Column<int>(nullable: false),
+                    Ct1AddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
+                    Ct1ChangeDate = table.Column<DateTimeOffset>(nullable: true),
+                    Ct1AddUser = table.Column<string>(nullable: true),
+                    Ct1ChangeUser = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CredentialType", x => x.Ct1Key);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
                 {
@@ -21,6 +43,36 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customer", x => x.CusKey);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Credentials",
+                columns: table => new
+                {
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Cr1Key = table.Column<Guid>(nullable: false, defaultValueSql: "NEWID()"),
+                    Cr1Ct1Key = table.Column<Guid>(nullable: false),
+                    Cr1CusKey = table.Column<Guid>(nullable: false),
+                    Cr1AddUser = table.Column<string>(nullable: true),
+                    Cr1AddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
+                    Cr1ChangeUser = table.Column<string>(nullable: true),
+                    Cr1ChangeDate = table.Column<DateTimeOffset>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credentials", x => x.Cr1Key);
+                    table.ForeignKey(
+                        name: "FK_Credentials_CredentialType_Cr1Ct1Key",
+                        column: x => x.Cr1Ct1Key,
+                        principalTable: "CredentialType",
+                        principalColumn: "Ct1Key",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Credentials_Customer_Cr1CusKey",
+                        column: x => x.Cr1CusKey,
+                        principalTable: "Customer",
+                        principalColumn: "CusKey",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,15 +150,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     EmlAddDate = table.Column<DateTimeOffset>(nullable: false, defaultValueSql: "GETDATE()"),
                     EmlChangeDate = table.Column<DateTimeOffset>(nullable: true),
                     EmlAddUser = table.Column<string>(nullable: true),
-                    EmlChangeUser = table.Column<string>(nullable: true),
-                    PersonPerKey = table.Column<Guid>(nullable: true)
+                    EmlChangeUser = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Email", x => x.EmlKey);
                     table.ForeignKey(
-                        name: "FK_Email_Person_PersonPerKey",
-                        column: x => x.PersonPerKey,
+                        name: "FK_Email_Person_EmlPerKey",
+                        column: x => x.EmlPerKey,
                         principalTable: "Person",
                         principalColumn: "PerKey",
                         onDelete: ReferentialAction.Restrict);
@@ -147,9 +198,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 column: "AdrPerKey");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Email_PersonPerKey",
+                name: "IX_Credentials_Cr1Ct1Key",
+                table: "Credentials",
+                column: "Cr1Ct1Key");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Credentials_Cr1CusKey",
+                table: "Credentials",
+                column: "Cr1CusKey");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Email_EmlPerKey",
                 table: "Email",
-                column: "PersonPerKey");
+                column: "EmlPerKey");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_PerCusKey",
@@ -168,10 +229,16 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                 name: "Address");
 
             migrationBuilder.DropTable(
+                name: "Credentials");
+
+            migrationBuilder.DropTable(
                 name: "Email");
 
             migrationBuilder.DropTable(
                 name: "Phone");
+
+            migrationBuilder.DropTable(
+                name: "CredentialType");
 
             migrationBuilder.DropTable(
                 name: "Person");

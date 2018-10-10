@@ -14,6 +14,8 @@ namespace ProjectMoonshine.EntityFramework
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<Credential> Credentials { get; set; }
+        public DbSet<CredentialType> CredentialTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Email> Emails { get; set; }

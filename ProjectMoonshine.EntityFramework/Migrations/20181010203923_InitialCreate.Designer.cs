@@ -10,8 +10,8 @@ using ProjectMoonshine.EntityFramework;
 namespace ProjectMoonshine.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181010185118_cuskeyexp")]
-    partial class cuskeyexp
+    [Migration("20181010203923_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("AdrZip")
                         .HasMaxLength(10);
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("AdrKey");
 
                     b.HasIndex("AdrPerKey");
@@ -88,47 +92,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr1AddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("Cr1ApplicationCr2Key");
-
                     b.Property<DateTimeOffset>("Cr1ChangeDate")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Cr1ChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("Cr1CredentialDate");
-
                     b.Property<Guid>("Cr1Ct1Key");
-
-                    b.Property<Guid>("Cr1Ct2CurrentProcess");
-
-                    b.Property<Guid>("Cr1CurrentCr2Key");
 
                     b.Property<Guid>("Cr1CusKey");
 
-                    b.Property<Guid>("Cr1DataKey");
-
-                    b.Property<DateTimeOffset>("Cr1EffectiveDate");
-
-                    b.Property<bool>("Cr1ExtensionUsedFlag");
-
-                    b.Property<string>("Cr1LegalFirstName");
-
-                    b.Property<string>("Cr1LegalLastName");
-
-                    b.Property<Guid>("Cr1NextCr2Key");
-
-                    b.Property<string>("Cr1Note");
-
-                    b.Property<string>("Cr1Owner");
-
-                    b.Property<string>("Cr1Status");
-
-                    b.Property<DateTimeOffset>("Cr1StatusChangeDate");
-
-                    b.Property<string>("Cr1StatusChangeUser");
-
-                    b.Property<DateTimeOffset>("Cr1ValidThruDate");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Cr1Key");
 
@@ -137,196 +113,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Cr1CusKey");
 
                     b.ToTable("Credentials");
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialProcess", b =>
-                {
-                    b.Property<Guid>("cr2Key")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("CredentialCr1Key");
-
-                    b.Property<Guid?>("PersonPerKey");
-
-                    b.Property<DateTimeOffset>("cr2AddDate");
-
-                    b.Property<string>("cr2AddUser");
-
-                    b.Property<string>("cr2Agreement");
-
-                    b.Property<DateTimeOffset>("cr2AgreementDate");
-
-                    b.Property<DateTimeOffset>("cr2AuditCompleteDate");
-
-                    b.Property<DateTimeOffset>("cr2AuditCompleteUser");
-
-                    b.Property<DateTimeOffset>("cr2AuditSelectDate");
-
-                    b.Property<DateTimeOffset>("cr2ChangeDate");
-
-                    b.Property<string>("cr2ChangeUser");
-
-                    b.Property<DateTimeOffset>("cr2CompletionDate");
-
-                    b.Property<Guid>("cr2Cr1Key");
-
-                    b.Property<Guid>("cr2Cr2Key");
-
-                    b.Property<string>("cr2Ct2Process");
-
-                    b.Property<Guid>("cr2DataKey");
-
-                    b.Property<DateTimeOffset>("cr2Due2Date");
-
-                    b.Property<DateTimeOffset>("cr2DueDate");
-
-                    b.Property<DateTimeOffset>("cr2EthicsClearedDate");
-
-                    b.Property<string>("cr2EthicsDisclosure");
-
-                    b.Property<string>("cr2EthicsSummary");
-
-                    b.Property<DateTimeOffset>("cr2Extension2Date");
-
-                    b.Property<DateTimeOffset>("cr2Extension2GrantedDate");
-
-                    b.Property<string>("cr2Extension2GrantedReason");
-
-                    b.Property<DateTimeOffset>("cr2Extension2GrantedUser");
-
-                    b.Property<DateTimeOffset>("cr2ExtensionDate");
-
-                    b.Property<DateTimeOffset>("cr2ExtensionGrantedDate");
-
-                    b.Property<string>("cr2ExtensionGrantedReason");
-
-                    b.Property<string>("cr2ExtensionGrantedUser");
-
-                    b.Property<DateTimeOffset>("cr2FulfillmentDate");
-
-                    b.Property<DateTimeOffset>("cr2InactiveEndDate");
-
-                    b.Property<DateTimeOffset>("cr2InactiveStartDate");
-
-                    b.Property<string>("cr2Note");
-
-                    b.Property<string>("cr2Owner");
-
-                    b.Property<Guid>("cr2PerKey");
-
-                    b.Property<string>("cr2ProcessNumber");
-
-                    b.Property<DateTimeOffset>("cr2StartDate");
-
-                    b.Property<string>("cr2Status");
-
-                    b.Property<DateTimeOffset>("cr2StatusChangeDate");
-
-                    b.Property<string>("cr2StatusChangeUser");
-
-                    b.Property<DateTimeOffset>("cr2SubmitDate");
-
-                    b.Property<DateTimeOffset>("cr2TerminationDate");
-
-                    b.HasKey("cr2Key");
-
-                    b.HasIndex("CredentialCr1Key");
-
-                    b.HasIndex("PersonPerKey");
-
-                    b.ToTable("CredentialProcess");
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", b =>
-                {
-                    b.Property<Guid>("cr3Key")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("CredentialCr1Key");
-
-                    b.Property<Guid?>("CredentialProcesscr2Key");
-
-                    b.Property<Guid?>("PersonPerKey");
-
-                    b.Property<DateTimeOffset>("cr3AddDate");
-
-                    b.Property<string>("cr3AddUser");
-
-                    b.Property<bool>("cr3AttestmentFlag");
-
-                    b.Property<Guid>("cr3CPerKey");
-
-                    b.Property<DateTimeOffset>("cr3ChangeDate");
-
-                    b.Property<string>("cr3ChangeUser");
-
-                    b.Property<Guid>("cr3ChoiceCt3Key");
-
-                    b.Property<Guid>("cr3Cr2Key");
-
-                    b.Property<Guid>("cr3Cr3Key");
-
-                    b.Property<string>("cr3Ct3Requirement");
-
-                    b.Property<Guid>("cr3DataKey");
-
-                    b.Property<DateTimeOffset>("cr3DueDate");
-
-                    b.Property<short>("cr3ExamAttempts");
-
-                    b.Property<DateTimeOffset>("cr3Extension2Date");
-
-                    b.Property<DateTimeOffset>("cr3Extension2GrantedDate");
-
-                    b.Property<string>("cr3Extension2GrantedReason");
-
-                    b.Property<string>("cr3Extension2GrantedUser");
-
-                    b.Property<DateTimeOffset>("cr3ExtensionDate");
-
-                    b.Property<DateTimeOffset>("cr3ExtensionGrantedDate");
-
-                    b.Property<string>("cr3ExtensionGrantedReason");
-
-                    b.Property<string>("cr3ExtensionGrantedUser");
-
-                    b.Property<bool>("cr3HideOnlineFlag");
-
-                    b.Property<DateTimeOffset>("cr3MetDate");
-
-                    b.Property<string>("cr3MetReason");
-
-                    b.Property<string>("cr3MetUser");
-
-                    b.Property<string>("cr3Note");
-
-                    b.Property<string>("cr3Owner");
-
-                    b.Property<DateTimeOffset>("cr3ReceivedDate");
-
-                    b.Property<DateTimeOffset>("cr3RequestedDate");
-
-                    b.Property<string>("cr3SignatureFirstName");
-
-                    b.Property<string>("cr3SignatureLastName");
-
-                    b.Property<DateTimeOffset>("cr3StartDate");
-
-                    b.Property<string>("cr3Status");
-
-                    b.Property<DateTimeOffset>("cr3StatusChangeDate");
-
-                    b.Property<string>("cr3StatusChangeUser");
-
-                    b.HasKey("cr3Key");
-
-                    b.HasIndex("CredentialCr1Key");
-
-                    b.HasIndex("CredentialProcesscr2Key");
-
-                    b.HasIndex("PersonPerKey");
-
-                    b.ToTable("CredentialRequirement");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
@@ -347,6 +133,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("CusKey");
 
@@ -382,11 +172,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("EmlPerKey");
 
-                    b.Property<Guid?>("PersonPerKey");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("EmlKey");
 
-                    b.HasIndex("PersonPerKey");
+                    b.HasIndex("EmlPerKey");
 
                     b.ToTable("Email");
                 });
@@ -415,13 +207,20 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
 
-                    b.Property<string>("PerFirstName");
+                    b.Property<string>("PerFirstName")
+                        .IsRequired();
 
-                    b.Property<string>("PerGender");
+                    b.Property<string>("PerGender")
+                        .IsRequired();
 
-                    b.Property<string>("PerLastName");
+                    b.Property<string>("PerLastName")
+                        .IsRequired();
 
                     b.Property<string>("PerMiddleName");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PerKey");
 
@@ -459,10 +258,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("PhoIsWork");
 
-                    b.Property<string>("PhoNumber");
+                    b.Property<string>("PhoNumber")
+                        .IsRequired();
 
-                    b.Property<Guid>("PhoPerKey")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("PhoPerKey");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PhoKey");
 
@@ -502,6 +305,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Ct1StartDate");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("Ct1Key");
 
                     b.ToTable("CredentialType");
@@ -509,7 +316,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("AdrPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -522,48 +329,17 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Cr1Ct1Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
-                        .WithMany()
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany("Credentials")
                         .HasForeignKey("Cr1CusKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialProcess", b =>
-                {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Credential", "Credential")
-                        .WithMany("CredentialProcesses")
-                        .HasForeignKey("CredentialCr1Key")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonPerKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", b =>
-                {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Credential", "Credential")
-                        .WithMany()
-                        .HasForeignKey("CredentialCr1Key")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcess", "CredentialProcess")
-                        .WithMany("CredentialRequirements")
-                        .HasForeignKey("CredentialProcesscr2Key")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
                 {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person")
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("Emails")
-                        .HasForeignKey("PersonPerKey")
+                        .HasForeignKey("EmlPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

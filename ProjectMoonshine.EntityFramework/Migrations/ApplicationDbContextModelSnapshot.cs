@@ -66,6 +66,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("AdrZip")
                         .HasMaxLength(10);
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("AdrKey");
 
                     b.HasIndex("AdrPerKey");
@@ -96,6 +100,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Cr1CusKey");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("Cr1Key");
 
                     b.HasIndex("Cr1Ct1Key");
@@ -123,6 +131,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("CusKey");
 
@@ -158,11 +170,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("EmlPerKey");
 
-                    b.Property<Guid?>("PersonPerKey");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("EmlKey");
 
-                    b.HasIndex("PersonPerKey");
+                    b.HasIndex("EmlPerKey");
 
                     b.ToTable("Email");
                 });
@@ -191,13 +205,20 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
 
-                    b.Property<string>("PerFirstName");
+                    b.Property<string>("PerFirstName")
+                        .IsRequired();
 
-                    b.Property<string>("PerGender");
+                    b.Property<string>("PerGender")
+                        .IsRequired();
 
-                    b.Property<string>("PerLastName");
+                    b.Property<string>("PerLastName")
+                        .IsRequired();
 
                     b.Property<string>("PerMiddleName");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PerKey");
 
@@ -235,10 +256,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("PhoIsWork");
 
-                    b.Property<string>("PhoNumber");
+                    b.Property<string>("PhoNumber")
+                        .IsRequired();
 
-                    b.Property<Guid>("PhoPerKey")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("PhoPerKey");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("PhoKey");
 
@@ -278,6 +303,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Ct1StartDate");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
                     b.HasKey("Ct1Key");
 
                     b.ToTable("CredentialType");
@@ -285,7 +314,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Address", b =>
                 {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "AdrPerson")
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("AdrPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -306,9 +335,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
                 {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person")
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("Emails")
-                        .HasForeignKey("PersonPerKey")
+                        .HasForeignKey("EmlPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
