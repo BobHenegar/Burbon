@@ -22,7 +22,8 @@ namespace ProjectMoonshine.Controllers
         // GET: Credentials
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Credentials.ToListAsync());
+            var applicationDbContext = _context.Credentials.Include(c => c.CredentialType).Include(c => c.Customer);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Credentials/Details/5
@@ -34,6 +35,8 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
+                .Include(c => c.CredentialType)
+                .Include(c => c.Customer)
                 .FirstOrDefaultAsync(m => m.Cr1Key == id);
             if (credential == null)
             {
@@ -46,6 +49,8 @@ namespace ProjectMoonshine.Controllers
         // GET: Credentials/Create
         public IActionResult Create()
         {
+            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential");
+            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Credential,Cr1CredentialNumber,Cr1PerKey,Cr1Status,Cr1StatusChangeDate,Cr1StatusChangeUser,Cr1CredentialDate,Cr1EffectiveDate,Cr1ValidThruDate,Cr1Ct2CurrentProcess,Cr1CurrentCr2Key,Cr1NextCr2Key,Cr1ApplicationCr2Key,Cr1ExtensionUsedFlag,Cr1Note,Cr1Owner,Cr1DataKey,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate,Cr1LegalFirstName,Cr1LegalLastName")] Credential credential)
+        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
         {
             if (ModelState.IsValid)
             {
@@ -63,6 +68,8 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
             return View(credential);
         }
 
@@ -79,6 +86,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
             return View(credential);
         }
 
@@ -87,7 +96,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Credential,Cr1CredentialNumber,Cr1PerKey,Cr1Status,Cr1StatusChangeDate,Cr1StatusChangeUser,Cr1CredentialDate,Cr1EffectiveDate,Cr1ValidThruDate,Cr1Ct2CurrentProcess,Cr1CurrentCr2Key,Cr1NextCr2Key,Cr1ApplicationCr2Key,Cr1ExtensionUsedFlag,Cr1Note,Cr1Owner,Cr1DataKey,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate,Cr1LegalFirstName,Cr1LegalLastName")] Credential credential)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
         {
             if (id != credential.Cr1Key)
             {
@@ -114,6 +123,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
             return View(credential);
         }
 
@@ -126,6 +137,8 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
+                .Include(c => c.CredentialType)
+                .Include(c => c.Customer)
                 .FirstOrDefaultAsync(m => m.Cr1Key == id);
             if (credential == null)
             {

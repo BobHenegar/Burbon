@@ -8,7 +8,10 @@ namespace ProjectMoonshine.EntityFramework
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlServer(@"Server=.\\SQLEXPRESS;Database=ProjectMoonshine;Trusted_Connection=true",
+            builder.UseSqlServer(
+                //@"Server=.\\SQLEXPRESS;Database=ProjectMoonshine;Trusted_Connection=true"
+                "Server=.\\SQLSERVER2017;Database=CredEngNext;Trusted_Connection=True;"
+                ,
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework"));
             return new ApplicationDbContext(builder.Options);
         }
