@@ -9,60 +9,55 @@ namespace ProjectMoonshine.EntityFramework.Models
 {
     public class Credential
     {
+        [NotMapped]
+        public const string Prefix = "cr1";
+
         [Key]
         public Guid Cr1Key { get; set; }
 
         [DisplayName("Credential Type")]
         public string Cr1Ct1Credential { get; set; }
 
-        public String Cr1CredentialNumber { get; set; }
+        public string Cr1CredentialNumber { get; set; }
 
-        public Guid Cr1PerKey { get; set; }
+        public Guid Cr1CstKey { get; set; }
 
-        public String Cr1Status { get; set; }
+        public string Cr1Status { get; set; }
 
         public DateTimeOffset Cr1StatusChangeDate { get; set; }
 
-        public String Cr1StatusChangeUser { get; set; }
+        public string Cr1StatusChangeUser { get; set; }
 
-        public DateTimeOffset Cr1CredentialDate { get; set; }
+        public DateTimeOffset cr1CredentialDate { get; set; }
 
-        public DateTimeOffset Cr1EffectiveDate { get; set; }
+        public DateTimeOffset cr1EffectiveDate { get; set; }
 
-        public DateTimeOffset Cr1ValidThruDate { get; set; }
+        public DateTimeOffset cr1ValidThruDate { get; set; }
 
-        public Guid Cr1Ct2CurrentProcess { get; set; }
+        public Guid cr1Ct2CurrentProcess { get; set; }
 
-        public Guid Cr1CurrentCr2Key { get; set; }
+        public Guid cr1CurrentCr2Key { get; set; }
 
-        public Guid Cr1NextCr2Key { get; set; }
+        public Guid cr1NextCr2Key { get; set; }
 
-        public Guid Cr1ApplicationCr2Key { get; set; }
+        public Guid cr1ApplicationCr2Key { get; set; }
 
-        public Boolean Cr1ExtensionUsedFlag { get; set; }
+        public bool Cr1ExtensionUsedFlag { get; set; }
 
-        public String Cr1Note { get; set; }
+        public string Cr1Note { get; set; }
 
-        public String Cr1Owner { get; set; }
+        public string Cr1Owner { get; set; }
 
-        public Guid Cr1DataKey { get; set; }
-
-        public String Cr1AddUser { get; set; }
+        public Guid cr1DataKey { get; set; }
 
         public DateTimeOffset Cr1AddDate { get; set; }
+        public DateTimeOffset? Cr1ChangeDate { get; set; }
+        public string Cr1AddUser { get; set; }
+        public string Cr1ChangeUser { get; set; }
 
-        public String Cr1ChangeUser { get; set; }
+        public string Cr1LegalFirstName { get; set; }
 
-        public DateTimeOffset Cr1ChangeDate { get; set; }
-
-        public String Cr1LegalFirstName { get; set; }
-
-        public String Cr1LegalLastName { get; set; }
-
-
-        public virtual List<CredentialProcess> CredentialProcesses { get; set; }
-        public virtual Person Person { get; set; }
-        }
+        public string Cr1LegalLastName { get; set; }
     }
 
 

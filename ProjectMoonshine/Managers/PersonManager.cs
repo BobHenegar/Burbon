@@ -35,9 +35,8 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<IList<Person>> GetAllPeopleAsync(int? page, string searchString, string sortOrder)
+        public async Task<IList<Person>> GetAllPeopleAsync(string searchString, string sortOrder)
         {
-            var toSkip = page.HasValue ? 0 : page.Value * GlobalConstants.PageSize;
             //Defer query executing until our sorting and pagination is finished
             var people = context.People.AsQueryable();
             if (!String.IsNullOrEmpty(searchString))
@@ -105,7 +104,7 @@ namespace ProjectMoonshine.Managers
                         break;
                     }
             }
-            var result = await people.Skip(toSkip).Take(GlobalConstants.PageSize).ToListAsync();
+            var result = await people.ToListAsync();
             return result;
         }
 

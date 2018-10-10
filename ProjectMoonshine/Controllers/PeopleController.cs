@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
@@ -26,6 +27,7 @@ namespace ProjectMoonshine.Controllers
         // GET: People
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            int currentPage = page.HasValue ? page.Value : 0;
             if (string.IsNullOrEmpty(sortOrder))
             {
                 ViewBag.FirstNameSortParam = string.IsNullOrEmpty(sortOrder) ? "firstName" : sortOrder;
@@ -39,8 +41,8 @@ namespace ProjectMoonshine.Controllers
                 ViewBag.GenderSortParam = sortOrder == "gender" ? "gender_desc" : sortOrder;
                 ViewBag.AddDateSortParm = sortOrder == "addDate" ? "addDate_desc" : sortOrder;
             }
-            var result = await _personManager.GetAllPeopleAsync(page, searchString, sortOrder);
-            return View(result);
+            var result = await _personManager.GetAllPeopleAsync(searchString, sortOrder);
+            return View(result.ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: People/Details/5

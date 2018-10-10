@@ -8,7 +8,7 @@ namespace ProjectMoonshine.Managers
 {
     public interface IPersonManager
     {
-        Task<IList<Person>> GetAllPeopleAsync(int? page, string searchString, string sortOrder);
+        Task<IList<Person>> GetAllPeopleAsync(string searchString, string sortOrder);
         Task<Guid> AddPersonAsync(PersonViewModel model);
         Task<bool> DeletePersonAsync(Guid perKey);
         Task<Person> GetPersonByIdAsync(Guid adrKey);

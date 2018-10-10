@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,10 @@ namespace ProjectMoonshine
                     .UseSqlServer(config.GetConnectionString("Database"),
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
             services
+                .AddTransient<IPersonManager, PersonManager>()
                 .AddTransient<IAddressManager, AddressManager>()
                 .AddTransient<ICredentialManager, CredentialManager>()
                 .AddTransient<IEmailManager, EmailManager>()
