@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
@@ -24,10 +25,26 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Addresses
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
-            var applicationDbContext = _context.Addresses.Include(a => a.Person);
-            return View(await applicationDbContext.ToListAsync());
+            int currentPage = page.HasValue ? page.Value : 1;
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "firstName";
+                ViewBag.LastSortParam = sortOrder;
+            }
+            else
+            {
+                if (sortOrder == lastOrder)
+                {
+                    int index = sortOrder.IndexOf("_desc");
+                    string cleanPath = (index < 0)
+                        ? sortOrder = sortOrder + "_desc"
+                        : sortOrder.Remove(index, "_desc".Length);
+                }
+            }
+            ViewBag.LastSortParam = sortOrder;
+            return View(_addressManager.GetAllAddresses(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: Addresses/Details/5

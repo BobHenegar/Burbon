@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Phone>
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.Phone>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,87 +9,72 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm("Index", "Phones", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PhoNumber)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoNumber), "Index", new { sortOrder = "number", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoExtention)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoExtention), "Index", new { sortOrder = "ext", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoIsPrimary)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoIsPrimary), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoIsHome)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoIsHome), "Index", new { sortOrder = "home", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoIsMobile)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoIsMobile), "Index", new { sortOrder = "mobile", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoIsWork)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoIsWork), "Index", new { sortOrder = "work", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoAddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoChangeUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Person)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PhoAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoExtention)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoIsPrimary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoIsHome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoIsMobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoIsWork)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Person.PerKey)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PhoKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PhoKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PhoKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoExtention)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoIsPrimary)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoIsHome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoIsMobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoIsWork)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoAddDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PhoKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PhoKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PhoKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Phones" />
 </table>

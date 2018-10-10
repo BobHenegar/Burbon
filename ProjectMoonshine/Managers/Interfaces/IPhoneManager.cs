@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.ViewModels;
@@ -14,7 +15,7 @@ namespace ProjectMoonshine.Managers
         /// <param name="page"></param>
         /// <param name="resultsPerPage"></param>
         /// <returns></returns>
-        Task<IList<Phone>> GetAllPhonesAsync(int page, int resultsPerPage);
+        IQueryable<Phone> GetAllPhones(string searchString, string sortOrder);
 
         /// <summary>
         /// Adds a new phone based on the view model

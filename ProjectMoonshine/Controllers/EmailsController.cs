@@ -5,24 +5,45 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class EmailsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailManager _emailManager;
 
-        public EmailsController(ApplicationDbContext context)
+        public EmailsController(ApplicationDbContext context,
+            IEmailManager emailManager)
         {
             _context = context;
+            _emailManager = emailManager;
         }
 
         // GET: Emails
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _context.Emails.ToListAsync());
+            int currentPage = page.HasValue ? page.Value : 1;
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "firstName";
+                ViewBag.LastSortParam = sortOrder;
+            }
+            else
+            {
+                if (sortOrder == lastOrder)
+                {
+                    int index = sortOrder.IndexOf("_desc");
+                    string cleanPath = (index < 0)
+                        ? sortOrder = sortOrder + "_desc"
+                        : sortOrder.Remove(index, "_desc".Length);
+                }
+            }
+            return View(_emailManager.GetAllEmails(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: Emails/Details/5

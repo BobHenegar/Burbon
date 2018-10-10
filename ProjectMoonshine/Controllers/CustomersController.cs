@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -20,9 +21,10 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? page)
         {
-            return View(await _context.Customers.ToListAsync());
+            int currentPage = page.HasValue ? page.Value : 1;
+            return View(_context.Customers.ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: Customers/Details/5

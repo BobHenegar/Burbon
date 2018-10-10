@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Address>
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.Address>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,111 +9,104 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm("Index", "Addresses", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AdrCity)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrCity), "Index", new { sortOrder = "city", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrState)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrState), "Index", new { sortOrder = "state", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrZip)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrZip), "Index", new { sortOrder = "zip", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrAddress1)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress1), "Index", new { sortOrder = "adr1", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrAddress2)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress2), "Index", new { sortOrder = "adr2", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrAddress3)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress3), "Index", new { sortOrder = "adr3", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsPrimaryAddress), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsMailingAddress), "Index", new { sortOrder = "mailing", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsWorkAddress), "Index", new { sortOrder = "work", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsHomeAddress), "Index", new { sortOrder = "home", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrAddDate)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdrChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdrAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdrChangeUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Person)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Person)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrZip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsPrimaryAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsWorkAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsHomeAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrPerKey)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrCity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrZip)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrAddress1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrAddress2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrAddress3)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrIsPrimaryAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrIsWorkAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrIsHomeAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdrPerKey)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Addresses" />
 </table>

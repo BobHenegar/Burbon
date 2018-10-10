@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Email>
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.Email>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,75 +9,69 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@using (Html.BeginForm("Index", "Emails", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EmlPerKey)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlAddress), "Index", new { sortOrder = "address", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlAddress)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsPrimaryEmail), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsWorkEmail), "Index", new { sortOrder = "work", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsPersonalEmail), "Index", new { sortOrder = "personal", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmlAddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmlChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmlAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmlChangeUser)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlPerKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlIsPrimaryEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlIsWorkEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlIsPersonalEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmlChangeUser)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EmlKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EmlKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EmlKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlIsPrimaryEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlIsWorkEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlIsPersonalEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmlChangeUser)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EmlKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EmlKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EmlKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Addresses" />
 </table>
