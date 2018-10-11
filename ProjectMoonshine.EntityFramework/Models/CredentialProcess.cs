@@ -1,99 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    public class CredentialProcess
+    public class CredentialProcess : EntityBase
     {
+        [NotMapped]
+        public const string Prefix = "Cr2";
         [Key]
-        public Guid cr2Key { get; set; }
+        public Guid Cr2Key { get; set; }
 
-        public String cr2Ct2Process { get; set; }
+        public Guid Cr2Ct2Key { get; set; }
 
-        public Guid cr2Cr1Key { get; set; }
+        public Guid Cr2Cr1Key { get; set; }
 
-        public Guid cr2PerKey { get; set; }
+        //public Guid Cr2PerKey { get; set; }
 
-        public Guid cr2Cr2Key { get; set; }
+        //public Guid Cr2Cr2Key { get; set; }
 
-        public String cr2Status { get; set; }
+        //public string Cr2Status { get; set; }
 
-        public DateTimeOffset cr2StatusChangeDate { get; set; }
+        //public DateTimeOffset Cr2StatusChangeDate { get; set; }
 
-        public String cr2StatusChangeUser { get; set; }
+        //public string Cr2StatusChangeUser { get; set; }
 
-        public DateTimeOffset cr2StartDate { get; set; }
+        //public DateTimeOffset Cr2StartDate { get; set; }
 
-        public DateTimeOffset cr2DueDate { get; set; }
+        //public DateTimeOffset Cr2DueDate { get; set; }
 
-        public DateTimeOffset cr2SubmitDate { get; set; }
+        //public DateTimeOffset Cr2SubmitDate { get; set; }
 
-        public DateTimeOffset cr2CompletionDate { get; set; }
+        //public DateTimeOffset Cr2CompletionDate { get; set; }
 
-        public DateTimeOffset cr2TerminationDate { get; set; }
+        //public DateTimeOffset Cr2TerminationDate { get; set; }
 
-        public DateTimeOffset cr2ExtensionDate { get; set; }
+        //public DateTimeOffset Cr2ExtensionDate { get; set; }
 
-        public DateTimeOffset cr2ExtensionGrantedDate { get; set; }
+        //public DateTimeOffset Cr2ExtensionGrantedDate { get; set; }
 
-        public String cr2ExtensionGrantedUser { get; set; }
+        //public string Cr2ExtensionGrantedUser { get; set; }
 
-        public String cr2ExtensionGrantedReason { get; set; }
+        //public string Cr2ExtensionGrantedReason { get; set; }
 
-        public String cr2Note { get; set; }
+        //public string Cr2Note { get; set; }
 
-        public String cr2Owner { get; set; }
+        //public string Cr2Owner { get; set; }
 
-        public DateTimeOffset cr2Due2Date { get; set; }
+        //public DateTimeOffset Cr2Due2Date { get; set; }
 
-        public DateTimeOffset cr2Extension2Date { get; set; }
+        //public DateTimeOffset Cr2Extension2Date { get; set; }
 
-        public DateTimeOffset cr2Extension2GrantedDate { get; set; }
+        //public DateTimeOffset Cr2Extension2GrantedDate { get; set; }
 
-        public DateTimeOffset cr2Extension2GrantedUser { get; set; }
+        //public DateTimeOffset Cr2Extension2GrantedUser { get; set; }
 
-        public String cr2Extension2GrantedReason { get; set; }
+        //public string Cr2Extension2GrantedReason { get; set; }
 
-        public DateTimeOffset cr2InactiveStartDate { get; set; }
+        //public DateTimeOffset Cr2InactiveStartDate { get; set; }
 
-        public DateTimeOffset cr2InactiveEndDate { get; set; }
+        //public DateTimeOffset Cr2InactiveEndDate { get; set; }
 
-        public DateTimeOffset cr2FulfillmentDate { get; set; }
+        //public DateTimeOffset Cr2FulfillmentDate { get; set; }
 
-        public String cr2EthicsDisclosure { get; set; }
+        //public string Cr2EthicsDisclosure { get; set; }
 
-        public String cr2EthicsSummary { get; set; }
+        //public string Cr2EthicsSummary { get; set; }
 
-        public DateTimeOffset cr2EthicsClearedDate { get; set; }
+        //public DateTimeOffset Cr2EthicsClearedDate { get; set; }
 
-        public String cr2Agreement { get; set; }
+        //public string Cr2Agreement { get; set; }
 
-        public DateTimeOffset cr2AgreementDate { get; set; }
+        //public DateTimeOffset Cr2AgreementDate { get; set; }
 
-        public DateTimeOffset cr2AuditSelectDate { get; set; }
+        //public DateTimeOffset Cr2AuditSelectDate { get; set; }
 
-        public DateTimeOffset cr2AuditCompleteDate { get; set; }
+        //public DateTimeOffset Cr2AuditCompleteDate { get; set; }
 
-        public DateTimeOffset cr2AuditCompleteUser { get; set; }
+        //public DateTimeOffset Cr2AuditCompleteUser { get; set; }
 
-        public Guid cr2DataKey { get; set; }
+        //public Guid Cr2DataKey { get; set; }
 
-        public String cr2ProcessNumber { get; set; }
+        //public string Cr2ProcessNumber { get; set; }
 
-        public String cr2AddUser { get; set; }
+        public string Cr2AddUser { get; set; }
 
-        public DateTimeOffset cr2AddDate { get; set; }
+        public DateTimeOffset Cr2AddDate { get; set; }
 
-        public String cr2ChangeUser { get; set; }
+        public string Cr2ChangeUser { get; set; }
 
-        public DateTimeOffset cr2ChangeDate { get; set; }
+        public DateTimeOffset? Cr2ChangeDate { get; set; }
 
-        public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }
+        //public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }
+        //[ForeignKey("Cr2Cr1Key")]
         public virtual Credential Credential { get; set; }
-        public virtual Person Person { get; set; }
+        //public virtual Person Person { get; set; }
 
+        public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
 
     }
 }

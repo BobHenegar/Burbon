@@ -1,0 +1,80 @@
+﻿@model ProjectMoonshine.Models.CredentialType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>CredentialType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Ct1Key" />
+            <div class="form-group">
+                <label asp-for="Ct1Credential" class="control-label"></label>
+                <input asp-for="Ct1Credential" class="form-control" />
+                <span asp-validation-for="Ct1Credential" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1Description" class="control-label"></label>
+                <input asp-for="Ct1Description" class="form-control" />
+                <span asp-validation-for="Ct1Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1StartDate" class="control-label"></label>
+                <input asp-for="Ct1StartDate" class="form-control" />
+                <span asp-validation-for="Ct1StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1EndDate" class="control-label"></label>
+                <input asp-for="Ct1EndDate" class="form-control" />
+                <span asp-validation-for="Ct1EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1RenewCt2Key" class="control-label"></label>
+                <input asp-for="Ct1RenewCt2Key" class="form-control" />
+                <span asp-validation-for="Ct1RenewCt2Key" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1Order" class="control-label"></label>
+                <input asp-for="Ct1Order" class="form-control" />
+                <span asp-validation-for="Ct1Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1AddDate" class="control-label"></label>
+                <input asp-for="Ct1AddDate" class="form-control" />
+                <span asp-validation-for="Ct1AddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1ChangeDate" class="control-label"></label>
+                <input asp-for="Ct1ChangeDate" class="form-control" />
+                <span asp-validation-for="Ct1ChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1AddUser" class="control-label"></label>
+                <input asp-for="Ct1AddUser" class="form-control" />
+                <span asp-validation-for="Ct1AddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct1ChangeUser" class="control-label"></label>
+                <input asp-for="Ct1ChangeUser" class="form-control" />
+                <span asp-validation-for="Ct1ChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

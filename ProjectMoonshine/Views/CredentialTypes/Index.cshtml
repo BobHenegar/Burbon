@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ProjectMoonshine.Models.CredentialType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1Credential)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1RenewCt2Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct1ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowVersion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1Credential)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1RenewCt2Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct1ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowVersion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct1Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

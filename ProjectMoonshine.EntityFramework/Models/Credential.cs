@@ -25,6 +25,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public Guid Cr1CusKey { get; set; }
 
+        public Guid? Cr1CurrentCr2Key { get; set; }
+
 
         //public string Cr1Status { get; set; }
 
@@ -60,7 +62,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr1ChangeUser { get; set; }
 
-        public DateTimeOffset Cr1ChangeDate { get; set; }
+        public DateTimeOffset? Cr1ChangeDate { get; set; }
 
         //public string Cr1LegalFirstName { get; set; }
 
@@ -73,6 +75,25 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr1CusKey")]
         public virtual Customer Customer { get; set; }
+
+        //[InverseProperty("Cr2Cr1Key")]
+        public virtual List<CredentialProcess> CredentialProcesses { get; set; }
+
+        [ForeignKey("Cr1CurrentCr2Key")]
+        public virtual CredentialProcess CurrentCredentialProcess { get; set; }
+
+        public void Add(ApplicationDbContext DbContext)
+        {
+            try
+            {
+                DbContext.Add(this);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            
+        }
         }
     }
 
