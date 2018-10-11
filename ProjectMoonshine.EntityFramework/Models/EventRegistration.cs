@@ -12,6 +12,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [NotMapped]
         public const string Prefix = "Evr";
 
+
         [Key]
         public Guid EvrKey { get; set; }
         public Guid EvrEvtKey { get; set; }

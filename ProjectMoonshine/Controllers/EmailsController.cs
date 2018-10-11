@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers;
+using ProjectMoonshine.Managers.Interfaces;
 
 namespace ProjectMoonshine.Controllers
 {

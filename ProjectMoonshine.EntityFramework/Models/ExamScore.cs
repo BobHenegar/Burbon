@@ -10,6 +10,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [NotMapped]
         public const string Prefix = "Exs";
 
+
         [Key]
         public Guid ExsKey { get; set; }
         public Guid ExsExmKey { get; set; }
