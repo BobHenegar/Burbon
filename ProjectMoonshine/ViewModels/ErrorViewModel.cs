@@ -1,5 +1,3 @@
-using System;
-
 namespace ProjectMoonshine.Models
 {
     public class ErrorViewModel

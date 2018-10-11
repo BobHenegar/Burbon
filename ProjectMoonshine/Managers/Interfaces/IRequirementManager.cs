@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
-
-namespace ProjectMoonshine.Managers
+﻿namespace ProjectMoonshine.Managers
 {
     public interface IRequirementManager
     {
