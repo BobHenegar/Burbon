@@ -1,0 +1,59 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>CredentialRequirementTemplate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Ct8Key" />
+            <div class="form-group">
+                <label asp-for="Ct8Template" class="control-label"></label>
+                <input asp-for="Ct8Template" class="form-control" />
+                <span asp-validation-for="Ct8Template" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct8Description" class="control-label"></label>
+                <input asp-for="Ct8Description" class="form-control" />
+                <span asp-validation-for="Ct8Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct8AddDate" class="control-label"></label>
+                <input asp-for="Ct8AddDate" class="form-control" />
+                <span asp-validation-for="Ct8AddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct8ChangeDate" class="control-label"></label>
+                <input asp-for="Ct8ChangeDate" class="form-control" />
+                <span asp-validation-for="Ct8ChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct8AddUser" class="control-label"></label>
+                <input asp-for="Ct8AddUser" class="form-control" />
+                <span asp-validation-for="Ct8AddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct8ChangeUser" class="control-label"></label>
+                <input asp-for="Ct8ChangeUser" class="form-control" />
+                <span asp-validation-for="Ct8ChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,63 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CredentialRequirementTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8Template)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8Template)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Ct8Key" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

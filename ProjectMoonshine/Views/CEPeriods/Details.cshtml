@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CEPeriod
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CEPeriod</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Ce2Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -105,7 +105,7 @@ namespace ProjectMoonshine
             }
             //Hide and log errors only in when not deployed
 #if !DEBUG
-            app.UseErrorLogging();
+            // app.UseErrorLogging();
 #endif
             app.UseHttpsRedirection();
             app.UseStaticFiles();
