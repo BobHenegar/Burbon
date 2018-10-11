@@ -84,7 +84,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual CredentialProcess CurrentCredentialProcess { get; set; }
 
         [ForeignKey("Cr1Ct6Key")]
-        public virtual CredentialStatusType StatusType { get; set; }
+        public virtual CredentialStatusType StatusType { get; set; } 
 
         public void Add(ApplicationDbContext DbContext)
         {
