@@ -469,9 +469,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct6ChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Ct6Code");
+                    b.Property<string>("Ct6Code")
+                        .IsRequired();
 
-                    b.Property<Guid>("Ct6Cu6Key");
+                    b.Property<Guid?>("Ct6Cu6Key");
 
                     b.Property<string>("Ct6Description");
 
@@ -750,7 +751,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cu6ChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Cu6Code");
+                    b.Property<string>("Cu6Code")
+                        .IsRequired();
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

@@ -1,0 +1,55 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.StatusStateType
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StatusStateType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cu6Code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cu6Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cu6AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cu6AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cu6ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cu6ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cu6AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cu6AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cu6ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cu6ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Cu6Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

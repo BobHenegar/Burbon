@@ -1,0 +1,67 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialStatusType
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CredentialStatusType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6Code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct6ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct6ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.State.Cu6Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Ct6Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
