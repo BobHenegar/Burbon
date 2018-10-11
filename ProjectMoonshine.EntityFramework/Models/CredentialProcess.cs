@@ -98,6 +98,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual Credential Credential { get; set; }
         //public virtual Person Person { get; set; }
 
+        public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
 
     }
 }

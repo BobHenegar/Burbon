@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
 
-namespace ProjectMoonshine.Models
+namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialRequirementType")]
     public class CredentialRequirementType : EntityBase
@@ -139,6 +139,9 @@ namespace ProjectMoonshine.Models
         #region Navigation Properties
         //[ForeignKey("")]
         //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+
+        
+        //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
         #endregion Navigation Properties
     }
 }

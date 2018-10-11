@@ -151,6 +151,78 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("CredentialProcesses");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", b =>
+                {
+                    b.Property<Guid>("Cr3Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Cr3AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Cr3AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Cr3ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Cr3ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Cr3Cr2Key");
+
+                    b.Property<Guid>("Cr3Ct3Key");
+
+                    b.Property<Guid?>("Cr3DataKey");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Cr3Key");
+
+                    b.HasIndex("Cr3Cr2Key");
+
+                    b.HasIndex("Cr3Ct3Key");
+
+                    b.ToTable("CredentialRequirements");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", b =>
+                {
+                    b.Property<Guid>("Ct3Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct3AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ct3AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct3ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct3ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct3Description");
+
+                    b.Property<string>("Ct3LongDescription");
+
+                    b.Property<string>("Ct3Requirement");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Ct3Key");
+
+                    b.ToTable("CredentialRequirementType");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Customer", b =>
                 {
                     b.Property<Guid>("CusKey")
@@ -342,40 +414,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("CredentialProcessType");
                 });
 
-            modelBuilder.Entity("ProjectMoonshine.Models.CredentialRequirementType", b =>
-                {
-                    b.Property<Guid>("Ct3Key")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<DateTimeOffset>("Ct3AddDate")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("Ct3AddUser")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTimeOffset?>("Ct3ChangeDate")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Ct3ChangeUser")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Ct3Description");
-
-                    b.Property<string>("Ct3LongDescription");
-
-                    b.Property<string>("Ct3Requirement");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Ct3Key");
-
-                    b.ToTable("CredentialRequirementType");
-                });
-
             modelBuilder.Entity("ProjectMoonshine.Models.CredentialType", b =>
                 {
                     b.Property<Guid>("Ct1Key")
@@ -447,6 +485,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .WithMany("CredentialProcesses")
                         .HasForeignKey("Cr2Cr1Key")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcess", "CredentialProcess")
+                        .WithMany("CredentialRequirements")
+                        .HasForeignKey("Cr3Cr2Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", "CredentialRequirementType")
+                        .WithMany()
+                        .HasForeignKey("Cr3Ct3Key")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
