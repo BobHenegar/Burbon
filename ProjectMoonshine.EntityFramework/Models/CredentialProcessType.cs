@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ProjectMoonshine.EntityFramework.Models;
 
-namespace ProjectMoonshine.Models
+namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialProcessType")]
     public class CredentialProcessType : EntityBase
@@ -64,6 +63,8 @@ namespace ProjectMoonshine.Models
 
         [ForeignKey("Ct2CompletedCt6Key")]
         public virtual CredentialStatusType CompletedStatus { get; set; }
+
+        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         #endregion Navigation Properties
     }

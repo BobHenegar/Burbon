@@ -94,6 +94,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct1InitCt6Key")]
         public virtual CredentialStatusType InitStatusType { get; set; }
 
+        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         #endregion Navigation Properties
     }

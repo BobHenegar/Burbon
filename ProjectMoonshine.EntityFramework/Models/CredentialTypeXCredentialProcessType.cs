@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ProjectMoonshine.EntityFramework.Models;
 
-namespace ProjectMoonshine.Models
+
+namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialTypeXCredentialProcessType")]
     public class CredentialTypeXCredentialProcessType : EntityBase
@@ -13,13 +14,15 @@ namespace ProjectMoonshine.Models
         [Key]
         public Guid Ct4Key { get; set; }
 
+        [DisplayName("Credential Type")]
         public Guid Ct4Ct1Key { get; set; }
 
+        [DisplayName("Process Type")]
         public Guid Ct4Ct2Key { get; set; }
 
-        public DateTimeOffset Ct4StartDate { get; set; }
+        //public DateTimeOffset Ct4StartDate { get; set; }
 
-        public DateTimeOffset Ct4EndDate { get; set; }
+        //public DateTimeOffset Ct4EndDate { get; set; }
 
         public int Ct4Order { get; set; }
 
@@ -33,6 +36,13 @@ namespace ProjectMoonshine.Models
 
 
         #region Navigation Properties
+
+        [ForeignKey("Ct4Ct1Key")]
+        public virtual CredentialType CredentialType { get; set; }
+
+        [ForeignKey("Ct4Ct2Key")]
+        public virtual CredentialProcessType CredentialProcessType { get; set; }
+
 
         #endregion Navigation Properties
     }

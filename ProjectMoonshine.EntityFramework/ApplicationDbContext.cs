@@ -33,6 +33,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CredentialRequirementTemplate> CredentialRequirementTemplates { get; set; }
 
+        public DbSet<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+
         //public DbSet<CredentialType> CredentialTypes { get; set; }
 
         //public DbSet<Credential> Credentials { get; set; }
