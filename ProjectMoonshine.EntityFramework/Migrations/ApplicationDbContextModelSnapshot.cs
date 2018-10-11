@@ -77,6 +77,81 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEDetail", b =>
+                {
+                    b.Property<Guid>("Ce1Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ce1ActivityDate");
+
+                    b.Property<string>("Ce1ActivityDescription")
+                        .IsRequired();
+
+                    b.Property<DateTimeOffset>("Ce1AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ce1AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ce1ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ce1ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Ce1CusKey");
+
+                    b.Property<float>("Ce1Units");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Ce1Key");
+
+                    b.HasIndex("Ce1CusKey");
+
+                    b.ToTable("CEDetail");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEPeriod", b =>
+                {
+                    b.Property<Guid>("Ce2Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ce2AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ce2AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ce2ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ce2ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("Ce2CusKey");
+
+                    b.Property<DateTimeOffset>("Ce2EndDate");
+
+                    b.Property<DateTimeOffset>("Ce2StartDate");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Ce2Key");
+
+                    b.HasIndex("Ce2CusKey");
+
+                    b.ToTable("CEPeriod");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
                 {
                     b.Property<Guid>("Cr1Key")
@@ -691,6 +766,22 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("Addresses")
                         .HasForeignKey("AdrPerKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEDetail", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("Ce1CusKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEPeriod", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("Ce2CusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

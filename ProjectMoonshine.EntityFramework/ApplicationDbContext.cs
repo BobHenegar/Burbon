@@ -39,6 +39,10 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<StatusStateType> StatusStateTypes { get; set; }
 
+        public DbSet<CEPeriod> CEPeriods { get; set; }
+
+        public DbSet<CEDetail> CEDetails { get; set; }
+
         public const string Prefix = "Prefix";
 
         private Dictionary<string, string> TablePrefixs { get; set; }
