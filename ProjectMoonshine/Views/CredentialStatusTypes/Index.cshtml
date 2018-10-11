@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialStatusType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct6ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowVersion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct6ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State.Cu6Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowVersion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct6Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct6Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct6Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

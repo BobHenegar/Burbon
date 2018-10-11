@@ -1,0 +1,55 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.StatusStateType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>StatusStateType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Cu6Key" />
+            <div class="form-group">
+                <label asp-for="Cu6Code" class="control-label"></label>
+                <input asp-for="Cu6Code" class="form-control" />
+                <span asp-validation-for="Cu6Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cu6AddDate" class="control-label"></label>
+                <input asp-for="Cu6AddDate" class="form-control" />
+                <span asp-validation-for="Cu6AddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cu6ChangeDate" class="control-label"></label>
+                <input asp-for="Cu6ChangeDate" class="form-control" />
+                <span asp-validation-for="Cu6ChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cu6AddUser" class="control-label"></label>
+                <input asp-for="Cu6AddUser" class="form-control" />
+                <span asp-validation-for="Cu6AddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cu6ChangeUser" class="control-label"></label>
+                <input asp-for="Cu6ChangeUser" class="form-control" />
+                <span asp-validation-for="Cu6ChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

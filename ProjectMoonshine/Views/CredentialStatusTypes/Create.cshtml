@@ -1,0 +1,43 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialStatusType
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>CredentialStatusType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ct6Code" class="control-label"></label>
+                <input asp-for="Ct6Code" class="form-control" />
+                <span asp-validation-for="Ct6Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct6Description" class="control-label"></label>
+                <input asp-for="Ct6Description" class="form-control" />
+                <span asp-validation-for="Ct6Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct6Cu6Key" class="control-label"></label>
+                <select asp-for="Ct6Cu6Key" class ="form-control" asp-items="ViewBag.Ct6Cu6Key"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

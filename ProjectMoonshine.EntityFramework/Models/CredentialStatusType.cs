@@ -14,8 +14,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct6Key { get; set; }
 
+        [Required]
+        [DisplayName("Status Code")]
         public string Ct6Code { get; set; }
 
+        [DisplayName("Description")]
         public string Ct6Description { get; set; }
 
         //public string Ct6ExternalDescription { get; set; }
@@ -29,7 +32,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public DateTimeOffset Ct6EndDate { get; set; }
 
         [DisplayName("State")]
-        public Guid Ct6Cu6Key { get; set; }
+        public Guid? Ct6Cu6Key { get; set; }
 
         //public bool Ct6ExternalFlag { get; set; }
 
@@ -47,12 +50,16 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public bool Ct6EwebReadOnlyFlag { get; set; }
 
+        [DisplayName("Add Date")]
         public DateTimeOffset Ct6AddDate { get; set; }
 
+        [DisplayName("Change Date")]
         public DateTimeOffset? Ct6ChangeDate { get; set; }
 
+        [DisplayName("Add User")]
         public string Ct6AddUser { get; set; }
 
+        [DisplayName("Change User")]
         public string Ct6ChangeUser { get; set; }
 
         [ForeignKey("Ct6Cu6Key")]

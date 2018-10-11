@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.StatusStateType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cu6Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cu6AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cu6ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cu6AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cu6ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowVersion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cu6Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cu6AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cu6ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cu6AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cu6ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowVersion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Cu6Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Cu6Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Cu6Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
