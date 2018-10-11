@@ -37,7 +37,7 @@ namespace ProjectMoonshine.Models
 
         public string Ct5ChangeUser { get; set; }
 
-        
+
         #region Navigation Properties
         [ForeignKey("Ct5Ct2Key")]
         public virtual CredentialProcessType CredentialProcessType { get; set; }

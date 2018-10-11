@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,23 +64,29 @@ namespace ProjectMoonshine
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            using (var context = services.BuildServiceProvider().GetService<ApplicationDbContext>())
+
+            if (Assembly.GetEntryAssembly().FullName.StartsWith("ProjectMoonshine,"))
             {
-                if (context != null)
+                // Uncomment to debug Design time issues
+                //if (!System.Diagnostics.Debugger.IsAttached)
+                //{
+                //    System.Diagnostics.Debugger.Launch();
+                //}
+                using (var context = services.BuildServiceProvider().GetService<ApplicationDbContext>())
                 {
-                    if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181010203923_InitialCreate"))
+                    if (context != null)
                     {
-                        context.Database.EnsureDeleted();
-                    }
-                    var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
-                    if (migrationsToApply.Any()
-                       && (Environment.GetEnvironmentVariable("isDesignTime") == null))
-                    {
-                        context.RunMigrations(migrationsToApply.ToList());
-                        context.Database.Migrate();
-                        context.SaveChanges();
-                        context.SeedData();
-                        context.SaveChanges();
+                        if (!context.Database.GetAppliedMigrations().ToList().Any(a => a == "20181010203923_InitialCreate"))
+                        {
+                            context.Database.EnsureDeleted();
+                        }
+                        var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
+                        if (migrationsToApply.Any())
+                        {
+                            context.RunMigrations(migrationsToApply.ToList());
+                            context.Database.Migrate();
+                            context.SaveChanges();
+                        }
                     }
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace ProjectMoonshine.EntityFramework
 {
@@ -8,11 +9,16 @@ namespace ProjectMoonshine.EntityFramework
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
+            // Uncomment to debug OnModelCreating
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
+            var config = new ConfigurationBuilder()
+                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.json", optional: false)
+                .Build();
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            builder.UseSqlServer(
-                //@"Server=.\\SQLEXPRESS;Database=ProjectMoonshine;Trusted_Connection=true"
-                "Server=.\\SQLSERVER2017;Database=CredEngNext;Trusted_Connection=True;"
-                ,
+            builder.UseSqlServer(config.GetConnectionString("Database"),
                 b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework"));
             Environment.SetEnvironmentVariable("isDesignTime", "true");
             return new ApplicationDbContext(builder.Options);
