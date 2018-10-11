@@ -7,7 +7,6 @@ using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    [Table("CredentialRequirement")]
     public class CredentialRequirement : EntityBase
     {
 
@@ -23,7 +22,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Cr3CPerKey { get; set; }
 
-        public Guid Cr3Ct6Key { get; set; }
+        //public string Cr3Status { get; set; }
 
         //public DateTimeOffset Cr3StatusChangeDate { get; set; }
 
@@ -94,9 +93,6 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr3Ct3Key")]
         public virtual CredentialRequirementType CredentialRequirementType { get; set; }
-
-        [ForeignKey("Cr3Ct6Key")]
-        public CredentialStatusType Status { get; set; }
 
 
 

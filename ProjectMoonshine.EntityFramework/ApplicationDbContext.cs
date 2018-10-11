@@ -29,8 +29,6 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CredentialRequirement> CredentialRequirements { get; set; }
 
-        public DbSet<CredentialStatusType> CredentialStatusTypes { get; set; }
-
         //public DbSet<CredentialType> CredentialTypes { get; set; }
 
         //public DbSet<Credential> Credentials { get; set; }

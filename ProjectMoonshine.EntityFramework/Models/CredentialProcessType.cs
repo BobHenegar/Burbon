@@ -18,12 +18,6 @@ namespace ProjectMoonshine.Models
 
         public string Ct2Description { get; set; }
 
-        public Guid? Ct2StartCt6Key { get; set; }
-
-        public Guid? Ct2CompletedCt6Key { get; set; }
-
-        public Guid? Ct2SubmittedCt6Key { get; set; }
-
         //public string Ct2ProcessType { get; set; }
 
         //public DateTimeOffset Ct2StartDate { get; set; }
@@ -56,14 +50,6 @@ namespace ProjectMoonshine.Models
 
         #region Navigation Properties
         //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
-
-        [ForeignKey("Ct2StartCt6Key")] public virtual CredentialStatusType StartStatus { get; set; }
-
-        [ForeignKey("Ct2SubmittedCt6Key")]
-        public virtual  CredentialStatusType SubmittedStatus { get; set; }
-
-        [ForeignKey("Ct2CompletedCt6Key")]
-        public virtual CredentialStatusType CompletedStatus { get; set; }
 
         #endregion Navigation Properties
     }

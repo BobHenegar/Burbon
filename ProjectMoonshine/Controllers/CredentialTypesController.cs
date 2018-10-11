@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.Controllers

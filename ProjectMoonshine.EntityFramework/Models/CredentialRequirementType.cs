@@ -75,14 +75,6 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3Cr3StartStatus { get; set; }
 
-        public Guid? Ct3StartCt6Key { get; set; }
-
-        public Guid? Ct3CompleteCt6Key { get; set; }
-
-        public Guid? Ct3SubmitCt6Key { get; set; }
-
-        public Guid? Ct3MetCt6Key { get; set; }
-
         //public string Ct3Cr3DependentStatus { get; set; }
 
         //public string Ct3Cr3CompleteStatus { get; set; }
@@ -148,19 +140,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         //[ForeignKey("")]
         //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
 
-
-        [ForeignKey("Ct3StartCt6Key")]
-        public CredentialStatusType StartStatusType { get; set; }
-
-        [ForeignKey("Ct3CompleteCt6Key")]
-        public CredentialStatusType CompleteStatusType { get; set; }
-
-        [ForeignKey("Ct3SubmitCt6Key")]
-        public CredentialStatusType SubmitStatusType { get; set; }
-
-        [ForeignKey("Ct3MetCt6Key")]
-        public CredentialStatusType MetStatusType { get; set; }
-
+        
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
         #endregion Navigation Properties
     }
