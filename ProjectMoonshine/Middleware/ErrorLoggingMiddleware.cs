@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.EntityFramework.Helpers;
-using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Middleware
 {

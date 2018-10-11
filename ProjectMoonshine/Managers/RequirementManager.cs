@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
-
-namespace ProjectMoonshine.Managers
+﻿namespace ProjectMoonshine.Managers
 {
     public class RequirementManager
     {
