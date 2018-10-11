@@ -31,6 +31,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CredentialStatusType> CredentialStatusTypes { get; set; }
 
+        public DbSet<CredentialRequirementTemplate> CredentialRequirementTemplates { get; set; }
+
         //public DbSet<CredentialType> CredentialTypes { get; set; }
 
         //public DbSet<Credential> Credentials { get; set; }

@@ -12,6 +12,7 @@
   <ItemGroup>
     <Compile Remove="Migrations\20181010192412_emptymigration.cs" />
     <Compile Remove="Migrations\20181010200642_empty-mig.cs" />
+    <Compile Remove="Migrations\20181011154242_updated template model.cs" />
   </ItemGroup>
 
   <ItemGroup>

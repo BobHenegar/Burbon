@@ -201,6 +201,38 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("CredentialRequirement");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate", b =>
+                {
+                    b.Property<Guid>("Ct8Key")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("Ct8AddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Ct8AddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("Ct8ChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct8ChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Ct8Description");
+
+                    b.Property<string>("Ct8Template");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.HasKey("Ct8Key");
+
+                    b.ToTable("CredentialRequirementTemplate");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", b =>
                 {
                     b.Property<Guid>("Ct3Key")
@@ -222,6 +254,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Ct3CompleteCt6Key");
 
+                    b.Property<Guid>("Ct3Ct8Key");
+
                     b.Property<string>("Ct3Description");
 
                     b.Property<string>("Ct3LongDescription");
@@ -241,6 +275,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasKey("Ct3Key");
 
                     b.HasIndex("Ct3CompleteCt6Key");
+
+                    b.HasIndex("Ct3Ct8Key");
 
                     b.HasIndex("Ct3MetCt6Key");
 
@@ -600,6 +636,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "CompleteStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3CompleteCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate", "Template")
+                        .WithMany("CredentialRequirementTypes")
+                        .HasForeignKey("Ct3Ct8Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "MetStatusType")

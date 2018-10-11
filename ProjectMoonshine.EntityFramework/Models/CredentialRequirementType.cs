@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -25,7 +26,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Ct3EndDate { get; set; }
 
-        //public Guid Ct3Ct8Key { get; set; }
+        [DisplayName("Template")]
+        public Guid Ct3Ct8Key { get; set; }
 
         //public bool Ct3HasRequiredParentsFlag { get; set; }
 
@@ -150,17 +152,19 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
         [ForeignKey("Ct3StartCt6Key")]
-        public CredentialStatusType StartStatusType { get; set; }
+        public virtual CredentialStatusType StartStatusType { get; set; }
 
         [ForeignKey("Ct3CompleteCt6Key")]
-        public CredentialStatusType CompleteStatusType { get; set; }
+        public virtual CredentialStatusType CompleteStatusType { get; set; }
 
         [ForeignKey("Ct3SubmitCt6Key")]
-        public CredentialStatusType SubmitStatusType { get; set; }
+        public virtual CredentialStatusType SubmitStatusType { get; set; }
 
         [ForeignKey("Ct3MetCt6Key")]
-        public CredentialStatusType MetStatusType { get; set; }
+        public virtual CredentialStatusType MetStatusType { get; set; }
 
+        [ForeignKey("Ct3Ct8Key")]
+        public virtual CredentialRequirementTemplate Template { get; set; }
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
         #endregion Navigation Properties
     }
