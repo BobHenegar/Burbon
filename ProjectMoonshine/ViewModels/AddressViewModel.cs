@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectMoonshine.ViewModels
 {
-    public class AddressViewModel
+    public class AddressViewModel : BaseViewModel
     {
         public Guid AdrKey { get; set; }
 
