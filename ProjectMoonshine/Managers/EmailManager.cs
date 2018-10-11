@@ -9,7 +9,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class EmailManager : IEmailManager
+    public class EmailManager
     {
         private readonly ApplicationDbContext context;
         public EmailManager(ApplicationDbContext _context)

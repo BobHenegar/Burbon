@@ -14,10 +14,10 @@ namespace ProjectMoonshine.Controllers
     public class PhonesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPhoneManager _phoneManager;
+        private readonly PhoneManager _phoneManager;
 
         public PhonesController(ApplicationDbContext context,
-            IPhoneManager phoneManager)
+            PhoneManager phoneManager)
         {
             _phoneManager = phoneManager;
             _context = context;

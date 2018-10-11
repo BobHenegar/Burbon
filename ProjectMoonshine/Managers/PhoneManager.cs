@@ -7,7 +7,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class PhoneManager : IPhoneManager
+    public class PhoneManager
     {
         private readonly ApplicationDbContext context;
         public PhoneManager(ApplicationDbContext _context)

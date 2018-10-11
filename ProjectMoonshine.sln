@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ReleaseNotes.txt = ReleaseNotes.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectMoonshine.Tests", "ProjectMoonshine.Tests\ProjectMoonshine.Tests.csproj", "{68E4FB2A-0F28-4034-9EA8-F7C61213EEF5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +26,6 @@ Global
 		{3BB9E084-F5B3-4FC2-B52C-57A64D22CBBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BB9E084-F5B3-4FC2-B52C-57A64D22CBBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BB9E084-F5B3-4FC2-B52C-57A64D22CBBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68E4FB2A-0F28-4034-9EA8-F7C61213EEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68E4FB2A-0F28-4034-9EA8-F7C61213EEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68E4FB2A-0F28-4034-9EA8-F7C61213EEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68E4FB2A-0F28-4034-9EA8-F7C61213EEF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class CustomerManager : ICustomerManager
+    public class CustomerManager
     {
         private readonly ApplicationDbContext context;
         public CustomerManager(ApplicationDbContext _context)

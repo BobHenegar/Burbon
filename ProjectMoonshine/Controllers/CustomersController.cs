@@ -6,16 +6,20 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly CustomerManager _customerManager;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context,
+            CustomerManager customerManager)
         {
             _context = context;
+            _customerManager = customerManager;
         }
 
         // GET: Customers

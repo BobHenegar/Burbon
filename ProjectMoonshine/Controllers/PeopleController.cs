@@ -14,10 +14,10 @@ namespace ProjectMoonshine.Controllers
     public class PeopleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPersonManager _personManager;
+        private readonly PersonManager _personManager;
 
         public PeopleController(ApplicationDbContext context,
-            IPersonManager personManager)
+            PersonManager personManager)
         {
             _context = context;
             _personManager = personManager;

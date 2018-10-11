@@ -1,6 +1,6 @@
 ﻿namespace ProjectMoonshine.Managers
 {
-    public class CredentialManager : ICredentialManager
+    public class CredentialManager
     {
         //private readonly ApplicationDbContext context;
         //public CredentialManager(ApplicationDbContext _context)

@@ -41,13 +41,18 @@ namespace ProjectMoonshine
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services
-                .AddTransient<IPersonManager, PersonManager>()
-                .AddTransient<IAddressManager, AddressManager>()
-                .AddTransient<ICredentialManager, CredentialManager>()
-                .AddTransient<IEmailManager, EmailManager>()
-                .AddTransient<IPhoneManager, PhoneManager>()
-                .AddTransient<ICredentialManager, CredentialManager>()
-                .AddTransient<IRequirementManager, RequirementManager>();
+                .AddTransient<PersonManager>()
+                .AddTransient<AddressManager>()
+                .AddTransient<CredentialManager>()
+                .AddTransient<EmailManager>()
+                .AddTransient<PhoneManager>()
+                .AddTransient<CredentialManager>()
+                .AddTransient<ExamManager>()
+                .AddTransient<ExamScoreManager>()
+                .AddTransient<EventRegistrationManager>()
+                .AddTransient<EventManager>()
+                .AddTransient<EventManager>()
+                .AddTransient<RequirementManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

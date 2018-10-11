@@ -8,7 +8,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class AddressManager : IAddressManager
+    public class AddressManager
     {
         private readonly ApplicationDbContext context;
         public AddressManager(ApplicationDbContext _context)
