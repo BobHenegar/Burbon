@@ -8,6 +8,7 @@ using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [Table("Credential")]
     public class Credential : EntityBase
     {
 
@@ -27,8 +28,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public Guid? Cr1CurrentCr2Key { get; set; }
 
-
-        //public string Cr1Status { get; set; }
+        [DisplayName("Status")]
+        public Guid Cr1Ct6Key { get; set; }
 
         //public DateTimeOffset Cr1StatusChangeDate { get; set; }
 
@@ -81,6 +82,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr1CurrentCr2Key")]
         public virtual CredentialProcess CurrentCredentialProcess { get; set; }
+
+        [ForeignKey("Cr1Ct6Key")]
+        public virtual CredentialStatusType StatusType { get; set; }
 
         public void Add(ApplicationDbContext DbContext)
         {

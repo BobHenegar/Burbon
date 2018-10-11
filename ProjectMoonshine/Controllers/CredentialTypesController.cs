@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.Controllers

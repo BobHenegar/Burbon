@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -25,7 +26,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Ct3EndDate { get; set; }
 
-        //public Guid Ct3Ct8Key { get; set; }
+        [DisplayName("Template")]
+        public Guid Ct3Ct8Key { get; set; }
 
         //public bool Ct3HasRequiredParentsFlag { get; set; }
 
@@ -74,6 +76,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Ct3SetDataKeyFlag { get; set; }
 
         //public string Ct3Cr3StartStatus { get; set; }
+
+        public Guid? Ct3StartCt6Key { get; set; }
+
+        public Guid? Ct3CompleteCt6Key { get; set; }
+
+        public Guid? Ct3SubmitCt6Key { get; set; }
+
+        public Guid? Ct3MetCt6Key { get; set; }
 
         //public string Ct3Cr3DependentStatus { get; set; }
 
@@ -137,10 +147,24 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
         #region Navigation Properties
-        //[ForeignKey("")]
-        //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
-
         
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+
+
+        [ForeignKey("Ct3StartCt6Key")]
+        public virtual CredentialStatusType StartStatusType { get; set; }
+
+        [ForeignKey("Ct3CompleteCt6Key")]
+        public virtual CredentialStatusType CompleteStatusType { get; set; }
+
+        [ForeignKey("Ct3SubmitCt6Key")]
+        public virtual CredentialStatusType SubmitStatusType { get; set; }
+
+        [ForeignKey("Ct3MetCt6Key")]
+        public virtual CredentialStatusType MetStatusType { get; set; }
+
+        [ForeignKey("Ct3Ct8Key")]
+        public virtual CredentialRequirementTemplate Template { get; set; }
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
         #endregion Navigation Properties
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [Table("CredentialProcess")]
     public class CredentialProcess : EntityBase
     {
         [NotMapped]
@@ -21,7 +23,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Cr2Cr2Key { get; set; }
 
-        //public string Cr2Status { get; set; }
+        [DisplayName("Status")]
+        public Guid Cr2Ct6Key { get; set; }
+
 
         //public DateTimeOffset Cr2StatusChangeDate { get; set; }
 
@@ -99,6 +103,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public virtual Person Person { get; set; }
 
         public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
+
+        [ForeignKey("Cr2Ct6Key")]
+        public CredentialStatusType StatusType { get; set; }
 
     }
 }

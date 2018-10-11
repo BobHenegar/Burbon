@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ProjectMoonshine.EntityFramework.Models;
 
-namespace ProjectMoonshine.Models
+namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialProcessType")]
     public class CredentialProcessType : EntityBase
@@ -17,6 +16,12 @@ namespace ProjectMoonshine.Models
         public string Ct2Process { get; set; }
 
         public string Ct2Description { get; set; }
+
+        public Guid? Ct2StartCt6Key { get; set; }
+
+        public Guid? Ct2CompletedCt6Key { get; set; }
+
+        public Guid? Ct2SubmittedCt6Key { get; set; }
 
         //public string Ct2ProcessType { get; set; }
 
@@ -49,7 +54,17 @@ namespace ProjectMoonshine.Models
         public string Ct2ChangeUser { get; set; }
 
         #region Navigation Properties
-        //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+
+        [ForeignKey("Ct2StartCt6Key")] public virtual CredentialStatusType StartStatus { get; set; }
+
+        [ForeignKey("Ct2SubmittedCt6Key")]
+        public virtual  CredentialStatusType SubmittedStatus { get; set; }
+
+        [ForeignKey("Ct2CompletedCt6Key")]
+        public virtual CredentialStatusType CompletedStatus { get; set; }
+
+        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         #endregion Navigation Properties
     }

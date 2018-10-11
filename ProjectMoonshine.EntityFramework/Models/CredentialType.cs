@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
 
-namespace ProjectMoonshine.Models
+namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialType")]
     public class CredentialType : EntityBase
@@ -36,7 +36,7 @@ namespace ProjectMoonshine.Models
 
         //public string Ct1InitCt2Method { get; set; }
 
-        //public string Ct1InitStatus { get; set; }
+        public Guid? Ct1InitCt6Key { get; set; }
 
         public Guid? Ct1RenewCt2Key { get; set; }
 
@@ -44,7 +44,7 @@ namespace ProjectMoonshine.Models
 
         //public string Ct1RenewCt2Method { get; set; }
 
-        //public string Ct1RenewStatus { get; set; }
+        public Guid? Ct1RenewCt6Key { get; set; }
 
         //public Guid? Ct1ReinstateCt2Key { get; set; }
 
@@ -88,6 +88,13 @@ namespace ProjectMoonshine.Models
 
         public virtual List<Credential> Credentials { get; set; }
 
+        [ForeignKey("Ct1RenewCt6Key")]
+        public virtual CredentialStatusType RenewStatusType { get; set; }
+
+        [ForeignKey("Ct1InitCt6Key")]
+        public virtual CredentialStatusType InitStatusType { get; set; }
+
+        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         #endregion Navigation Properties
     }

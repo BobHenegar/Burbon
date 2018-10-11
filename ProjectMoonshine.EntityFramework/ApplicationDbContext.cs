@@ -29,10 +29,15 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CredentialRequirement> CredentialRequirements { get; set; }
 
-        //public DbSet<CredentialType> CredentialTypes { get; set; }
+        public DbSet<CredentialStatusType> CredentialStatusTypes { get; set; }
 
-        //public DbSet<Credential> Credentials { get; set; }
+        public DbSet<CredentialRequirementTemplate> CredentialRequirementTemplates { get; set; }
 
+        public DbSet<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+
+        public DbSet<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+
+        public DbSet<StatusStateType> StatusStateTypes { get; set; }
 
         public const string Prefix = "Prefix";
 
