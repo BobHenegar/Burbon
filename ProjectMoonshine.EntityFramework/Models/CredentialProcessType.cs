@@ -54,7 +54,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string Ct2ChangeUser { get; set; }
 
         #region Navigation Properties
-        //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
 
         [ForeignKey("Ct2StartCt6Key")] public virtual CredentialStatusType StartStatus { get; set; }
 

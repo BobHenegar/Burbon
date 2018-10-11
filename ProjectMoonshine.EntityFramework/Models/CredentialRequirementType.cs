@@ -147,8 +147,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
         #region Navigation Properties
-        //[ForeignKey("")]
-        //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        
+        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
 
 
         [ForeignKey("Ct3StartCt6Key")]

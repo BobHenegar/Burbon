@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -27,7 +28,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Ct6EndDate { get; set; }
 
-        //public string Ct6State { get; set; }
+        [DisplayName("State")]
+        public Guid Ct6Cu6Key { get; set; }
 
         //public bool Ct6ExternalFlag { get; set; }
 
@@ -52,6 +54,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string Ct6AddUser { get; set; }
 
         public string Ct6ChangeUser { get; set; }
+
+        [ForeignKey("Ct6Cu6Key")]
+        public virtual StatusStateType State { get; set; }
 
     }
 }
