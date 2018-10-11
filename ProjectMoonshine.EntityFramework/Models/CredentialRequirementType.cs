@@ -19,113 +19,113 @@ namespace ProjectMoonshine.Models
 
         public string Ct3Description { get; set; }
 
-        public DateTimeOffset Ct3StartDate { get; set; }
+        //public DateTimeOffset Ct3StartDate { get; set; }
 
-        public string Ct3TabDisplay { get; set; }
+        //public string Ct3TabDisplay { get; set; }
 
-        public DateTimeOffset Ct3EndDate { get; set; }
+        //public DateTimeOffset Ct3EndDate { get; set; }
 
-        public Guid Ct3Ct8Key { get; set; }
+        //public Guid Ct3Ct8Key { get; set; }
 
-        public bool Ct3HasRequiredParentsFlag { get; set; }
+        //public bool Ct3HasRequiredParentsFlag { get; set; }
 
-        public Guid Ct3MdtKey { get; set; }
+        //public Guid Ct3MdtKey { get; set; }
 
-        public string Ct3InitStoredProcedure { get; set; }
+        //public string Ct3InitStoredProcedure { get; set; }
 
-        public string Ct3EvalStoredProcedure { get; set; }
+        //public string Ct3EvalStoredProcedure { get; set; }
 
-        public Guid Ct3PrdKey { get; set; }
+        //public Guid Ct3PrdKey { get; set; }
 
-        public bool Ct3GenerateDetailFlag { get; set; }
+        //public bool Ct3GenerateDetailFlag { get; set; }
 
-        public Guid Ct3EtpKey { get; set; }
+        //public Guid Ct3EtpKey { get; set; }
 
-        public Guid Ct3EvtKey { get; set; }
+        //public Guid Ct3EvtKey { get; set; }
 
-        public Guid Ct3CexKey { get; set; }
+        //public Guid Ct3CexKey { get; set; }
 
-        public Guid Ct3EfcKey { get; set; }
+        //public Guid Ct3EfcKey { get; set; }
 
-        public string Ct3Designation { get; set; }
+        //public string Ct3Designation { get; set; }
 
-        public Guid Ct3CetKey { get; set; }
+        //public Guid Ct3CetKey { get; set; }
 
-        public int Ct3CeCredit { get; set; }
+        //public int Ct3CeCredit { get; set; }
 
-        public Guid Ct3MbtKey { get; set; }
+        //public Guid Ct3MbtKey { get; set; }
 
-        public Guid Ct3CecKLey { get; set; }
+        //public Guid Ct3CecKLey { get; set; }
 
-        public Guid Ct3DetKey { get; set; }
+        //public Guid Ct3DetKey { get; set; }
 
-        public string Ct3DocType { get; set; }
+        //public string Ct3DocType { get; set; }
 
-        public Guid Ct3RltKey { get; set; }
+        //public Guid Ct3RltKey { get; set; }
 
-        public string Ct3EthicsStatement { get; set; }
+        //public string Ct3EthicsStatement { get; set; }
 
-        public string Ct3AgreementStatement { get; set; }
+        //public string Ct3AgreementStatement { get; set; }
 
-        public string Ct3CheckProcedure { get; set; }
+        //public string Ct3CheckProcedure { get; set; }
 
-        public string Ct3FindProcedure { get; set; }
+        //public string Ct3FindProcedure { get; set; }
 
-        public string Ct3SetDataKeyFlag { get; set; }
+        //public string Ct3SetDataKeyFlag { get; set; }
 
-        public string Ct3Cr3StartStatus { get; set; }
+        //public string Ct3Cr3StartStatus { get; set; }
 
-        public string Ct3Cr3DependentStatus { get; set; }
+        //public string Ct3Cr3DependentStatus { get; set; }
 
-        public string Ct3Cr3CompleteStatus { get; set; }
+        //public string Ct3Cr3CompleteStatus { get; set; }
 
-        public string Ct3Cr3SubmitStatus { get; set; }
+        //public string Ct3Cr3SubmitStatus { get; set; }
 
-        public string Ct3Cr3MetStatus { get; set; }
+        //public string Ct3Cr3MetStatus { get; set; }
 
-        public string Ct3Cr2StartStatus { get; set; }
+        //public string Ct3Cr2StartStatus { get; set; }
 
-        public string Ct3Cr2MetStatus { get; set; }
+        //public string Ct3Cr2MetStatus { get; set; }
 
-        public int Ct3DueDateNumber { get; set; }
+        //public int Ct3DueDateNumber { get; set; }
 
-        public string Ct3DueDateUnit { get; set; }
+        //public string Ct3DueDateUnit { get; set; }
 
-        public string Ct3DueDateRounding { get; set; }
+        //public string Ct3DueDateRounding { get; set; }
 
-        public bool Ct3ShowOnline { get; set; }
+        //public bool Ct3ShowOnline { get; set; }
 
         public string Ct3LongDescription { get; set; }
 
-        public string Ct3EditImageUrl { get; set; }
+        //public string Ct3EditImageUrl { get; set; }
 
-        public string Ct3UnmetImageUrl { get; set; }
+        //public string Ct3UnmetImageUrl { get; set; }
 
-        public string Ct3MetImageUrl { get; set; }
+        //public string Ct3MetImageUrl { get; set; }
 
-        public string Ct3StatementContent { get; set; }
+        //public string Ct3StatementContent { get; set; }
 
-        public int Ct3DefaultOrder { get; set; }
+        //public int Ct3DefaultOrder { get; set; }
 
-        public int Ct3MinExamScore { get; set; }
+        //public int Ct3MinExamScore { get; set; }
 
-        public bool Ct3SubmitProcessFlag { get; set; }
+        //public bool Ct3SubmitProcessFlag { get; set; }
 
-        public bool Ct3IwebGenerateInvoiceFlag { get; set; }
+        //public bool Ct3IwebGenerateInvoiceFlag { get; set; }
 
-        public string Ct3LogStoredProcedure { get; set; }
+        //public string Ct3LogStoredProcedure { get; set; }
 
-        public string Ct3ExperienceUnits { get; set; }
+        //public string Ct3ExperienceUnits { get; set; }
 
-        public int Ct3ExperienceUnitsRequired { get; set; }
+        //public int Ct3ExperienceUnitsRequired { get; set; }
 
-        public string Ct3CalculateStartDateSp { get; set; }
+        //public string Ct3CalculateStartDateSp { get; set; }
 
-        public string Ct3calculateDueDateSp { get; set; }
+        //public string Ct3calculateDueDateSp { get; set; }
 
-        public string Ct3Cr3DeniedStatus { get; set; }
+        //public string Ct3Cr3DeniedStatus { get; set; }
 
-        public int Ct3ExamMaxAttempts { get; set; }
+        //public int Ct3ExamMaxAttempts { get; set; }
 
         public DateTimeOffset Ct3AddDate { get; set; }
 
@@ -137,8 +137,8 @@ namespace ProjectMoonshine.Models
 
 
         #region Navigation Properties
-        [ForeignKey("")]
-        public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
+        //[ForeignKey("")]
+        //public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
         #endregion Navigation Properties
     }
 }

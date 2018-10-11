@@ -25,6 +25,8 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<CredentialProcessType> CredentialProcessTypes { get; set; }
         public DbSet<CredentialProcess> CredentialProcesses { get; set; }
 
+        public DbSet<CredentialRequirementType> CredentialRequirementTypes { get; set; }
+
         //public DbSet<CredentialType> CredentialTypes { get; set; }
 
         //public DbSet<Credential> Credentials { get; set; }
@@ -124,7 +126,8 @@ namespace ProjectMoonshine.EntityFramework
                     modelBuilder
                         .Entity<CredentialProcess>()
                         .HasOne(p => p.Credential)
-                        .WithMany(c => c.CredentialProcesses);
+                        .WithMany(c => c.CredentialProcesses)
+                        .HasForeignKey(p => p.Cr2Cr1Key);
                 }
             }
         }
