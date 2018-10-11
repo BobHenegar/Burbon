@@ -8,7 +8,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class RequirementManager : IRequirementManager
+    public class RequirementManager
     {
         //private readonly ApplicationDbContext context;
         //public RequirementManager(ApplicationDbContext _context)

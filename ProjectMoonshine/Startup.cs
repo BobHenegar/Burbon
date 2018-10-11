@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.Managers;
-using ProjectMoonshine.Middleware;
 
 namespace ProjectMoonshine
 {
@@ -43,13 +41,18 @@ namespace ProjectMoonshine
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
             services
-                .AddTransient<IPersonManager, PersonManager>()
-                .AddTransient<IAddressManager, AddressManager>()
-                .AddTransient<ICredentialManager, CredentialManager>()
-                .AddTransient<IEmailManager, EmailManager>()
-                .AddTransient<IPhoneManager, PhoneManager>()
-                .AddTransient<ICredentialManager, CredentialManager>()
-                .AddTransient<IRequirementManager, RequirementManager>();
+                .AddTransient<PersonManager>()
+                .AddTransient<AddressManager>()
+                .AddTransient<CredentialManager>()
+                .AddTransient<EmailManager>()
+                .AddTransient<PhoneManager>()
+                .AddTransient<CredentialManager>()
+                .AddTransient<ExamManager>()
+                .AddTransient<ExamScoreManager>()
+                .AddTransient<EventRegistrationManager>()
+                .AddTransient<EventManager>()
+                .AddTransient<EventManager>()
+                .AddTransient<RequirementManager>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

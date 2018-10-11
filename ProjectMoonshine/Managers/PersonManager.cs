@@ -9,7 +9,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class PersonManager : IPersonManager
+    public class PersonManager
     {
         private readonly ApplicationDbContext context;
         public PersonManager(ApplicationDbContext _context)
