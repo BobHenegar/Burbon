@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class PhoneManager : IPhoneManager
+    public class PhoneManager
     {
         private readonly ApplicationDbContext context;
         public PhoneManager(ApplicationDbContext _context)

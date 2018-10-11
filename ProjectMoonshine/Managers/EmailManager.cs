@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class EmailManager : IEmailManager
+    public class EmailManager
     {
         private readonly ApplicationDbContext context;
         public EmailManager(ApplicationDbContext _context)

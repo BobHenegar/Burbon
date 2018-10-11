@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class PhonesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPhoneManager _phoneManager;
+        private readonly PhoneManager _phoneManager;
 
         public PhonesController(ApplicationDbContext context,
-            IPhoneManager phoneManager)
+            PhoneManager phoneManager)
         {
             _phoneManager = phoneManager;
             _context = context;

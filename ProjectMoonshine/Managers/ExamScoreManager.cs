@@ -1,9 +1,8 @@
 ﻿using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.Managers.Interfaces;
 
 namespace ProjectMoonshine.Managers
 {
-    public class ExamScoreManager : IExamScoreManager
+    public class ExamScoreManager
     {
         private readonly ApplicationDbContext _context;
         public ExamScoreManager(ApplicationDbContext context)

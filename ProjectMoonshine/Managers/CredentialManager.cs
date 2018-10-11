@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class CredentialManager : ICredentialManager
+    public class CredentialManager
     {
         //private readonly ApplicationDbContext context;
         //public CredentialManager(ApplicationDbContext _context)

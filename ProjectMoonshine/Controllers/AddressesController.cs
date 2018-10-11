@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.Managers.Interfaces;
+using ProjectMoonshine.Managers;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
     public class AddressesController : Controller
     {
-        private readonly IAddressManager _addressManager;
+        private readonly AddressManager _addressManager;
         private readonly ApplicationDbContext _context;
         public AddressesController(ApplicationDbContext context,
-            IAddressManager addressManager)
+            AddressManager addressManager)
         {
             _context = context;
             _addressManager = addressManager;

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
-    public class RequirementManager : IRequirementManager
+    public class RequirementManager
     {
         //private readonly ApplicationDbContext context;
         //public RequirementManager(ApplicationDbContext _context)

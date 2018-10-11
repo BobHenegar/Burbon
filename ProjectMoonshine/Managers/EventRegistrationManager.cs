@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.Managers.Interfaces;
 
 namespace ProjectMoonshine.Managers
 {
-    public class EventRegistrationManager : IEventRegistrationManager
+    public class EventRegistrationManager
     {
         private readonly ApplicationDbContext _context;
         public EventRegistrationManager(ApplicationDbContext context)

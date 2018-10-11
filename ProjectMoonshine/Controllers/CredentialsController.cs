@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class CredentialsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly CredentialManager _credentialManager;
 
-        public CredentialsController(ApplicationDbContext context)
+        public CredentialsController(ApplicationDbContext context,
+            CredentialManager credentialManager)
         {
             _context = context;
+            _credentialManager = credentialManager;
         }
 
         // GET: Credentials
@@ -55,7 +59,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: Credentials/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,7 +96,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: Credentials/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Managers.Interfaces;
+using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
     public class EmailsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IEmailManager _emailManager;
+        private readonly EmailManager _emailManager;
 
         public EmailsController(ApplicationDbContext context,
-            IEmailManager emailManager)
+            EmailManager emailManager)
         {
             _context = context;
             _emailManager = emailManager;
