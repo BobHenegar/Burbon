@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialProcess>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2Ct2Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2TerminationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr2ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credential)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2Ct2Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2TerminationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr2ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credential.Cr1Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusType.Ct6Code)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Cr2Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Cr2Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Cr2Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

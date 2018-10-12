@@ -1,0 +1,62 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialProcessTypeXCredentialRequirementType
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>CredentialProcessTypeXCredentialRequirementType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ct5Ct2Key" class="control-label"></label>
+                <select asp-for="Ct5Ct2Key" class ="form-control" asp-items="ViewBag.Ct5Ct2Key"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct5Ct3Key" class="control-label"></label>
+                <select asp-for="Ct5Ct3Key" class ="form-control" asp-items="ViewBag.Ct5Ct3Key"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct5Order" class="control-label"></label>
+                <input asp-for="Ct5Order" class="form-control" />
+                <span asp-validation-for="Ct5Order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Ct5SubmitPrereqFlag" /> @Html.DisplayNameFor(model => model.Ct5SubmitPrereqFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Ct5ExamPrereqFlag" /> @Html.DisplayNameFor(model => model.Ct5ExamPrereqFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Ct5ReviewPrereqFlag" /> @Html.DisplayNameFor(model => model.Ct5ReviewPrereqFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

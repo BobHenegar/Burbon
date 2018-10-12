@@ -16,38 +16,43 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a asp-area="" asp-controller="People" asp-action="Index">CRM</a></li>
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credentialing <span class="caret"></span></a>
-                                     <ul class="dropdown-menu">
-                                         <li><a asp-area="" asp-controller="CredentialTypes" asp-action="Index">Credential Types</a></li>
-                                         <li><a asp-area="" asp-controller="StatusStateTypes" asp-action="Index">Status State Types</a></li>
-                                         <li><a asp-area="" asp-controller="CredentialStatusTypes" asp-action="Index">Status Types</a></li>
-                                         <li><a asp-area="" asp-controller="Credentials" asp-action="Index">Credentials</a></li>
-                                         <li><a asp-area="" asp-controller="CredentialProcessTypes" asp-action="Index">Process Types</a></li>
-                                     </ul>
-
-                </li>
-                <li><a asp-area="" asp-controller="Addresses" asp-action="Index">Addresses</a></li>
-                <li><a asp-area="" asp-controller="Emails" asp-action="Index">Emails</a></li>
-                <li><a asp-area="" asp-controller="Phones" asp-action="Index">Phones</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bob <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a asp-area="" asp-controller="CredentialRequirementTemplates" asp-action="Index">Req Templates</a></li>
-                        <li><a asp-area="" asp-controller="CredentialRequirementTypes" asp-action="Index">Req Types</a></li>
+                        <li><a asp-area="" asp-controller="People" asp-action="Index">People</a></li>
+                        <li><a asp-area="" asp-controller="Addresses" asp-action="Index">Addresses</a></li>
+                        <li><a asp-area="" asp-controller="Emails" asp-action="Index">Emails</a></li>
+                        <li><a asp-area="" asp-controller="Phones" asp-action="Index">Phones</a></li>
                     </ul>
 
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exams<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credentialing <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="" asp-controller="Credentials" asp-action="Index">Credentials</a></li>
+                        <li><a asp-area="" asp-controller="CredentialProcesses" asp-action="Index">Processes</a></li>
+                    </ul>
+
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credentialing Setup<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="" asp-controller="CredentialTypes" asp-action="Index">Credential Types</a></li>
+                        <li><a asp-area="" asp-controller="CredentialProcessTypes" asp-action="Index">Process Types</a></li>
+                        <li><a asp-area="" asp-controller="CredentialRequirementTypes" asp-action="Index">Req Types</a></li>
+                        <li><a asp-area="" asp-controller="StatusStateTypes" asp-action="Index">Status State Types</a></li>
+                        <li><a asp-area="" asp-controller="CredentialStatusTypes" asp-action="Index">Status Types</a></li>
+                        <li><a asp-area="" asp-controller="CredentialRequirementTemplates" asp-action="Index">Req Templates</a></li>
+                        <li><a asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a></li>
+                        <li><a asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a></li>
+                    </ul>
+
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exam Management<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a asp-area="" asp-controller="Exams" asp-action="Index">Exams</a></li>
                         <li><a asp-area="" asp-controller="ExamScores" asp-action="Index">Exam Scores</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
                         <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
                         <li><a asp-area="" asp-controller="EventRegistrations" asp-action="Index">EventRegistrations</a></li>
                     </ul>

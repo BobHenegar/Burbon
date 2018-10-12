@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialProcessTypeXCredentialRequirementType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5SubmitPrereqFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5ExamPrereqFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5ReviewPrereqFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct5ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialProcessType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialRequirementType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5SubmitPrereqFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5ExamPrereqFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5ReviewPrereqFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct5ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialProcessType.Ct2Process)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialRequirementType.Ct3Requirement)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct5Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct5Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct5Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

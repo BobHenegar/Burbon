@@ -49,7 +49,7 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process");
             ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             return View();
@@ -69,7 +69,7 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialType.Ct1InitCt2Key);
             ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
             ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
@@ -88,7 +88,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialType.Ct1InitCt2Key);
             ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
             ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
@@ -126,7 +126,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialType.Ct1InitCt2Key);
             ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
             ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);

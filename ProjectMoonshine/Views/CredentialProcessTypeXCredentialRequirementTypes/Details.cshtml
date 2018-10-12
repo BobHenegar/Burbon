@@ -1,0 +1,78 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialProcessTypeXCredentialRequirementType
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CredentialProcessTypeXCredentialRequirementType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5Order)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5Order)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5SubmitPrereqFlag)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5SubmitPrereqFlag)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5ExamPrereqFlag)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5ExamPrereqFlag)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5ReviewPrereqFlag)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5ReviewPrereqFlag)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct5ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct5ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialProcessType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialProcessType.Ct2Key)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialRequirementType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialRequirementType.Ct3Key)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Ct5Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
