@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -30,7 +36,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Cr2StatusChangeUser { get; set; }
 
-        //public DateTimeOffset Cr2StartDate { get; set; }
+        [DisplayName("Start Date")]
+        public DateTimeOffset? Cr2StartDate { get; set; }
 
         //public DateTimeOffset Cr2DueDate { get; set; }
 
@@ -111,6 +118,74 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr2Ct2Key")]
         public virtual CredentialProcessType CredentialProcessType { get; set; }
+
+        public async Task<bool> Add(ApplicationDbContext context)
+        {
+            try
+            {
+                if (Cr2Cr1Key == Guid.Empty) return false;
+                if (Cr2Ct2Key == Guid.Empty) return false;
+                if (Cr2Key == Guid.Empty) Cr2Key = Guid.NewGuid();
+                CredentialProcessType = context.CredentialProcessTypes.FirstOrDefault(pt => pt.Ct2Key == Cr2Ct2Key);
+
+                
+                if (Cr2Ct6Key == Guid.Empty) Cr2Ct6Key =   Guid.Parse(CredentialProcessType.Ct2StartCt6Key.ToString()) ;
+// TODO: set credential status based on ct2cr1startct6key
+
+                context.Add(this);
+
+                Credential = context.Credentials.Where(c => Cr2Cr1Key == c.Cr1Key).Include(c=> c.CredentialType).FirstOrDefault();
+
+                Init();
+
+                if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue)
+                {
+                    if (!string.IsNullOrWhiteSpace(CredentialProcessType.Ct2CalculateStartDateSp))
+                    {
+                        Cr2StartDate = CalculateDateFromSp(context, CredentialProcessType.Ct2CalculateStartDateSp,
+                            Cr2Key.ToString());
+
+                    }
+
+                    if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue)
+                    {
+                        DateTimeOffset? cr2startdatetemp = context.CredentialProcesses
+                            .Include(p => p.Credential)
+                            .Where(p => p.Cr2Key != Cr2Key 
+                                        && p.Cr2Ct2Key == CredentialProcessType.Ct2Key 
+                                        && p.Credential.Cr1CusKey == Credential.Cr1CusKey)
+                            .OrderByDescending(p => p.Cr2StartDate)
+                            .FirstOrDefault()
+                            .Cr2StartDate;
+
+                        if (cr2startdatetemp != null && cr2startdatetemp != DateTimeOffset.MinValue)
+                            Cr2StartDate = ((DateTimeOffset) cr2startdatetemp).AddDays(1);
+                    }
+                    if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue) Cr2StartDate = DateTimeOffset.Now;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            return false;
+        }
+
+        private DateTimeOffset CalculateDateFromSp(DbContext context, string procedure, string parameterValue)
+        {
+            DbConnection connection = context.Database.GetDbConnection();
+            connection.Open();
+            DbCommand command = connection.CreateCommand();
+            command.CommandText = string.Format("EXEC dbo.{0} {1}", procedure, parameterValue);
+            return command.ExecuteScalar() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
+        }
+
+
+        public virtual void Init()
+        {
+
+        }
 
 
     }

@@ -41,7 +41,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct2LongDescription { get; set; }
 
-        //public string Ct2CalculateStartDateSp { get; set; }
+        [DisplayName("Custom Start Date Stored Procedure")]
+        public string Ct2CalculateStartDateSp { get; set; }
 
         //public string Ct2CalculateDueDateSp { get; set; }
 
@@ -67,7 +68,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual CredentialStatusType CompletedStatus { get; set; }
 
         public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
-
+        
         #endregion Navigation Properties
     }
 
