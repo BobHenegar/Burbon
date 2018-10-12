@@ -19,6 +19,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Drop Date")]
         public DateTimeOffset? EvrDropDate { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset EvrAddDate { get; set; }
         public DateTimeOffset? EvrChangeDate { get; set; }
         public string EvrAddUser { get; set; }

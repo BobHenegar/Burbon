@@ -654,15 +654,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("EvrEvtKey");
 
-                    b.Property<Guid?>("ExamExmKey");
-
                     b.HasKey("EvrKey");
 
                     b.HasIndex("EvrCusKey");
 
                     b.HasIndex("EvrEvtKey");
-
-                    b.HasIndex("ExamExmKey");
 
                     b.ToTable("EventRegistrations");
                 });
@@ -1045,11 +1041,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
                         .WithMany("EventRegistrations")
                         .HasForeignKey("EvrEvtKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Exam")
-                        .WithMany("EventRegistrations")
-                        .HasForeignKey("ExamExmKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

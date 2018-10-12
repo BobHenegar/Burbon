@@ -30,6 +30,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DefaultValue(false)]
         public bool EmlIsPersonalEmail { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset EmlAddDate { get; set; }
         public DateTimeOffset? EmlChangeDate { get; set; }
         public string EmlAddUser { get; set; }

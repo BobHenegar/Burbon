@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -15,7 +16,10 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Exam> GetAllExams(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var people = _context.Exams.AsQueryable();
+            var people = _context
+                .Exams
+                .Include(i => i.Event)
+                .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();

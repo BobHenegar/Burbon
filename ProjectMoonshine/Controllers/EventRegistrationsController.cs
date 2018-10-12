@@ -42,7 +42,8 @@ namespace ProjectMoonshine.Controllers
                 }
             }
             ViewBag.LastSortParam = sortOrder;
-            return View(_eventRegistrationManager.GetAllEventRegistration(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
+            var result = _eventRegistrationManager.GetAllEventRegistration(searchString, sortOrder);
+            return View(result.ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: EventRegistrations/Details/5
@@ -68,7 +69,7 @@ namespace ProjectMoonshine.Controllers
         // GET: EventRegistrations/Create
         public IActionResult Create()
         {
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
+            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
             ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName");
             return View();
         }
@@ -87,8 +88,8 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", eventRegistration.EvrCusKey);
-            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtDescription", eventRegistration.EvrEvtKey);
+            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name");
+            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", eventRegistration.EvrEvtKey);
             return View(eventRegistration);
         }
 
@@ -105,8 +106,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", eventRegistration.EvrCusKey);
-            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtDescription", eventRegistration.EvrEvtKey);
+            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", eventRegistration.EvrCusKey);
+            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", eventRegistration.EvrEvtKey);
             return View(eventRegistration);
         }
 
@@ -142,8 +143,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", eventRegistration.EvrCusKey);
-            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtDescription", eventRegistration.EvrEvtKey);
+            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", eventRegistration.EvrCusKey);
+            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", eventRegistration.EvrEvtKey);
             return View(eventRegistration);
         }
 

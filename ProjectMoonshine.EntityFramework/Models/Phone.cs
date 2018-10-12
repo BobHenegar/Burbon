@@ -39,6 +39,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DefaultValue(false)]
         public bool PhoIsWork { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PhoAddDate { get; set; }
         public DateTimeOffset? PhoChangeDate { get; set; }
         public string PhoAddUser { get; set; }

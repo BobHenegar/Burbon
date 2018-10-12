@@ -22,15 +22,6 @@
                 @Html.ActionLink(@Html.DisplayNameFor(model => model.First().ExmAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().ExmChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().ExmAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().ExmChangeUser)
-            </th>
-            <th>
                 @Html.ActionLink(@Html.DisplayNameFor(model => model.First().Event), "Index", new { sortOrder = "eventName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
@@ -50,16 +41,7 @@
                     @Html.DisplayFor(modelItem => item.ExmAddDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ExmChangeDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExmAddUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExmChangeUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Event.EvtDescription)
+                    @Html.DisplayFor(modelItem => item.Event.EvtName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ExmKey">Edit</a> |

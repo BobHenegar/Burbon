@@ -83,7 +83,10 @@ namespace ProjectMoonshine.Controllers
         {
             if (ModelState.IsValid
                 && _context.Exams
-                    .Where(x => x.ExmKey == examScore.ExsExmKey && x.EventRegistrations.Any(a => a.EvrCusKey == examScore.ExsCusKey)).Any())
+                .Include(i => i.Event)
+                    .ThenInclude(i => i.EventRegistrations)
+                .Where(x => x.ExmKey == examScore.ExsExmKey
+                    && x.Event.EventRegistrations.Any(a => a.EvrCusKey == examScore.ExsCusKey)).Any())
             {
 
                 examScore.ExsKey = Guid.NewGuid();
