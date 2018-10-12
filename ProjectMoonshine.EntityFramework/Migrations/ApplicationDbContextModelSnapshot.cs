@@ -690,6 +690,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("ExmEvtKey");
 
+                    b.Property<string>("ExmName");
+
                     b.Property<int?>("ExmSeatCount");
 
                     b.HasKey("ExmKey");

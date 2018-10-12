@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
@@ -41,7 +42,7 @@ namespace ProjectMoonshine.Controllers
                 }
             }
             ViewBag.LastSortParam = sortOrder;
-            return View(_eventRegistrationManager.GetAllEventRegistration(searchString, sortOrder));
+            return View(_eventRegistrationManager.GetAllEventRegistration(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: EventRegistrations/Details/5
@@ -67,8 +68,8 @@ namespace ProjectMoonshine.Controllers
         // GET: EventRegistrations/Create
         public IActionResult Create()
         {
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtDescription");
+            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
+            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName");
             return View();
         }
 

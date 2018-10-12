@@ -19,6 +19,10 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Exam Seating Limit")]
         public int? ExmSeatCount { get; set; }
+
+        [DisplayName("Exam Name")]
+        public string ExmName{ get; set; }
+
         [DisplayName("Allow Retakes")]
         [DefaultValue(true)]
         public bool ExmCanRetake { get; set; }

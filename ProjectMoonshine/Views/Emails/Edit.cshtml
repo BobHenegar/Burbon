@@ -45,26 +45,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="EmlAddDate" class="control-label"></label>
-                <input asp-for="EmlAddDate" class="form-control" />
-                <span asp-validation-for="EmlAddDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmlChangeDate" class="control-label"></label>
-                <input asp-for="EmlChangeDate" class="form-control" />
-                <span asp-validation-for="EmlChangeDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmlAddUser" class="control-label"></label>
-                <input asp-for="EmlAddUser" class="form-control" />
-                <span asp-validation-for="EmlAddUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EmlChangeUser" class="control-label"></label>
-                <input asp-for="EmlChangeUser" class="form-control" />
-                <span asp-validation-for="EmlChangeUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
             @Html.Hidden("RefAction", ViewBag.RefAction as string)

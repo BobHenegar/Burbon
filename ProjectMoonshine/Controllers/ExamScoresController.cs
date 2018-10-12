@@ -14,12 +14,12 @@ namespace ProjectMoonshine.Controllers
     public class ExamScoresController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly ExamManager _examManager;
+        private readonly ExamScoreManager _examScoreManager;
 
         public ExamScoresController(ApplicationDbContext context,
-            ExamManager examManager)
+            ExamScoreManager examScoreManager)
         {
-            _examManager = examManager;
+            _examScoreManager = examScoreManager;
             _context = context;
         }
 
@@ -43,7 +43,7 @@ namespace ProjectMoonshine.Controllers
                 }
             }
             ViewBag.LastSortParam = sortOrder;
-            return View(_examManager.GetAllExams(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
+            return View(_examScoreManager.GetAllExamScores(searchString, sortOrder).ToPagedList(currentPage, GlobalConstants.PageSize));
         }
 
         // GET: ExamScores/Details/5
@@ -69,8 +69,8 @@ namespace ProjectMoonshine.Controllers
         // GET: ExamScores/Create
         public IActionResult Create()
         {
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmKey");
+            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name");
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name");
             return View();
         }
 
@@ -81,15 +81,22 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ExsKey,ExsExmKey,ExsCusKey,ExsTotalPossible,ExsTotalReceived,ExsAddDate,ExsChangeDate,ExsAddUser,ExsChangeUser,RowVersion")] ExamScore examScore)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid
+                && _context.Exams
+                    .Where(x => x.ExmKey == examScore.ExsExmKey && x.EventRegistrations.Any(a => a.EvrCusKey == examScore.ExsCusKey)).Any())
             {
+
                 examScore.ExsKey = Guid.NewGuid();
                 _context.Add(examScore);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", examScore.ExsCusKey);
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmKey", examScore.ExsExmKey);
+            else
+            {
+                ViewData["Error"] = "Customer is not registered for the selected exam";
+            }
+            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
             return View(examScore);
         }
 
@@ -106,8 +113,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", examScore.ExsCusKey);
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmKey", examScore.ExsExmKey);
+            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
             return View(examScore);
         }
 
@@ -143,8 +150,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", examScore.ExsCusKey);
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmKey", examScore.ExsExmKey);
+            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmName");
             return View(examScore);
         }
 

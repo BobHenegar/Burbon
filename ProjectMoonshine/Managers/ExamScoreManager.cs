@@ -13,7 +13,7 @@ namespace ProjectMoonshine.Managers
             _context = context;
         }
 
-        public IQueryable<ExamScore> GetAllExamScore(string searchString, string sortOrder)
+        public IQueryable<ExamScore> GetAllExamScores(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
             var people = _context
