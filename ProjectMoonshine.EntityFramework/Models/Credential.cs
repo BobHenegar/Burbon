@@ -174,7 +174,6 @@ if (CurrentCredentialProcess == null)
                 if (CurrentCredentialProcess.Cr2TerminationDate != null)
                 {
                     //RemoveDesignation();
-context.SaveChanges();
                 }
                 
 
@@ -191,7 +190,7 @@ context.SaveChanges();
 
                     //TODO: Add designation to person record?
 
-                    context.SaveChanges();
+                    context.Update(this);
 
                     CredentialProcessType nextProcessType = null;
                     CredentialType = context.CredentialTypes.FirstOrDefault(ct => ct.Ct1Key == Cr1Ct1Key);
@@ -215,20 +214,18 @@ context.SaveChanges();
                         };
 
                         context.Add(nextCredentialProcess);
-                        context.SaveChanges();
+                        
 
                         CurrentCredentialProcess = nextCredentialProcess;
 
-                        context.SaveChanges();
-
-                        Cr1CurrentCr2Key = nextCredentialProcess.Cr2Key;
+                        context.Update(this);
                         
-                        context.SaveChanges();
 
                         //TODO: set valid thru date based on process type / process settings;
                         Cr1Ct6Key = Guid.Parse(CredentialType.Ct1RenewCt6Key.ToString());
 
-                        context.SaveChanges();
+                        context.Update(this);
+                        
                     }
                     
                     
@@ -237,7 +234,7 @@ context.SaveChanges();
 
                     
                 }
-                
+                context.SaveChanges();
                 transaction.Commit();
             }
 

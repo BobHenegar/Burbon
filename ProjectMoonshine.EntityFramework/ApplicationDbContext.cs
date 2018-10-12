@@ -175,7 +175,7 @@ namespace ProjectMoonshine.EntityFramework
 
             foreach (var entity in entities)
             {
-                var Prefix = TablePrefixs.Where(x => x.Key == entity.GetType().ToString()).First().Value;
+                var Prefix = TablePrefixs.Where(x => x.Key == entity.Entity.GetType().Name).First().Value;
                 entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
                 entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
             }
