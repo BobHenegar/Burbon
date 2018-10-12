@@ -4,11 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework
 {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.EventRegistration>
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.EventRegistration>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,65 +13,61 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EvrDropDate)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrDropDate), "Index", new { sortOrder = "dropDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EvrAddDate)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EvrChangeDate)
+                @Html.DisplayNameFor(model => model.First().EvrChangeDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EvrAddUser)
+                @Html.DisplayNameFor(model => model.First().EvrAddUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EvrChangeUser)
+                @Html.DisplayNameFor(model => model.First().EvrChangeUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Event)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Event.EvtName), "Index", new { sortOrder = "eventName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowVersion)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Customer.Person.PerFirstMiddleLast), "Index", new { sortOrder = "personName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrDropDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Event.EvtDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CusKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EvrKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EvrKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EvrKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrDropDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrChangeUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.EvtDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CusKey)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EvrKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EvrKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EvrKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="EventRegistrations" />
 </table>

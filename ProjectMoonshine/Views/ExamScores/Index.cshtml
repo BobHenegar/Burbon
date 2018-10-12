@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.ExamScore>
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.ExamScore>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,71 +13,67 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ExsTotalPossible)
+                @Html.DisplayNameFor(model => model.First().ExsTotalPossible)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExsTotalReceived)
+                @Html.DisplayNameFor(model => model.First().ExsTotalReceived)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExsAddDate)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.First().ExsAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExsChangeDate)
+                @Html.DisplayNameFor(model => model.First().ExsChangeDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExsAddUser)
+                @Html.DisplayNameFor(model => model.First().ExsAddUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExsChangeUser)
+                @Html.DisplayNameFor(model => model.First().ExsChangeUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer)
+                @Html.ActionLink(@Html.DisplayNameFor(model => model.First().Customer.Person.PerFirstMiddleLast), "Index", new { sortOrder = "Customer Name", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Exam)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowVersion)
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Exam.Event.EvtName), "Index", new { sortOrder = "Customer Name", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsTotalPossible)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsTotalReceived)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExsChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CusKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Exam.ExmKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ExsKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ExsKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ExsKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsTotalPossible)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsTotalReceived)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExsChangeUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CusKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Exam.ExmKey)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ExsKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ExsKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ExsKey">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="ExamScores" />
 </table>

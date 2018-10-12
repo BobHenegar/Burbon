@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data;
-using ags.credentialing;
+﻿using ags.credentialing;
 
 namespace ags.requirements
 {

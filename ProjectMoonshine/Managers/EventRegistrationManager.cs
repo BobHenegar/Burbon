@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -23,20 +20,57 @@ namespace ProjectMoonshine.Managers
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                eventRegistrations = eventRegistrations.Where(s => s.PerLastName.ToLower().Contains(searchString)
-                                       || s.PerFirstName.ToLower().Contains(searchString)
-                                       || s.PerMiddleName.ToLower().Contains(searchString));
+                eventRegistrations = eventRegistrations.Where(s =>
+                    s.Customer.Person.PerLastName.ToLower().Contains(searchString)
+                        || s.Event.EvtName.ToLower().Contains(searchString)
+                        || s.Event.EvtDescription.ToLower().Contains(searchString)
+                        || s.Customer.Person.PerMiddleName.ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "firstName":
+                case "eventName":
                     {
-                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtDescription);
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtName);
+                        break;
+                    }
+                case "eventName_desc":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtName);
+                        break;
+                    }
+                case "personName":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Customer.Person.PerFirstMiddleLast);
+                        break;
+                    }
+                case "personName_desc":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtName);
+                        break;
+                    }
+                case "startDate":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtStartDate);
+                        break;
+                    }
+                case "startDate_desc":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtStartDate);
+                        break;
+                    }
+                case "dropDate":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtStartDate);
+                        break;
+                    }
+                case "dropDate_desc":
+                    {
+                        eventRegistrations = eventRegistrations.OrderBy(x => x.Event.EvtStartDate);
                         break;
                     }
                 default:
                     {
-                        eventRegistrations = eventRegistrations.OrderBy(x => x.PerFirstName);
+                        eventRegistrations = eventRegistrations.OrderByDescending(x => x.EvrAddDate);
                         break;
                     }
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using ags.credentialing;
+﻿using ags.credentialing;
 
 namespace ags.requirements
 {

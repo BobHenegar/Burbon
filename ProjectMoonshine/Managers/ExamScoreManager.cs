@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -12,82 +13,60 @@ namespace ProjectMoonshine.Managers
             _context = context;
         }
 
-        public IQueryable<ExamScore> GetAllPeople(string searchString, string sortOrder)
+        public IQueryable<ExamScore> GetAllExamScore(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var people = _context.ExamScores.AsQueryable();
+            var people = _context
+                .ExamScores
+                .Include(i => i.Customer)
+                .ThenInclude(i => i.Person)
+                .Include(i => i.Exam)
+                .ThenInclude(i => i.Event)
+                .AsQueryable();
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
+
                 people = people.Where(s => s.Customer.Person.PerFirstName.ToLower().Contains(searchString)
-                                       || s.Customer.Person.PerLastName.ToLower().Contains(searchString)
-                                       || s.Customer.Person.PerMiddleName.ToLower().Contains(searchString));
+                    || s.Customer.Person.PerLastName.ToLower().Contains(searchString)
+                    || s.Customer.Person.PerMiddleName.ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "firstName":
+                case "personName":
                     {
-                        people = people.OrderBy(x => x.Customer.Person.PerFirstName);
+                        people = people.OrderBy(x => x.Customer.Person.PerFirstMiddleLast);
                         break;
                     }
-                case "firstName_desc":
+                case "personName_desc":
                     {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerFirstName);
+                        people = people.OrderByDescending(x => x.Customer.Person.PerFirstMiddleLast);
                         break;
                     }
-                case "middleName":
+                case "eventName":
                     {
-                        people = people.OrderBy(x => x.Customer.Person.PerMiddleName);
+                        people = people.OrderByDescending(x => x.Exam.Event.EvtName);
                         break;
                     }
-                case "middleName_desc":
+                case "eventName_desc":
                     {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerMiddleName);
-                        break;
-                    }
-                case "lastName":
-                    {
-                        people = people.OrderBy(x => x.Customer.Person.PerLastName);
-                        break;
-                    }
-                case "lastName_desc":
-                    {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerLastName);
-                        break;
-                    }
-                case "dateOfBirth":
-                    {
-                        people = people.OrderBy(x => x.Customer.Person.PerDateOfBirth);
-                        break;
-                    }
-                case "dateOfBirth_desc":
-                    {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerFirstName);
-                        break;
-                    }
-                case "gender":
-                    {
-                        people = people.OrderBy(x => x.Customer.Person.PerGender);
-                        break;
-                    }
-                case "gender_desc":
-                    {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerGender);
+                        people = people.OrderByDescending(x => x.Exam.Event.EvtName);
                         break;
                     }
                 case "addDate":
                     {
-                        people = people.OrderBy(x => x.Customer.Person.PerAddDate);
+                        people = people.OrderBy(x => x.ExsAddDate);
                         break;
                     }
                 case "addDate_desc":
                     {
-                        people = people.OrderByDescending(x => x.Customer.Person.PerAddDate);
+                        people = people.OrderByDescending(x => x.ExsAddDate);
                         break;
                     }
                 default:
                     {
-                        people = people.OrderBy(x => x.Customer.Person.PerFirstName);
+                        people = people.OrderByDescending(x => x.ExsAddDate);
                         break;
                     }
             }

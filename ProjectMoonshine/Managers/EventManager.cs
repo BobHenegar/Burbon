@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Managers
 {
@@ -14,86 +12,75 @@ namespace ProjectMoonshine.Managers
             _context = context;
         }
 
-        public IQueryable<Person> GetAllPeople(string searchString, string sortOrder)
+        public IQueryable<Event> GetAllEvents(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var people = context.People.AsQueryable();
+            var events = _context.Events.AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                people = people.Where(s => s.PerLastName.ToLower().Contains(searchString)
-                                       || s.PerFirstName.ToLower().Contains(searchString)
-                                       || s.PerMiddleName.ToLower().Contains(searchString));
+                events = events.Where(s => s.EvtName.ToLower().Contains(searchString)
+                                       || s.EvtDescription.ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "firstName":
+                case "eventName":
                     {
-                        people = people.OrderBy(x => x.PerFirstName);
+                        events = events.OrderBy(x => x.EvtName);
                         break;
                     }
-                case "firstName_desc":
+                case "eventName_desc":
                     {
-                        people = people.OrderByDescending(x => x.PerFirstName);
+                        events = events.OrderByDescending(x => x.EvtName);
                         break;
                     }
-                case "middleName":
+                case "description":
                     {
-                        people = people.OrderBy(x => x.PerMiddleName);
+                        events = events.OrderBy(x => x.EvtDescription);
                         break;
                     }
-                case "middleName_desc":
+                case "description_desc":
                     {
-                        people = people.OrderByDescending(x => x.PerMiddleName);
+                        events = events.OrderByDescending(x => x.EvtDescription);
                         break;
                     }
-                case "lastName":
+                case "startDate":
                     {
-                        people = people.OrderBy(x => x.PerLastName);
+                        events = events.OrderBy(x => x.EvtStartDate);
                         break;
                     }
-                case "lastName_desc":
+                case "startDate_desc":
                     {
-                        people = people.OrderByDescending(x => x.PerLastName);
+                        events = events.OrderByDescending(x => x.EvtStartDate);
                         break;
                     }
-                case "dateOfBirth":
+                case "endDate":
                     {
-                        people = people.OrderBy(x => x.PerDateOfBirth);
+                        events = events.OrderBy(x => x.EvtEndDate);
                         break;
                     }
-                case "dateOfBirth_desc":
+                case "endDate_desc":
                     {
-                        people = people.OrderByDescending(x => x.PerFirstName);
-                        break;
-                    }
-                case "gender":
-                    {
-                        people = people.OrderBy(x => x.PerGender);
-                        break;
-                    }
-                case "gender_desc":
-                    {
-                        people = people.OrderByDescending(x => x.PerGender);
+                        events = events.OrderByDescending(x => x.EvtEndDate);
                         break;
                     }
                 case "addDate":
                     {
-                        people = people.OrderBy(x => x.PerAddDate);
+                        events = events.OrderBy(x => x.EvtAddDate);
                         break;
                     }
                 case "addDate_desc":
                     {
-                        people = people.OrderByDescending(x => x.PerAddDate);
+                        events = events.OrderByDescending(x => x.EvtAddDate);
                         break;
                     }
                 default:
                     {
-                        people = people.OrderBy(x => x.PerFirstName);
+                        events = events.OrderBy(x => x.EvtName);
                         break;
                     }
             }
-            return people;
+            return events;
         }
     }
 }

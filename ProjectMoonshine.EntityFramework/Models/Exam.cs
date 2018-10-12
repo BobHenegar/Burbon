@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -33,9 +32,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         public virtual IList<ExamScore> ExamScores { get; set; }
+        public virtual IList<EventRegistration> EventRegistrations { get; set; }
         [ForeignKey("ExmEvtKey")]
-        public virtual Event ExamRegistrations { get; set; }
-        public virtual IList<Customer> Customers { get; set; }
+        public virtual Event Event { get; set; }
         #endregion Navigation Properties
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -36,6 +35,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset? PerChangeDate { get; set; }
         public string PerAddUser { get; set; }
         public string PerChangeUser { get; set; }
+
+        [NotMapped]
+        [DisplayName("First Middle Last")]
+        public string PerFirstMiddleLast { get => $"{PerFirstName} {PerMiddleName} {PerLastName}"; }
 
         #region Navigation Properties
 
