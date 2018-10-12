@@ -8,7 +8,6 @@ using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -117,7 +116,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, PersonViewModel person)
+        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,PerCusKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
         {
             if (id != person.PerKey)
             {
@@ -128,7 +127,6 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    var per = await _context.People.FindAsync(person.PerKey);
                     _context.Update(person);
                     await _context.SaveChangesAsync();
                 }

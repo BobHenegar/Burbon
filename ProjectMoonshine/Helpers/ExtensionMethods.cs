@@ -48,7 +48,7 @@ namespace ProjectMoonshine.Helpers
         {
             var result = string.Empty;
             var split = input.SplitUrl();
-            if (split.Length > 1)
+            if (split.Length > 2)
             {
                 result = split[2];
             }

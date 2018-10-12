@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
@@ -16,7 +15,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public Task<Guid> AddPhoneAsync(PhoneViewModel model)
+        public Task<Guid> AddPhoneAsync(Phone model)
         {
             throw new NotImplementedException();
         }
@@ -130,7 +129,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> UpdatePhoneAsync(Guid phoKey, PhoneViewModel model)
+        public async Task<bool> UpdatePhoneAsync(Guid phoKey, Phone model)
         {
             throw new NotImplementedException();
         }
