@@ -14,23 +14,29 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct2Key { get; set; }
 
+        [DisplayName("Process")]
         public string Ct2Process { get; set; }
 
+        [DisplayName("Display Name")]
         public string Ct2Description { get; set; }
 
+        [DisplayName("Start Status")]
         public Guid? Ct2StartCt6Key { get; set; }
 
+        [DisplayName("Completed Status")]
         public Guid? Ct2CompletedCt6Key { get; set; }
 
+        [DisplayName("Submitted Status")]
         public Guid? Ct2SubmittedCt6Key { get; set; }
 
-        //public string Ct2ProcessType { get; set; }
+        [DisplayName("Process Type")]
+        public string Ct2ProcessType { get; set; }
 
         //public DateTimeOffset Ct2StartDate { get; set; }
 
         //public DateTimeOffset? Ct2EndDate { get; set; }
 
-            [DisplayName("Next Process Type")]
+        [DisplayName("Next Process Type")]
         public Guid? Ct2NextCt2key { get; set; }
 
         //public int Ct2DueDateNumber { get; set; }
@@ -47,12 +53,18 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct2SetOwnerSp { get; set; }
 
+        [DisplayName("Add Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Ct2AddDate { get; set; }
 
+        [DisplayName("Change Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Ct2ChangeDate { get; set; }
 
+        [DisplayName("Add User")]
         public string Ct2AddUser { get; set; }
 
+        [DisplayName("Change User")]
         public string Ct2ChangeUser { get; set; }
 
         #region Navigation Properties

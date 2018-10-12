@@ -91,6 +91,10 @@
         </dd>
     </dl>
 </div>
+
+<div style="display:flex;flex-wrap:wrap;flex-direction:row;">
+    @await Html.PartialAsync("_CredentialTypeXCredentialProcessTypesPartialView", Model.CredentialTypeXCredentialProcessTypes)
+</div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Ct1Key">Edit</a> |
     <a asp-action="Index">Back to List</a>
