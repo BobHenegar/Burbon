@@ -103,10 +103,6 @@ namespace ProjectMoonshine.EntityFramework
                     var addUser = prefix + "AddUser";
                     var changeUser = prefix + "ChangeUser";
 
-                    modelBuilder.Entity(entityType.ClrType)
-                        .Property(nameof(EntityBase.RowVersion))
-                        .IsConcurrencyToken();
-
                     modelBuilder
                         .Entity(entityType.ClrType)
                         .Property($"{prefix}Key")
