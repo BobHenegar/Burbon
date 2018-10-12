@@ -57,7 +57,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ce2Key,Ce2CusKey,Ce2StartDate,Ce2EndDate,Ce2AddDate,Ce2ChangeDate,Ce2AddUser,Ce2ChangeUser,RowVersion")] CEPeriod cEPeriod)
+        public async Task<IActionResult> Create([Bind("Ce2Key,Ce2CusKey,Ce2StartDate,Ce2EndDate,Ce2AddDate,Ce2ChangeDate,Ce2AddUser,Ce2ChangeUser")] CEPeriod cEPeriod)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ce2Key,Ce2CusKey,Ce2StartDate,Ce2EndDate,Ce2AddDate,Ce2ChangeDate,Ce2AddUser,Ce2ChangeUser,RowVersion")] CEPeriod cEPeriod)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ce2Key,Ce2CusKey,Ce2StartDate,Ce2EndDate,Ce2AddDate,Ce2ChangeDate,Ce2AddUser,Ce2ChangeUser")] CEPeriod cEPeriod)
         {
             if (id != cEPeriod.Ce2Key)
             {

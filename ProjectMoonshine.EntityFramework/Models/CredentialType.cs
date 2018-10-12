@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -14,8 +15,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct1Key { get; set; }
 
+        [DisplayName("Credential Code")]
         public string Ct1Credential { get; set; }
 
+        [DisplayName("Description")]
         public string Ct1Description { get; set; }
 
         //public string Ct1LongDescription { get; set; }
@@ -26,24 +29,30 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid? Ct1OrgCstKey { get; set; }
 
+        [DisplayName("Start Date")]
         public DateTimeOffset? Ct1StartDate { get; set; }
 
+        [DisplayName("End Date")]
         public DateTimeOffset? Ct1EndDate { get; set; }
 
-        //public Guid? Ct1InitCt2Key { get; set; }
+        [DisplayName("Initial Process Type")]
+        public Guid? Ct1InitCt2Key { get; set; }
 
         //public string Ct1InitCt2Class { get; set; }
 
         //public string Ct1InitCt2Method { get; set; }
 
+        [DisplayName("Initial Status")]
         public Guid? Ct1InitCt6Key { get; set; }
 
+        [DisplayName("Renew Process Type")]
         public Guid? Ct1RenewCt2Key { get; set; }
 
         //public string Ct1RenewCt2Class { get; set; }
 
         //public string Ct1RenewCt2Method { get; set; }
 
+        [DisplayName("Renew Status")]
         public Guid? Ct1RenewCt6Key { get; set; }
 
         //public Guid? Ct1ReinstateCt2Key { get; set; }
@@ -68,6 +77,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct1CstType { get; set; }
 
+        [DisplayName("Order")]
         public int Ct1Order { get; set; }
 
         //public bool Ct1SyncFlag { get; set; }
@@ -76,12 +86,16 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct1SetCredentialNumberSp { get; set; }
 
+        [DisplayName("Add Date")]
         public DateTimeOffset Ct1AddDate { get; set; }
 
+        [DisplayName("Change Date")]
         public DateTimeOffset? Ct1ChangeDate { get; set; }
 
+        [DisplayName("Add User")]
         public string Ct1AddUser { get; set; }
 
+        [DisplayName("Change User")]
         public string Ct1ChangeUser { get; set; }
         
         #region Navigation Properties
@@ -95,6 +109,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual CredentialStatusType InitStatusType { get; set; }
 
         public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+
+        [ForeignKey("Ct1InitCt2Key")]
+        public virtual CredentialProcessType InitCredentialProcessType { get; set; }
 
         #endregion Navigation Properties
     }

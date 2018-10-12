@@ -1,0 +1,75 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialProcessType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>CredentialProcessType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Ct2Key" />
+            <div class="form-group">
+                <label asp-for="Ct2Process" class="control-label"></label>
+                <input asp-for="Ct2Process" class="form-control" />
+                <span asp-validation-for="Ct2Process" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2Description" class="control-label"></label>
+                <input asp-for="Ct2Description" class="form-control" />
+                <span asp-validation-for="Ct2Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2StartCt6Key" class="control-label"></label>
+                <select asp-for="Ct2StartCt6Key" class="form-control" asp-items="ViewBag.Ct2StartCt6Key"></select>
+                <span asp-validation-for="Ct2StartCt6Key" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2CompletedCt6Key" class="control-label"></label>
+                <select asp-for="Ct2CompletedCt6Key" class="form-control" asp-items="ViewBag.Ct2CompletedCt6Key"></select>
+                <span asp-validation-for="Ct2CompletedCt6Key" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2SubmittedCt6Key" class="control-label"></label>
+                <select asp-for="Ct2SubmittedCt6Key" class="form-control" asp-items="ViewBag.Ct2SubmittedCt6Key"></select>
+                <span asp-validation-for="Ct2SubmittedCt6Key" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2AddDate" class="control-label"></label>
+                <input asp-for="Ct2AddDate" class="form-control" />
+                <span asp-validation-for="Ct2AddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2ChangeDate" class="control-label"></label>
+                <input asp-for="Ct2ChangeDate" class="form-control" />
+                <span asp-validation-for="Ct2ChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2AddUser" class="control-label"></label>
+                <input asp-for="Ct2AddUser" class="form-control" />
+                <span asp-validation-for="Ct2AddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ct2ChangeUser" class="control-label"></label>
+                <input asp-for="Ct2ChangeUser" class="form-control" />
+                <span asp-validation-for="Ct2ChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

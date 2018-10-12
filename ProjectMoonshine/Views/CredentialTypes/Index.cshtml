@@ -49,6 +49,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.InitStatusType)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitCredentialProcessType)
+            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -86,10 +90,13 @@
                 @Html.DisplayFor(modelItem => item.Ct1ChangeUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RenewStatusType.Ct6Key)
+                @Html.DisplayFor(modelItem => item.RenewStatusType.Ct6Code)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.InitStatusType.Ct6Key)
+                @Html.DisplayFor(modelItem => item.InitStatusType.Ct6Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InitCredentialProcessType.Ct2Key)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |

@@ -130,13 +130,14 @@ namespace ProjectMoonshine.EntityFramework
                         .Property(addUser)
                         .ValueGeneratedOnAdd();
 
-                    modelBuilder
-                        .Entity<CredentialProcess>()
-                        .HasOne(p => p.Credential)
-                        .WithMany(c => c.CredentialProcesses)
-                        .HasForeignKey(p => p.Cr2Cr1Key);
+                    
                 }
             }
+            modelBuilder
+                .Entity<CredentialProcess>()
+                .HasOne(p => p.Credential)
+                .WithMany(c => c.CredentialProcesses)
+                .HasForeignKey(p => p.Cr2Cr1Key);
         }
 
         public void TestOnModelCreating()

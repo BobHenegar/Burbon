@@ -76,13 +76,19 @@
             @Html.DisplayNameFor(model => model.RenewStatusType)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.RenewStatusType.Ct6Key)
+            @Html.DisplayFor(model => model.RenewStatusType.Ct6Code)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.InitStatusType)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.InitStatusType.Ct6Key)
+            @Html.DisplayFor(model => model.InitStatusType.Ct6Code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InitCredentialProcessType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InitCredentialProcessType.Ct2Key)
         </dd>
     </dl>
     

@@ -57,7 +57,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser,RowVersion")] CredentialStatusType credentialStatusType)
+        public async Task<IActionResult> Create([Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser")] CredentialStatusType credentialStatusType)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser,RowVersion")] CredentialStatusType credentialStatusType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser")] CredentialStatusType credentialStatusType)
         {
             if (id != credentialStatusType.Ct6Key)
             {

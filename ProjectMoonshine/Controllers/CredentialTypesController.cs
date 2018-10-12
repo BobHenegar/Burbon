@@ -22,7 +22,7 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialTypes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.CredentialTypes.Include(c => c.InitStatusType).Include(c => c.RenewStatusType);
+            var applicationDbContext = _context.CredentialTypes.Include(c => c.InitCredentialProcessType).Include(c => c.InitStatusType).Include(c => c.RenewStatusType);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credentialType = await _context.CredentialTypes
+                .Include(c => c.InitCredentialProcessType)
                 .Include(c => c.InitStatusType)
                 .Include(c => c.RenewStatusType)
                 .FirstOrDefaultAsync(m => m.Ct1Key == id);
@@ -49,8 +50,9 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key");
-            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key");
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
+            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser,RowVersion")] CredentialType credentialType)
+        public async Task<IActionResult> Create([Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser")] CredentialType credentialType)
         {
             if (ModelState.IsValid)
             {
@@ -68,8 +70,9 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1InitCt6Key);
-            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1RenewCt6Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
+            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
         }
 
@@ -86,8 +89,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1InitCt6Key);
-            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1RenewCt6Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
+            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
         }
 
@@ -96,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser,RowVersion")] CredentialType credentialType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser")] CredentialType credentialType)
         {
             if (id != credentialType.Ct1Key)
             {
@@ -123,8 +127,9 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1InitCt6Key);
-            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key", credentialType.Ct1RenewCt6Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
+            ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
         }
 
@@ -137,6 +142,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credentialType = await _context.CredentialTypes
+                .Include(c => c.InitCredentialProcessType)
                 .Include(c => c.InitStatusType)
                 .Include(c => c.RenewStatusType)
                 .FirstOrDefaultAsync(m => m.Ct1Key == id);
