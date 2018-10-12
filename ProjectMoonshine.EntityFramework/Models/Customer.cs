@@ -17,6 +17,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string CusAddUser { get; set; }
         public string CusChangeUser { get; set; }
 
+        public virtual Person Person { get; set; }
         public virtual List<Credential> Credentials { get; set; }
     }
 }

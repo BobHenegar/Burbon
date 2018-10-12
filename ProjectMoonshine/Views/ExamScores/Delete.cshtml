@@ -1,0 +1,75 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.ExamScore
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ExamScore</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsTotalPossible)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsTotalPossible)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsTotalReceived)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsTotalReceived)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Exam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Exam.ExmKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ExsKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

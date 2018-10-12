@@ -1,0 +1,69 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Event
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EvtKey" />
+            <div class="form-group">
+                <label asp-for="EvtDescription" class="control-label"></label>
+                <input asp-for="EvtDescription" class="form-control" />
+                <span asp-validation-for="EvtDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtName" class="control-label"></label>
+                <input asp-for="EvtName" class="form-control" />
+                <span asp-validation-for="EvtName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtStartDate" class="control-label"></label>
+                <input asp-for="EvtStartDate" class="form-control" />
+                <span asp-validation-for="EvtStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtEndDate" class="control-label"></label>
+                <input asp-for="EvtEndDate" class="form-control" />
+                <span asp-validation-for="EvtEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtAddDate" class="control-label"></label>
+                <input asp-for="EvtAddDate" class="form-control" />
+                <span asp-validation-for="EvtAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtChangeDate" class="control-label"></label>
+                <input asp-for="EvtChangeDate" class="form-control" />
+                <span asp-validation-for="EvtChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtAddUser" class="control-label"></label>
+                <input asp-for="EvtAddUser" class="form-control" />
+                <span asp-validation-for="EvtAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvtChangeUser" class="control-label"></label>
+                <input asp-for="EvtChangeUser" class="form-control" />
+                <span asp-validation-for="EvtChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

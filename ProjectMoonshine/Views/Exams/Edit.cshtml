@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Exam
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Exam</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ExmKey" />
+            <div class="form-group">
+                <label asp-for="ExmEvtKey" class="control-label"></label>
+                <select asp-for="ExmEvtKey" class="form-control" asp-items="ViewBag.ExmEvtKey"></select>
+                <span asp-validation-for="ExmEvtKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExmSeatCount" class="control-label"></label>
+                <input asp-for="ExmSeatCount" class="form-control" />
+                <span asp-validation-for="ExmSeatCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="ExmCanRetake" /> @Html.DisplayNameFor(model => model.ExmCanRetake)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExmAddDate" class="control-label"></label>
+                <input asp-for="ExmAddDate" class="form-control" />
+                <span asp-validation-for="ExmAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExmChangeDate" class="control-label"></label>
+                <input asp-for="ExmChangeDate" class="form-control" />
+                <span asp-validation-for="ExmChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExmAddUser" class="control-label"></label>
+                <input asp-for="ExmAddUser" class="form-control" />
+                <span asp-validation-for="ExmAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExmChangeUser" class="control-label"></label>
+                <input asp-for="ExmChangeUser" class="form-control" />
+                <span asp-validation-for="ExmChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

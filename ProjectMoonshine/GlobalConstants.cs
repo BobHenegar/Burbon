@@ -1,4 +1,6 @@
-﻿namespace ProjectMoonshine
+﻿using System.Text.RegularExpressions;
+
+namespace ProjectMoonshine
 {
     public static class GlobalConstants
     {

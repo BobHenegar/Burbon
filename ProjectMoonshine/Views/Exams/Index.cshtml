@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Exam>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmSeatCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmCanRetake)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExmChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExamRegistrations)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RowVersion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmSeatCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmCanRetake)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExmChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExamRegistrations.EvtDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RowVersion)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ExmKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ExmKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ExmKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

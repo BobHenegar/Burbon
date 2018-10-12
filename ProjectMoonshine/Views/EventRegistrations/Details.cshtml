@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.EventRegistration
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EventRegistration</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrDropDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrDropDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Event.EvtDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EvrKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

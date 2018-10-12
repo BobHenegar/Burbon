@@ -43,6 +43,16 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CEDetail> CEDetails { get; set; }
 
+        public DbSet<EventRegistration> EventRegistrations { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<Exam> Exams { get; set; }
+
+        public DbSet<ExamScore> ExamScores { get; set; }
+
+
+
         public const string Prefix = "Prefix";
 
         private Dictionary<string, string> TablePrefixs { get; set; }

@@ -1,0 +1,69 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.EventRegistration
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EventRegistration</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrDropDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrDropDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EvrChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EvrChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Event)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Event.EvtDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RowVersion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RowVersion)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EvrKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
