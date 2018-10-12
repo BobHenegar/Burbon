@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialProcess
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CredentialProcess</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2Ct2Key)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2Ct2Key)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2TerminationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2TerminationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Credential)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Credential.Cr1Key)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StatusType.Ct6Code)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Cr2Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -34,18 +34,6 @@
                 @Html.DisplayNameFor(model => model.Ct3ChangeUser)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartStatusType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompleteStatusType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubmitStatusType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MetStatusType)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Template)
             </th>
             <th></th>
@@ -76,19 +64,7 @@
                 @Html.DisplayFor(modelItem => item.Ct3ChangeUser)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartStatusType.Ct6Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompleteStatusType.Ct6Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubmitStatusType.Ct6Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MetStatusType.Ct6Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Template.Ct8Key)
+                @Html.DisplayFor(modelItem => item.Template.Ct8Template)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct3Key">Edit</a> |

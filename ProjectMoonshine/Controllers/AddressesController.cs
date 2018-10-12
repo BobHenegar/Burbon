@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 using ProjectMoonshine.ViewModels;
 
@@ -60,7 +62,6 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-
             return View(address);
         }
 
@@ -98,10 +99,12 @@ namespace ProjectMoonshine.Controllers
             }
 
             var address = await _context.Addresses.FindAsync(id);
+
             if (address == null)
             {
                 return NotFound();
             }
+            SetRefererInfo();
             ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
             return View(address);
         }
@@ -111,9 +114,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, AddressViewModel address)
+        public async Task<IActionResult> Edit(Guid id, AddressViewModel model)
         {
-            if (id != address.AdrKey)
+            if (id != model.AdrKey)
             {
                 return NotFound();
             }
@@ -122,12 +125,23 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(address);
+                    var ob = await _context.FindAsync<Address>(model.AdrKey);
+                    ob.AdrCity = model.AdrCity;
+                    ob.AdrState = model.AdrState;
+                    ob.AdrZip = model.AdrZip;
+                    ob.AdrAddress1 = model.AdrAddress1;
+                    ob.AdrAddress2 = model.AdrAddress2;
+                    ob.AdrAddress3 = model.AdrAddress3;
+                    ob.AdrIsHomeAddress = model.AdrIsHomeAddress;
+                    ob.AdrIsMailingAddress = model.AdrIsMailingAddress;
+                    ob.AdrIsPrimaryAddress = model.AdrIsPrimaryAddress;
+                    ob.AdrIsWorkAddress = model.AdrIsWorkAddress;
+                    _context.Update(ob);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AddressExists(address.AdrKey))
+                    if (!AddressExists(model.AdrKey))
                     {
                         return NotFound();
                     }
@@ -136,10 +150,14 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
+                if (!string.IsNullOrEmpty(model.RefAction))
+                {
+                    return RedirectToAction(model.RefAction, model.RefController, new { id = model.RefId });
+                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
-            return View(address);
+            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", model.AdrPerKey);
+            return View(model);
         }
 
         // GET: Addresses/Delete/5
@@ -175,6 +193,27 @@ namespace ProjectMoonshine.Controllers
         private bool AddressExists(Guid id)
         {
             return _context.Addresses.Any(e => e.AdrKey == id);
+        }
+
+
+        private void SetRefererInfo()
+        {
+            var refererHeader = Request.Headers[GlobalConstants.RefererHeader];
+            if (!string.IsNullOrEmpty(refererHeader))
+            {
+                var localPath = new Uri(refererHeader).LocalPath;
+                ViewBag.RefAction = localPath.GetActionFromUrl();
+                ViewBag.RefController = localPath.GetControllerFromUrl();
+                ViewBag.RefId = GlobalConstants.IsValidGuidRegex.GetRegexMatch(localPath);
+            }
+            else
+            {
+                ViewBag.RefController = "Addresses";
+                ViewBag.RefId = "";
+                ViewBag.RefText = "List";
+                ViewBag.RefAction = "Index";
+
+            }
         }
     }
 }

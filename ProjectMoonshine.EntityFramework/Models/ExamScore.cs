@@ -25,6 +25,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public DateTimeOffset ExsAddDate { get; set; }
         public DateTimeOffset? ExsChangeDate { get; set; }
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public string ExsAddUser { get; set; }
         public string ExsChangeUser { get; set; }
 

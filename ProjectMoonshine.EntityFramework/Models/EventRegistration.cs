@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -21,6 +19,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Drop Date")]
         public DateTimeOffset? EvrDropDate { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset EvrAddDate { get; set; }
         public DateTimeOffset? EvrChangeDate { get; set; }
         public string EvrAddUser { get; set; }
@@ -29,6 +29,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         #region Navigation Properties
         [ForeignKey("EvrEvtKey")]
         public virtual Event Event { get; set; }
+        [ForeignKey("EvrCusKey")]
         public virtual Customer Customer { get; set; }
         #endregion Navigation Properties
     }

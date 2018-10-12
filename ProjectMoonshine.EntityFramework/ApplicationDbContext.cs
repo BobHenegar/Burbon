@@ -4,11 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework
 {
@@ -42,6 +40,16 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<CEPeriod> CEPeriods { get; set; }
 
         public DbSet<CEDetail> CEDetails { get; set; }
+
+        public DbSet<EventRegistration> EventRegistrations { get; set; }
+
+        public DbSet<Event> Events { get; set; }
+
+        public DbSet<Exam> Exams { get; set; }
+
+        public DbSet<ExamScore> ExamScores { get; set; }
+
+
 
         public const string Prefix = "Prefix";
 
@@ -90,7 +98,7 @@ namespace ProjectMoonshine.EntityFramework
                         | BindingFlags.FlattenHierarchy);
 
                     // Should only be one constant for these
-                    if(fields.Count() > 1)
+                    if (fields.Count() > 1)
                     {
                         throw new Exception("No more than 1 const field on object allowed");
                     }
@@ -129,8 +137,6 @@ namespace ProjectMoonshine.EntityFramework
                         .Entity(entityType.ClrType)
                         .Property(addUser)
                         .ValueGeneratedOnAdd();
-
-                    
                 }
             }
             modelBuilder
@@ -147,11 +153,13 @@ namespace ProjectMoonshine.EntityFramework
 
         public new async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
+            AddTimestamps(ChangeTracker);
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            AddTimestamps(ChangeTracker);
             return await base.SaveChangesAsync(cancellationToken);
         }
 
@@ -161,19 +169,15 @@ namespace ProjectMoonshine.EntityFramework
             return base.Update(entity).Entity;
         }
 
-        private void AddTimestamps(ChangeTracker tracker, string username)
+        private void AddTimestamps(ChangeTracker tracker, string username = null)
         {
-            var entities = tracker.Entries().Where(x => x.Entity.GetType().BaseType == typeof(EntityBase) && (x.State == EntityState.Added || x.State == EntityState.Modified));
+            var entities = tracker.Entries().Where(x => x.Entity.GetType().BaseType == typeof(EntityBase) && (x.State != EntityState.Added && x.State == EntityState.Modified));
 
             foreach (var entity in entities)
             {
-
-                if (typeof(EntityBase).IsAssignableFrom(entity.GetType().BaseType))
-                {
-                    var Prefix = TablePrefixs.Where(x => x.Key == entity.GetType().ToString()).First().Value;
-                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
-                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
-                }
+                var Prefix = TablePrefixs.Where(x => x.Key == entity.GetType().ToString()).First().Value;
+                entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
+                entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
             }
         }
     }

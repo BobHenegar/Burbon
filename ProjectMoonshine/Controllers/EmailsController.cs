@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -100,6 +102,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            SetRefererInfo();
             return View(email);
         }
 
@@ -108,9 +111,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
+        public async Task<IActionResult> Edit(Guid id, EmailViewModel model)
         {
-            if (id != email.EmlKey)
+            if (id != model.EmlKey)
             {
                 return NotFound();
             }
@@ -119,12 +122,17 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(email);
+                    var ob = await _context.FindAsync<Email>(model.EmlKey);
+                    ob.EmlAddress = model.EmlAddress;
+                    ob.EmlIsPersonalEmail = model.EmlIsPersonalEmail;
+                    ob.EmlIsPrimaryEmail = model.EmlIsPrimaryEmail;
+                    ob.EmlIsWorkEmail = model.EmlIsWorkEmail;
+                    _context.Update(ob);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmailExists(email.EmlKey))
+                    if (!EmailExists(model.EmlKey))
                     {
                         return NotFound();
                     }
@@ -133,9 +141,13 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
+                if (!string.IsNullOrEmpty(model.RefAction))
+                {
+                    return RedirectToAction(model.RefAction, model.RefController, new { id = model.RefId });
+                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(email);
+            return View(model);
         }
 
         // GET: Emails/Delete/5
@@ -170,6 +182,25 @@ namespace ProjectMoonshine.Controllers
         private bool EmailExists(Guid id)
         {
             return _context.Emails.Any(e => e.EmlKey == id);
+        }
+        private void SetRefererInfo()
+        {
+            var refererHeader = Request.Headers[GlobalConstants.RefererHeader];
+            if (!string.IsNullOrEmpty(refererHeader))
+            {
+                var localPath = new Uri(refererHeader).LocalPath;
+                ViewBag.RefAction = localPath.GetActionFromUrl();
+                ViewBag.RefController = localPath.GetControllerFromUrl();
+                ViewBag.RefId = GlobalConstants.IsValidGuidRegex.GetRegexMatch(localPath);
+            }
+            else
+            {
+                ViewBag.RefController = "Emails";
+                ViewBag.RefId = "";
+                ViewBag.RefText = "List";
+                ViewBag.RefAction = "Index";
+
+            }
         }
     }
 }

@@ -71,12 +71,14 @@
             <dd>
                 @Html.DisplayFor(model => model.Customer.CusKey)
             </dd>
+            <div style="float:right;width:50%;">
+                <a asp-action="Edit" asp-route-id="@Model.PerKey">Edit Person</a> | <a asp-action="Index">Back to List</a>
+            </div>
         </dl>
-        <div style="float:right;width:50%;" >
-            <a asp-action="Edit" asp-route-id="@Model.PerKey">Edit Person</a> | <a asp-action="Index">Back to List</a>
-        </div>
     </div>
-    @await Html.PartialAsync("_AddressPartialView", Model.Addresses.FirstOrDefault())
-    @await Html.PartialAsync("_PhonePartialView", Model.Phones.FirstOrDefault())
-    @await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())
+    <div style="display:flex;flex-wrap:wrap;flex-direction:row;">
+        @await Html.PartialAsync("_AddressPartialView", Model.Addresses.FirstOrDefault())
+        @await Html.PartialAsync("_PhonePartialView", Model.Phones.FirstOrDefault())
+        @await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())
+    </div>
 </div>

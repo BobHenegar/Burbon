@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -60,7 +58,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Is Home Address?")]
         [DefaultValue(false)]
         public bool AdrIsHomeAddress { get; set; }
-
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset AdrAddDate { get; set; }
         public DateTimeOffset? AdrChangeDate { get; set; }
         public string AdrAddUser { get; set; }

@@ -1,47 +1,47 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Email
 
-<div style="width:50%;">
+<div style="width:33%;min-width:400px;height:400px;padding:50px 15px 500px 15px">
     <h4>Email</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        @if (Model != null)
-        {
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlIsPrimaryEmail)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlIsWorkEmail)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmlIsPersonalEmail)
-        </dd>
-        }
-        else
-        {
-        <dd>
-            <p>No Emails on Record</p>
-        </dd>
-        }
-    </dl>
     @if (Model != null)
     {
-    <div>
-        <a style="float:right;" asp-action="Edit" asp-route-id="@Model.EmlKey">Edit Email</a>
-    </div>
+        <div style="width:100%;float:right;">
+            <a style="float:right;" asp-action="Edit" asp-controller="Emails" asp-route-id="@Model.EmlKey">Edit Email</a>
+        </div>
+    }
+    <hr />
+    @if (Model != null)
+    {
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmlAddress)
+                </dt>
+                <dd style="text-overflow:ellipsis; word-wrap:break-word;">
+                    @Html.DisplayFor(model => model.EmlAddress)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EmlIsPrimaryEmail)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmlIsWorkEmail)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EmlIsWorkEmail)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmlIsPersonalEmail)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.EmlIsPersonalEmail)
+                </dd>
+            </dl>
+        </div>
+    }
+    else
+    {
+        <p>No Emails on Record</p>
     }
 </div>

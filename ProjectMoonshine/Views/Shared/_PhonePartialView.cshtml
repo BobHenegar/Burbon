@@ -1,59 +1,61 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Phone
 
-<div style="width:50%;">
-    <h4>Phone</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<div style="width:30%;min-width:320px;height:400px;padding:50px 15px 50px 15px;">
+    <div style="border-left: 1px solid #eee;border-right: 1px solid #eee; padding-left:10px; padding-right:15px;">
+        <h4>Phone</h4>
         @if (Model != null)
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoNumber)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoNumber)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoExtention)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoExtention)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoIsPrimary)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoIsPrimary)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoIsHome)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoIsHome)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoIsMobile)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoIsMobile)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoIsWork)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PhoIsWork)
-            </dd>
+        <div style="width:100%;float:right;">
+            <a style="float:right;" asp-action="Edit" asp-controller="Phones" asp-route-id="@Model.PhoKey">Edit Phone</a>
+        </div>
+        }
+        <hr />
+        @if (Model != null)
+        {
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoExtention)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoExtention)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoIsPrimary)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoIsPrimary)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoIsHome)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoIsHome)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoIsMobile)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoIsMobile)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PhoIsWork)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PhoIsWork)
+                </dd>
+            </dl>
+        </div>
         }
         else
         {
-        <dd>
-            <p>No Phones on Record</p>
-        </dd>
+        <p>No Phones on Record</p>
         }
-    </dl>
-    @if (Model != null)
-    {
-    <div>
-        <a style="float:right;" asp-action="Edit" asp-route-id="@Model.PhoKey">Edit Phone</a>
     </div>
-    }
 </div>

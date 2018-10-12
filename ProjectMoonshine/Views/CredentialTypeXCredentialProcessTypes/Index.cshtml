@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialTypeXCredentialProcessType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct4Order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct4AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct4ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct4AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct4ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialProcessType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct4Order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct4AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct4ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct4AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct4ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialType.Ct1Credential)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialProcessType.Ct2Process)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct4Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct4Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct4Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

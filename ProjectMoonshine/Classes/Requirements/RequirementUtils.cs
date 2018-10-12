@@ -1,7 +1,3 @@
-using System;
-using System.Data;
-using ags.credentialing;
-
 namespace ags.requirements
 {
     public class RequirementUtils

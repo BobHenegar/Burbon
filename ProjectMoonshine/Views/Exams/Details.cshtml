@@ -1,0 +1,60 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Exam
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Exam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmSeatCount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmSeatCount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmCanRetake)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmCanRetake)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExmChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExmChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EvtName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Event.EvtDescription)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ExmKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

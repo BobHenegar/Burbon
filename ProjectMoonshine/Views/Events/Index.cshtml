@@ -1,0 +1,79 @@
+﻿@model IPagedList<ProjectMoonshine.EntityFramework.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtName), "Index", new { sortOrder = "eventName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtDescription), "Index", new { sortOrder = "description", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtStartDate), "Index", new { sortOrder = "startDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtEndDate), "Index", new { sortOrder = "endDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().EvtChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().EvtAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().EvtChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtChangeUser)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EvtKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EvtKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EvtKey">Delete</a>
+                </td>
+            </tr>
+            <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Events" />
+        }
+    </tbody>
+</table>

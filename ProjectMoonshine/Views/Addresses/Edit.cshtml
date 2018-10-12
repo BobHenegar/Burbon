@@ -99,12 +99,15 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
+            @Html.Hidden("RefAction", ViewBag.RefAction as string)
+            @Html.Hidden("RefController", ViewBag.RefController as string)
+            @Html.Hidden("RefId", ViewBag.RefId as string)
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="@ViewBag.RefAction" asp-route-controller="@ViewBag.RefController" asp-route-id="@ViewBag.RefId">Back</a>
 </div>
 
 @section Scripts {

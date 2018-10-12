@@ -607,6 +607,146 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Email");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Event", b =>
+                {
+                    b.Property<Guid>("EvtKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("EvtAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("EvtAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("EvtChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EvtChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EvtDescription")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTimeOffset?>("EvtEndDate");
+
+                    b.Property<string>("EvtName")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<DateTimeOffset?>("EvtStartDate");
+
+                    b.HasKey("EvtKey");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EventRegistration", b =>
+                {
+                    b.Property<Guid>("EvrKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("EvrAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("EvrAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("EvrChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EvrChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("EvrCusKey");
+
+                    b.Property<DateTimeOffset?>("EvrDropDate");
+
+                    b.Property<Guid>("EvrEvtKey");
+
+                    b.HasKey("EvrKey");
+
+                    b.HasIndex("EvrCusKey");
+
+                    b.HasIndex("EvrEvtKey");
+
+                    b.ToTable("EventRegistrations");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Exam", b =>
+                {
+                    b.Property<Guid>("ExmKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("ExmAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("ExmAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("ExmCanRetake");
+
+                    b.Property<DateTimeOffset?>("ExmChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ExmChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("ExmEvtKey");
+
+                    b.Property<string>("ExmName");
+
+                    b.Property<int?>("ExmSeatCount");
+
+                    b.HasKey("ExmKey");
+
+                    b.HasIndex("ExmEvtKey");
+
+                    b.ToTable("Exams");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.ExamScore", b =>
+                {
+                    b.Property<Guid>("ExsKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("ExsAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("ExsAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("ExsChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ExsChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("ExsCusKey");
+
+                    b.Property<Guid>("ExsExmKey");
+
+                    b.Property<int>("ExsTotalPossible");
+
+                    b.Property<int>("ExsTotalReceived");
+
+                    b.HasKey("ExsKey");
+
+                    b.HasIndex("ExsCusKey");
+
+                    b.HasIndex("ExsExmKey");
+
+                    b.ToTable("ExamScores");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
                 {
                     b.Property<Guid>("PerKey")
@@ -626,8 +766,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("PerChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("PerCusKey")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("PerCusKey");
 
                     b.Property<DateTimeOffset>("PerDateOfBirth");
 
@@ -644,7 +783,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasKey("PerKey");
 
-                    b.HasIndex("PerCusKey");
+                    b.HasIndex("PerCusKey")
+                        .IsUnique();
 
                     b.ToTable("Person");
                 });
@@ -915,11 +1055,45 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EventRegistration", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("PerCusKey")
+                        .HasForeignKey("EvrCusKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
+                        .WithMany("EventRegistrations")
+                        .HasForeignKey("EvrEvtKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Exam", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("ExmEvtKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.ExamScore", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("ExsCusKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Exam", "Exam")
+                        .WithMany("ExamScores")
+                        .HasForeignKey("ExsExmKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithOne("Person")
+                        .HasForeignKey("ProjectMoonshine.EntityFramework.Models.Person", "PerCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

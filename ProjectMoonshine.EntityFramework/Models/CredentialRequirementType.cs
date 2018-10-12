@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -16,8 +15,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct3Key { get; set; }
 
+        [DisplayName("Requirement")]
         public string Ct3Requirement { get; set; }
 
+        [DisplayName("Discription")]
         public string Ct3Description { get; set; }
 
         //public DateTimeOffset Ct3StartDate { get; set; }
@@ -77,12 +78,16 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3Cr3StartStatus { get; set; }
 
+        [DisplayName("Start Status")]
         public Guid? Ct3StartCt6Key { get; set; }
 
+        [DisplayName("Complete Status")]
         public Guid? Ct3CompleteCt6Key { get; set; }
 
+        [DisplayName("Submitted Status")]
         public Guid? Ct3SubmitCt6Key { get; set; }
 
+        [DisplayName("Met Status")]
         public Guid? Ct3MetCt6Key { get; set; }
 
         //public string Ct3Cr3DependentStatus { get; set; }
@@ -105,6 +110,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public bool Ct3ShowOnline { get; set; }
 
+        [DisplayName("Long Description")]
         public string Ct3LongDescription { get; set; }
 
         //public string Ct3EditImageUrl { get; set; }
@@ -136,13 +142,19 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Ct3Cr3DeniedStatus { get; set; }
 
         //public int Ct3ExamMaxAttempts { get; set; }
-
+        [DisplayName("Add Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Ct3AddDate { get; set; }
 
+        [DisplayName("Change Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Ct3ChangeDate { get; set; }
 
+
+        [DisplayName("Add User")]
         public string Ct3AddUser { get; set; }
 
+        [DisplayName("Change User")]
         public string Ct3ChangeUser { get; set; }
 
 

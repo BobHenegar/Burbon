@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +19,10 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Exam Seating Limit")]
         public int? ExmSeatCount { get; set; }
+
+        [DisplayName("Exam Name")]
+        public string ExmName{ get; set; }
+
         [DisplayName("Allow Retakes")]
         [DefaultValue(true)]
         public bool ExmCanRetake { get; set; }
@@ -32,10 +35,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
         #region Navigation Properties
-        public IList<ExamScore> ExamScores { get; set; }
+        public virtual IList<ExamScore> ExamScores { get; set; }
         [ForeignKey("ExmEvtKey")]
-        public Event ExamRegistrations { get; set; }
-        public IList<Customer> Customers { get; set; }
+        public virtual Event Event { get; set; }
         #endregion Navigation Properties
     }
 }

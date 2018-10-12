@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectMoonshine.ViewModels
 {
-    public class PhoneViewModel
+    public class PhoneViewModel : BaseViewModel
     {
         [Required]
         public Guid PhoKey { get; set; }

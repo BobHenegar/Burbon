@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ags.requirements
+﻿namespace ags.requirements
 {
     class ExperiencePeriod {
 

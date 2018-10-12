@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProjectMoonshine.ViewModels
 {
-    public class EmailViewModel
+    public class EmailViewModel : BaseViewModel
     {
         public Guid EmlKey { get; set; }
         [Required]

@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.ExamScore
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ExamScore</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsTotalPossible)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsTotalPossible)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsTotalReceived)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsTotalReceived)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ExsChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ExsChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Exam)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Exam.ExmKey)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ExsKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

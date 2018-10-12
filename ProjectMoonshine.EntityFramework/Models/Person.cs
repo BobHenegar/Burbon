@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -15,7 +14,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid PerKey { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid PerCusKey { get; set; }
 
         [Required, DisplayName("First Name")]
@@ -33,10 +31,16 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Required, DisplayName("Gender")]
         public string PerGender { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PerAddDate { get; set; }
         public DateTimeOffset? PerChangeDate { get; set; }
         public string PerAddUser { get; set; }
         public string PerChangeUser { get; set; }
+
+        [NotMapped]
+        [DisplayName("First Middle Last")]
+        public string PerFirstMiddleLast { get => $"{PerFirstName} {PerMiddleName} {PerLastName}"; }
 
         #region Navigation Properties
 

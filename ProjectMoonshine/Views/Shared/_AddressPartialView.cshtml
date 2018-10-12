@@ -1,83 +1,83 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Address
 
-<div style="width:50%;">
+<div style="width:20%;min-width:320px;height:400px;padding:50px 15px 50px 15px">
     <h4>Primary Address</h4>
+    @if (Model != null)
+    {
+        <div style="width:100%;float:right;">
+            <a style="float:right;" asp-action="Edit" asp-controller="Addresses" asp-route-id="@Model.AdrKey">Edit Address</a>
+        </div>
+    }
     <hr />
-    <dl class="dl-horizontal">
-        @if(Model != null)
-        {
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrCity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrCity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrState)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrState)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrZip)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrZip)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrAddress1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrAddress1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrAddress2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrAddress2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrAddress3)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrAddress3)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrIsPrimaryAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrIsMailingAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrIsWorkAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdrIsHomeAddress)
-        </dd>
-        }
-        else
-        {
-        <dd>
-            <p>No Addresses on Record</p>
-        </dd>
-        }
-    </dl>
     @if (Model != null)
     {
     <div>
-        <a style="float:right;" asp-action="Edit" asp-route-id="@Model.AdrKey">Edit Address</a>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrCity)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrCity)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrState)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrState)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrZip)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrZip)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrAddress1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrAddress1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrAddress2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrAddress2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrAddress3)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrAddress3)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrIsPrimaryAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrIsPrimaryAddress)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrIsMailingAddress)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrIsWorkAddress)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdrIsHomeAddress)
+            </dd>
+        </dl>
     </div>
+    }
+    else
+    {
+        <p>No Addresses on Record</p>
     }
 </div>

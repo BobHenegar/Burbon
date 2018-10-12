@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -102,6 +104,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            SetRefererInfo();
             ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
@@ -111,9 +114,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoIsPrimary,PhoIsHome,PhoIsMobile,PhoIsWork,PhoAddDate,PhoChangeDate,PhoAddUser,PhoChangeUser")] Phone phone)
+        public async Task<IActionResult> Edit(Guid id, PhoneViewModel model)
         {
-            if (id != phone.PhoKey)
+            if (id != model.PhoKey)
             {
                 return NotFound();
             }
@@ -122,12 +125,19 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(phone);
+                    var ob = await _context.FindAsync<Phone>(model.PhoKey);
+                    ob.PhoExtention = model.PhoExtention;
+                    ob.PhoIsHome = model.PhoIsHome;
+                    ob.PhoIsMobile = model.PhoIsMobile;
+                    ob.PhoIsPrimary = model.PhoIsPrimary;
+                    ob.PhoIsWork = model.PhoIsWork;
+                    ob.PhoNumber = model.PhoNumber;
+                    _context.Update(ob);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PhoneExists(phone.PhoKey))
+                    if (!PhoneExists(model.PhoKey))
                     {
                         return NotFound();
                     }
@@ -136,10 +146,14 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
+                if (!string.IsNullOrEmpty(model.RefAction))
+                {
+                    return RedirectToAction(model.RefAction, model.RefController, new { id = model.RefId });
+                }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
-            return View(phone);
+            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", model.PhoPerKey);
+            return View(model);
         }
 
         // GET: Phones/Delete/5
@@ -175,6 +189,25 @@ namespace ProjectMoonshine.Controllers
         private bool PhoneExists(Guid id)
         {
             return _context.Phones.Any(e => e.PhoKey == id);
+        }
+        private void SetRefererInfo()
+        {
+            var refererHeader = Request.Headers[GlobalConstants.RefererHeader];
+            if (!string.IsNullOrEmpty(refererHeader))
+            {
+                var localPath = new Uri(refererHeader).LocalPath;
+                ViewBag.RefAction = localPath.GetActionFromUrl();
+                ViewBag.RefController = localPath.GetControllerFromUrl();
+                ViewBag.RefId = GlobalConstants.IsValidGuidRegex.GetRegexMatch(localPath);
+            }
+            else
+            {
+                ViewBag.RefController = "Phones";
+                ViewBag.RefId = "";
+                ViewBag.RefText = "List";
+                ViewBag.RefAction = "Index";
+
+            }
         }
     }
 }

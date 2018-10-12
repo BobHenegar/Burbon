@@ -1,0 +1,49 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.ExamScore
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>ExamScore</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ExsKey" />
+            <div class="form-group">
+                <label asp-for="ExsExmKey" class="control-label"></label>
+                <select asp-for="ExsExmKey" class="form-control" asp-items="ViewBag.ExsExmKey"></select>
+                <span asp-validation-for="ExsExmKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExsCusKey" class="control-label"></label>
+                <select asp-for="ExsCusKey" class="form-control" asp-items="ViewBag.ExsCusKey"></select>
+                <span asp-validation-for="ExsCusKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExsTotalPossible" class="control-label"></label>
+                <input asp-for="ExsTotalPossible" class="form-control" />
+                <span asp-validation-for="ExsTotalPossible" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExsTotalReceived" class="control-label"></label>
+                <input asp-for="ExsTotalReceived" class="form-control" />
+                <span asp-validation-for="ExsTotalReceived" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

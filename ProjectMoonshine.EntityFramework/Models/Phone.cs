@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
-using ProjectMoonshine.EntityFramework.Attributes;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -42,6 +39,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DefaultValue(false)]
         public bool PhoIsWork { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PhoAddDate { get; set; }
         public DateTimeOffset? PhoChangeDate { get; set; }
         public string PhoAddUser { get; set; }

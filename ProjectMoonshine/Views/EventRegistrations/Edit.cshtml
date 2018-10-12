@@ -1,0 +1,44 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.EventRegistration
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>EventRegistration</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EvrKey" />
+            <div class="form-group">
+                <label asp-for="EvrEvtKey" class="control-label"></label>
+                <select asp-for="EvrEvtKey" class="form-control" asp-items="ViewBag.EvrEvtKey"></select>
+                <span asp-validation-for="EvrEvtKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvrCusKey" class="control-label"></label>
+                <select asp-for="EvrCusKey" class="form-control" asp-items="ViewBag.EvrCusKey"></select>
+                <span asp-validation-for="EvrCusKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EvrDropDate" class="control-label"></label>
+                <input asp-for="EvrDropDate" class="form-control" />
+                <span asp-validation-for="EvrDropDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

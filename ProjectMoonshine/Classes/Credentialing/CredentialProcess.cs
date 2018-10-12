@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Data;
-using System.Linq;
-
-namespace ags.credentialing {
+namespace ags.credentialing
+{
     public class CredentialProcess  {
 		//public DynamicData _oData;
 		//public DynamicData _oCredentialProcessType;
