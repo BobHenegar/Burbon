@@ -137,8 +137,6 @@ namespace ProjectMoonshine.EntityFramework
                         .Entity(entityType.ClrType)
                         .Property(addUser)
                         .ValueGeneratedOnAdd();
-
-                    
                 }
             }
             modelBuilder
