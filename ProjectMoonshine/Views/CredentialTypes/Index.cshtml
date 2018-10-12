@@ -49,9 +49,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.InitStatusType)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowVersion)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -93,9 +90,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.InitStatusType.Ct6Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
