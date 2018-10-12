@@ -40,9 +40,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CompletedStatus)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowVersion)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -76,9 +74,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CompletedStatus.Ct6Code)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct2Key">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Ct2Key">Details</a> |

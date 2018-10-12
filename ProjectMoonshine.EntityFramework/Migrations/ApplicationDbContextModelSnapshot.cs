@@ -171,7 +171,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("Cr1StartDate");
 
-
                     b.HasKey("Cr1Key");
 
                     b.HasIndex("Cr1Ct1Key");
@@ -211,6 +210,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid>("Cr2Ct2Key");
 
                     b.Property<Guid>("Cr2Ct6Key");
+
+                    b.Property<DateTimeOffset?>("Cr2TerminationDate");
 
                     b.HasKey("Cr2Key");
 

@@ -61,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser,RowVersion")] CredentialType credentialType)
+        public async Task<IActionResult> Create([Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser")] CredentialType credentialType)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser,RowVersion")] CredentialType credentialType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ct1Key,Ct1Credential,Ct1Description,Ct1StartDate,Ct1EndDate,Ct1InitCt2Key,Ct1InitCt6Key,Ct1RenewCt2Key,Ct1RenewCt6Key,Ct1Order,Ct1AddDate,Ct1ChangeDate,Ct1AddUser,Ct1ChangeUser")] CredentialType credentialType)
         {
             if (id != credentialType.Ct1Key)
             {

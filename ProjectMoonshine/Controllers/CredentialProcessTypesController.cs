@@ -61,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser,RowVersion")] CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Create([Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser")] CredentialProcessType credentialProcessType)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser,RowVersion")] CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser")] CredentialProcessType credentialProcessType)
         {
             if (id != credentialProcessType.Ct2Key)
             {

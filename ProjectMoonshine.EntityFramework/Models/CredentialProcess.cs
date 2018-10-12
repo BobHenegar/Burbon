@@ -39,7 +39,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Cr2CompletionDate { get; set; }
 
-        //public DateTimeOffset Cr2TerminationDate { get; set; }
+        [DisplayName("Termination Date")]
+        public DateTimeOffset? Cr2TerminationDate { get; set; }
 
         //public DateTimeOffset Cr2ExtensionDate { get; set; }
 
@@ -88,6 +89,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public Guid Cr2DataKey { get; set; }
 
         //public string Cr2ProcessNumber { get; set; }
+
 
         public string Cr2AddUser { get; set; }
 

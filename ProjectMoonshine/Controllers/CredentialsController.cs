@@ -65,15 +65,24 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate,RowVersion")] Credential credential)
+        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
         {
             if (ModelState.IsValid)
             {
+                try
+                {
                 credential.Cr1Key = Guid.NewGuid();
-                credential.Add(_context);
+                bool success = await credential.Add(_context);
                 //_context.Add(credential);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //await _context.SaveChangesAsync();
+
+                    if (success) return RedirectToAction(nameof(Index));
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                
             }
             ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
             ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
@@ -109,7 +118,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate,RowVersion")] Credential credential)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
         {
             if (id != credential.Cr1Key)
             {
@@ -120,8 +129,10 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(credential);
-                    await _context.SaveChangesAsync();
+                    await credential.Update(_context);
+                    //_context.Update(credential);
+
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

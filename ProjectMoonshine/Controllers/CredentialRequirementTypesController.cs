@@ -65,7 +65,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3AddDate,Ct3ChangeDate,Ct3AddUser,Ct3ChangeUser,RowVersion")] CredentialRequirementType credentialRequirementType)
+        public async Task<IActionResult> Create([Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3AddDate,Ct3ChangeDate,Ct3AddUser,Ct3ChangeUser")] CredentialRequirementType credentialRequirementType)
         {
             if (ModelState.IsValid)
             {
@@ -108,7 +108,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3AddDate,Ct3ChangeDate,Ct3AddUser,Ct3ChangeUser,RowVersion")] CredentialRequirementType credentialRequirementType)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3AddDate,Ct3ChangeDate,Ct3AddUser,Ct3ChangeUser")] CredentialRequirementType credentialRequirementType)
         {
             if (id != credentialRequirementType.Ct3Key)
             {
