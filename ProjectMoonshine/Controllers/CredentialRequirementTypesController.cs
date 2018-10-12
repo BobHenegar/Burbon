@@ -56,7 +56,9 @@ namespace ProjectMoonshine.Controllers
             ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key");
             ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key");
             ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Key");
-            ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template");
+            List<SelectListItem> list = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template").ToList();
+            list.Insert(0,(new SelectListItem { Text = "Please Select", Value = null }));
+            ViewData["Ct3Ct8Key"] = list;
             return View();
         }
 
