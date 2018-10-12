@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -24,7 +25,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Cr1Ct1Credential { get; set; }
         public Guid Cr1Ct1Key { get; set; }
 
-        //public string Cr1CredentialNumber { get; set; }
+        [DisplayName("Credential Number")]
+        public string Cr1CredentialNumber { get; set; }
+
         [DisplayName("Customer")]
         public Guid Cr1CusKey { get; set; }
 
@@ -44,9 +47,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Cr1StatusChangeUser { get; set; }
 
-        //public DateTimeOffset Cr1CredentialDate { get; set; }
+        [DisplayName("CredentialDate")]
+        public DateTimeOffset? Cr1CredentialDate { get; set; }
 
-        //public DateTimeOffset Cr1EffectiveDate { get; set; }
+        [DisplayName("Effective Date")]
+        public DateTimeOffset? Cr1EffectiveDate { get; set; }
 
         //public DateTimeOffset Cr1ValidThruDate { get; set; }
 
@@ -156,17 +161,87 @@ return false;
 
         public async Task<bool> Update(ApplicationDbContext context)
         {
+            
             try
             {
-                if (CurrentCredentialProcess == null)
+using (var transaction = context.Database.BeginTransaction())
+            {
+if (CurrentCredentialProcess == null)
                     CurrentCredentialProcess =
-                        context.CredentialProcesses.FirstOrDefault(p => p.Cr2Key == Cr1CurrentCr2Key);
+                        context.CredentialProcesses.Include(p => p.CredentialProcessType).FirstOrDefault(p => p.Cr2Key == Cr1CurrentCr2Key);
 
                 // check if process is terminated
-                if (CurrentCredentialProcess.Cr2TerminationDate != null) RemoveDesignation();
-                context.SaveChanges();
+                if (CurrentCredentialProcess.Cr2TerminationDate != null)
+                {
+                    //RemoveDesignation();
+context.SaveChanges();
+                }
+                
 
                 // check if process is complete
+
+                else if (CurrentCredentialProcess.Cr2CompletionDate != null &&
+                    CurrentCredentialProcess.Cr2TerminationDate == null)
+                {
+                    Cr1EffectiveDate = CurrentCredentialProcess.Cr2CompletionDate;
+                    if (Cr1CredentialDate == null)  Cr1CredentialDate = CurrentCredentialProcess.Cr2CompletionDate;
+
+                    //TODO: set up credential numbering
+                    //Cr1CredentialNumber = GetNextCredentialNumber(CurrentCredentialProcess);
+
+                    //TODO: Add designation to person record?
+
+                    context.SaveChanges();
+
+                    CredentialProcessType nextProcessType = null;
+                    CredentialType = context.CredentialTypes.FirstOrDefault(ct => ct.Ct1Key == Cr1Ct1Key);
+
+
+                    if (CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key != null)
+                        nextProcessType = context.CredentialProcessTypes.FirstOrDefault(pt =>
+                            pt.Ct2Key == CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key);
+                            
+                            //Guid.Parse(CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key.ToString());
+
+                    else if (CredentialType.Ct1RenewCt2Key != null)
+                        nextProcessType = context.CredentialProcessTypes.FirstOrDefault(pt => pt.Ct2Key == Guid.Parse(CredentialType.Ct1InitCt2Key.ToString())) ;
+
+                    if (nextProcessType != null)
+                    {
+                        CredentialProcess nextCredentialProcess = new CredentialProcess()
+                        {
+                            Cr2Ct2Key = nextProcessType.Ct2Key, Cr2Key = Guid.NewGuid(), Cr2Cr1Key = Cr1Key,
+                            Cr2Ct6Key = Guid.Parse(nextProcessType.Ct2StartCt6Key.ToString())
+                        };
+
+                        context.Add(nextCredentialProcess);
+                        context.SaveChanges();
+
+                        CurrentCredentialProcess = nextCredentialProcess;
+
+                        context.SaveChanges();
+
+                        Cr1CurrentCr2Key = nextCredentialProcess.Cr2Key;
+                        
+                        context.SaveChanges();
+
+                        //TODO: set valid thru date based on process type / process settings;
+                        Cr1Ct6Key = Guid.Parse(CredentialType.Ct1RenewCt6Key.ToString());
+
+                        context.SaveChanges();
+                    }
+                    
+                    
+
+
+
+                    
+                }
+                
+                transaction.Commit();
+            }
+
+                
 
                 return true;
             }
@@ -178,6 +253,12 @@ return false;
             }
             
         }
+
+        private string GetNextCredentialNumber(CredentialProcess currentCredentialProcess)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void RemoveDesignation()
         {

@@ -113,6 +113,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct1InitCt2Key")]
         public virtual CredentialProcessType InitCredentialProcessType { get; set; }
 
+        [ForeignKey("Ct1RenewCt2Key")]
+        public virtual CredentialProcessType RenewCredentialProcessType { get; set; }
+
         #endregion Navigation Properties
     }
 }

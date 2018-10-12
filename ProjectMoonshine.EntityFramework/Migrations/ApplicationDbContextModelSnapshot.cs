@@ -159,6 +159,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr1ChangeUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTimeOffset?>("Cr1CredentialDate");
+
+                    b.Property<string>("Cr1CredentialNumber");
+
                     b.Property<Guid>("Cr1Ct1Key");
 
                     b.Property<Guid?>("Cr1Ct2Key");
@@ -168,6 +172,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Cr1CurrentCr2Key");
 
                     b.Property<Guid>("Cr1CusKey");
+
+                    b.Property<DateTimeOffset?>("Cr1EffectiveDate");
 
                     b.Property<DateTimeOffset>("Cr1StartDate");
 
@@ -205,6 +211,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr2ChangeUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTimeOffset?>("Cr2CompletionDate");
+
                     b.Property<Guid>("Cr2Cr1Key");
 
                     b.Property<Guid>("Cr2Ct2Key");
@@ -216,6 +224,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasKey("Cr2Key");
 
                     b.HasIndex("Cr2Cr1Key");
+
+                    b.HasIndex("Cr2Ct2Key");
 
                     b.HasIndex("Cr2Ct6Key");
 
@@ -244,6 +254,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Ct2CompletedCt6Key");
 
                     b.Property<string>("Ct2Description");
+
+                    b.Property<Guid?>("Ct2NextCt2key");
 
                     b.Property<string>("Ct2Process");
 
@@ -493,6 +505,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ct1InitCt2Key");
 
                     b.HasIndex("Ct1InitCt6Key");
+
+                    b.HasIndex("Ct1RenewCt2Key");
 
                     b.HasIndex("Ct1RenewCt6Key");
 
@@ -761,6 +775,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Cr2Cr1Key")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcessType", "CredentialProcessType")
+                        .WithMany()
+                        .HasForeignKey("Cr2Ct2Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "StatusType")
                         .WithMany()
                         .HasForeignKey("Cr2Ct6Key")
@@ -862,6 +881,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "InitStatusType")
                         .WithMany()
                         .HasForeignKey("Ct1InitCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcessType", "RenewCredentialProcessType")
+                        .WithMany()
+                        .HasForeignKey("Ct1RenewCt2Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "RenewStatusType")

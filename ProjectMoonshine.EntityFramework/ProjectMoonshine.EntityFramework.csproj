@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20181012141643_new credential stuff.cs" />
     <Compile Remove="Migrations\20181012143752_new credential stuff.cs" />
     <Compile Remove="Migrations\20181012143851_new credential stuff.cs" />
+    <Compile Remove="Migrations\20181012182749_updated models for credential update method.cs" />
+    <Compile Remove="Migrations\20181012183149_updated credential model.cs" />
   </ItemGroup>
 
   <ItemGroup>

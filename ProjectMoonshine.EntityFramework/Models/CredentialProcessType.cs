@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,7 +30,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset? Ct2EndDate { get; set; }
 
-        //public Guid Ct2NextCt2key { get; set; }
+            [DisplayName("Next Process Type")]
+        public Guid? Ct2NextCt2key { get; set; }
 
         //public int Ct2DueDateNumber { get; set; }
 

@@ -37,7 +37,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Cr2SubmitDate { get; set; }
 
-        //public DateTimeOffset Cr2CompletionDate { get; set; }
+            [DisplayName("Cr2CompletionDate")]
+        public DateTimeOffset? Cr2CompletionDate { get; set; }
 
         [DisplayName("Termination Date")]
         public DateTimeOffset? Cr2TerminationDate { get; set; }
@@ -108,6 +109,10 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr2Ct6Key")]
         public CredentialStatusType StatusType { get; set; }
+
+        [ForeignKey("Cr2Ct2Key")]
+        public virtual CredentialProcessType CredentialProcessType { get; set; }
+
 
     }
 }

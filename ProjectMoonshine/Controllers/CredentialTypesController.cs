@@ -89,8 +89,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credentialType.Ct1InitCt2Key);
+            ViewData["Ct1InitCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialType.Ct1InitCt2Key);
             ViewData["Ct1InitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1InitCt6Key);
+            ViewData["Ct1RenewCt2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialType.Ct1RenewCt2Key);
             ViewData["Ct1RenewCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialType.Ct1RenewCt6Key);
             return View(credentialType);
         }
