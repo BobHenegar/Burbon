@@ -14,6 +14,9 @@
     <Compile Remove="Migrations\20181010200642_empty-mig.cs" />
     <Compile Remove="Migrations\20181011154242_updated template model.cs" />
     <Compile Remove="Migrations\20181011161028_test-mig.cs" />
+    <Compile Remove="Migrations\20181012141643_new credential stuff.cs" />
+    <Compile Remove="Migrations\20181012143752_new credential stuff.cs" />
+    <Compile Remove="Migrations\20181012143851_new credential stuff.cs" />
   </ItemGroup>
 
   <ItemGroup>

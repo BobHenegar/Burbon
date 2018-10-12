@@ -23,14 +23,21 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid Cr1Ct1Key { get; set; }
 
         //public string Cr1CredentialNumber { get; set; }
-
+        [DisplayName("Customer")]
         public Guid Cr1CusKey { get; set; }
 
+        [DisplayName("Current Process")]
         public Guid? Cr1CurrentCr2Key { get; set; }
 
+        [NotMapped]
+        [DisplayName("Current Process Type")]
+        public Guid? Cr1Ct2Key { get; set; }
+        
         [DisplayName("Status")]
         public Guid Cr1Ct6Key { get; set; }
 
+        [DisplayName("Cr1StartDate")]
+        public DateTimeOffset Cr1StartDate { get; set; }
         //public DateTimeOffset Cr1StatusChangeDate { get; set; }
 
         //public string Cr1StatusChangeUser { get; set; }
@@ -57,18 +64,23 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Cr1DataKey { get; set; }
 
+        [DisplayName("Add User")]
         public string Cr1AddUser { get; set; }
 
+        [DisplayName("Add Date")]
         public DateTimeOffset Cr1AddDate { get; set; }
 
+        [DisplayName("Change User")]
         public string Cr1ChangeUser { get; set; }
 
+        [DisplayName("Change Date")]
         public DateTimeOffset? Cr1ChangeDate { get; set; }
 
         //public string Cr1LegalFirstName { get; set; }
 
         //public string Cr1LegalLastName { get; set; }
 
+        
         [ForeignKey("Cr1Ct1Key")]
         public virtual CredentialType CredentialType { get; set; }
 
@@ -86,17 +98,34 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr1Ct6Key")]
         public virtual CredentialStatusType StatusType { get; set; }
 
+        [ForeignKey("Cr1Ct2Key")]
+        public virtual CredentialProcessType CurrentCredentialProcessType { get; set; }
+
         public void Add(ApplicationDbContext DbContext)
         {
             try
             {
+                if (Cr1StartDate == null) Cr1StartDate = System.DateTimeOffset.Now;
+
+                if (Cr1Ct2Key == null) Cr1Ct2Key = this.CredentialType.InitCredentialProcessType.Ct2Key;
+                if (Cr1Ct2Key != null)
+                {
+                    CurrentCredentialProcess = new CredentialProcess()
+                    {
+                        Cr2Cr1Key = Cr1Key
+                        , Cr2Ct2Key = Guid.Parse(Cr1Ct2Key.ToString())
+                        , Cr2Key = Guid.NewGuid()
+                        , Cr2Ct6Key = Guid.Parse(CurrentCredentialProcessType.Ct2StartCt6Key.ToString())
+                    };
+
+                    Cr1CurrentCr2Key = CurrentCredentialProcess.Cr2Ct2Key;
+                }
                 DbContext.Add(this);
             }
             catch (Exception e)
             {
                 throw;
             }
-            
         }
         }
     }
