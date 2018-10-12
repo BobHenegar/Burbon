@@ -32,10 +32,10 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
         #region Navigation Properties
-        public IList<ExamScore> ExamScores { get; set; }
+        public virtual IList<ExamScore> ExamScores { get; set; }
         [ForeignKey("ExmEvtKey")]
-        public Event ExamRegistrations { get; set; }
-        public IList<Customer> Customers { get; set; }
+        public virtual Event ExamRegistrations { get; set; }
+        public virtual IList<Customer> Customers { get; set; }
         #endregion Navigation Properties
     }
 }

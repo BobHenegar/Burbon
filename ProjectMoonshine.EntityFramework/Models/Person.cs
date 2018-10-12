@@ -15,7 +15,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid PerKey { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid PerCusKey { get; set; }
 
         [Required, DisplayName("First Name")]

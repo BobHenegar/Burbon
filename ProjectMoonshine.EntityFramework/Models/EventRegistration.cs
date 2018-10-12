@@ -29,6 +29,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         #region Navigation Properties
         [ForeignKey("EvrEvtKey")]
         public virtual Event Event { get; set; }
+        [ForeignKey("EvrCusKey")]
         public virtual Customer Customer { get; set; }
         #endregion Navigation Properties
     }
