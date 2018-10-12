@@ -66,10 +66,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("AdrZip")
                         .HasMaxLength(10);
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("AdrKey");
 
                     b.HasIndex("AdrPerKey");
@@ -105,10 +101,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<float>("Ce1Units");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Ce1Key");
 
                     b.HasIndex("Ce1CusKey");
@@ -140,10 +132,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<DateTimeOffset>("Ce2EndDate");
 
                     b.Property<DateTimeOffset>("Ce2StartDate");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Ce2Key");
 
@@ -183,9 +171,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("Cr1StartDate");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Cr1Key");
 
@@ -227,10 +212,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Cr2Ct6Key");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Cr2Key");
 
                     b.HasIndex("Cr2Cr1Key");
@@ -268,10 +249,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Ct2StartCt6Key");
 
                     b.Property<Guid?>("Ct2SubmittedCt6Key");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Ct2Key");
 
@@ -315,10 +292,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("Ct5SubmitPrereqFlag");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Ct5Key");
 
                     b.HasIndex("Ct5Ct2Key");
@@ -355,10 +328,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Cr3DataKey");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Cr3Key");
 
                     b.HasIndex("Cr3Cr2Key");
@@ -392,10 +361,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct8Description");
 
                     b.Property<string>("Ct8Template");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Ct8Key");
 
@@ -437,10 +402,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Ct3SubmitCt6Key");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Ct3Key");
 
                     b.HasIndex("Ct3CompleteCt6Key");
@@ -481,10 +442,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Ct6Cu6Key");
 
                     b.Property<string>("Ct6Description");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Ct6Key");
 
@@ -530,10 +487,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Ct1StartDate");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Ct1Key");
 
                     b.HasIndex("Ct1InitCt2Key");
@@ -570,10 +523,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<int>("Ct4Order");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("Ct4Key");
 
                     b.HasIndex("Ct4Ct1Key");
@@ -601,10 +550,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("CusChangeUser")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("CusKey");
 
@@ -639,10 +584,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<bool>("EmlIsWorkEmail");
 
                     b.Property<Guid>("EmlPerKey");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("EmlKey");
 
@@ -686,10 +627,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("PerMiddleName");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("PerKey");
 
                     b.HasIndex("PerCusKey");
@@ -731,10 +668,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("PhoPerKey");
 
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
                     b.HasKey("PhoKey");
 
                     b.HasIndex("PhoPerKey");
@@ -763,10 +696,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Cu6Code")
                         .IsRequired();
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
 
                     b.HasKey("Cu6Key");
 

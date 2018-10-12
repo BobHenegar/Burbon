@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8Template)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct8ChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8Template)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct8ChangeUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct8Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct8Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct8Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

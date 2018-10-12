@@ -1,0 +1,54 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CredentialRequirementTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8Template)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8Template)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ct8ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ct8ChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Ct8Key">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

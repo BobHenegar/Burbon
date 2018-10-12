@@ -15,7 +15,7 @@ namespace ProjectMoonshine.EntityFramework
             //    System.Diagnostics.Debugger.Launch();
             //}
             var config = new ConfigurationBuilder()
-                .AddJsonFile($"{Environment.CurrentDirectory}\\appsettings.json", optional: false)
+                .AddJsonFile($"{Environment.CurrentDirectory}\\..\\ProjectMoonshine\\appsettings.json", optional: false)
                 .Build();
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
             builder.UseSqlServer(config.GetConnectionString("Database"),

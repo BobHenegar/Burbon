@@ -1,0 +1,63 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CEPeriod
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CEPeriod</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce2ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce2ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Ce2Key" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

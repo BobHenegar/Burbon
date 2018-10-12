@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialRequirementType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3Requirement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3LongDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ct3ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartStatusType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompleteStatusType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmitStatusType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MetStatusType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Template)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3Requirement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3LongDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ct3ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartStatusType.Ct6Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompleteStatusType.Ct6Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitStatusType.Ct6Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MetStatusType.Ct6Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Template.Ct8Key)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ct3Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ct3Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ct3Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

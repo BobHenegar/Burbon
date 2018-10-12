@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CEPeriod>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce2ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce2ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CusKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ce2Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ce2Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ce2Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

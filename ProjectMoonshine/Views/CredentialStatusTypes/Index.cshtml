@@ -34,9 +34,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.State)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RowVersion)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -63,9 +60,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.State.Cu6Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RowVersion)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct6Key">Edit</a> |
