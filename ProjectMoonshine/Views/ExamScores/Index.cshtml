@@ -22,15 +22,6 @@
                 @Html.ActionLink(@Html.DisplayNameFor(model => model.First().ExsAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().ExsChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().ExsAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().ExsChangeUser)
-            </th>
-            <th>
                 @Html.ActionLink(@Html.DisplayNameFor(model => model.First().Customer.Person.PerFirstMiddleLast), "Index", new { sortOrder = "Customer Name", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
@@ -53,19 +44,10 @@
                     @Html.DisplayFor(modelItem => item.ExsAddDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ExsChangeDate)
+                    @Html.DisplayFor(modelItem => item.Customer.Person.PerFirstMiddleLast)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ExsAddUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExsChangeUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer.CusKey)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Exam.ExmKey)
+                    @Html.DisplayFor(modelItem => item.Exam.Event.EvtName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ExsKey">Edit</a> |

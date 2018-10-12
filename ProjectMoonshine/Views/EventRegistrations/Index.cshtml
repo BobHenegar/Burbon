@@ -19,15 +19,6 @@
                 @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().EvrChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().EvrAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().EvrChangeUser)
-            </th>
-            <th>
                 @Html.ActionLink(Html.DisplayNameFor(model => model.First().Event.EvtName), "Index", new { sortOrder = "eventName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
@@ -47,19 +38,10 @@
                     @Html.DisplayFor(modelItem => item.EvrAddDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EvrChangeDate)
+                    @Html.DisplayFor(modelItem => item.Event.EvtName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EvrAddUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EvrChangeUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Event.EvtDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Customer.CusKey)
+                    @Html.DisplayFor(modelItem => item.Customer.Person.PerFirstMiddleLast)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.EvrKey">Edit</a> |

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -16,11 +17,16 @@ namespace ProjectMoonshine.Managers
             (string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var eventRegistrations = _context.EventRegistrations.AsQueryable();
+            var eventRegistrations = _context.EventRegistrations
+                    .Include(i => i.Customer)
+                        .ThenInclude(i => i.Person)
+                    .Include(i => i.Event)
+                    .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                eventRegistrations = eventRegistrations.Where(s =>
+                eventRegistrations = eventRegistrations
+                    .Where(s =>
                     s.Customer.Person.PerLastName.ToLower().Contains(searchString)
                         || s.Event.EvtName.ToLower().Contains(searchString)
                         || s.Event.EvtDescription.ToLower().Contains(searchString)

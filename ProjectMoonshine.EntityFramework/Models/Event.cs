@@ -29,6 +29,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Event End Date")]
         public DateTimeOffset? EvtEndDate { get; set; }
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
 
         public DateTimeOffset EvtAddDate { get; set; }
         public DateTimeOffset? EvtChangeDate { get; set; }

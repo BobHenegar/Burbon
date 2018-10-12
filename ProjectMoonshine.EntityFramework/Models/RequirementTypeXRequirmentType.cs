@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProjectMoonshine.EntityFramework.Models;
@@ -28,6 +29,9 @@ namespace ProjectMoonshine.Models
         public int Ct0Order { get; set; }
 
         public string Ct0ParentCt3State { get; set; }
+
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
 
         public DateTimeOffset Ct0AddDate { get; set; }
 

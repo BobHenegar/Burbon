@@ -31,6 +31,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Required, DisplayName("Gender")]
         public string PerGender { get; set; }
 
+        [DisplayName("Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PerAddDate { get; set; }
         public DateTimeOffset? PerChangeDate { get; set; }
         public string PerAddUser { get; set; }
