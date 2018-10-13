@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
@@ -15,13 +14,7 @@ namespace ProjectMoonshine.Managers
             context = _context;
         }
         // <inheritdoc />
-        public Task<Guid> AddPersonAsync(Credential model)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public Task<Guid> AddPersonAsync(PersonViewModel model)
+        public Task<Guid> AddPersonAsync(Person model)
         {
             throw new NotImplementedException();
         }
@@ -122,7 +115,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> UpdatePersonAsync(Guid perKey, PersonViewModel model)
+        public async Task<bool> UpdatePersonAsync(Guid perKey, Person model)
         {
             throw new NotImplementedException();
         }

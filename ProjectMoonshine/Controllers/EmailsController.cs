@@ -9,7 +9,6 @@ using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -111,9 +110,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, EmailViewModel model)
+        public async Task<IActionResult> Edit(Guid id, [Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
         {
-            if (id != model.EmlKey)
+            if (id != email.EmlKey)
             {
                 return NotFound();
             }
@@ -122,17 +121,12 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    var ob = await _context.FindAsync<Email>(model.EmlKey);
-                    ob.EmlAddress = model.EmlAddress;
-                    ob.EmlIsPersonalEmail = model.EmlIsPersonalEmail;
-                    ob.EmlIsPrimaryEmail = model.EmlIsPrimaryEmail;
-                    ob.EmlIsWorkEmail = model.EmlIsWorkEmail;
-                    _context.Update(ob);
+                    _context.Update(email);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmailExists(model.EmlKey))
+                    if (!EmailExists(email.EmlKey))
                     {
                         return NotFound();
                     }
@@ -141,13 +135,13 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                if (!string.IsNullOrEmpty(model.RefAction))
+                if (!string.IsNullOrEmpty(email.RefAction))
                 {
-                    return RedirectToAction(model.RefAction, model.RefController, new { id = model.RefId });
+                    return RedirectToAction(email.RefAction, email.RefController, new { id = email.RefId });
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return View(email);
         }
 
         // GET: Emails/Delete/5

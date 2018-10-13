@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
@@ -24,7 +23,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public Task<Guid> AddCustomerAsync(CustomerViewModel model)
+        public Task<Guid> AddCustomerAsync(Customer model)
         {
             throw new NotImplementedException();
         }
@@ -53,7 +52,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> UpdateCustomerAsync(Guid cusKey, CustomerViewModel model)
+        public async Task<bool> UpdateCustomerAsync(Guid cusKey, Customer model)
         {
             throw new NotImplementedException();
         }

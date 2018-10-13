@@ -53,6 +53,7 @@ namespace ProjectMoonshine.Controllers
             ViewData["Ct2CompletedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             ViewData["Ct2StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             ViewData["Ct2SubmittedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+
             return View();
         }
 

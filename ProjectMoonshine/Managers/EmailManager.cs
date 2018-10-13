@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
@@ -24,7 +23,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public Task<Guid> AddEmailAsync(EmailViewModel model)
+        public Task<Guid> AddEmailAsync(Email model)
         {
             throw new NotImplementedException();
         }
@@ -124,7 +123,7 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> UpdateEmailAsync(Guid emlKey, EmailViewModel model)
+        public async Task<bool> UpdateEmailAsync(Guid emlKey, Email model)
         {
             throw new NotImplementedException();
         }

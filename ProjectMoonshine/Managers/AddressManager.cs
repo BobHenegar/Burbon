@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Managers
 {
@@ -169,13 +168,13 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> UpdateAddressAsync(Guid perKey, AddressViewModel model)
+        public async Task<bool> UpdateAddressAsync(Guid perKey, Address model)
         {
             throw new NotImplementedException();
         }
 
         // <inheritdoc />
-        public Task<Guid> AddAddressAsync(AddressViewModel model)
+        public Task<Guid> AddAddressAsync(Address model)
         {
             throw new NotImplementedException();
         }
