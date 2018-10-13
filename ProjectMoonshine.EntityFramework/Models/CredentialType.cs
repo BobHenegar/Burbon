@@ -79,7 +79,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Order")]
         public int Ct1Order { get; set; }
 
-        //public bool Ct1SyncFlag { get; set; }
+        [DisplayName("Sync Credential Flag")]
+        public bool Ct1SyncFlag { get; set; }
 
         //public string Ct1SyncCt1Key { get; set; }
 

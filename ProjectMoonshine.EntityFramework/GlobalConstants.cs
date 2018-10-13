@@ -13,5 +13,22 @@ namespace ProjectMoonshine.EntityFramework
         public static readonly Regex RegExPhoneNumber = new Regex(@"^" + PhoneNumberPattern + "$", RegexOptions.Compiled);
         public static readonly Regex RegExE164Phone = new Regex(@"^[+]" + CountryCodePattern + PhoneNumberPattern + "$", RegexOptions.Compiled);
         public static readonly Regex RegExPatternPhoneTrim = new Regex("[() \r\n-]", RegexOptions.Compiled);
+
+
+        public enum DueDateRounding
+        {
+            None = 0,
+            FirstOfMonth = 1,
+            EndOfMonth = 2,
+        }
+
+        public enum DueDateUnit
+        {
+            None = 0,
+            Day = 1,
+            Month = 2,
+            Year = 3
+        }
+        
     }
 }

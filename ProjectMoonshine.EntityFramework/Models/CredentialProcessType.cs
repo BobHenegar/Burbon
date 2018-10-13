@@ -33,18 +33,22 @@ namespace ProjectMoonshine.EntityFramework.Models
             [DisplayName("Next Process Type")]
         public Guid? Ct2NextCt2key { get; set; }
 
-        //public int Ct2DueDateNumber { get; set; }
+        [DisplayName("Due Date Number")]
+        public short? Ct2DueDateNumber { get; set; }
 
-        //public string Ct2DueDateUnit { get; set; }
+        [DisplayName("Due Date Unit")]
+        public GlobalConstants.DueDateUnit Ct2DueDateUnit { get; set; }
 
-        //public string Ct2DueDateRounding { get; set; }
+        [DisplayName("Due Date Rounding")]
+        public GlobalConstants.DueDateRounding Ct2DueDateRounding { get; set; }
 
         //public string Ct2LongDescription { get; set; }
 
         [DisplayName("Custom Start Date Stored Procedure")]
         public string Ct2CalculateStartDateSp { get; set; }
 
-        //public string Ct2CalculateDueDateSp { get; set; }
+        [DisplayName("Custom Due Date Stored Procedure")]
+        public string Ct2CalculateDueDateSp { get; set; }
 
         //public string Ct2SetOwnerSp { get; set; }
 

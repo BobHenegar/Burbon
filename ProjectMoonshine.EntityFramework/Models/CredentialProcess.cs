@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -39,7 +40,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Start Date")]
         public DateTimeOffset? Cr2StartDate { get; set; }
 
-        //public DateTimeOffset Cr2DueDate { get; set; }
+        [DisplayName("Due Date")]
+        public DateTimeOffset? Cr2DueDate { get; set; }
 
         //public DateTimeOffset Cr2SubmitDate { get; set; }
 
@@ -138,31 +140,14 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 Init();
 
-                if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue)
-                {
-                    if (!string.IsNullOrWhiteSpace(CredentialProcessType.Ct2CalculateStartDateSp))
-                    {
-                        Cr2StartDate = CalculateDateFromSp(context, CredentialProcessType.Ct2CalculateStartDateSp,
-                            Cr2Key.ToString());
+                SetProcessStartDate(context);
 
-                    }
+                SetProcessDueDate(context);
 
-                    if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue)
-                    {
-                        DateTimeOffset? cr2startdatetemp = context.CredentialProcesses
-                            .Include(p => p.Credential)
-                            .Where(p => p.Cr2Key != Cr2Key 
-                                        && p.Cr2Ct2Key == CredentialProcessType.Ct2Key 
-                                        && p.Credential.Cr1CusKey == Credential.Cr1CusKey)
-                            .OrderByDescending(p => p.Cr2StartDate)
-                            .FirstOrDefault()
-                            .Cr2StartDate;
+                context.SaveChanges();
 
-                        if (cr2startdatetemp != null && cr2startdatetemp != DateTimeOffset.MinValue)
-                            Cr2StartDate = ((DateTimeOffset) cr2startdatetemp).AddDays(1);
-                    }
-                    if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue) Cr2StartDate = DateTimeOffset.Now;
-                }
+                return true;
+
             }
             catch (Exception e)
             {
@@ -172,13 +157,78 @@ namespace ProjectMoonshine.EntityFramework.Models
             return false;
         }
 
-        private DateTimeOffset CalculateDateFromSp(DbContext context, string procedure, string parameterValue)
+        private void SetProcessDueDate(ApplicationDbContext context)
         {
-            DbConnection connection = context.Database.GetDbConnection();
-            connection.Open();
-            DbCommand command = connection.CreateCommand();
-            command.CommandText = string.Format("EXEC dbo.{0} {1}", procedure, parameterValue);
-            return command.ExecuteScalar() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
+            if (Cr2DueDate != null && Cr2DueDate != DateTimeOffset.MinValue) return;
+
+            if (!string.IsNullOrWhiteSpace(CredentialProcessType.Ct2CalculateDueDateSp))
+            {
+                Cr2DueDate = CredentialingUtils.CalculateDateFromSp(context, CredentialProcessType.Ct2CalculateDueDateSp, Cr2Key.ToString());
+            }
+
+            if (Cr2DueDate != null && Cr2DueDate != DateTimeOffset.MinValue) return;
+
+            if (Cr2StartDate != null && Cr2StartDate != DateTimeOffset.MinValue)
+            {
+                Cr2DueDate = CredentialingUtils.CalculateDueDate(Cr2StartDate, CredentialProcessType.Ct2DueDateNumber, CredentialProcessType.Ct2DueDateUnit, CredentialProcessType.Ct2DueDateRounding );
+            }
+
+            if (Cr2DueDate != null && Cr2DueDate != DateTimeOffset.MinValue) return;
+
+            //TODO: Sync credential logic
+            //if (Credential.CredentialType.Ct1SyncFlag) SyncCredential(context);
+
+            Cr2DueDate = CredentialingUtils.CalculateDueDate(DateTimeOffset.Now, CredentialProcessType.Ct2DueDateNumber,
+                CredentialProcessType.Ct2DueDateUnit, CredentialProcessType.Ct2DueDateRounding);
+
+            if (Cr2DueDate == null || Cr2DueDate == DateTimeOffset.MinValue) Cr2DueDate = DateTimeOffset.Now;
+
+            context.Update(this);
+        }
+
+        private void SyncCredential(ApplicationDbContext context)
+        {
+            throw new NotImplementedException();
+        }
+
+//        
+
+        private void SetProcessStartDate(ApplicationDbContext context)
+        {
+            // Check if start date is already set
+            if (Cr2StartDate != null && Cr2StartDate != DateTimeOffset.MinValue) return;
+
+            // Try to set based on calculation sproc
+            if (!string.IsNullOrWhiteSpace(CredentialProcessType.Ct2CalculateStartDateSp))
+            {
+                Cr2StartDate = CredentialingUtils.CalculateDateFromSp(context, CredentialProcessType.Ct2CalculateStartDateSp,
+                    Cr2Key.ToString());
+            }
+
+            if (Cr2StartDate != null && Cr2StartDate != DateTimeOffset.MinValue) return;
+
+            // Try to set based on prior due date
+            DateTimeOffset? priorDueDate = context.CredentialProcesses
+                .Include(p => p.Credential)
+                .Where(p => p.Cr2Key != Cr2Key
+                            && p.Cr2Ct2Key == CredentialProcessType.Ct2Key
+                            && p.Credential.Cr1CusKey == Credential.Cr1CusKey
+                )
+                .OrderByDescending(p => p.Cr2DueDate)
+                .FirstOrDefault()
+                ?.Cr2DueDate;
+
+            if (priorDueDate != null && priorDueDate != DateTimeOffset.MinValue)
+                Cr2StartDate = ((DateTimeOffset) priorDueDate).AddDays(1);
+
+            // Try to set based on cr1 valid thru date
+            if (Credential.Cr1ValidThruDate != null && Credential.Cr1ValidThruDate != DateTimeOffset.MinValue)
+                Cr2StartDate = ((DateTimeOffset) Credential.Cr1ValidThruDate).AddDays(1);
+
+            // Set to current date by default
+            if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue) Cr2StartDate = DateTimeOffset.Now;
+
+            context.Update(this);
         }
 
 
