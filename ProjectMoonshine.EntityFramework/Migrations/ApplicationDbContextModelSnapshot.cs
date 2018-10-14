@@ -268,11 +268,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<short?>("Ct2DueDateNumber");
 
-                    b.Property<int>("Ct2DueDateRounding");
+                    b.Property<string>("Ct2DueDateRounding")
+                        .IsRequired();
 
-                    b.Property<int>("Ct2DueDateUnit");
+                    b.Property<string>("Ct2DueDateUnit")
+                        .IsRequired();
 
-                    b.Property<Guid?>("Ct2NextCt2key");
+                    b.Property<Guid?>("Ct2NextCt2Key");
 
                     b.Property<string>("Ct2Process")
                         .IsRequired();
@@ -286,6 +288,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasKey("Ct2Key");
 
                     b.HasIndex("Ct2CompletedCt6Key");
+
+                    b.HasIndex("Ct2NextCt2Key");
 
                     b.HasIndex("Ct2StartCt6Key");
 
@@ -560,7 +564,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Ct4Ct2Key");
 
+                    b.Property<DateTimeOffset?>("Ct4EndDate");
+
                     b.Property<int>("Ct4Order");
+
+                    b.Property<DateTimeOffset?>("Ct4StartDate");
 
                     b.HasKey("Ct4Key");
 
@@ -955,6 +963,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "CompletedStatus")
                         .WithMany()
                         .HasForeignKey("Ct2CompletedCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcessType", "NextCredentialProcessType")
+                        .WithMany()
+                        .HasForeignKey("Ct2NextCt2Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "StartStatus")

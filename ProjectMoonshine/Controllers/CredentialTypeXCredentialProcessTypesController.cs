@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -49,9 +50,8 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialTypeXCredentialProcessTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct4Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process");
-            ViewData["Ct4Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential");
-            return View();
+            CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context);
+            return View(credentialTypeXCredentialProcessTypeViewModel);
         }
 
         // POST: CredentialTypeXCredentialProcessTypes/Create
@@ -59,7 +59,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct4Key,Ct4Ct1Key,Ct4Ct2Key,Ct4Order,Ct4AddDate,Ct4ChangeDate,Ct4AddUser,Ct4ChangeUser")] CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType)
+        public async Task<IActionResult> Create( CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType)
         {
             if (ModelState.IsValid)
             {
@@ -68,9 +68,8 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct4Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialTypeXCredentialProcessType.Ct4Ct2Key);
-            ViewData["Ct4Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential", credentialTypeXCredentialProcessType.Ct4Ct1Key);
-            return View(credentialTypeXCredentialProcessType);
+            CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context, credentialTypeXCredentialProcessType);
+            return View(credentialTypeXCredentialProcessTypeViewModel);
         }
 
         // GET: CredentialTypeXCredentialProcessTypes/Edit/5
@@ -86,9 +85,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct4Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialTypeXCredentialProcessType.Ct4Ct2Key);
-            ViewData["Ct4Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential", credentialTypeXCredentialProcessType.Ct4Ct1Key);
-            return View(credentialTypeXCredentialProcessType);
+            CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context, credentialTypeXCredentialProcessType);
+            return View(credentialTypeXCredentialProcessTypeViewModel);
         }
 
         // POST: CredentialTypeXCredentialProcessTypes/Edit/5
@@ -96,7 +94,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct4Key,Ct4Ct1Key,Ct4Ct2Key,Ct4Order,Ct4AddDate,Ct4ChangeDate,Ct4AddUser,Ct4ChangeUser")] CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType)
+        public async Task<IActionResult> Edit(Guid id,  CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType)
         {
             if (id != credentialTypeXCredentialProcessType.Ct4Key)
             {
@@ -123,9 +121,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct4Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialTypeXCredentialProcessType.Ct4Ct2Key);
-            ViewData["Ct4Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Credential", credentialTypeXCredentialProcessType.Ct4Ct1Key);
-            return View(credentialTypeXCredentialProcessType);
+            CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context, credentialTypeXCredentialProcessType);
+            return View(credentialTypeXCredentialProcessTypeViewModel);
         }
 
         // GET: CredentialTypeXCredentialProcessTypes/Delete/5

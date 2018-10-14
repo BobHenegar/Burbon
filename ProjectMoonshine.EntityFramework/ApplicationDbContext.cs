@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework
@@ -144,6 +145,18 @@ namespace ProjectMoonshine.EntityFramework
                 .HasOne(p => p.Credential)
                 .WithMany(c => c.CredentialProcesses)
                 .HasForeignKey(p => p.Cr2Cr1Key);
+
+           
+            modelBuilder
+                .Entity<CredentialProcessType>()
+                .Property(pt => pt.Ct2DueDateUnit)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateUnit>());
+            
+            modelBuilder
+                .Entity<CredentialProcessType>()
+                .Property(pt => pt.Ct2DueDateRounding)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateRounding>());
+
         }
 
         public void TestOnModelCreating()

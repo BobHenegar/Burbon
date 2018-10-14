@@ -39,7 +39,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public DateTimeOffset? Ct2EndDate { get; set; }
 
         [DisplayName("Next Process Type")]
-        public Guid? Ct2NextCt2key { get; set; }
+        public Guid? Ct2NextCt2Key { get; set; }
 
         [DisplayName("Due Date Number")]
         public short? Ct2DueDateNumber { get; set; }
@@ -86,6 +86,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual CredentialStatusType CompletedStatus { get; set; }
 
         public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+
+        [ForeignKey("Ct2NextCt2Key")]
+        public virtual CredentialProcessType NextCredentialProcessType { get; set; }
+
         
         #endregion Navigation Properties
     }

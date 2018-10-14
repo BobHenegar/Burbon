@@ -190,9 +190,9 @@ namespace ProjectMoonshine.EntityFramework.Models
                     CredentialType = context.CredentialTypes.FirstOrDefault(ct => ct.Ct1Key == Cr1Ct1Key);
 
 
-                    if (CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key != null)
+                    if (CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2Key != null)
                         nextProcessType = context.CredentialProcessTypes.FirstOrDefault(pt =>
-                            pt.Ct2Key == CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key);
+                            pt.Ct2Key == CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2Key);
                             
                             //Guid.Parse(CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key.ToString());
 

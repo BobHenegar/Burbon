@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -47,8 +48,8 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialStatusTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct6Cu6Key"] = new SelectList(_context.StatusStateTypes, "Cu6Key", "Cu6Code");
-            return View();
+            CredentialStatusTypeViewModel credentialStatusTypeViewModel = new CredentialStatusTypeViewModel(_context);
+            return View(credentialStatusTypeViewModel);
         }
 
         // POST: CredentialStatusTypes/Create
@@ -56,7 +57,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser")] CredentialStatusType credentialStatusType)
+        public async Task<IActionResult> Create(CredentialStatusType credentialStatusType)
         {
             if (ModelState.IsValid)
             {
@@ -65,8 +66,8 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct6Cu6Key"] = new SelectList(_context.StatusStateTypes, "Cu6Key", "Cu6Code", credentialStatusType.Ct6Cu6Key);
-            return View(credentialStatusType);
+            CredentialStatusTypeViewModel credentialStatusTypeViewModel = new CredentialStatusTypeViewModel(_context, credentialStatusType);
+            return View(credentialStatusTypeViewModel);
         }
 
         // GET: CredentialStatusTypes/Edit/5
@@ -82,8 +83,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct6Cu6Key"] = new SelectList(_context.StatusStateTypes, "Cu6Key", "Cu6Code", credentialStatusType.Ct6Cu6Key);
-            return View(credentialStatusType);
+            CredentialStatusTypeViewModel credentialStatusTypeViewModel = new CredentialStatusTypeViewModel(_context, credentialStatusType);
+            return View(credentialStatusTypeViewModel);
         }
 
         // POST: CredentialStatusTypes/Edit/5
@@ -91,7 +92,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct6Key,Ct6Code,Ct6Description,Ct6Cu6Key,Ct6AddDate,Ct6ChangeDate,Ct6AddUser,Ct6ChangeUser")] CredentialStatusType credentialStatusType)
+        public async Task<IActionResult> Edit(Guid id, CredentialStatusType credentialStatusType)
         {
             if (id != credentialStatusType.Ct6Key)
             {
@@ -118,8 +119,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct6Cu6Key"] = new SelectList(_context.StatusStateTypes, "Cu6Key", "Cu6Code", credentialStatusType.Ct6Cu6Key);
-            return View(credentialStatusType);
+            CredentialStatusTypeViewModel credentialStatusTypeViewModel = new CredentialStatusTypeViewModel(_context, credentialStatusType);
+            return View(credentialStatusTypeViewModel);
         }
 
         // GET: CredentialStatusTypes/Delete/5

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -38,6 +39,7 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.CompletedStatus)
                 .Include(c => c.StartStatus)
                 .Include(c => c.SubmittedStatus)
+                .Include(pt => pt.NextCredentialProcessType)
                 .FirstOrDefaultAsync(m => m.Ct2Key == id);
             if (credentialProcessType == null)
             {
@@ -50,11 +52,9 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialProcessTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct2CompletedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            ViewData["Ct2StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            ViewData["Ct2SubmittedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context);
 
-            return View();
+            return View(credentialProcessTypeViewModel);
         }
 
         // POST: CredentialProcessTypes/Create
@@ -62,7 +62,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser")] CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Create( CredentialProcessType credentialProcessType)
         {
             if (ModelState.IsValid)
             {
@@ -71,10 +71,9 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct2CompletedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2CompletedCt6Key);
-            ViewData["Ct2StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2StartCt6Key);
-            ViewData["Ct2SubmittedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2SubmittedCt6Key);
-            return View(credentialProcessType);
+            CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context, credentialProcessType);
+
+            return View(credentialProcessTypeViewModel);
         }
 
         // GET: CredentialProcessTypes/Edit/5
@@ -90,10 +89,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct2CompletedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2CompletedCt6Key);
-            ViewData["Ct2StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2StartCt6Key);
-            ViewData["Ct2SubmittedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2SubmittedCt6Key);
-            return View(credentialProcessType);
+            CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context, credentialProcessType);
+
+            return View(credentialProcessTypeViewModel);
         }
 
         // POST: CredentialProcessTypes/Edit/5
@@ -101,7 +99,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2AddDate,Ct2ChangeDate,Ct2AddUser,Ct2ChangeUser")] CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Edit(Guid id, CredentialProcessType credentialProcessType)
         {
             if (id != credentialProcessType.Ct2Key)
             {
@@ -128,10 +126,9 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct2CompletedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2CompletedCt6Key);
-            ViewData["Ct2StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2StartCt6Key);
-            ViewData["Ct2SubmittedCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcessType.Ct2SubmittedCt6Key);
-            return View(credentialProcessType);
+            CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context, credentialProcessType);
+
+            return View(credentialProcessTypeViewModel);
         }
 
         // GET: CredentialProcessTypes/Delete/5

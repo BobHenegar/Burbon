@@ -1,4 +1,4 @@
-﻿@model ProjectMoonshine.EntityFramework.Models.CredentialStatusType
+﻿@model ProjectMoonshine.ViewModels.CredentialStatusTypeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,42 +13,8 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Ct6Key" />
-            <div class="form-group">
-                <label asp-for="Ct6Code" class="control-label"></label>
-                <input asp-for="Ct6Code" class="form-control" />
-                <span asp-validation-for="Ct6Code" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6Description" class="control-label"></label>
-                <input asp-for="Ct6Description" class="form-control" />
-                <span asp-validation-for="Ct6Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6Cu6Key" class="control-label"></label>
-                <select asp-for="Ct6Cu6Key" class="form-control" asp-items="ViewBag.Ct6Cu6Key"></select>
-                <span asp-validation-for="Ct6Cu6Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6AddDate" class="control-label"></label>
-                <input asp-for="Ct6AddDate" class="form-control" />
-                <span asp-validation-for="Ct6AddDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6ChangeDate" class="control-label"></label>
-                <input asp-for="Ct6ChangeDate" class="form-control" />
-                <span asp-validation-for="Ct6ChangeDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6AddUser" class="control-label"></label>
-                <input asp-for="Ct6AddUser" class="form-control" />
-                <span asp-validation-for="Ct6AddUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct6ChangeUser" class="control-label"></label>
-                <input asp-for="Ct6ChangeUser" class="form-control" />
-                <span asp-validation-for="Ct6ChangeUser" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="CredentialStatusType.Ct6Key" />
+            @await Html.PartialAsync("_CredentialStatusTypeCreateEditPartialView", Model)
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

@@ -12,7 +12,6 @@ namespace ProjectMoonshine.ViewModels
     {
 
         public CredentialType CredentialType { get; set; }
-        public int MyProperty { get; set; }
         private ApplicationDbContext _context;
         public SelectList InitProcessTypeSelectList { get; set; }
         public SelectList InitStatusTypeSelectList { get; set; }

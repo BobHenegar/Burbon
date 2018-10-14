@@ -20,9 +20,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Process Type")]
         public Guid Ct4Ct2Key { get; set; }
 
-        //public DateTimeOffset Ct4StartDate { get; set; }
+        [DisplayName("Start Date")]
+        public DateTimeOffset? Ct4StartDate { get; set; }
 
-        //public DateTimeOffset Ct4EndDate { get; set; }
+        [DisplayName("End Date")]
+        public DateTimeOffset? Ct4EndDate { get; set; }
 
         [DisplayName("Order")]
         public int Ct4Order { get; set; }
