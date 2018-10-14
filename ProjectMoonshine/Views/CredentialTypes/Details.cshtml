@@ -10,86 +10,8 @@
 <div>
     <h4>CredentialType</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1Credential)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1Credential)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1StartDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1StartDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1EndDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1EndDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1RenewCt2Key)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1RenewCt2Key)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1Order)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1Order)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1AddDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1AddDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1ChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1ChangeDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1AddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1AddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Ct1ChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Ct1ChangeUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RenewStatusType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RenewStatusType.Ct6Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.InitStatusType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.InitStatusType.Ct6Code)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.InitCredentialProcessType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.InitCredentialProcessType.Ct2Key)
-        </dd>
-    </dl>
+    @await Html.PartialAsync("_CredentialTypeDeleteDetailsPartialView", Model)
+    
 </div>
 
 <div style="display:flex;flex-wrap:wrap;flex-direction:row;">

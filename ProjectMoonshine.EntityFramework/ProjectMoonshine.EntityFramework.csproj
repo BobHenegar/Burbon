@@ -20,6 +20,8 @@
     <Compile Remove="Migrations\20181012182749_updated models for credential update method.cs" />
     <Compile Remove="Migrations\20181012183149_updated credential model.cs" />
     <Compile Remove="Migrations\20181012203312_update credential update method.cs" />
+    <Compile Remove="Migrations\20181013210320_updates to process &amp; process type models.cs" />
+    <Compile Remove="Migrations\20181013212311_updates to process &amp; process type models.cs" />
   </ItemGroup>
 
   <ItemGroup>

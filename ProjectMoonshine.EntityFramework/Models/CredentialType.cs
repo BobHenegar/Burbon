@@ -14,9 +14,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct1Key { get; set; }
 
+        [Required]
         [DisplayName("Credential Code")]
         public string Ct1Credential { get; set; }
 
+        [Required]
         [DisplayName("Description")]
         public string Ct1Description { get; set; }
 

@@ -14,10 +14,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Ct2Key { get; set; }
 
-        [DisplayName("Process")]
+        [Required]
+        [DisplayName("Process Code")]
         public string Ct2Process { get; set; }
 
-        [DisplayName("Display Name")]
+        [Required]
+        [DisplayName("Process Description")]
         public string Ct2Description { get; set; }
 
         [DisplayName("Start Status")]
