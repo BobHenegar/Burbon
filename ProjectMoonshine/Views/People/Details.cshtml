@@ -81,4 +81,5 @@
         @await Html.PartialAsync("_PhonePartialView", Model.Phones.FirstOrDefault())
         @await Html.PartialAsync("_EmailPartialView", Model.Emails.FirstOrDefault())
     </div>
+    <div><form asp-action="Email">            <input type="hidden" name="perKey" value="@Html.DisplayFor(modelItem => modelItem.PerKey)" /><button id="eml" type="submit" class="btn btn-primary" value="Email">Send mail</button></form></div>
 </div>
