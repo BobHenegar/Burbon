@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -121,6 +122,31 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr2Ct2Key")]
         public virtual CredentialProcessType CredentialProcessType { get; set; }
 
+        public async Task<bool> Update(ApplicationDbContext context)
+        {
+            try
+            {
+                if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue)
+                {
+                    Eval(context);
+                }
+                context.Update(this);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+                return false;
+            }
+        }
+
+        private void Eval(ApplicationDbContext context)
+        {
+            //throw new NotImplementedException();
+        }
+
         public async Task<bool> Add(ApplicationDbContext context)
         {
             try
@@ -130,11 +156,13 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (Cr2Key == Guid.Empty) Cr2Key = Guid.NewGuid();
                 CredentialProcessType = context.CredentialProcessTypes.FirstOrDefault(pt => pt.Ct2Key == Cr2Ct2Key);
 
+                if (CredentialProcessType == null) return false;
                 
                 if (Cr2Ct6Key == Guid.Empty) Cr2Ct6Key =   Guid.Parse(CredentialProcessType.Ct2StartCt6Key.ToString()) ;
 // TODO: set credential status based on ct2cr1startct6key
 
                 context.Add(this);
+                context.SaveChanges();
 
                 Credential = context.Credentials.Where(c => Cr2Cr1Key == c.Cr1Key).Include(c=> c.CredentialType).FirstOrDefault();
 
@@ -144,6 +172,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 SetProcessDueDate(context);
 
+                context.Update(this);
                 context.SaveChanges();
 
                 return true;
@@ -183,7 +212,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
             if (Cr2DueDate == null || Cr2DueDate == DateTimeOffset.MinValue) Cr2DueDate = DateTimeOffset.Now;
 
-            context.Update(this);
+            //context.Update(this);
         }
 
         private void SyncCredential(ApplicationDbContext context)
@@ -228,7 +257,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             // Set to current date by default
             if (Cr2StartDate == null || Cr2StartDate == DateTimeOffset.MinValue) Cr2StartDate = DateTimeOffset.Now;
 
-            context.Update(this);
+            //context.Update(this);
         }
 
 

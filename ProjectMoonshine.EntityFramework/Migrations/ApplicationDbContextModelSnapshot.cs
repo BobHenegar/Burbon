@@ -167,7 +167,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Cr1Ct2Key");
 
-                    b.Property<Guid>("Cr1Ct6Key");
+                    b.Property<Guid?>("Cr1Ct6Key");
 
                     b.Property<Guid?>("Cr1CurrentCr2Key");
 
@@ -175,7 +175,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Cr1EffectiveDate");
 
-                    b.Property<DateTimeOffset>("Cr1StartDate");
+                    b.Property<DateTimeOffset?>("Cr1StartDate");
 
                     b.Property<DateTimeOffset?>("Cr1ValidThruDate");
 

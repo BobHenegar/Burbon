@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -46,18 +47,20 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            return View(credential);
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
+            return View(credentialViewModel);
         }
 
         // GET: Credentials/Create
         public IActionResult Create()
         {
-            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key");
-            ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key");
-            ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
-            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-            ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            return View();
+            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key");
+            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key");
+            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
+            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context);
+            return View(credentialViewModel);
         }
 
         // POST: Credentials/Create
@@ -65,7 +68,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
+        public async Task<IActionResult> Create(Credential credential)
         {
             if (ModelState.IsValid)
             {
@@ -84,12 +87,13 @@ namespace ProjectMoonshine.Controllers
                 }
                 
             }
-            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
-            return View(credential);
+            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
+            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
+            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
+            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
+            return View(credentialViewModel);
         }
 
         // GET: Credentials/Edit/5
@@ -105,12 +109,13 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
-            return View(credential);
+            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
+            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
+            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
+            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
+            return View(credentialViewModel);
         }
 
         // POST: Credentials/Edit/5
@@ -118,7 +123,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Cr1Key,Cr1Ct1Key,Cr1CusKey,Cr1CurrentCr2Key,Cr1Ct2Key,Cr1Ct6Key,Cr1StartDate,Cr1AddUser,Cr1AddDate,Cr1ChangeUser,Cr1ChangeDate")] Credential credential)
+        public async Task<IActionResult> Edit(Guid id, Credential credential)
         {
             if (id != credential.Cr1Key)
             {
@@ -147,12 +152,13 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
-            return View(credential);
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
+            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
+            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
+            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
+            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
+            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
+            return View(credentialViewModel);
         }
 
         // GET: Credentials/Delete/5
@@ -174,8 +180,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
 
-            return View(credential);
+            return View(credentialViewModel);
         }
 
         // POST: Credentials/Delete/5

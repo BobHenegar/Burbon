@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -49,9 +50,10 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialProcesses/Create
         public IActionResult Create()
         {
-            ViewData["Cr2Cr1Key"] = new SelectList(_context.Credentials, "Cr1Key", "Cr1Credential");
-            ViewData["Cr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            return View();
+            //ViewData["Cr2Cr1Key"] = new SelectList(_context.Credentials, "Cr1Key", "Cr1Credential");
+            //ViewData["Cr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context);
+            return View(credentialProcessViewModel);
         }
 
         // POST: CredentialProcesses/Create
@@ -59,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cr2Key,Cr2Ct2Key,Cr2Cr1Key,Cr2Ct6Key,Cr2TerminationDate,Cr2AddUser,Cr2AddDate,Cr2ChangeUser,Cr2ChangeDate")] CredentialProcess credentialProcess)
+        public async Task<IActionResult> Create( CredentialProcess credentialProcess)
         {
             if (ModelState.IsValid)
             {
@@ -68,9 +70,9 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Cr2Cr1Key"] = new SelectList(_context.Credentials, "Cr1Key", "Cr1Credential", credentialProcess.Cr2Cr1Key);
-            ViewData["Cr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcess.Cr2Ct6Key);
-            return View(credentialProcess);
+            CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
+            return View(credentialProcessViewModel);
+            
         }
 
         // GET: CredentialProcesses/Edit/5
@@ -86,9 +88,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Cr2Cr1Key"] = new SelectList(_context.Credentials, "Cr1Key", "Cr1Credential", credentialProcess.Cr2Cr1Key);
-            ViewData["Cr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcess.Cr2Ct6Key);
-            return View(credentialProcess);
+            CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
+            return View(credentialProcessViewModel);
         }
 
         // POST: CredentialProcesses/Edit/5
@@ -96,7 +97,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Cr2Key,Cr2Ct2Key,Cr2Cr1Key,Cr2Ct6Key,Cr2TerminationDate,Cr2AddUser,Cr2AddDate,Cr2ChangeUser,Cr2ChangeDate")] CredentialProcess credentialProcess)
+        public async Task<IActionResult> Edit(Guid id, CredentialProcess credentialProcess)
         {
             if (id != credentialProcess.Cr2Key)
             {
@@ -107,8 +108,9 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(credentialProcess);
-                    await _context.SaveChangesAsync();
+                    await credentialProcess.Update(_context);
+                    //_context.Update(credentialProcess);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,9 +125,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Cr2Cr1Key"] = new SelectList(_context.Credentials, "Cr1Key", "Cr1Credential", credentialProcess.Cr2Cr1Key);
-            ViewData["Cr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialProcess.Cr2Ct6Key);
-            return View(credentialProcess);
+            CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
+            return View(credentialProcessViewModel);
         }
 
         // GET: CredentialProcesses/Delete/5
