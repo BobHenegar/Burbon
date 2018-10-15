@@ -57,7 +57,8 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.Person)
-                .FirstOrDefaultAsync(m => m.AdrKey == id);
+                .Where(x => x.AdrKey == id)
+                .FirstOrDefaultAsync();
             if (address == null)
             {
                 return NotFound();
@@ -172,6 +173,7 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.Person)
+                .Where(m => m.AdrKey == id)
                 .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {

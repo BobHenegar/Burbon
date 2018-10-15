@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Classes\" />
     <Folder Include="Enums\" />
     <Folder Include="CommandModels\" />
     <Folder Include="RequetResponseModels\" />

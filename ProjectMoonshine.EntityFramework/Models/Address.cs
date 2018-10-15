@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -14,7 +15,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid AdrKey { get; set; }
 
-
+        [DisplayName("Person")]
         public Guid AdrPerKey { get; set; }
 
         [DisplayName("City")]
@@ -58,11 +59,15 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Is Home Address?")]
         [DefaultValue(false)]
         public bool AdrIsHomeAddress { get; set; }
-        [DisplayName("Added")]
+        [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset AdrAddDate { get; set; }
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? AdrChangeDate { get; set; }
+        [DisplayName("Added By")]
         public string AdrAddUser { get; set; }
+        [DisplayName("Changed By")]
         public string AdrChangeUser { get; set; }
 
 
