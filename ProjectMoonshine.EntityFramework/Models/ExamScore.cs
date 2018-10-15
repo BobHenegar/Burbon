@@ -13,7 +13,13 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [Key]
         public Guid ExsKey { get; set; }
+
+
+        [DisplayName("Exam")]
         public Guid ExsExmKey { get; set; }
+
+
+        [DisplayName("Csutomer")]
         public Guid ExsCusKey { get; set; }
 
 
@@ -23,11 +29,20 @@ namespace ProjectMoonshine.EntityFramework.Models
         public int ExsTotalReceived { get; set; }
 
 
-        public DateTimeOffset ExsAddDate { get; set; }
-        public DateTimeOffset? ExsChangeDate { get; set; }
-        [DisplayName("Added")]
+
+        [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTimeOffset ExsAddDate { get; set; }
+
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTimeOffset? ExsChangeDate { get; set; }
+
+        [DisplayName("Added By")]
         public string ExsAddUser { get; set; }
+
+
+        [DisplayName("Changed By")]
         public string ExsChangeUser { get; set; }
 
 

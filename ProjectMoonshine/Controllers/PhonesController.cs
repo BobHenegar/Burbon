@@ -56,7 +56,8 @@ namespace ProjectMoonshine.Controllers
 
             var phone = await _context.Phones
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PhoKey == id);
+                .Where(m => m.PhoKey == id)
+                .FirstOrDefaultAsync();
             if (phone == null)
             {
                 return NotFound();
@@ -158,7 +159,8 @@ namespace ProjectMoonshine.Controllers
 
             var phone = await _context.Phones
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PhoKey == id);
+                .Where(m => m.PhoKey == id)
+                .FirstOrDefaultAsync();
             if (phone == null)
             {
                 return NotFound();

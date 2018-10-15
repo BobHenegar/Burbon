@@ -56,8 +56,10 @@ namespace ProjectMoonshine.Controllers
 
             var examScore = await _context.ExamScores
                 .Include(e => e.Customer)
+                .ThenInclude(i => i.Person)
                 .Include(e => e.Exam)
-                .FirstOrDefaultAsync(m => m.ExsKey == id);
+                .Where(x => x.ExsKey == id)
+                .FirstOrDefaultAsync();
             if (examScore == null)
             {
                 return NotFound();
@@ -169,7 +171,8 @@ namespace ProjectMoonshine.Controllers
             var examScore = await _context.ExamScores
                 .Include(e => e.Customer)
                 .Include(e => e.Exam)
-                .FirstOrDefaultAsync(m => m.ExsKey == id);
+                .Where(x => x.ExsKey == id)
+                .FirstOrDefaultAsync();
             if (examScore == null)
             {
                 return NotFound();

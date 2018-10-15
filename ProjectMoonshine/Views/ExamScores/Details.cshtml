@@ -47,10 +47,10 @@
             @Html.DisplayFor(model => model.ExsChangeUser)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Customer)
+            @Html.DisplayNameFor(model => model.Customer.Person)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Customer.CusKey)
+            @Html.DisplayFor(model => model.Customer.Person.PerFirstMiddleLast)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Exam)

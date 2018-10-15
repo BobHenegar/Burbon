@@ -60,7 +60,8 @@ namespace ProjectMoonshine.Controllers
                 .Include(p => p.Addresses)
                 .Include(p => p.Emails)
                 .Include(p => p.Phones)
-                .FirstOrDefaultAsync(m => m.PerKey == id);
+                .Where(m => m.PerKey == id)
+                .FirstOrDefaultAsync();
             if (person == null)
             {
                 return NotFound();
@@ -157,7 +158,8 @@ namespace ProjectMoonshine.Controllers
 
             var person = await _context.People
                 .Include(p => p.Customer)
-                .FirstOrDefaultAsync(m => m.PerKey == id);
+                .Where(m => m.PerKey == id)
+                .FirstOrDefaultAsync();
             if (person == null)
             {
                 return NotFound();
