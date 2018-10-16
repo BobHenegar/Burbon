@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Utils;
 using ProjectMoonshine.Models;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -26,7 +27,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid Cr1Ct1Key { get; set; }
 
         [DisplayName("Credential Number")]
-        public string Cr1CredentialNumber { get; set; }
+        public short? Cr1CredentialNumber { get; set; }
 
         [DisplayName("Customer")]
         public Guid Cr1CusKey { get; set; }
@@ -115,7 +116,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    if (Cr1StartDate == DateTimeOffset.MinValue) Cr1StartDate = System.DateTimeOffset.Now;
+                    if (Cr1StartDate == null || Cr1StartDate == DateTimeOffset.MinValue) Cr1StartDate = DateTimeOffset.Now;
 
                     CredentialType = context.CredentialTypes.Single(ct => ct.Ct1Key == Cr1Ct1Key);
                     if (Cr1Ct6Key == null || Cr1Ct6Key == Guid.Empty)
@@ -166,17 +167,28 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+
                 using (var transaction = context.Database.BeginTransaction())
                 {
+                    Credential originalCredential = context.Credentials
+                        .Include(c => c.CurrentCredentialProcess)
+                        .AsNoTracking()
+                        .FirstOrDefault(c => c.Cr1Key == Cr1Key);
+
+                    if (originalCredential == null || originalCredential.Cr1Ct6Key != Cr1Ct6Key) SetStatus(context, Cr1Ct6Key);
+
+
+
                     GetCurrentCredentialProcess(context);
                     
                     if (CurrentCredentialProcess != null)
                     {
                         // check if process is terminated
-                        if (CurrentCredentialProcess.Cr2TerminationDate != null)
+                        if (CurrentCredentialProcess.Cr2TerminationDate != null 
+                            && (originalCredential?.CurrentCredentialProcess?.Cr2TerminationDate == null 
+                                || originalCredential.CurrentCredentialProcess.Cr2TerminationDate == DateTimeOffset.MinValue ))
                         {
                             TerminateCredential(context);
-                            
                         }
                         // check if process is completed
                         else if (CurrentCredentialProcess.Cr2CompletionDate != null &&
@@ -187,7 +199,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                                 Cr1CredentialDate = CurrentCredentialProcess.Cr2CompletionDate;
 
                             //TODO: set up credential numbering
-                            //Cr1CredentialNumber = GetNextCredentialNumber(CurrentCredentialProcess);
+                            if (Cr1CredentialNumber == null || Cr1CredentialNumber == 0) Cr1CredentialNumber = CredentialingUtils.GetNextCredentialNumber(context, this);
 
                             //TODO: Add designation to person record?
 
@@ -205,10 +217,10 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                                 //Guid.Parse(CurrentCredentialProcess.CredentialProcessType.Ct2NextCt2key.ToString());
 
-                                else if (CredentialType.Ct1RenewCt2Key != null)
+                                else if (CredentialType.Ct1RenewCt2Key != null && CredentialType.Ct1RenewCt2Key != Guid.Empty)
                                     nextProcessType = context.CredentialProcessTypes
                                         .FirstOrDefault(pt =>
-                                            pt.Ct2Key == Guid.Parse(CredentialType.Ct1InitCt2Key.ToString()));
+                                            pt.Ct2Key == CredentialType.Ct1RenewCt2Key);
 
                                 if (nextProcessType != null)
                                 {
@@ -254,6 +266,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         private void TerminateCredential(ApplicationDbContext context)
         {
             //RemoveDesignation();
+            if (Cr1ValidThruDate != null && Cr1ValidThruDate != DateTimeOffset.MinValue)
+                Cr1ValidThruDate = CurrentCredentialProcess.Cr2TerminationDate;
+
+            context.Update(this);
         }
 
         private void GetCurrentCredentialProcess(ApplicationDbContext context)

@@ -161,7 +161,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Cr1CredentialDate");
 
-                    b.Property<string>("Cr1CredentialNumber");
+                    b.Property<short?>("Cr1CredentialNumber");
 
                     b.Property<Guid>("Cr1Ct1Key");
 

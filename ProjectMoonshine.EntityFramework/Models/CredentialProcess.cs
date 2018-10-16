@@ -205,7 +205,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         private void EvaluateProcessUnderReview(ApplicationDbContext context, bool isCurrentProcess)
         {
             bool isReviewReady = IsReviewReady(context);
-            if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue && isReviewReady)
+            if ((Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue) && isReviewReady)
             {
                 if (CredentialProcessType.Ct2SubmittedCt6Key != null &&
                     CredentialProcessType.Ct2SubmittedCt6Key != Guid.Empty)
@@ -285,20 +285,14 @@ namespace ProjectMoonshine.EntityFramework.Models
                             //TODO or Roadmap: Set process owner flag
 
 
-                            if (StatusType.Ct6SetCredentialNumberFlag)
+                            if (StatusType.Ct6SetCredentialNumberFlag && (Credential.Cr1CredentialNumber == null || Credential.Cr1CredentialNumber == 0))
                             {
-                                Credential.Cr1CredentialNumber = GetNextCredentialNumber(context);
+                                Credential.Cr1CredentialNumber = CredentialingUtils.GetNextCredentialNumber(context, Credential);
                             }
                         }
                     }
                 }
             }
-        }
-
-        private string GetNextCredentialNumber(ApplicationDbContext context)
-        {
-            return "";
-            //throw new NotImplementedException();
         }
 
         private void Eval(ApplicationDbContext context, bool updateCredential = false)
@@ -317,7 +311,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 if (CredentialProcessType == null) return false;
                 
-                if (Cr2Ct6Key == Guid.Empty) Cr2Ct6Key =   Guid.Parse(CredentialProcessType.Ct2StartCt6Key.ToString()) ;
+                if (Cr2Ct6Key == null || Cr2Ct6Key == Guid.Empty) Cr2Ct6Key =   CredentialProcessType.Ct2StartCt6Key ;
 // TODO: set credential status based on ct2cr1startct6key
 
                 context.Add(this);

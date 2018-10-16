@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework.Utils
 {
@@ -69,6 +71,28 @@ namespace ProjectMoonshine.EntityFramework.Utils
             DbCommand command = connection.CreateCommand();
             command.CommandText = string.Format("EXEC dbo.{0} {1}", procedure, parameterValue);
             return command.ExecuteScalar() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
+        }
+
+        public static short? GetNextCredentialNumber(ApplicationDbContext context, Credential credential)
+        {
+            if (credential == null) return null;
+
+            //TODO: add sproc capability
+            //
+            /// //if (credential.CredentialType == null) credential.CredentialType = 
+            //    context.CredentialTypes
+            //        .Where(ct => ct.Ct1Key == credential.Cr1Ct1Key)
+            //        .FirstOrDefault();
+
+            short? nextCredentialNumber = context.Credentials
+                .Where(c => c.Cr1CredentialNumber != null)
+                .DefaultIfEmpty()
+                .Max(c => c.Cr1CredentialNumber);
+
+            if (nextCredentialNumber != null && nextCredentialNumber == 0)
+                return nextCredentialNumber;
+
+            return null;
         }
     }
 }

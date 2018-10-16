@@ -123,25 +123,36 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialEdit)]Credential credential)
+        public async Task<IActionResult> Edit(Guid id, //[Bind(ModelBindingConstants.CredentialEdit)]
+                                                       Credential credential)
         {
-            if (id != credential.Cr1Key)
-            {
-                return NotFound();
-            }
+            //if (id != credential.Cr1Key)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await credential.Update(_context);
+                    Credential credentialToUpdate = await _context.Credentials.FindAsync(id);
+
+                    if (credentialToUpdate == null) return NotFound();
+                    credentialToUpdate.Cr1Ct6Key = credential.Cr1Ct6Key;
+                    credentialToUpdate.Cr1StartDate = credential.Cr1StartDate;
+                    credentialToUpdate.Cr1CredentialDate = credential.Cr1CredentialDate;
+                    credentialToUpdate.Cr1CredentialNumber = credential.Cr1CredentialNumber;
+                    credentialToUpdate.Cr1EffectiveDate = credential.Cr1EffectiveDate;
+                    credentialToUpdate.Cr1ValidThruDate = credential.Cr1ValidThruDate;
+
+                    await credentialToUpdate.Update(_context);
                     //_context.Update(credential);
 
                     //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CredentialExists(credential.Cr1Key))
+                    if (!CredentialExists(id))
                     {
                         return NotFound();
                     }

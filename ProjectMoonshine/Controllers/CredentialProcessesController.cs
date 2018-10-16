@@ -100,24 +100,35 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialProcessEdit)] CredentialProcess credentialProcess)
+        public async Task<IActionResult> Edit(Guid id, //[Bind(ModelBindingConstants.CredentialProcessEdit)]
+                                                       CredentialProcess credentialProcess)
         {
-            if (id != credentialProcess.Cr2Key)
-            {
-                return NotFound();
-            }
+            //if (id != viewModel.CredentialProcess.Cr2Key)
+            //{
+            //    return NotFound();
+            //}
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await credentialProcess.Update(_context);
+                    var credentialProcessToUpdate = await _context.CredentialProcesses.FindAsync(id);
+
+                    if (credentialProcessToUpdate == null) return NotFound();
+
+                    credentialProcessToUpdate.Cr2TerminationDate = credentialProcess.Cr2TerminationDate;
+                    credentialProcessToUpdate.Cr2Ct6Key = credentialProcess.Cr2Ct6Key;
+                    credentialProcessToUpdate.Cr2DueDate = credentialProcess.Cr2DueDate;
+                    credentialProcessToUpdate.Cr2StartDate = credentialProcess.Cr2StartDate;
+
+                    await credentialProcessToUpdate.Update(_context);
                     //_context.Update(credentialProcess);
                     //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CredentialProcessExists(credentialProcess.Cr2Key))
+                    if (!CredentialProcessExists(id))
                     {
                         return NotFound();
                     }
