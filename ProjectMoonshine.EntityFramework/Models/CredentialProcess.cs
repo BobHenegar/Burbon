@@ -15,7 +15,7 @@ using ProjectMoonshine.EntityFramework.Utils;
 namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialProcess")]
-    public class CredentialProcess : EntityBase
+    public sealed class CredentialProcess : EntityBase
     {
         [NotMapped]
         public const string Prefix = "Cr2";
@@ -31,7 +31,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public Guid Cr2Cr2Key { get; set; }
 
         [DisplayName("Status")]
-        public Guid Cr2Ct6Key { get; set; }
+        public Guid? Cr2Ct6Key { get; set; }
 
 
         //public DateTimeOffset Cr2StatusChangeDate { get; set; }
@@ -111,25 +111,49 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }
         //[ForeignKey("Cr2Cr1Key")]
-        public virtual Credential Credential { get; set; }
+        public Credential Credential { get; set; }
         //public virtual Person Person { get; set; }
 
-        public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
+        public List<CredentialRequirement> CredentialRequirements { get; set; }
 
         [ForeignKey("Cr2Ct6Key")]
         public CredentialStatusType StatusType { get; set; }
 
         [ForeignKey("Cr2Ct2Key")]
-        public virtual CredentialProcessType CredentialProcessType { get; set; }
+        public CredentialProcessType CredentialProcessType { get; set; }
+
+        [NotMapped]
+        public DateTimeOffset? OriginalCr2TerminationDate { get; set; }
+
+        [NotMapped]
+        public Guid? OriginalCt6Key { get; set; }
+
+        //[NotMapped] public TYPE Type { get; set; }
+
 
         public async Task<bool> Update(ApplicationDbContext context)
         {
             try
             {
-                if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue)
-                {
-                    Eval(context);
-                }
+                Credential = context.Credentials.Where(c => c.Cr1Key == Cr2Cr1Key).FirstOrDefault();
+                bool isCurrentProcess = Credential?.Cr1CurrentCr2Key == Cr2Key;
+
+                CredentialProcess originalCredentialProcess = context.CredentialProcesses
+                    .AsNoTracking()
+                    .FirstOrDefault(p => p.Cr2Key == Cr2Key);
+
+                Credential originalCredential = context.Credentials
+                    .AsNoTracking()
+                    .FirstOrDefault(c => c.Cr1Key == Cr2Cr1Key);
+
+                CheckForStatusChange(context, isCurrentProcess, originalCredentialProcess);
+                await EvaluateOpenProcess(context, isCurrentProcess, originalCredentialProcess, originalCredential);
+
+                // TODO / Roadmap: send communication based on status
+
+                SendCommunicationForStatus(originalCredentialProcess);
+                await EvaluateProcessTerminated(context, isCurrentProcess, originalCredentialProcess);
+
                 context.Update(this);
                 context.SaveChanges();
                 return true;
@@ -142,7 +166,142 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private void Eval(ApplicationDbContext context)
+        private async Task EvaluateProcessTerminated(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess)
+        {
+            if ((originalCredentialProcess == null ||
+                                 originalCredentialProcess.Cr2TerminationDate != Cr2TerminationDate)
+                                && isCurrentProcess
+                                && Credential != null)
+            {
+                await Credential.Update(context);
+            }
+        }
+
+        private void SendCommunicationForStatus(CredentialProcess originalCredentialProcess)
+        {
+            if (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key != Cr2Ct6Key)
+            {
+            }
+        }
+
+        private async Task EvaluateOpenProcess(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
+        {
+            if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue)
+            {
+                Eval(context, isCurrentProcess);
+                context.Update(this);
+                // is the Credential Update necessary?
+                //if ()context.Update(this.Credential);
+
+                await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
+
+                // setting as variable here so it can be manipulated during testing
+                EvaluateProcessUnderReview(context, isCurrentProcess);
+
+                //TODO / Roadmap: set requirement exensions based on process extension date
+            }
+        }
+
+        private void EvaluateProcessUnderReview(ApplicationDbContext context, bool isCurrentProcess)
+        {
+            bool isReviewReady = IsReviewReady(context);
+            if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue && isReviewReady)
+            {
+                if (CredentialProcessType.Ct2SubmittedCt6Key != null &&
+                    CredentialProcessType.Ct2SubmittedCt6Key != Guid.Empty)
+                {
+                    SetStatus(context, CredentialProcessType.Ct2SubmittedCt6Key, isCurrentProcess);
+                }
+
+                //TODO Get Requirements that are submit prereqs and set to under review
+            }
+        }
+
+        private async Task EvaluateProcessCompleted(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
+        {
+            if (Cr2CompletionDate != null && Cr2CompletionDate != DateTimeOffset.MinValue &&
+                                (Cr2TerminationDate == null || Cr2TerminationDate == DateTimeOffset.MinValue))
+            {
+                if (CredentialProcessType.Ct2CompletedCt6Key != null &&
+                    CredentialProcessType.Ct2CompletedCt6Key != Guid.Empty
+                    && (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key == Cr2Ct6Key))
+                {
+                    SetStatus(context, CredentialProcessType.Ct2CompletedCt6Key, isCurrentProcess);
+                    context.Update(this);
+                }
+
+
+                if (CredentialProcessType.Ct2CompletedCr1Ct6Key != null
+                    && CredentialProcessType.Ct2CompletedCr1Ct6Key != Guid.Empty
+                    && (originalCredential == null || originalCredential.Cr1Ct6Key == Credential.Cr1Ct6Key)
+                    && isCurrentProcess
+                )
+                {
+                    Credential.SetStatus(context, CredentialProcessType.Ct2CompletedCr1Ct6Key);
+                    //context.Update(this);
+                }
+
+                await Credential.Update(context);
+            }
+        }
+
+        private void CheckForStatusChange(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess)
+        {
+            if (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key != Cr2Ct6Key)
+            {
+                SetStatus(context, Cr2Ct6Key, isCurrentProcess);
+                context.Update(this);
+            }
+        }
+
+        private bool IsReviewReady(ApplicationDbContext context)
+        {
+            return false;
+            throw new NotImplementedException();
+        }
+
+        private void SetStatus(ApplicationDbContext context, Guid? ct6Key, bool updateCredential = false)
+        {
+            // TODO/Roadmap: status type change fields  
+            if (ct6Key != null && ct6Key != Guid.Empty)
+            {
+                Cr2Ct6Key = ct6Key;
+                if (StatusType == null)
+                    StatusType = context.CredentialStatusTypes.Where(st => st.Ct6Key == ct6Key).FirstOrDefault();
+
+                if (StatusType != null)
+                {
+                    if (updateCredential)
+                    {
+                        if (Credential == null) context.Credentials.Where(c => c.Cr1Key == Cr2Cr1Key).FirstOrDefault();
+
+                        if (Credential != null)
+                        {
+                            if (StatusType.Ct6ParentCt6Key != null && StatusType.Ct6ParentCt6Key != Guid.Empty)
+                            {
+                                Credential.Cr1Ct6Key = StatusType.Ct6ParentCt6Key;
+                            }
+
+                            //TODO or Roadmap: Set process owner flag
+
+
+                            if (StatusType.Ct6SetCredentialNumberFlag)
+                            {
+                                Credential.Cr1CredentialNumber = GetNextCredentialNumber(context);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private string GetNextCredentialNumber(ApplicationDbContext context)
+        {
+            return "";
+            //throw new NotImplementedException();
+        }
+
+        private void Eval(ApplicationDbContext context, bool updateCredential = false)
         {
             //throw new NotImplementedException();
         }
@@ -261,7 +420,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         }
 
 
-        public virtual void Init()
+        public void Init()
         {
 
         }

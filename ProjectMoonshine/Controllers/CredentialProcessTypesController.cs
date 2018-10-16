@@ -62,7 +62,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Create( [Bind(ModelBindingConstants.CredentialProcessType)] CredentialProcessType credentialProcessType)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, CredentialProcessType credentialProcessType)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialProcessType)] CredentialProcessType credentialProcessType)
         {
             if (id != credentialProcessType.Ct2Key)
             {

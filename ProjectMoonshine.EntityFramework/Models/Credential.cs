@@ -274,6 +274,21 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             throw new NotImplementedException();
         }
+
+        public void SetStatus(ApplicationDbContext context, Guid? ct6Key)
+        {
+            if (ct6Key != null && ct6Key != Guid.Empty)
+            {
+                Cr1Ct6Key = ct6Key;
+                context.Update(this);
+                //if (StatusType == null)
+                //    StatusType = context.CredentialStatusTypes.Where(st => st.Ct6Key == ct6Key).FirstOrDefault();
+                //if (StatusType != null)
+                //{
+
+                //}
+            }
+        }
     }
     }
 

@@ -61,7 +61,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( CredentialProcess credentialProcess)
+        public async Task<IActionResult> Create( [Bind(ModelBindingConstants.CredentialProcessAdd)] CredentialProcess credentialProcess)
         {
             if (ModelState.IsValid)
             {
@@ -88,6 +88,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+
+            credentialProcess.OriginalCr2TerminationDate = credentialProcess.Cr2TerminationDate;
+
             CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
             return View(credentialProcessViewModel);
         }
@@ -97,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, CredentialProcess credentialProcess)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialProcessEdit)] CredentialProcess credentialProcess)
         {
             if (id != credentialProcess.Cr2Key)
             {

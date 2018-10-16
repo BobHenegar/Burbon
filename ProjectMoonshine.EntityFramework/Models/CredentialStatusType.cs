@@ -39,13 +39,15 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Ct6St1Key { get; set; }
 
-        //public string Ct6ParentCt6Code { get; set; }
+        [DisplayName("Parent Status")]
+        public Guid? Ct6ParentCt6Key { get; set; }
 
         //public bool Ct6TerminateProcessFlag { get; set; }
 
         //public bool Ct6SetProcessOwnerFlag { get; set; }
 
-        //public bool Ct6SetCredentialNumberFlag { get; set; }
+        [DisplayName("Set Credential Number Flag")]
+        public bool Ct6SetCredentialNumberFlag { get; set; }
 
         //public bool Ct6EwebReadOnlyFlag { get; set; }
 
@@ -64,5 +66,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct6Cu6Key")]
         public virtual StatusStateType State { get; set; }
 
+        [ForeignKey("Ct6ParentCt6Key")]
+        public virtual CredentialStatusType ParentStatusType { get; set; }
     }
 }

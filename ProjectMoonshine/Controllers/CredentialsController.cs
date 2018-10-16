@@ -68,7 +68,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Credential credential)
+        public async Task<IActionResult> Create( [Bind(ModelBindingConstants.CredentialAdd)] Credential credential)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +123,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Credential credential)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialEdit)]Credential credential)
         {
             if (id != credential.Cr1Key)
             {

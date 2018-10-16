@@ -219,7 +219,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Cr2Ct2Key");
 
-                    b.Property<Guid>("Cr2Ct6Key");
+                    b.Property<Guid?>("Cr2Ct6Key");
 
                     b.Property<DateTimeOffset?>("Cr2DueDate");
 
@@ -261,6 +261,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct2ChangeUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid?>("Ct2CompletedCr1Ct6Key");
+
                     b.Property<Guid?>("Ct2CompletedCt6Key");
 
                     b.Property<string>("Ct2Description")
@@ -286,6 +288,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Ct2SubmittedCt6Key");
 
                     b.HasKey("Ct2Key");
+
+                    b.HasIndex("Ct2CompletedCr1Ct6Key");
 
                     b.HasIndex("Ct2CompletedCt6Key");
 
@@ -480,9 +484,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Ct6Description");
 
+                    b.Property<Guid?>("Ct6ParentCt6Key");
+
+                    b.Property<bool>("Ct6SetCredentialNumberFlag");
+
                     b.HasKey("Ct6Key");
 
                     b.HasIndex("Ct6Cu6Key");
+
+                    b.HasIndex("Ct6ParentCt6Key");
 
                     b.ToTable("CredentialStatusType");
                 });
@@ -960,6 +970,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialProcessType", b =>
                 {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "CredentialCompletedStatus")
+                        .WithMany()
+                        .HasForeignKey("Ct2CompletedCr1Ct6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "CompletedStatus")
                         .WithMany()
                         .HasForeignKey("Ct2CompletedCt6Key")
@@ -1045,6 +1060,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.StatusStateType", "State")
                         .WithMany()
                         .HasForeignKey("Ct6Cu6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentStatusType")
+                        .WithMany()
+                        .HasForeignKey("Ct6ParentCt6Key")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

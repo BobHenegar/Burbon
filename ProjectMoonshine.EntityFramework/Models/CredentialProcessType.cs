@@ -58,6 +58,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Custom Due Date Stored Procedure")]
         public string Ct2CalculateDueDateSp { get; set; }
 
+        [DisplayName("Credential Completed Status")]
+        public Guid? Ct2CompletedCr1Ct6Key { get; set; }
+
         //public string Ct2SetOwnerSp { get; set; }
 
         [DisplayName("Add Date")]
@@ -77,7 +80,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         #region Navigation Properties
         public virtual IList<CredentialProcessTypeXCredentialRequirementType> CredentialProcessTypeXCredentialRequirementTypes { get; set; }
 
-        [ForeignKey("Ct2StartCt6Key")] public virtual CredentialStatusType StartStatus { get; set; }
+        [ForeignKey("Ct2StartCt6Key")]
+        public virtual CredentialStatusType StartStatus { get; set; }
 
         [ForeignKey("Ct2SubmittedCt6Key")]
         public virtual  CredentialStatusType SubmittedStatus { get; set; }
@@ -90,7 +94,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct2NextCt2Key")]
         public virtual CredentialProcessType NextCredentialProcessType { get; set; }
 
-        
+
+
+        [ForeignKey("Ct2CompletedCr1Ct6Key")]
+        public virtual CredentialStatusType CredentialCompletedStatus { get; set; }
         #endregion Navigation Properties
     }
 
