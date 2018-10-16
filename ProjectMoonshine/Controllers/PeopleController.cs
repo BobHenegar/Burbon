@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -180,6 +182,29 @@ namespace ProjectMoonshine.Controllers
         private bool PersonExists(Guid id)
         {
             return _context.People.Any(e => e.PerKey == id);
+        }
+
+        [HttpPost]
+        public ActionResult Email()
+        {
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress("support@credengnext.net"),
+                Subject = "Hello World",
+                Body = "Test email from Send Grid SMTP Settings"
+            };
+
+            mailMessage.To.Add("bob.henegar@agilutions.com");
+
+            var smtpClient = new SmtpClient
+            {
+                Credentials = new NetworkCredential("azure_62dfa7dda67490fad6f34fdee29cbab6@azure.com", "1425Market"),
+                Host = "smtp.sendgrid.net",
+                Port = 587
+            };
+
+            smtpClient.Send(mailMessage);
+            return RedirectToAction("Details", new{id=Request.Form["perKey"].ToString()});
         }
     }
 }
