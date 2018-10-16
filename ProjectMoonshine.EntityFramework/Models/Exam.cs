@@ -11,7 +11,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [NotMapped]
         public const string Prefix = "Exm";
 
-
         [Key]
         public Guid ExmKey { get; set; }
 
@@ -28,8 +27,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Allow Retakes")]
         [DefaultValue(true)]
         public bool ExmCanRetake { get; set; }
-
-
 
         [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
@@ -49,6 +46,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         public virtual IList<ExamScore> ExamScores { get; set; }
+
         [ForeignKey("ExmEvtKey")]
         public virtual Event Event { get; set; }
         #endregion Navigation Properties

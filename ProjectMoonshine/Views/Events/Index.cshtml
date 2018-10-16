@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Events" />
 <table class="table">
     <thead>
         <tr>
@@ -27,15 +28,6 @@
             <th>
                 @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().EvtChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().EvtAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.First().EvtChangeUser)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,10 +36,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EvtDescription)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.EvtName)
+                </td>
+                <td style="width:46%">
+                    @Html.DisplayFor(modelItem => item.EvtDescription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EvtStartDate)
@@ -56,24 +48,11 @@
                     @Html.DisplayFor(modelItem => item.EvtEndDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EvtAddDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EvtChangeDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EvtAddUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EvtChangeUser)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-route-id="@item.EvtKey">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.EvtKey">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.EvtKey">Delete</a>
                 </td>
             </tr>
-            <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="Events" />
         }
     </tbody>
 </table>

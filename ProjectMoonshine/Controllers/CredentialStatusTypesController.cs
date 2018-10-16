@@ -10,7 +10,7 @@ using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class CredentialStatusTypesController : Controller
+    public class CredentialStatusTypesController : BaseController
     {
         private readonly ApplicationDbContext _context;
 

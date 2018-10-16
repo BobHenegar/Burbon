@@ -83,8 +83,8 @@ namespace ProjectMoonshine
                         var migrationsToApply = context.Database.GetMigrations().ToList().Except(context.Database.GetAppliedMigrations().ToList());
                         if (migrationsToApply.Any())
                         {
-                            context.RunMigrations(migrationsToApply.ToList());
                             context.Database.Migrate();
+                            context.RunMigrations(migrationsToApply.ToList());
                             context.SaveChanges();
                         }
                     }

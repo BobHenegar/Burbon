@@ -44,7 +44,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Is Primary Address?")]
         [DefaultValue(false)]
-        public bool AdrIsPrimaryAddress { get; set; }
+        public bool AdrIsPrimary { get; set; }
 
         [DisplayName("Is Mailing Address?")]
         [DefaultValue(false)]

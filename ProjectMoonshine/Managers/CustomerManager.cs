@@ -28,11 +28,6 @@ namespace ProjectMoonshine.Managers
             throw new NotImplementedException();
         }
 
-        // <inheritdoc />
-        public async Task<bool> DeleteCustomerAsync(Guid cusKey)
-        {
-            throw new NotImplementedException();
-        }
 
         // <inheritdoc />
         public async Task<IList<Customer>> GetAllCustomersAsync(int page, int resultsPerPage)
@@ -43,18 +38,6 @@ namespace ProjectMoonshine.Managers
                             .Take(resultsPerPage)
                             .ToListAsync();
             return result;
-        }
-
-        // <inheritdoc />
-        public Task<Customer> GetCustomerByIdAsync(Guid adrKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public async Task<bool> UpdateCustomerAsync(Guid cusKey, Customer model)
-        {
-            throw new NotImplementedException();
         }
     }
 }
