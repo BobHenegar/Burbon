@@ -35,7 +35,8 @@ namespace ProjectMoonshine.Managers
                 searchString = searchString.ToLower();
                 people = people.Where(s => s.PerLastName.ToLower().Contains(searchString)
                                        || s.PerFirstName.ToLower().Contains(searchString)
-                                       || s.PerMiddleName.ToLower().Contains(searchString));
+                                       || s.PerMiddleName.ToLower().Contains(searchString)
+                                       || (s.PerFirstName + " " + s.PerLastName).ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -101,7 +102,7 @@ namespace ProjectMoonshine.Managers
                     }
                 default:
                     {
-                        people = people.OrderBy(x => x.PerFirstName);
+                        people = people.OrderBy(x => x.PerLastName);
                         break;
                     }
             }
@@ -114,10 +115,5 @@ namespace ProjectMoonshine.Managers
             throw new NotImplementedException();
         }
 
-        // <inheritdoc />
-        public async Task<bool> UpdatePersonAsync(Guid perKey, Person model)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

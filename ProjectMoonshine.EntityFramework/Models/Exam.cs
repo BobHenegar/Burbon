@@ -11,7 +11,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [NotMapped]
         public const string Prefix = "Exm";
 
-
         [Key]
         public Guid ExmKey { get; set; }
 
@@ -49,6 +48,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         public virtual IList<ExamScore> ExamScores { get; set; }
+
         [ForeignKey("ExmEvtKey")]
         public virtual Event Event { get; set; }
         #endregion Navigation Properties

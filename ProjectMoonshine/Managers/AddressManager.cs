@@ -16,18 +16,6 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<Guid> AddPersonAddressAsync(Guid perKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public async Task<bool> DeleteAddressAsync(Guid perKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
         public IQueryable<Address> GetAllAddresses(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
@@ -103,12 +91,12 @@ namespace ProjectMoonshine.Managers
                     }
                 case "primary":
                     {
-                        addresses = addresses.OrderBy(x => x.AdrIsPrimaryAddress);
+                        addresses = addresses.OrderBy(x => x.AdrIsPrimary);
                         break;
                     }
                 case "primary_desc":
                     {
-                        addresses = addresses.OrderByDescending(x => x.AdrIsPrimaryAddress);
+                        addresses = addresses.OrderByDescending(x => x.AdrIsPrimary);
                         break;
                     }
                 case "mailing":
@@ -166,18 +154,5 @@ namespace ProjectMoonshine.Managers
             var result = await context.Addresses.FirstAsync(x => x.AdrKey == adrKey);
             return result;
         }
-
-        // <inheritdoc />
-        public async Task<bool> UpdateAddressAsync(Guid perKey, Address model)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public Task<Guid> AddAddressAsync(Address model)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.EventRegistration>
+
+<div style="width:100%;padding:0px 15px 0px 15px">
+    <p>
+        <button style="width:100%" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#eventRegistrations" aria-expanded="false" aria-controls="eventRegistrations">
+           Event Registrations
+        </button>
+    </p>
+    <div class="collapse" id="eventRegistrations">
+        <div class="card card-body" style="width:100%;min-width:320px;height:150px;">
+            <a asp-action="Create" asp-controller="EventRegistrations" asp-route-id="@ViewBag.PerCusKey">Add Registration</a>
+            @if (Model != null && Model.Count() > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            @if (ViewBag.IncludePerson != null && ViewBag.IncludePerson)
+                            {
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Customer.Person.PerFirstMiddleLast)
+                                </th>
+                            }
+                            else
+                            {
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Event.EvtName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Event.EvtDescription)
+                                </th>
+                            }
+                            <th>
+                                @Html.DisplayNameFor(model => model.EvrAddDate)
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @if (ViewBag.IncludePerson != null && ViewBag.IncludePerson)
+                                {
+                                    <td>
+                                        <a asp-action="Details" asp-controller="People" asp-route-id="@item.Customer.Person.PerKey">@Html.DisplayFor(model => item.Customer.Person.PerFirstMiddleLast)</a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a asp-action="Details" asp-controller="Events" asp-route-id="@item.EvrEvtKey">@Html.DisplayFor(modelItem => item.Event.EvtName)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Event.EvtDescription)
+                                    </td>
+                                }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EvrAddDate)
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div>
+                    <div>
+                        <p>No Event Registrations on Record</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

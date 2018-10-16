@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,12 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class EventRegistrationsController : Controller
+    public class EventRegistrationsController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly EventRegistrationManager _eventRegistrationManager;
@@ -23,7 +25,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: EventRegistrations
-        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
@@ -67,9 +69,18 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: EventRegistrations/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["EvrCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
+            ViewData["CusKeyHasValue"] = id.HasValue;
+            if(id.HasValue)
+            {
+                ViewData["CusKey"] = id.Value;
+            }
+            ViewData["EvrCusKey"] = new SelectList(_context
+                .Customers
+                .Include(i => i.Person)
+                .Where(x => id.HasValue ? x.CusKey == id.Value : true)
+                .Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
             ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName");
             return View();
         }
@@ -79,7 +90,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EvrKey,EvrEvtKey,EvrCusKey,EvrDropDate,EvrAddDate,EvrChangeDate,EvrAddUser,EvrChangeUser,RowVersion")] EventRegistration eventRegistration)
+        public async Task<IActionResult> Create(EventRegistration eventRegistration)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +141,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(eventRegistration);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!EventRegistrationExists(eventRegistration.EvrKey))
                     {
@@ -138,6 +149,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }

@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class CredentialsController : Controller
+    public class CredentialsController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -52,8 +52,13 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Credentials/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
+            ViewData["CusKeyHasValue"] = id.HasValue;
+            if (id.HasValue)
+            {
+                ViewData["CusKey"] = id.Value;
+            }
             //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key");
             //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key");
             //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
@@ -64,7 +69,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: Credentials/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -83,9 +88,15 @@ namespace ProjectMoonshine.Controllers
                 }
                 catch (Exception e)
                 {
+
+                    Debug.WriteLine(e.RecursivelyFormatException());
+                    if (Environment.UserInteractive)
+                    {
+                        Debugger.Break();
+                    }
                     throw;
                 }
-                
+
             }
             //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
             //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
@@ -119,7 +130,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: Credentials/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]

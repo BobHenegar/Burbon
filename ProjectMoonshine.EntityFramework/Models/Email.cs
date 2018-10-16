@@ -22,7 +22,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Is Primary Email?")]
         [DefaultValue(false)]
-        public bool EmlIsPrimaryEmail { get; set; }
+        public bool EmlIsPrimary { get; set; }
 
         [DisplayName("Is Work Email?")]
         [DefaultValue(false)]

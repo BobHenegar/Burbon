@@ -26,11 +26,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Added By")]
         public string CusAddUser { get; set; }
 
-
         [DisplayName("Changed By")]
         public string CusChangeUser { get; set; }
 
         public virtual Person Person { get; set; }
-        public virtual List<Credential> Credentials { get; set; }
+        public virtual IList<Credential> Credentials { get; set; }
+        public virtual IList<ExamScore> ExamScores { get; set; }
+        public virtual IList<EventRegistration> EventRegistrations { get; set; }
     }
 }

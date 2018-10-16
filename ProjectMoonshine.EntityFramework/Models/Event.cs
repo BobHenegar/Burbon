@@ -49,6 +49,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         public virtual IList<EventRegistration> EventRegistrations { get; set; }
+        public virtual Exam Exam { get; set; }
         #endregion Navigation Properties
     }
 }
