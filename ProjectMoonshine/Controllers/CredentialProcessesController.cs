@@ -91,8 +91,6 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            credentialProcess.OriginalCr2TerminationDate = credentialProcess.Cr2TerminationDate;
-
             CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
             return View(credentialProcessViewModel);
         }
@@ -102,24 +100,34 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialProcessEdit)] CredentialProcess credentialProcess)
+        public async Task<IActionResult> Edit(Guid id, //[Bind(ModelBindingConstants.CredentialProcessEdit)]
+                                                       CredentialProcess credentialProcess)
         {
-            if (id != credentialProcess.Cr2Key)
-            {
-                return NotFound();
-            }
+            //if (id != viewModel.CredentialProcess.Cr2Key)
+            //{
+            //    return NotFound();
+            //}
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await credentialProcess.Update(_context);
-                    //_context.Update(credentialProcess);
-                    //await _context.SaveChangesAsync();
+                    var credentialProcessToUpdate = await _context.CredentialProcesses.FindAsync(id);
+
+                    if (credentialProcessToUpdate == null) return NotFound();
+
+                    credentialProcessToUpdate.Cr2TerminationDate = credentialProcess.Cr2TerminationDate;
+                    credentialProcessToUpdate.Cr2Ct6Key = credentialProcess.Cr2Ct6Key;
+                    credentialProcessToUpdate.Cr2DueDate = credentialProcess.Cr2DueDate;
+                    credentialProcessToUpdate.Cr2StartDate = credentialProcess.Cr2StartDate;
+                    credentialProcessToUpdate.Cr2CompletionDate = credentialProcess.Cr2CompletionDate;
+
+                    await credentialProcessToUpdate.Update(_context);
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
-                    if (!CredentialProcessExists(credentialProcess.Cr2Key))
+                    if (!CredentialProcessExists(id))
                     {
                         return NotFound();
                     }
