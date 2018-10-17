@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialRequirement>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3MetDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3DataKey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialProcess)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CredentialRequirementType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3MetDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3DataKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialProcess.Cr2Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CredentialRequirementType.Ct3Key)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Ct6Code)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Cr3Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Cr3Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Cr3Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

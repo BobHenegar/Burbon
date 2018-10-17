@@ -1,0 +1,88 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CredentialRequirement</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3DueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3DueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3MetDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3MetDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3DataKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3DataKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr3ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr3ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialProcess)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialProcess.Cr2Key)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialRequirementType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialRequirementType.Ct3Key)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status.Ct6Code)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Cr3Key" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

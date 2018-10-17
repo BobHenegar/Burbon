@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
@@ -97,6 +98,13 @@ namespace ProjectMoonshine.EntityFramework.Utils
                 return nextCredentialNumber;
 
             return null;
+        }
+
+        public static async Task<CredentialProcess> GetCredentialProcess(ApplicationDbContext context, Guid cr2Key)
+        {
+            return await context.CredentialProcesses
+                .Where(p => cr2Key == p.Cr2Key)
+                .FirstOrDefaultAsync();
         }
     }
 }

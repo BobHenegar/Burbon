@@ -17,7 +17,7 @@ using ProjectMoonshine.EntityFramework.Utils;
 namespace ProjectMoonshine.EntityFramework.Models
 {
     [Table("CredentialProcess")]
-    public sealed class CredentialProcess : EntityBase
+    public class CredentialProcess : EntityBase
     {
         [NotMapped]
         public const string Prefix = "Cr2";
@@ -125,7 +125,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public CredentialProcessType CredentialProcessType { get; set; }
 
 
-        public async Task<bool> Update(ApplicationDbContext context)
+        public virtual async Task<bool> Update(ApplicationDbContext context)
         {
             try
             {
@@ -270,7 +270,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             throw new NotImplementedException();
         }
 
-        private void SetStatus(ApplicationDbContext context, Guid? ct6Key, bool updateCredential = false)
+        public void SetStatus(ApplicationDbContext context, Guid? ct6Key, bool updateCredential = false)
         {
             // TODO/Roadmap: status type change fields  
             if (ct6Key != null && ct6Key != Guid.Empty)

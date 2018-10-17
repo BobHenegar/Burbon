@@ -112,7 +112,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr1Ct2Key")]
         public virtual CredentialProcessType CurrentCredentialProcessType { get; set; }
 
-        public async Task<bool> Add(ApplicationDbContext context)
+        public virtual async Task<bool> Add(ApplicationDbContext context)
         {
             try
             {
