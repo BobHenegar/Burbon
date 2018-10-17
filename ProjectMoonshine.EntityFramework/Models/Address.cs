@@ -42,21 +42,21 @@ namespace ProjectMoonshine.EntityFramework.Models
         [StringLength(maximumLength: 500)]
         public string AdrAddress3 { get; set; }
 
-        [DisplayName("Is Primary Address?")]
+        [DisplayName("Primary")]
         [DefaultValue(false)]
         public bool AdrIsPrimary { get; set; }
 
-        [DisplayName("Is Mailing Address?")]
+        [DisplayName("Mailing")]
         [DefaultValue(false)]
         public bool AdrIsMailingAddress { get; set; }
 
 
-        [DisplayName("Is Work Address?")]
+        [DisplayName("Work")]
         [DefaultValue(false)]
         public bool AdrIsWorkAddress { get; set; }
 
 
-        [DisplayName("Is Home Address?")]
+        [DisplayName("Home")]
         [DefaultValue(false)]
         public bool AdrIsHomeAddress { get; set; }
         [DisplayName("Date Added")]
