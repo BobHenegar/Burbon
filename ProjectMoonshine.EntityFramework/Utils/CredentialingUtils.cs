@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework.Helpers;
@@ -97,6 +99,46 @@ namespace ProjectMoonshine.EntityFramework.Utils
                 return nextCredentialNumber;
 
             return null;
+        }
+
+        public static bool SendMail(ApplicationDbContext context, Guid PerKey, Guid TemKey)
+        {
+            try
+            {
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("support@credengnext.net"),
+                    Subject = context.CommunicationTemplates
+                                .Where(t => t.TemKey.ToString() == TemKey.ToString())
+                                .Select(t => t.TemSubject)
+                                .FirstOrDefault(),
+                    Body = context.CommunicationTemplates
+                               .Where(t => t.TemKey.ToString() == TemKey.ToString())
+                               .Select(t => t.TemHtml)
+                               .FirstOrDefault() ?? throw new InvalidOperationException()
+            };
+
+                mailMessage.To.Add(context.Emails
+                                    .Where(e => e.EmlPerKey.ToString() == PerKey.ToString() && e.EmlIsPrimary == true)
+                                    .Select(e => e.EmlAddress)
+                                    .FirstOrDefault());
+
+                var smtpClient = new SmtpClient
+                {
+                    Credentials = new NetworkCredential("azure_62dfa7dda67490fad6f34fdee29cbab6@azure.com", "1425Market"),
+                    Host = "smtp.sendgrid.net",
+                    Port = 587
+                };
+
+                smtpClient.Send(mailMessage);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

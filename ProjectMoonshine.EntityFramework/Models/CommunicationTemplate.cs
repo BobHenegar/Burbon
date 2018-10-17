@@ -22,6 +22,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Template Description")]
         public string TemDescription { get; set; }
 
+        [DisplayName("Subject Line")]
+        public string TemSubject { get; set; }
+
+
         [DisplayName("Template HTML")]
         public string TemHtml { get; set; }
 

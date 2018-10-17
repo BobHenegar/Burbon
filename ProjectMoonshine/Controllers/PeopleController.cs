@@ -254,17 +254,19 @@ namespace ProjectMoonshine.Controllers
         public ActionResult Email()
         {
 
-            string emlBody = _context.CommunicationTemplates
-                .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
-                .Select(t => t.TemHtml)
-                .FirstOrDefault();
 
             var mailMessage = new MailMessage
             {
                 From = new MailAddress("support@credengnext.net"),
-                Subject = "Hello World",
-                Body = emlBody
-            };
+                Subject = _context.CommunicationTemplates
+                            .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
+                            .Select(t => t.TemSubject)
+                            .FirstOrDefault(),
+                Body = _context.CommunicationTemplates
+                           .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
+                           .Select(t => t.TemHtml)
+                           .FirstOrDefault() ?? throw new InvalidOperationException()
+        };
 
             string emladdr = _context.Emails
                 .Where(e => e.EmlPerKey.ToString() == Request.Form["perKey"].ToString() && e.EmlIsPrimary == true)
