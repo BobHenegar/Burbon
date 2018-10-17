@@ -19,7 +19,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid ExsExmKey { get; set; }
 
 
-        [DisplayName("Cutomer")]
+        [DisplayName("Customer")]
         public Guid ExsCusKey { get; set; }
 
 

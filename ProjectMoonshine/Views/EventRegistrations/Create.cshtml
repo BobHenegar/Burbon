@@ -3,33 +3,37 @@
 @{
     ViewData["Title"] = "Create";
 }
-
 <h2>Create</h2>
 
 <h4>EventRegistration</h4>
 <hr />
-<div class="row">
+<div class="container">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label asp-for="EvrEvtKey" class="control-label"></label>
             <div class="form-group">
-                <label asp-for="EvrEvtKey" class="control-label"></label>
-                <select asp-for="EvrEvtKey" class="form-control" asp-items="ViewBag.EvrEvtKey"></select>
+                <select asp-for="EvrEvtKey" asp-items="ViewBag.EvrEvtKey" class="selectpicker show-tick" data-live-search="true" id="selectEvent">
+                    <option data-hidden="true">Event:</option>
+                </select>
+                <span asp-validation-for="EvrEvtKey" class="text-danger"></span>
             </div>
+            <label asp-for="EvrCusKey" class="control-label"></label>
             @if ((bool)ViewBag.CusKeyHasValue)
             {
                 <div class="form-group">
-                    <label asp-for="EvrCusKey" class="control-label"></label>
-                    <select asp-for="EvrCusKey" class="form-control" asp-items="ViewBag.EvrCusKey" readonly="true"></select>
+                    <select asp-for="EvrCusKey" asp-items="ViewBag.EvrCusKey" class="selectpicker show-tick" data-live-search="true" id="selectCustomer" readonly="true"></select>
                 </div>
             }
             else
             {
                 <div class="form-group">
-                    <label asp-for="EvrCusKey" class="control-label"></label>
-                    <select asp-for="EvrCusKey" class="form-control" asp-items="ViewBag.EvrCusKey"></select>
+                    <select asp-for="EvrCusKey" asp-items="ViewBag.EvrCusKey" class="selectpicker show-tick" data-live-search="true" id="selectCustomer">
+                        <option data-hidden="true">Customer:</option>
+                    </select>
                 </div>
             }
+            <span asp-validation-for="EvrCusKey" class="text-danger"></span>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -43,4 +47,43 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        //$(document).ready(function () {
+        //    $(document).ready(function () {
+        //        $('.selectpicker').selectpicker({
+        //            liveSearch: true,
+        //            showSubtext: true
+        //        });
+        //        $("#selectEvent").change(function () {
+        //            var eventId = $(this).find(":selected").val();
+        //            var request = $.ajax({
+        //                type: 'GET',
+        //                url: '/api/Events/' + eventId + '/People',
+        //            });
+        //            request.done(function (res) {
+        //                var list = [];
+        //                $.each(res.data, function (idx, value) {
+        //                    var obj = {
+        //                        perKey: value.perKey,
+        //                        Name: value.perFirstMiddleLast
+        //                    }
+        //                    list.push(obj);
+        //                })
+        //                $("#selectCustomer").empty();
+        //                $("#selectCustomer").append(
+        //                    $("<option >Nothing Selected</option>").attr(
+        //                        "value", "")
+        //                )
+        //                $.each(list, function (key, value) {
+        //                    $("#selectCustomer").append(
+        //                        $("<option>" + value.Name + "</option>").attr(
+        //                            "value", value.perKey)
+        //                    )
+        //                });
+        //                $('#selectCustomer').selectpicker('refresh');
+        //            });
+        //        });
+        //    });
+        //});
+    </script>
 }
