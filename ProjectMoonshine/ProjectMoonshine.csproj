@@ -14,6 +14,12 @@
     <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\js\summernote\**" />
+    <Content Remove="wwwroot\js\summernote\**" />
+    <EmbeddedResource Remove="wwwroot\js\summernote\**" />
+    <None Remove="wwwroot\js\summernote\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Views\Shared\_ProcessPartialView.cshtml.cs" />
   </ItemGroup>
 

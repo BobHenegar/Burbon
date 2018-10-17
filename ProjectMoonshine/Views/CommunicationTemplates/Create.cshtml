@@ -1,0 +1,48 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CommunicationTemplate
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>CommunicationTemplate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TemCode" class="control-label"></label>
+                <input asp-for="TemCode" class="form-control" />
+                <span asp-validation-for="TemCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemDescription" class="control-label"></label>
+                <input asp-for="TemDescription" class="form-control" />
+                <span asp-validation-for="TemDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemHtml" class="control-label"></label>
+                <input asp-for="TemHtml" class="form-control" />
+                <span asp-validation-for="TemHtml" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemText" class="control-label"></label>
+                <input asp-for="TemText" class="form-control" />
+                <span asp-validation-for="TemText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

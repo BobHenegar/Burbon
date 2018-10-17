@@ -1,0 +1,69 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CommunicationTemplate
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CommunicationTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TemCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemHtml)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemHtml)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemText)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemText)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemChangeUser)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TemKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

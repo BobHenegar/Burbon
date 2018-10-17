@@ -140,6 +140,38 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("CEPeriod");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CommunicationTemplate", b =>
+                {
+                    b.Property<Guid>("TemKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("TemAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("TemAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("TemChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TemChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TemCode");
+
+                    b.Property<string>("TemDescription");
+
+                    b.Property<string>("TemHtml");
+
+                    b.Property<string>("TemText");
+
+                    b.HasKey("TemKey");
+
+                    b.ToTable("CommunicationTemplate");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
                 {
                     b.Property<Guid>("Cr1Key")
