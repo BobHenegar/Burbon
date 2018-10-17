@@ -89,8 +89,6 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            credentialProcess.OriginalCr2TerminationDate = credentialProcess.Cr2TerminationDate;
-
             CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
             return View(credentialProcessViewModel);
         }
@@ -121,10 +119,9 @@ namespace ProjectMoonshine.Controllers
                     credentialProcessToUpdate.Cr2Ct6Key = credentialProcess.Cr2Ct6Key;
                     credentialProcessToUpdate.Cr2DueDate = credentialProcess.Cr2DueDate;
                     credentialProcessToUpdate.Cr2StartDate = credentialProcess.Cr2StartDate;
+                    credentialProcessToUpdate.Cr2CompletionDate = credentialProcess.Cr2CompletionDate;
 
                     await credentialProcessToUpdate.Update(_context);
-                    //_context.Update(credentialProcess);
-                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -46,7 +46,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Cr2SubmitDate { get; set; }
 
-            [DisplayName("Cr2CompletionDate")]
+        [DisplayName("Completion Date")]
         public DateTimeOffset? Cr2CompletionDate { get; set; }
 
         [DisplayName("Termination Date")]
@@ -122,14 +122,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr2Ct2Key")]
         public CredentialProcessType CredentialProcessType { get; set; }
 
-        [NotMapped]
-        public DateTimeOffset? OriginalCr2TerminationDate { get; set; }
-
-        [NotMapped]
-        public Guid? OriginalCt6Key { get; set; }
-
-        //[NotMapped] public TYPE Type { get; set; }
-
 
         public async Task<bool> Update(ApplicationDbContext context)
         {
@@ -139,19 +131,23 @@ namespace ProjectMoonshine.EntityFramework.Models
                 bool isCurrentProcess = Credential?.Cr1CurrentCr2Key == Cr2Key;
 
                 CredentialProcess originalCredentialProcess = context.CredentialProcesses
+                    .Include(p => p.Credential)
                     .AsNoTracking()
                     .FirstOrDefault(p => p.Cr2Key == Cr2Key);
 
-                Credential originalCredential = context.Credentials
-                    .AsNoTracking()
-                    .FirstOrDefault(c => c.Cr1Key == Cr2Cr1Key);
+                //Credential originalCredential = context.Credentials
+                //    .AsNoTracking()
+                //    .FirstOrDefault(c => c.Cr1Key == Cr2Cr1Key);
 
                 CheckForStatusChange(context, isCurrentProcess, originalCredentialProcess);
-                await EvaluateOpenProcess(context, isCurrentProcess, originalCredentialProcess, originalCredential);
+                await EvaluateProcess(context, isCurrentProcess, originalCredentialProcess, originalCredentialProcess.Credential);
 
                 // TODO / Roadmap: send communication based on status
 
                 SendCommunicationForStatus(originalCredentialProcess);
+
+                // check if this is still the current process for the credential
+                isCurrentProcess = Credential?.Cr1CurrentCr2Key == Cr2Key;
                 await EvaluateProcessTerminated(context, isCurrentProcess, originalCredentialProcess);
 
                 context.Update(this);
@@ -184,9 +180,15 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private async Task EvaluateOpenProcess(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
+        private async Task EvaluateProcess(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
         {
-            if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue)
+            if ((originalCredentialProcess.Cr2CompletionDate == null 
+                 || originalCredentialProcess.Cr2CompletionDate == DateTimeOffset.MinValue)
+                && Cr2CompletionDate != null 
+                && Cr2CompletionDate != DateTimeOffset.MinValue)
+                await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
+
+            else if (Cr2CompletionDate == null || Cr2CompletionDate == DateTimeOffset.MinValue)
             {
                 Eval(context, isCurrentProcess);
                 context.Update(this);
@@ -222,6 +224,9 @@ namespace ProjectMoonshine.EntityFramework.Models
             if (Cr2CompletionDate != null && Cr2CompletionDate != DateTimeOffset.MinValue &&
                                 (Cr2TerminationDate == null || Cr2TerminationDate == DateTimeOffset.MinValue))
             {
+                CredentialProcessType = await context.CredentialProcessTypes
+                    .Where(pt => pt.Ct2Key == Cr2Ct2Key)
+                    .FirstOrDefaultAsync();
                 if (CredentialProcessType.Ct2CompletedCt6Key != null &&
                     CredentialProcessType.Ct2CompletedCt6Key != Guid.Empty
                     && (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key == Cr2Ct6Key))

@@ -23,14 +23,19 @@ namespace ProjectMoonshine.Controllers
         // GET: Credentials
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Credentials.Include(c => c.CredentialType).Include(c => c.CurrentCredentialProcess).Include(c => c.CurrentCredentialProcessType).Include(c => c.Customer).Include(c => c.StatusType);
+            var applicationDbContext = _context.Credentials
+                .Include(c => c.CredentialType)
+                .Include(c => c.CurrentCredentialProcess)
+                .Include(c => c.CurrentCredentialProcessType)
+                .Include(c => c.Customer)
+                .Include(c => c.StatusType);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Credentials/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
+            if (id == null || id == Guid.Empty)
             {
                 return NotFound();
             }
@@ -54,11 +59,6 @@ namespace ProjectMoonshine.Controllers
         // GET: Credentials/Create
         public IActionResult Create()
         {
-            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key");
-            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key");
-            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key");
-            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context);
             return View(credentialViewModel);
         }
@@ -76,22 +76,13 @@ namespace ProjectMoonshine.Controllers
                 {
                 credential.Cr1Key = Guid.NewGuid();
                 bool success = await credential.Add(_context);
-                //_context.Add(credential);
-                //await _context.SaveChangesAsync();
-
                     if (success) return RedirectToAction(nameof(Index));
                 }
                 catch (Exception e)
                 {
                     throw;
-                }
-                
+                }   
             }
-            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
             return View(credentialViewModel);
         }
@@ -104,16 +95,11 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var credential = await _context.Credentials.FindAsync(id);
+            Credential credential = await _context.Credentials.FindAsync(id);
             if (credential == null)
             {
                 return NotFound();
             }
-            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
             return View(credentialViewModel);
         }
@@ -126,10 +112,10 @@ namespace ProjectMoonshine.Controllers
         public async Task<IActionResult> Edit(Guid id, //[Bind(ModelBindingConstants.CredentialEdit)]
                                                        Credential credential)
         {
-            //if (id != credential.Cr1Key)
-            //{
-            //    return NotFound();
-            //}
+            if (id == Guid.Empty)
+            {
+                return BadRequest();
+            }
 
             if (ModelState.IsValid)
             {
@@ -164,11 +150,6 @@ namespace ProjectMoonshine.Controllers
                 return RedirectToAction(nameof(Index));
             }
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context, credential);
-            //ViewData["Cr1Ct1Key"] = new SelectList(_context.CredentialTypes, "Ct1Key", "Ct1Key", credential.Cr1Ct1Key);
-            //ViewData["Cr1CurrentCr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credential.Cr1CurrentCr2Key);
-            //ViewData["Cr1Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Key", credential.Cr1Ct2Key);
-            //ViewData["Cr1CusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", credential.Cr1CusKey);
-            //ViewData["Cr1Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credential.Cr1Ct6Key);
             return View(credentialViewModel);
         }
 

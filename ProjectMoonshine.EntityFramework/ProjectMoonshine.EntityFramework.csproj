@@ -24,6 +24,7 @@
     <Compile Remove="Migrations\20181013212311_updates to process &amp; process type models.cs" />
     <Compile Remove="Migrations\20181014040937_added enum to string conversion for ct2 due date stuff.cs" />
     <Compile Remove="Migrations\20181015034002_latest process updates.cs" />
+    <Compile Remove="Migrations\20181017143202_updated process competion date.cs" />
   </ItemGroup>
 
   <ItemGroup>
