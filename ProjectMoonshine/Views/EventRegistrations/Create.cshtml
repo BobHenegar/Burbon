@@ -14,17 +14,22 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EvrEvtKey" class="control-label"></label>
-                <select asp-for="EvrEvtKey" class ="form-control" asp-items="ViewBag.EvrEvtKey"></select>
+                <select asp-for="EvrEvtKey" class="form-control" asp-items="ViewBag.EvrEvtKey"></select>
             </div>
-            <div class="form-group">
-                <label asp-for="EvrCusKey" class="control-label"></label>
-                <select asp-for="EvrCusKey" class ="form-control" asp-items="ViewBag.EvrCusKey"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="EvrDropDate" class="control-label"></label>
-                <input asp-for="EvrDropDate" class="form-control" />
-                <span asp-validation-for="EvrDropDate" class="text-danger"></span>
-            </div>
+            @if ((bool)ViewBag.CusKeyHasValue)
+            {
+                <div class="form-group">
+                    <label asp-for="EvrCusKey" class="control-label"></label>
+                    <select asp-for="EvrCusKey" class="form-control" asp-items="ViewBag.EvrCusKey" readonly="true"></select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="EvrCusKey" class="control-label"></label>
+                    <select asp-for="EvrCusKey" class="form-control" asp-items="ViewBag.EvrCusKey"></select>
+                </div>
+            }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

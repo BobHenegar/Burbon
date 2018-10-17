@@ -14,6 +14,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid PerKey { get; set; }
 
+
+        [DisplayName("Customer")]
         public Guid PerCusKey { get; set; }
 
         [Required, DisplayName("First Name")]
@@ -31,11 +33,20 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Required, DisplayName("Gender")]
         public string PerGender { get; set; }
 
-        [DisplayName("Added")]
+
+        [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PerAddDate { get; set; }
+
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? PerChangeDate { get; set; }
+
+        [DisplayName("Added By")]
         public string PerAddUser { get; set; }
+
+
+        [DisplayName("Changed By")]
         public string PerChangeUser { get; set; }
 
         [NotMapped]

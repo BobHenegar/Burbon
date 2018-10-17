@@ -8,59 +8,38 @@
 
 <div>
     <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtDescription)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtDescription)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtStartDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtStartDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtEndDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtEndDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtAddDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtAddDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtChangeDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtAddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EvtChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EvtChangeUser)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.EvtKey">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div style="width:100%;float:left;">
+            <a asp-action="Edit" asp-route-id="@Model.EvtKey">Edit</a> | <a asp-action="Index">Back to List</a>
+    </div>
+    <div style="width:100%; height:250px;border-top:1px solid #eee">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.EvtName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EvtName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EvtDescription)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EvtDescription)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EvtStartDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EvtStartDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.EvtEndDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EvtEndDate)
+            </dd>
+        </dl>
+    </div>
+    <div style="width:100%;display:flex;flex-wrap:wrap;flex-direction:row;">
+        @await Html.PartialAsync("_EventRegistrationPartialView", Model.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
+    </div>
 </div>

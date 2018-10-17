@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 using ProjectMoonshine.Models;
 
@@ -21,7 +23,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Cr1Key { get; set; }
 
-        
+
         [DisplayName("Credential Type")]
         //public string Cr1Ct1Credential { get; set; }
         public Guid Cr1Ct1Key { get; set; }
@@ -38,7 +40,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [NotMapped]
         [DisplayName("Current Process Type")]
         public Guid? Cr1Ct2Key { get; set; }
-        
+
         [DisplayName("Status")]
         public Guid? Cr1Ct6Key { get; set; }
 
@@ -89,7 +91,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Cr1LegalLastName { get; set; }
 
-        
+
         [ForeignKey("Cr1Ct1Key")]
         public virtual CredentialType CredentialType { get; set; }
 
@@ -158,7 +160,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
@@ -180,7 +186,6 @@ namespace ProjectMoonshine.EntityFramework.Models
 
 
                     GetCurrentCredentialProcess(context);
-                    
                     if (CurrentCredentialProcess != null)
                     {
                         // check if process is terminated
@@ -257,8 +262,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }

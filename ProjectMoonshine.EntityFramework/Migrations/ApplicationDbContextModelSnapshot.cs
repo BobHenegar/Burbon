@@ -54,7 +54,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("AdrIsMailingAddress");
 
-                    b.Property<bool>("AdrIsPrimaryAddress");
+                    b.Property<bool>("AdrIsPrimary");
 
                     b.Property<bool>("AdrIsWorkAddress");
 
@@ -138,6 +138,38 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ce2CusKey");
 
                     b.ToTable("CEPeriod");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CommunicationTemplate", b =>
+                {
+                    b.Property<Guid>("TemKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("TemAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("TemAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("TemChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TemChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("TemCode");
+
+                    b.Property<string>("TemDescription");
+
+                    b.Property<string>("TemHtml");
+
+                    b.Property<string>("TemText");
+
+                    b.HasKey("TemKey");
+
+                    b.ToTable("CommunicationTemplate");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Credential", b =>
@@ -636,7 +668,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("EmlIsPersonalEmail");
 
-                    b.Property<bool>("EmlIsPrimaryEmail");
+                    b.Property<bool>("EmlIsPrimary");
 
                     b.Property<bool>("EmlIsWorkEmail");
 
@@ -748,7 +780,9 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasKey("ExmKey");
 
-                    b.HasIndex("ExmEvtKey");
+                    b.HasIndex("ExmEvtKey")
+                        .IsUnique()
+                        .HasFilter("[ExmEvtKey] IS NOT NULL");
 
                     b.ToTable("Exams");
                 });
@@ -1115,7 +1149,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EventRegistration", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("EventRegistrations")
                         .HasForeignKey("EvrCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1128,15 +1162,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Exam", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("ExmEvtKey")
+                        .WithOne("Exam")
+                        .HasForeignKey("ProjectMoonshine.EntityFramework.Models.Exam", "ExmEvtKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.ExamScore", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("ExamScores")
                         .HasForeignKey("ExsCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
 

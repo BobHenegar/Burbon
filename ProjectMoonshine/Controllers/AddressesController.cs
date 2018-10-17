@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
@@ -57,7 +59,8 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.Person)
-                .FirstOrDefaultAsync(m => m.AdrKey == id);
+                .Where(x => x.AdrKey == id)
+                .FirstOrDefaultAsync();
             if (address == null)
             {
                 return NotFound();
@@ -66,9 +69,19 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Addresses/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["AdrPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerFirstMiddleLast }), "AdrPerKey", "Text");
+            SetRefererInfo();
+            if (id.HasValue)
+            {
+                ViewData["AdrPerKey"] = new SelectList(_context.People.Where(x => x.PerKey == id.Value).Select(s => new { s.PerKey, Text = s.PerFirstMiddleLast }), "AdrPerKey", "Text");
+                ViewData["AdrPerKeyHasValue"] = true;
+            }
+            else
+            {
+                ViewData["AdrPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerFirstMiddleLast }), "AdrPerKey", "Text");
+                ViewData["AdrPerKeyHasValue"] = false;
+            }
             ViewData["StateList"] = GetStateSelectList(string.Empty);
             return View();
         }
@@ -78,17 +91,20 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
+        public async Task<IActionResult> Create(Address address)
         {
             if (ModelState.IsValid)
             {
+                SetRefererInfo();
                 address.AdrKey = Guid.NewGuid();
                 _context.Add(address);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdrPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", address.AdrPerKey);
-            ViewData["StateList"] = GetStateSelectList(address.AdrState);
+            if (!string.IsNullOrEmpty(address.RefAction))
+            {
+                return RedirectToAction(address.RefAction, address.RefController, new { id = address.RefId });
+            }
             return View(address);
         }
 
@@ -117,7 +133,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("AdrKey,AdrPerKey,AdrCity,AdrState,AdrZip,AdrAddress1,AdrAddress2,AdrAddress3,AdrIsPrimaryAddress,AdrIsMailingAddress,AdrIsWorkAddress,AdrIsHomeAddress,AdrAddDate,AdrChangeDate,AdrAddUser,AdrChangeUser")] Address address)
+        public async Task<IActionResult> Edit(Guid id, Address address)
         {
             if (id != address.AdrKey)
             {
@@ -131,7 +147,7 @@ namespace ProjectMoonshine.Controllers
                     .AsTracking()
                     .Where(x => x.AdrPerKey == address.AdrPerKey
                         && x.AdrPerKey != address.AdrPerKey).ToListAsync();
-                Addresses.ForEach(a => a.AdrIsPrimaryAddress = false);
+                Addresses.ForEach(a => a.AdrIsPrimary = false);
             }
             if (ModelState.IsValid)
             {
@@ -140,7 +156,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(address);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!AddressExists(address.AdrKey))
                     {
@@ -148,6 +164,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }
@@ -172,6 +193,7 @@ namespace ProjectMoonshine.Controllers
 
             var address = await _context.Addresses
                 .Include(a => a.Person)
+                .Where(m => m.AdrKey == id)
                 .FirstOrDefaultAsync(m => m.AdrKey == id);
             if (address == null)
             {

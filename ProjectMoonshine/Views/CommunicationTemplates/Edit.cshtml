@@ -1,0 +1,69 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CommunicationTemplate
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>CommunicationTemplate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TemKey" />
+            <div class="form-group">
+                <label asp-for="TemCode" class="control-label"></label>
+                <input asp-for="TemCode" class="form-control" />
+                <span asp-validation-for="TemCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemDescription" class="control-label"></label>
+                <input asp-for="TemDescription" class="form-control" />
+                <span asp-validation-for="TemDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemHtml" class="control-label"></label>
+                <input asp-for="TemHtml" class="form-control" />
+                <span asp-validation-for="TemHtml" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemText" class="control-label"></label>
+                <input asp-for="TemText" class="form-control" />
+                <span asp-validation-for="TemText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemAddDate" class="control-label"></label>
+                <input asp-for="TemAddDate" class="form-control" />
+                <span asp-validation-for="TemAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemChangeDate" class="control-label"></label>
+                <input asp-for="TemChangeDate" class="form-control" />
+                <span asp-validation-for="TemChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemAddUser" class="control-label"></label>
+                <input asp-for="TemAddUser" class="form-control" />
+                <span asp-validation-for="TemAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TemChangeUser" class="control-label"></label>
+                <input asp-for="TemChangeUser" class="form-control" />
+                <span asp-validation-for="TemChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

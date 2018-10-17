@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class CredentialRequirementTypesController : Controller
+    public class CredentialRequirementTypesController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -124,7 +126,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(credentialRequirementType);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!CredentialRequirementTypeExists(credentialRequirementType.Ct3Key))
                     {
@@ -132,6 +134,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }

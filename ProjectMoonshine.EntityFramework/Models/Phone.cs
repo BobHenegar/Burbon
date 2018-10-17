@@ -13,6 +13,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid PhoKey { get; set; }
 
+        [DisplayName("Person")]
         public Guid PhoPerKey { get; set; }
 
         [Required]
@@ -39,11 +40,20 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DefaultValue(false)]
         public bool PhoIsWork { get; set; }
 
-        [DisplayName("Added")]
+
+        [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PhoAddDate { get; set; }
+
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? PhoChangeDate { get; set; }
+
+        [DisplayName("Added By")]
         public string PhoAddUser { get; set; }
+
+
+        [DisplayName("Changed By")]
         public string PhoChangeUser { get; set; }
 
         #region Navigation Properties

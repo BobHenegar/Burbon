@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class CredentialProcessesController : Controller
+    public class CredentialProcessesController : BaseController
     {
         private readonly ApplicationDbContext _context;
 
@@ -57,7 +59,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: CredentialProcesses/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,7 +74,7 @@ namespace ProjectMoonshine.Controllers
             }
             CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
             return View(credentialProcessViewModel);
-            
+
         }
 
         // GET: CredentialProcesses/Edit/5
@@ -94,7 +96,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // POST: CredentialProcesses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -123,7 +125,7 @@ namespace ProjectMoonshine.Controllers
 
                     await credentialProcessToUpdate.Update(_context);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!CredentialProcessExists(id))
                     {
@@ -131,6 +133,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework.Utils
@@ -54,13 +56,15 @@ namespace ProjectMoonshine.EntityFramework.Utils
                     default:
                         throw new ArgumentOutOfRangeException(nameof(dueDateRounding), dueDateRounding, null);
                 }
-                return DateTimeOffset.MinValue;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 throw;
-                return DateTimeOffset.MinValue;
             }
         }
 

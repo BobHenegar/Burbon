@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -8,12 +10,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class PeopleController : Controller
+    public class PeopleController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly PersonManager _personManager;
@@ -57,16 +61,29 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var person = await _context.People
+            ViewData["PerKey"] = id.Value;
+            var person = await _context
+                .People
+                .AsNoTracking()
                 .Include(p => p.Customer)
+                .ThenInclude(p => p.ExamScores)
+                .ThenInclude(p => p.Exam)
+                .Include(p => p.Customer)
+                .ThenInclude(p => p.Credentials)
+                .ThenInclude(p => p.CredentialType)
+                .Include(p => p.Customer)
+                .ThenInclude(p => p.EventRegistrations)
+                .ThenInclude(p => p.Event)
                 .Include(p => p.Addresses)
                 .Include(p => p.Emails)
                 .Include(p => p.Phones)
-                .FirstOrDefaultAsync(m => m.PerKey == id);
+                .Where(m => m.PerKey == id)
+                .FirstOrDefaultAsync();
             if (person == null)
             {
                 return NotFound();
             }
+            ViewData["PerCusKey"] = person.PerCusKey;
             return View(person);
         }
 
@@ -82,18 +99,59 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PerKey,PerCusKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
+        public async Task<IActionResult> Create(PersonViewModel model)
         {
             if (ModelState.IsValid)
             {
-                person.PerKey = Guid.NewGuid();
-                person.Customer = new Customer();
-                _context.Add(person);
+                var person = _context.People.Add(new Person()
+                {
+                    PerFirstName = model.PerFirstName,
+                    PerMiddleName = model.PerMiddleName,
+                    PerLastName = model.PerLastName,
+                    PerDateOfBirth = model.PerDateOfBirth,
+                    Customer = new Customer(),
+                    Addresses = new List<Address>()
+                    {
+                        new Address()
+                        {
+                            AdrAddress1 = model.AdrAddress1,
+                            AdrAddress2 = model.AdrAddress2,
+                            AdrAddress3 = model.AdrAddress3,
+                            AdrState = model.AdrState,
+                            AdrCity = model.AdrCity,
+                            AdrZip = model.AdrZip,
+                            AdrIsPrimary = true,
+                            AdrIsHomeAddress = model.AdrIsHomeAddress,
+                            AdrIsWorkAddress = model.AdrIsWorkAddress,
+                            AdrIsMailingAddress = model.AdrIsMailingAddress
+                        }
+                    },
+                    Emails = new List<Email>()
+                    {
+                        new Email()
+                        {
+                            EmlAddress = model.EmlAddress,
+                            EmlIsPersonalEmail = model.EmlIsPersonalEmail,
+                            EmlIsWorkEmail = model.EmlIsPersonalEmail,
+                            EmlIsPrimary = true
+                        }
+                    },
+                    Phones = new List<Phone>()
+                    {
+                        new Phone()
+                        {
+                            PhoIsHome = model.PhoIsHome,
+                            PhoIsMobile = model.PhoIsMobile,
+                            PhoIsPrimary = true,
+                            PhoIsWork = model.PhoIsWork,
+                            PhoNumber = model.PhoNumber
+                        }
+                    }
+                });
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(person);
             }
-            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
-            return View(person);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: People/Edit/5
@@ -118,7 +176,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PerKey,PerCusKey,PerFirstName,PerMiddleName,PerLastName,PerDateOfBirth,PerGender,PerAddDate,PerChangeDate,PerAddUser,PerChangeUser")] Person person)
+        public async Task<IActionResult> Edit(Guid id, Person person)
         {
             if (id != person.PerKey)
             {
@@ -132,7 +190,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(person);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!PersonExists(person.PerKey))
                     {
@@ -140,6 +198,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }
@@ -159,7 +222,8 @@ namespace ProjectMoonshine.Controllers
 
             var person = await _context.People
                 .Include(p => p.Customer)
-                .FirstOrDefaultAsync(m => m.PerKey == id);
+                .Where(m => m.PerKey == id)
+                .FirstOrDefaultAsync();
             if (person == null)
             {
                 return NotFound();

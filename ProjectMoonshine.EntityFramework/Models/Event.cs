@@ -12,6 +12,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public const string Prefix = "Evt";
         [Key]
         public Guid EvtKey { get; set; }
+
         [DisplayName("Event Description")]
         [Required]
         [MinLength(10)]
@@ -27,18 +28,28 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Event Start Date")]
         public DateTimeOffset? EvtStartDate { get; set; }
 
-        [DisplayName("Event End Date")]
+        [DisplayName("Event Start Date")]
         public DateTimeOffset? EvtEndDate { get; set; }
-        [DisplayName("Added")]
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
 
+
+        [DisplayName("Date Added")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset EvtAddDate { get; set; }
+
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? EvtChangeDate { get; set; }
+
+        [DisplayName("Added By")]
         public string EvtAddUser { get; set; }
+
+
+        [DisplayName("Changed By")]
         public string EvtChangeUser { get; set; }
 
         #region Navigation Properties
         public virtual IList<EventRegistration> EventRegistrations { get; set; }
+        public virtual Exam Exam { get; set; }
         #endregion Navigation Properties
     }
 }

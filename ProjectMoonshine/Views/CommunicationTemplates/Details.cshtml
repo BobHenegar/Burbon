@@ -1,0 +1,66 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CommunicationTemplate
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CommunicationTemplate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TemCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemHtml)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemHtml)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemText)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemText)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TemChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TemKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

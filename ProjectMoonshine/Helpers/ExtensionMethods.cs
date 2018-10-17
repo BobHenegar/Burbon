@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text.RegularExpressions;
+using ProjectMoonshine.Enums;
 
 namespace ProjectMoonshine.Helpers
 {
@@ -75,13 +80,24 @@ namespace ProjectMoonshine.Helpers
         public static string GetRegexMatch(this Regex regex, string input)
         {
             var result = string.Empty;
-            if(regex.IsMatch(input))
+            if (regex.IsMatch(input))
             {
                 var match = regex.Match(input);
                 result = match.Value;
             }
             return result;
         }
-    }
 
+        public static string GetDescription(this Enum value)
+        {
+            DescriptionAttribute[] da = (DescriptionAttribute[])(value.GetType().GetField(value.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return da.Length > 0 ? da[0].Description : value.ToString();
+        }
+
+        public static List<string> GetAllDescriptions(this Enum value)
+        {
+            DescriptionAttribute[] da = (DescriptionAttribute[])(value.GetType().GetField(value.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), false);
+            return da.Select(s => s.Description).ToList();
+        }
+    }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class EventsController : Controller
+    public class EventsController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly EventManager _eventManager;
@@ -23,7 +25,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
@@ -54,8 +56,13 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var @event = await _context
+                .Events
+                .Include(i => i.EventRegistrations)
+                .ThenInclude(i => i.Customer)
+                .ThenInclude(i => i.Person)
                 .FirstOrDefaultAsync(m => m.EvtKey == id);
+            ViewData["IncludePerson"] = true;
             if (@event == null)
             {
                 return NotFound();
@@ -122,7 +129,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!EventExists(@event.EvtKey))
                     {
@@ -130,6 +137,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }

@@ -23,7 +23,7 @@
                 @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlAddress), "Index", new { sortOrder = "address", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsPrimaryEmail), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsPrimary), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
                 @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().EmlIsWorkEmail), "Index", new { sortOrder = "work", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
@@ -45,7 +45,7 @@
                     @Html.DisplayFor(modelItem => item.EmlAddress)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmlIsPrimaryEmail)
+                    @Html.DisplayFor(modelItem => item.EmlIsPrimary)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EmlIsWorkEmail)
