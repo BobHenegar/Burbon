@@ -83,6 +83,8 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ComTemplates"] = new SelectList(_context.CommunicationTemplates, "TemKey", "TemCode");
             ViewData["PerCusKey"] = person.PerCusKey;
             return View(person);
         }
@@ -251,14 +253,27 @@ namespace ProjectMoonshine.Controllers
         [HttpPost]
         public ActionResult Email()
         {
+
+
             var mailMessage = new MailMessage
             {
                 From = new MailAddress("support@credengnext.net"),
-                Subject = "Hello World",
-                Body = "Test email from Send Grid SMTP Settings"
-            };
+                Subject = _context.CommunicationTemplates
+                            .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
+                            .Select(t => t.TemSubject)
+                            .FirstOrDefault(),
+                Body = _context.CommunicationTemplates
+                           .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
+                           .Select(t => t.TemHtml)
+                           .FirstOrDefault() ?? throw new InvalidOperationException()
+        };
 
-            mailMessage.To.Add("bob.henegar@agilutions.com");
+            string emladdr = _context.Emails
+                .Where(e => e.EmlPerKey.ToString() == Request.Form["perKey"].ToString() && e.EmlIsPrimary == true)
+                .Select(e => e.EmlAddress)
+                .FirstOrDefault();
+
+            mailMessage.To.Add(emladdr.ToString());
 
             var smtpClient = new SmtpClient
             {

@@ -28,6 +28,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string PerLastName { get; set; }
 
         [Required, DisplayName("Date of Birth")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset PerDateOfBirth { get; set; }
 
         [Required, DisplayName("Gender")]

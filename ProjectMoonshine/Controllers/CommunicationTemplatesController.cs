@@ -54,7 +54,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TemKey,TemCode,TemDescription,TemHtml,TemText,TemAddDate,TemChangeDate,TemAddUser,TemChangeUser")] CommunicationTemplate communicationTemplate)
+        public async Task<IActionResult> Create([Bind("TemKey,TemCode,TemDescription,TemSubject,TemHtml,TemText,TemAddDate,TemChangeDate,TemAddUser,TemChangeUser")] CommunicationTemplate communicationTemplate)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("TemKey,TemCode,TemDescription,TemHtml,TemText,TemAddDate,TemChangeDate,TemAddUser,TemChangeUser")] CommunicationTemplate communicationTemplate)
+        public async Task<IActionResult> Edit(Guid id, [Bind("TemKey,TemCode,TemDescription,TemSubject,TemHtml,TemText,TemAddDate,TemChangeDate,TemAddUser,TemChangeUser")] CommunicationTemplate communicationTemplate)
         {
             if (id != communicationTemplate.TemKey)
             {

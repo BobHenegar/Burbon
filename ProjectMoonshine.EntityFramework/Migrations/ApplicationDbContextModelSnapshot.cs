@@ -165,6 +165,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("TemHtml");
 
+                    b.Property<string>("TemSubject");
+
                     b.Property<string>("TemText");
 
                     b.HasKey("TemKey");
