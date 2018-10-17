@@ -12,11 +12,20 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EmlPerKey" class="control-label"></label>
-                <input asp-for="EmlPerKey" class="form-control" />
-                <span asp-validation-for="EmlPerKey" class="text-danger"></span>
-            </div>
+            @if ((bool)ViewBag.AdrPerKeyHasValue)
+            {
+                <div class="form-group">
+                    <label asp-for="EmlPerKey" class="control-label"></label>
+                    <select asp-for="EmlPerKey" class="form-control" asp-items="ViewBag.EmlPerKey" readonly="true"></select>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label asp-for="EmlPerKey" class="control-label"></label>
+                    <select asp-for="EmlPerKey" class="form-control" asp-items="ViewBag.EmlPerKey"></select>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="EmlAddress" class="control-label"></label>
                 <input asp-for="EmlAddress" class="form-control" />
@@ -25,7 +34,7 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input asp-for="EmlIsPrimaryEmail" /> @Html.DisplayNameFor(model => model.EmlIsPrimaryEmail)
+                        <input asp-for="EmlIsPrimary" /> @Html.DisplayNameFor(model => model.EmlIsPrimary)
                     </label>
                 </div>
             </div>

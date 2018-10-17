@@ -40,7 +40,7 @@
                 @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress3), "Index", new { sortOrder = "adr3", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsPrimaryAddress), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsPrimary), "Index", new { sortOrder = "primary", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
                 @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsMailingAddress), "Index", new { sortOrder = "mailing", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
@@ -83,7 +83,7 @@
                     @Html.DisplayFor(modelItem => item.AdrAddress3)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AdrIsPrimaryAddress)
+                    @Html.DisplayFor(modelItem => item.AdrIsPrimary)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)

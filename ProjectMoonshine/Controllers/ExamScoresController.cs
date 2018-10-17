@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,12 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class ExamScoresController : Controller
+    public class ExamScoresController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly ExamScoreManager _examScoreManager;
@@ -24,7 +26,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: ExamScores
-        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
@@ -56,8 +58,10 @@ namespace ProjectMoonshine.Controllers
 
             var examScore = await _context.ExamScores
                 .Include(e => e.Customer)
+                .ThenInclude(i => i.Person)
                 .Include(e => e.Exam)
-                .FirstOrDefaultAsync(m => m.ExsKey == id);
+                .Where(x => x.ExsKey == id)
+                .FirstOrDefaultAsync();
             if (examScore == null)
             {
                 return NotFound();
@@ -67,10 +71,25 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: ExamScores/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name");
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name");
+            var query = _context
+                .Customers
+                .AsNoTracking()
+                .Include(i => i.Person)
+                .Include(i => i.EventRegistrations)
+                .ThenInclude(i => i.Event)
+                .ThenInclude(i => i.Exam)
+                .Where(x => id.HasValue ? x.CusKey == id.Value : x.EventRegistrations.Count() > 0)
+                .ToList();
+            if(id.HasValue)
+            {
+                ViewData["CusKeyHasValue"] = true;
+            }
+            ViewData["ExsCusKey"] = new SelectList(query
+                .Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name");
+
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name");
             return View();
         }
 
@@ -140,7 +159,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(examScore);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!ExamScoreExists(examScore.ExsKey))
                     {
@@ -148,6 +167,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }
@@ -169,7 +193,8 @@ namespace ProjectMoonshine.Controllers
             var examScore = await _context.ExamScores
                 .Include(e => e.Customer)
                 .Include(e => e.Exam)
-                .FirstOrDefaultAsync(m => m.ExsKey == id);
+                .Where(x => x.ExsKey == id)
+                .FirstOrDefaultAsync();
             if (examScore == null)
             {
                 return NotFound();

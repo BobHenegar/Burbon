@@ -27,12 +27,6 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public async Task<bool> DeletePhoneAsync(Guid phoKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
         public IQueryable<Phone> GetAllPhones(string searchString, string sortOrder)
         {//Defer query executing until our sorting and pagination is finished
             var people = context.Phones.AsQueryable();
@@ -120,18 +114,6 @@ namespace ProjectMoonshine.Managers
                     }
             }
             return people;
-        }
-
-        // <inheritdoc />
-        public Task<Phone> GetPhoneByIdAsync(Guid adrKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public async Task<bool> UpdatePhoneAsync(Guid phoKey, Phone model)
-        {
-            throw new NotImplementedException();
         }
     }
 }

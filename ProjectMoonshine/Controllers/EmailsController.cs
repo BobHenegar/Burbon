@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,13 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class EmailsController : Controller
+    public class EmailsController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly EmailManager _emailManager;
@@ -25,7 +27,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Emails
-        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
@@ -65,9 +67,23 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Emails/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["EmlPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+            if (id.HasValue)
+            {
+                ViewData["EmlPerKey"] = new SelectList(_context
+                    .People
+                    .Where(x => x.PerKey == id.Value)
+                    .Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+                ViewData["EmlPerKeyHasValue"] = true;
+            }
+            else
+            {
+                ViewData["EmlPerKey"] = new SelectList(_context
+                    .People
+                    .Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+                ViewData["EmlPerKeyHasValue"] = false;
+            }
             return View();
         }
 
@@ -76,14 +92,19 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
+        public async Task<IActionResult> Create( Email email)
         {
             if (ModelState.IsValid)
             {
+                SetRefererInfo("Emails");
                 email.EmlKey = Guid.NewGuid();
                 _context.Add(email);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            if (!string.IsNullOrEmpty(email.RefAction))
+            {
+                return RedirectToAction(email.RefAction, email.RefController, new { id = email.RefId });
             }
             return View(email);
         }
@@ -101,7 +122,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            SetRefererInfo();
+            SetRefererInfo("Emails");
             return View(email);
         }
 
@@ -110,7 +131,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EmlKey,EmlPerKey,EmlAddress,EmlIsPrimaryEmail,EmlIsWorkEmail,EmlIsPersonalEmail,EmlAddDate,EmlChangeDate,EmlAddUser,EmlChangeUser")] Email email)
+        public async Task<IActionResult> Edit(Guid id, Email email)
         {
             if (id != email.EmlKey)
             {
@@ -124,7 +145,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(email);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!EmailExists(email.EmlKey))
                     {
@@ -132,6 +153,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }
@@ -176,25 +202,6 @@ namespace ProjectMoonshine.Controllers
         private bool EmailExists(Guid id)
         {
             return _context.Emails.Any(e => e.EmlKey == id);
-        }
-        private void SetRefererInfo()
-        {
-            var refererHeader = Request.Headers[GlobalConstants.RefererHeader];
-            if (!string.IsNullOrEmpty(refererHeader))
-            {
-                var localPath = new Uri(refererHeader).LocalPath;
-                ViewBag.RefAction = localPath.GetActionFromUrl();
-                ViewBag.RefController = localPath.GetControllerFromUrl();
-                ViewBag.RefId = GlobalConstants.IsValidGuidRegex.GetRegexMatch(localPath);
-            }
-            else
-            {
-                ViewBag.RefController = "Emails";
-                ViewBag.RefId = "";
-                ViewBag.RefText = "List";
-                ViewBag.RefAction = "Index";
-
-            }
         }
     }
 }

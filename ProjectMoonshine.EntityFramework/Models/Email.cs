@@ -13,6 +13,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid EmlKey { get; set; }
 
+
+        [DisplayName("Person")]
         public Guid EmlPerKey { get; set; }
 
         [DisplayName("Email Address")]
@@ -20,7 +22,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Is Primary Email?")]
         [DefaultValue(false)]
-        public bool EmlIsPrimaryEmail { get; set; }
+        public bool EmlIsPrimary { get; set; }
 
         [DisplayName("Is Work Email?")]
         [DefaultValue(false)]
@@ -30,11 +32,20 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DefaultValue(false)]
         public bool EmlIsPersonalEmail { get; set; }
 
-        [DisplayName("Added")]
+
+        [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset EmlAddDate { get; set; }
+
+        [DisplayName("Date Changed")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTimeOffset? EmlChangeDate { get; set; }
+
+        [DisplayName("Added By")]
         public string EmlAddUser { get; set; }
+
+
+        [DisplayName("Changed By")]
         public string EmlChangeUser { get; set; }
 
         #region Navigation Properties

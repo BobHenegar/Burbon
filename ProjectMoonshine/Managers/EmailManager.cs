@@ -17,24 +17,6 @@ namespace ProjectMoonshine.Managers
         }
 
         // <inheritdoc />
-        public Task<Guid> AddEmailAsync(Credential model)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public Task<Guid> AddEmailAsync(Email model)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public async Task<bool> DeleteEmailAsync(Guid emlKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
         public IQueryable<Email> GetAllEmails(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
@@ -58,12 +40,12 @@ namespace ProjectMoonshine.Managers
                     }
                 case "primary":
                     {
-                        emails = emails.OrderBy(x => x.EmlIsPrimaryEmail);
+                        emails = emails.OrderBy(x => x.EmlIsPrimary);
                         break;
                     }
                 case "primary_desc":
                     {
-                        emails = emails.OrderByDescending(x => x.EmlIsPrimaryEmail);
+                        emails = emails.OrderByDescending(x => x.EmlIsPrimary);
                         break;
                     }
                 case "work":
@@ -114,18 +96,6 @@ namespace ProjectMoonshine.Managers
                             .Take(resultsPerPage)
                             .ToListAsync();
             return result;
-        }
-
-        // <inheritdoc />
-        public Task<Email> GetEmailByIdAsync(Guid adrKey)
-        {
-            throw new NotImplementedException();
-        }
-
-        // <inheritdoc />
-        public async Task<bool> UpdateEmailAsync(Guid emlKey, Email model)
-        {
-            throw new NotImplementedException();
         }
     }
 }

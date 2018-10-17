@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -6,13 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class PhonesController : Controller
+    public class PhonesController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly PhoneManager _phoneManager;
@@ -25,7 +27,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Phones
-        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
             if (string.IsNullOrEmpty(sortOrder))
@@ -56,7 +58,8 @@ namespace ProjectMoonshine.Controllers
 
             var phone = await _context.Phones
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PhoKey == id);
+                .Where(m => m.PhoKey == id)
+                .FirstOrDefaultAsync();
             if (phone == null)
             {
                 return NotFound();
@@ -66,9 +69,19 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Phones/Create
-        public IActionResult Create()
+        public IActionResult Create(Guid? id)
         {
-            ViewData["PhoPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+            if (id.HasValue)
+            {
+                SetRefererInfo("Emails");
+                ViewData["PhoPerKey"] = new SelectList(_context.People.Where(x => x.PerKey == id.Value).Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+                ViewData["PhoPerKeyHasValue"] = true;
+            }
+            else
+            {
+                ViewData["PhoPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+                ViewData["PhoPerKeyHasValue"] = false;
+            }
             return View();
         }
 
@@ -77,7 +90,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoIsPrimary,PhoIsHome,PhoIsMobile,PhoIsWork,PhoAddDate,PhoChangeDate,PhoAddUser,PhoChangeUser")] Phone phone)
+        public async Task<IActionResult> Create(Phone phone)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +99,10 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
+            if (!string.IsNullOrEmpty(phone.RefAction))
+            {
+                return RedirectToAction(phone.RefAction, phone.RefController, new { id = phone.RefId });
+            }
             return View(phone);
         }
 
@@ -103,7 +119,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            SetRefererInfo();
+            SetRefererInfo("Emails");
             ViewData["PhoPerKey"] = new SelectList(_context.People, "PerKey", "PerKey", phone.PhoPerKey);
             return View(phone);
         }
@@ -113,7 +129,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("PhoKey,PhoPerKey,PhoNumber,PhoExtention,PhoIsPrimary,PhoIsHome,PhoIsMobile,PhoIsWork,PhoAddDate,PhoChangeDate,PhoAddUser,PhoChangeUser")] Phone phone)
+        public async Task<IActionResult> Edit(Guid id, Phone phone)
         {
             if (id != phone.PhoKey)
             {
@@ -127,7 +143,7 @@ namespace ProjectMoonshine.Controllers
                     _context.Update(phone);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
                     if (!PhoneExists(phone.PhoKey))
                     {
@@ -135,6 +151,11 @@ namespace ProjectMoonshine.Controllers
                     }
                     else
                     {
+                        Debug.WriteLine(e.RecursivelyFormatException());
+                        if (Environment.UserInteractive)
+                        {
+                            Debugger.Break();
+                        }
                         throw;
                     }
                 }
@@ -158,7 +179,8 @@ namespace ProjectMoonshine.Controllers
 
             var phone = await _context.Phones
                 .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.PhoKey == id);
+                .Where(m => m.PhoKey == id)
+                .FirstOrDefaultAsync();
             if (phone == null)
             {
                 return NotFound();
@@ -181,25 +203,6 @@ namespace ProjectMoonshine.Controllers
         private bool PhoneExists(Guid id)
         {
             return _context.Phones.Any(e => e.PhoKey == id);
-        }
-        private void SetRefererInfo()
-        {
-            var refererHeader = Request.Headers[GlobalConstants.RefererHeader];
-            if (!string.IsNullOrEmpty(refererHeader))
-            {
-                var localPath = new Uri(refererHeader).LocalPath;
-                ViewBag.RefAction = localPath.GetActionFromUrl();
-                ViewBag.RefController = localPath.GetControllerFromUrl();
-                ViewBag.RefId = GlobalConstants.IsValidGuidRegex.GetRegexMatch(localPath);
-            }
-            else
-            {
-                ViewBag.RefController = "Phones";
-                ViewBag.RefId = "";
-                ViewBag.RefText = "List";
-                ViewBag.RefAction = "Index";
-
-            }
         }
     }
 }

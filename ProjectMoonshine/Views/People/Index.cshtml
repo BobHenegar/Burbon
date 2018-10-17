@@ -38,9 +38,6 @@
                 <th>
                     @Html.ActionLink(Html.DisplayNameFor(model => model.FirstOrDefault().PerAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().Customer)
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -65,9 +62,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PerAddDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PerCusKey)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.PerKey">Edit</a> |

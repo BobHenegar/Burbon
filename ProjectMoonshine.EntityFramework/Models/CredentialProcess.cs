@@ -6,10 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -155,13 +157,16 @@ namespace ProjectMoonshine.EntityFramework.Models
                 await EvaluateProcessTerminated(context, isCurrentProcess, originalCredentialProcess);
 
                 context.Update(this);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if(Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
@@ -316,12 +321,12 @@ namespace ProjectMoonshine.EntityFramework.Models
                 CredentialProcessType = context.CredentialProcessTypes.FirstOrDefault(pt => pt.Ct2Key == Cr2Ct2Key);
 
                 if (CredentialProcessType == null) return false;
-                
+
                 if (Cr2Ct6Key == Guid.Empty) Cr2Ct6Key =   Guid.Parse(CredentialProcessType.Ct2StartCt6Key.ToString()) ;
 // TODO: set credential status based on ct2cr1startct6key
 
                 context.Add(this);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
 
                 Credential = context.Credentials.Where(c => Cr2Cr1Key == c.Cr1Key).Include(c=> c.CredentialType).FirstOrDefault();
 
@@ -339,8 +344,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
             }
             return false;
         }
@@ -379,7 +387,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             throw new NotImplementedException();
         }
 
-//        
+//
 
         private void SetProcessStartDate(ApplicationDbContext context)
         {
