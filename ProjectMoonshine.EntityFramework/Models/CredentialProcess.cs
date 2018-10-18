@@ -191,14 +191,14 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         private async Task EvaluateProcess(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
         {
-            if (!CommonUtils.IsDateTimeOffsetValid(originalCredentialProcess.Cr2CompletionDate)  
+            if (!CommonUtils.IsDateTimeOffsetValid(originalCredentialProcess.Cr2CompletionDate)
                  && CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
                 await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
 
             else if (!CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
             {
                 await EvaluateRequirements(context, isCurrentProcess);
-                
+
                 await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
 
                 await EvaluateProcessUnderReview(context, isCurrentProcess);
@@ -215,7 +215,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (CredentialProcessType.Ct2SubmittedCt6Key != null &&
                     CredentialProcessType.Ct2SubmittedCt6Key != Guid.Empty)
                 {
-                    await SetStatus(context, CredentialProcessType.Ct2SubmittedCt6Key, isCurrentProcess);
+                    await SetStatusAsync(context, CredentialProcessType.Ct2SubmittedCt6Key, isCurrentProcess);
                 }
 
                 //TODO Get Requirements that are submit prereqs and set to under review
@@ -234,7 +234,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     CredentialProcessType.Ct2CompletedCt6Key != Guid.Empty
                     && (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key == Cr2Ct6Key))
                 {
-                    await SetStatus(context, CredentialProcessType.Ct2CompletedCt6Key, isCurrentProcess);
+                    await SetStatusAsync(context, CredentialProcessType.Ct2CompletedCt6Key, isCurrentProcess);
                     context.Update(this);
                 }
 
@@ -257,7 +257,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             if (originalCredentialProcess == null || originalCredentialProcess.Cr2Ct6Key != Cr2Ct6Key)
             {
-                await SetStatus(context, Cr2Ct6Key, isCurrentProcess);
+                await SetStatusAsync(context, Cr2Ct6Key, isCurrentProcess);
                 context.Update(this);
             }
         }
@@ -268,9 +268,9 @@ namespace ProjectMoonshine.EntityFramework.Models
             throw new NotImplementedException();
         }
 
-        public async Task SetStatus(ApplicationDbContext context, Guid? ct6Key, bool updateCredential = false)
+        public async Task SetStatusAsync(ApplicationDbContext context, Guid? ct6Key, bool updateCredential = false)
         {
-            // TODO/Roadmap: status type change fields  
+            // TODO/Roadmap: status type change fields
 
             if (ct6Key != null && ct6Key != Guid.Empty)
             {
@@ -328,11 +328,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                         allRequirementsMet = false;
                         break;
                     }
-                    
+
                 }
                 if (allRequirementsMet) Cr2CompletionDate = DateTimeOffset.Now;
 
-                else if (!CommonUtils.IsDateTimeOffsetValid(Cr2TerminationDate) 
+                else if (!CommonUtils.IsDateTimeOffsetValid(Cr2TerminationDate)
                          && !CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
                 {
                     if (CredentialRequirements.Any(r => r.Status.State.Cu6TerminateProcessFlag))
@@ -374,7 +374,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     .Include(c => c.CredentialType)
                     .FirstOrDefaultAsync();
 
-                await Init(context);
+                await InitAsync(context);
 
                 await SetProcessStartDate(context);
 
@@ -425,12 +425,15 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
-        
+
 
         private async Task SetProcessDueDate(DbContext context)
         {
@@ -461,12 +464,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             //context.Update(this);
         }
 
-        private async Task SyncCredential(ApplicationDbContext context)
+        private async Task SyncCredentialAsync(ApplicationDbContext context)
         {
+            await Task.Run(() => { return; });
             //throw new NotImplementedException();
         }
-
-//
 
         private async Task SetProcessStartDate(ApplicationDbContext context)
         {
@@ -507,9 +509,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         }
 
 
-        public virtual async Task Init(ApplicationDbContext context)
+        public virtual async Task InitAsync(ApplicationDbContext context)
         {
-
+            await Task.Run(() => { return; });
         }
 
 

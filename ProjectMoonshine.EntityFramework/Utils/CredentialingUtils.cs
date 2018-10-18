@@ -86,7 +86,7 @@ namespace ProjectMoonshine.EntityFramework.Utils
 
             //TODO: add sproc capability
             //
-            /// //if (credential.CredentialType == null) credential.CredentialType = 
+            /// //if (credential.CredentialType == null) credential.CredentialType =
             //    context.CredentialTypes
             //        .Where(ct => ct.Ct1Key == credential.Cr1Ct1Key)
             //        .FirstOrDefault();
@@ -135,8 +135,13 @@ namespace ProjectMoonshine.EntityFramework.Utils
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
