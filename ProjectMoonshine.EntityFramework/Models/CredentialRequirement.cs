@@ -284,7 +284,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                         .Where(p => p.Cr2Key == Cr3Cr2Key)
                         .FirstOrDefaultAsync();
 
-                CredentialProcess.SetStatus(context, ct6Key, updateCredential);
+                await CredentialProcess.SetStatusAsync(context, ct6Key, updateCredential);
                 context.Update(CredentialProcess);
                 return true;
             }
