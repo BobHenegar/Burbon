@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiControllers\" />
     <Folder Include="Classes\" />
     <Folder Include="Enums\" />
     <Folder Include="CommandModels\" />

@@ -104,6 +104,7 @@ namespace ProjectMoonshine.Controllers
         {
             if (ModelState.IsValid
                 && _context.Exams
+                .AsNoTracking()
                 .Include(i => i.Event)
                     .ThenInclude(i => i.EventRegistrations)
                 .Where(x => x.ExmKey == examScore.ExsExmKey
@@ -132,13 +133,13 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var examScore = await _context.ExamScores.FindAsync(id);
+            var examScore = await _context.ExamScores.AsNoTracking().Where(x => x.ExsKey == id).FirstOrDefaultAsync();
             if (examScore == null)
             {
                 return NotFound();
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
+            ViewData["ExsCusKey"] = new SelectList(_context.Customers.AsNoTracking().Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+            ViewData["ExsExmKey"] = new SelectList(_context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
             return View(examScore);
         }
 

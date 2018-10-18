@@ -64,7 +64,6 @@ namespace ProjectMoonshine.Controllers
             ViewData["PerKey"] = id.Value;
             var person = await _context
                 .People
-                .AsNoTracking()
                 .Include(p => p.Customer)
                 .ThenInclude(p => p.ExamScores)
                 .ThenInclude(p => p.Exam)
@@ -123,9 +122,9 @@ namespace ProjectMoonshine.Controllers
                             AdrCity = model.AdrCity,
                             AdrZip = model.AdrZip,
                             AdrIsPrimary = true,
-                            AdrIsHomeAddress = model.AdrIsHomeAddress,
-                            AdrIsWorkAddress = model.AdrIsWorkAddress,
-                            AdrIsMailingAddress = model.AdrIsMailingAddress
+                            AdrIsHomeAddress = model.AdrIsHome,
+                            AdrIsWorkAddress = model.AdrIsWork,
+                            AdrIsMailingAddress = model.AdrIsMailing
                         }
                     },
                     Emails = new List<Email>()
@@ -133,8 +132,8 @@ namespace ProjectMoonshine.Controllers
                         new Email()
                         {
                             EmlAddress = model.EmlAddress,
-                            EmlIsPersonalEmail = model.EmlIsPersonalEmail,
-                            EmlIsWorkEmail = model.EmlIsPersonalEmail,
+                            EmlIsPersonalEmail = model.EmlIsPersonal,
+                            EmlIsWorkEmail = model.EmlIsPersonal,
                             EmlIsPrimary = true
                         }
                     },
@@ -239,8 +238,16 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var person = await _context.People.FindAsync(id);
-            _context.People.Remove(person);
+            var customer = await _context.People.Where(x => x.PerKey == id).FirstOrDefaultAsync();
+            var key = customer.PerCusKey;
+            _context.Credentials.RemoveRange(_context.Credentials.AsTracking().Where(x => x.Cr1CusKey == key));
+            _context.Addresses.RemoveRange(_context.Addresses.AsTracking().Where(x => x.AdrPerKey == id));
+            _context.Emails.RemoveRange(_context.Emails.AsTracking().Where(x => x.EmlPerKey == id));
+            _context.Phones.RemoveRange(_context.Phones.AsTracking().Where(x => x.PhoPerKey == id));
+            _context.ExamScores.RemoveRange(_context.ExamScores.AsTracking().Where(x => x.ExsCusKey == key));
+            _context.EventRegistrations.RemoveRange(_context.EventRegistrations.AsTracking().Where(x => x.EvrCusKey == key));
+            _context.People.RemoveRange(_context.People.AsTracking().Where(x => x.PerKey == id));
+            _context.Customers.RemoveRange(_context.Customers.AsTracking().Where(x => x.CusKey == key));
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

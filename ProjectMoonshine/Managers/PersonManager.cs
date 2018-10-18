@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -29,7 +30,7 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Person> GetAllPeople(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var people = context.People.AsQueryable();
+            var people = context.People.AsNoTracking().AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();

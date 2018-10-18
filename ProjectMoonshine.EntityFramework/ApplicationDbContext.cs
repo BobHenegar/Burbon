@@ -13,6 +13,13 @@ namespace ProjectMoonshine.EntityFramework
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            TablePrefixs = new Dictionary<string, string>();
+            base.ChangeTracker.AutoDetectChangesEnabled = true;
+            base.ChangeTracker.LazyLoadingEnabled = false;
+        }
+
         public DbSet<Credential> Credentials { get; set; }
         public DbSet<CredentialType> CredentialTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -59,11 +66,7 @@ namespace ProjectMoonshine.EntityFramework
         private Dictionary<string, string> TablePrefixs { get; set; }
 
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-             : base(options)
-        {
-            TablePrefixs = new Dictionary<string, string>();
-        }
+
         //
         // Summary:
         //     Override this method to further configure the model that was discovered by convention
@@ -148,12 +151,12 @@ namespace ProjectMoonshine.EntityFramework
                 .WithMany(c => c.CredentialProcesses)
                 .HasForeignKey(p => p.Cr2Cr1Key);
 
-           
+
             modelBuilder
                 .Entity<CredentialProcessType>()
                 .Property(pt => pt.Ct2DueDateUnit)
                 .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateUnit>());
-            
+
             modelBuilder
                 .Entity<CredentialProcessType>()
                 .Property(pt => pt.Ct2DueDateRounding)

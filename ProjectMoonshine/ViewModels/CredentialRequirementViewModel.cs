@@ -32,7 +32,7 @@ namespace ProjectMoonshine.ViewModels
                 .Include(p => p.Credential)
                     .ThenInclude(c => c.CredentialType)
                 .Include(p => p.CredentialProcessType)
-                .AsNoTracking().Select(p => new { p.Cr2Key, Text = BuildProcessListString(p)});
+                .Select(p => new { p.Cr2Key, Text = BuildProcessListString(p)});
 
             Cr3Cr2KeySelectList = new SelectList(processDropDownList, "Cr2Key", "Text", CredentialRequirement.Cr3Cr2Key);
             Cr3Ct3KeySelectList = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Requirement", CredentialRequirement.Cr3Ct3Key);
