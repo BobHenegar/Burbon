@@ -191,11 +191,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         private async Task EvaluateProcess(ApplicationDbContext context, bool isCurrentProcess, CredentialProcess originalCredentialProcess, Credential originalCredential)
         {
-            if (!CommonUtils.IsDateTimeOffsetValid(originalCredentialProcess.Cr2CompletionDate)
-                 && CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
+            if (!originalCredentialProcess.Cr2CompletionDate.IsDateTimeOffsetValid()
+                 && Cr2CompletionDate.IsDateTimeOffsetValid())
                 await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
 
-            else if (!CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
+            else if (!Cr2CompletionDate.IsDateTimeOffsetValid())
             {
                 await EvaluateRequirements(context, isCurrentProcess);
 
@@ -321,10 +321,10 @@ namespace ProjectMoonshine.EntityFramework.Models
                     allRequirementsMet = true;
                     foreach (CredentialRequirement credentialRequirement in CredentialRequirements)
                     {
-                        if (!CommonUtils.IsDateTimeOffsetValid(credentialRequirement.Cr3MetDate))
-                            credentialRequirement.Update(context);
+                        if (!credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
+                            await credentialRequirement.UpdateAsync(context);
 
-                        if (CommonUtils.IsDateTimeOffsetValid(credentialRequirement.Cr3MetDate)) continue;
+                        if (credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()) continue;
                         allRequirementsMet = false;
                         break;
                     }

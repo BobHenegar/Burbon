@@ -146,11 +146,30 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
         }
 
-        public static async Task<CredentialProcess> GetCredentialProcess(ApplicationDbContext context, Guid cr2Key)
+        public static async Task<CredentialProcess> GetCredentialProcessAsync(ApplicationDbContext context, Guid cr2Key)
         {
             return await context.CredentialProcesses
                 .Where(p => cr2Key == p.Cr2Key)
                 .FirstOrDefaultAsync();
+        }
+
+        public static async Task<CredentialRequirementType> GetCredentialRequirementTypeAsync(ApplicationDbContext context, Guid ct3Key)
+        {
+            return await context.CredentialRequirementTypes
+                .FindAsync(ct3Key);
+        }
+
+        public static async Task<CredentialStatusType> GetCredentialStatusTypeAsync(ApplicationDbContext context,
+            Guid ct6Key, bool includeState = false)
+        {
+            if (includeState)
+                return await context.CredentialStatusTypes
+                    .Include(st => st.State)
+                    .Where(st => st.Ct6Key == ct6Key)
+                    .FirstOrDefaultAsync();
+
+            return await context.CredentialStatusTypes
+                .FindAsync(ct6Key);
         }
     }
 }

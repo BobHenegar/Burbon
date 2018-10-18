@@ -8,21 +8,21 @@ using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework.Utils
 {
-    public class CommonUtils
+    public static class CommonUtils
     {
-        public static bool IsGuidValid(Guid? guid)
+        public static bool IsGuidValid(this Guid? guid)
         {
-            return guid != null && guid != Guid.Empty;
+            return guid.HasValue && guid != Guid.Empty;
         }
 
-        public static bool IsDateTimeOffsetValid(DateTimeOffset? dateTimeOffset)
+        public static bool IsDateTimeOffsetValid( this DateTimeOffset? dateTimeOffset)
         {
-            return dateTimeOffset != null && dateTimeOffset != DateTimeOffset.MinValue;
+            return dateTimeOffset.HasValue && dateTimeOffset != DateTimeOffset.MinValue;
         }
 
-        public static bool IsIntValid(int? integer)
+        public static bool IsIntValid(this int? integer)
         {
-            return integer != null && integer != 0;
+            return integer.HasValue && integer != 0;
         }
     }
 }
