@@ -132,7 +132,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 await Init(context);
 
-                if (await SetStartDate(context) && await SetDueDate(context)) context.Update(this);
+                if (await SetStartDateAsync(context) && await SetDueDate(context)) context.Update(this);
 
 
                 // TODO: Send Correspondence functionality for status
@@ -156,31 +156,31 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CommonUtils.IsDateTimeOffsetValid(Cr3DueDate)) return true;
+                if (Cr3DueDate.IsDateTimeOffsetValid()) return true;
                 if (CredentialRequirementType.Ct3SyncToProcessDatesFlag)
                 {
-                    if (await GetCredentialProcess(context))
+                    if (await GetCredentialProcessAsync(context))
                     {
-                        if (CommonUtils.IsDateTimeOffsetValid(CredentialProcess.Cr2DueDate))
+                        if (CredentialProcess.Cr2DueDate.IsDateTimeOffsetValid())
                             Cr3DueDate = CredentialProcess.Cr2DueDate;
 
                     }
                 }
-                if (!CommonUtils.IsDateTimeOffsetValid(Cr3DueDate)
+                if (!Cr3DueDate.IsDateTimeOffsetValid()
                     && !string.IsNullOrWhiteSpace(CredentialRequirementType.Ct3CalculateDueDateSp))
                 {
                     Cr3DueDate = await CredentialingUtils.CalculateDateFromSp(context,
                         CredentialRequirementType.Ct3CalculateDueDateSp, Cr3Key.ToString());
                 }
 
-                if (!CommonUtils.IsDateTimeOffsetValid(Cr3DueDate))
+                if (!Cr3DueDate.IsDateTimeOffsetValid())
                     Cr3DueDate = CredentialingUtils.CalculateDueDate(
-                        CommonUtils.IsDateTimeOffsetValid(Cr3StartDate) ? Cr3StartDate : DateTimeOffset.Now
+                        Cr3StartDate.IsDateTimeOffsetValid() ? Cr3StartDate : DateTimeOffset.Now
                         , CredentialRequirementType.Ct3DueDateNumber
                         , CredentialRequirementType.Ct3DueDateUnit
                         , CredentialRequirementType.Ct3DueDateRounding);
 
-                if (!CommonUtils.IsDateTimeOffsetValid(Cr3DueDate)) Cr3DueDate = DateTimeOffset.Now;
+                if (!Cr3DueDate.IsDateTimeOffsetValid()) Cr3DueDate = DateTimeOffset.Now;
 
                 return true;
             }
@@ -196,11 +196,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         }
 
-        private async Task<bool> SetStartDate(ApplicationDbContext context)
+        private async Task<bool> SetStartDateAsync(ApplicationDbContext context)
         {
             try
             {
-                if (CommonUtils.IsDateTimeOffsetValid(Cr3StartDate)) return true;
+                if (Cr3StartDate.IsDateTimeOffsetValid()) return true;
                 if (!string.IsNullOrWhiteSpace(CredentialRequirementType.Ct3CalculateStartDateSp))
                 {
                     Cr3StartDate = await CredentialingUtils.CalculateDateFromSp(context,
@@ -209,12 +209,12 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 else
                 {
-                    await GetCredentialProcess(context);
+                    await GetCredentialProcessAsync(context);
 
                     if (CredentialProcess != null) Cr3StartDate = CredentialProcess.Cr2StartDate;
                 }
 
-                if (!CommonUtils.IsDateTimeOffsetValid(Cr3StartDate)) Cr3StartDate = DateTimeOffset.Now;
+                if (!Cr3StartDate.IsDateTimeOffsetValid()) Cr3StartDate = DateTimeOffset.Now;
                 return true;
             }
             catch (Exception e)
@@ -229,12 +229,12 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         }
 
-        private async Task<bool> GetCredentialProcess(ApplicationDbContext context)
+        private async Task<bool> GetCredentialProcessAsync(ApplicationDbContext context)
         {
             try
             {
                 if (CredentialProcess == null)
-                    CredentialProcess = await CredentialingUtils.GetCredentialProcess(context, Cr3Cr2Key);
+                    CredentialProcess = await CredentialingUtils.GetCredentialProcessAsync(context, Cr3Cr2Key);
 
                 return CredentialProcess != null;
             }
@@ -278,7 +278,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!CommonUtils.IsGuidValid(ct6Key)) return true;
+                if (!ct6Key.IsGuidValid()) return true;
                 if (CredentialProcess == null)
                     CredentialProcess = await context.CredentialProcesses
                         .Where(p => p.Cr2Key == Cr3Cr2Key)
@@ -303,14 +303,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CommonUtils.IsGuidValid(Cr3Ct6Key)) return true;
+                if (Cr3Ct6Key.IsGuidValid()) return true;
                 if (CredentialRequirementType.Ct3HasRequiredParentsFlag
-                    && CommonUtils.IsGuidValid(CredentialRequirementType.Ct3DependentCt6Key))
+                    && CredentialRequirementType.Ct3DependentCt6Key.IsGuidValid())
                 {
                     Cr3Ct6Key = CredentialRequirementType.Ct3DependentCt6Key;
                 }
 
-                else if (CommonUtils.IsGuidValid(CredentialRequirementType.Ct3StartCt6Key))
+                else if (CredentialRequirementType.Ct3StartCt6Key.IsGuidValid())
                 {
                     Cr3Ct6Key = CredentialRequirementType.Ct3StartCt6Key;
                 }
@@ -328,9 +328,173 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         }
 
-        public void Update(ApplicationDbContext context)
+        public virtual async Task<bool> UpdateAsync(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!await GetRequirementTypeAsync(context)) return false ;
+
+
+                await GetStatusTypeAsync(context, true);
+
+                if (!await EvaluateUnlocked(context)) return true;
+
+                context.Update(this);
+
+                CredentialRequirement originalCredentialRequirement = await context.CredentialRequirements
+                    .Where(r => r.Cr3Key == Cr3Key)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync();
+
+                if (originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key 
+                    && Cr3Ct6Key.IsGuidValid())
+                    await SetStatusAsync(context, (Guid) Cr3Ct6Key);
+
+                // TODO: find requirement data stuff;
+
+
+
+
+                context.Update(this);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+            
+        }
+
+        private async Task<bool> SetStatusAsync(ApplicationDbContext context, Guid ct6Key)
+        {
+            try
+            {
+                if (Cr3Ct6Key != ct6Key) 
+                {
+                    Cr3Ct6Key = ct6Key;
+                    context.Update(this);
+                }
+                if (await GetStatusTypeAsync(context) 
+                    && Status.Ct6ParentCt6Key.IsGuidValid())
+                {
+                    await SetProcessStatus(context, Status.Ct6ParentCt6Key, true);
+                    context.Update(this);
+                };
+        
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+            
+        }
+
+        private async Task<bool> EvaluateUnlocked(ApplicationDbContext context)
+        {
+            try
+            {
+                if (!CredentialRequirementType.Ct3HasRequiredParentsFlag 
+                    || Status?.State == null 
+                    || !Status.State.Cu6LockedFlag) return true;
+
+                // TODO: buildout AllRequiredParentsDone for checklists / switch
+                // prereqs have not been met
+                if (!await AllRequiredParentsDone(context)) return false;
+
+                Cr3Ct6Key = CredentialRequirementType.Ct3StartCt6Key;
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+        }
+
+        // TODO: build out later depending on if we get to checklist / switch requirements.  For now just return true
+        private async Task<bool> AllRequiredParentsDone(ApplicationDbContext context)
+        {
+            try
+            {
+                // not all reqs know their process, at least in old credeng, so return true if process not found
+                if (! await GetCredentialProcessAsync(context) ) return true;
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+            }
+
+        private async Task<bool> GetRequirementTypeAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (CredentialRequirementType == null)
+                {
+                    CredentialRequirementType =
+                        await CredentialingUtils.GetCredentialRequirementTypeAsync(context, Cr3Ct3Key);
+                }
+
+                return CredentialRequirementType != null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        private async Task<bool> GetStatusTypeAsync(ApplicationDbContext context, bool includeState = false)
+        {
+            try
+            {
+                if (Status == null && Cr3Ct6Key.IsGuidValid())
+                {
+                    Status = await CredentialingUtils.GetCredentialStatusTypeAsync(context, (Guid) Cr3Ct6Key, includeState);
+                }
+
+                return Status != null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
         }
     }
 

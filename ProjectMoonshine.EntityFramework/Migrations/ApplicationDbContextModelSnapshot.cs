@@ -989,6 +989,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cu6Code")
                         .IsRequired();
 
+                    b.Property<bool>("Cu6LockedFlag");
+
                     b.Property<bool>("Cu6TerminateProcessFlag");
 
                     b.HasKey("Cu6Key");
