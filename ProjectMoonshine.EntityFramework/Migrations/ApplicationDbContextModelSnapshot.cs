@@ -386,11 +386,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Ct5Ct3Key");
 
+                    b.Property<DateTimeOffset?>("Ct5EndDate");
+
                     b.Property<bool>("Ct5ExamPrereqFlag");
 
                     b.Property<int>("Ct5Order");
 
                     b.Property<bool>("Ct5ReviewPrereqFlag");
+
+                    b.Property<DateTimeOffset?>("Ct5StartDate");
 
                     b.Property<bool>("Ct5SubmitPrereqFlag");
 
@@ -426,9 +430,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Cr3Ct3Key");
 
-                    b.Property<Guid>("Cr3Ct6Key");
+                    b.Property<Guid?>("Cr3Ct6Key");
 
                     b.Property<Guid?>("Cr3DataKey");
+
+                    b.Property<DateTimeOffset?>("Cr3DueDate");
+
+                    b.Property<DateTimeOffset?>("Cr3MetDate");
+
+                    b.Property<DateTimeOffset?>("Cr3StartDate");
 
                     b.HasKey("Cr3Key");
 
@@ -482,6 +492,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct3AddUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Ct3CalculateDueDateSp");
+
+                    b.Property<string>("Ct3CalculateStartDateSp");
+
                     b.Property<DateTimeOffset?>("Ct3ChangeDate")
                         .ValueGeneratedOnAdd();
 
@@ -492,7 +506,17 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Ct3Ct8Key");
 
+                    b.Property<Guid?>("Ct3DependentCt6Key");
+
                     b.Property<string>("Ct3Description");
+
+                    b.Property<short?>("Ct3DueDateNumber");
+
+                    b.Property<int>("Ct3DueDateRounding");
+
+                    b.Property<int>("Ct3DueDateUnit");
+
+                    b.Property<bool>("Ct3HasRequiredParentsFlag");
 
                     b.Property<string>("Ct3LongDescription");
 
@@ -500,9 +524,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Ct3Requirement");
 
+                    b.Property<Guid?>("Ct3StartCr2Ct6Key");
+
                     b.Property<Guid?>("Ct3StartCt6Key");
 
                     b.Property<Guid?>("Ct3SubmitCt6Key");
+
+                    b.Property<bool>("Ct3SyncToProcessDatesFlag");
 
                     b.HasKey("Ct3Key");
 
@@ -510,7 +538,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasIndex("Ct3Ct8Key");
 
+                    b.HasIndex("Ct3DependentCt6Key");
+
                     b.HasIndex("Ct3MetCt6Key");
+
+                    b.HasIndex("Ct3StartCr2Ct6Key");
 
                     b.HasIndex("Ct3StartCt6Key");
 
@@ -957,6 +989,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cu6Code")
                         .IsRequired();
 
+                    b.Property<bool>("Cu6TerminateProcessFlag");
+
                     b.HasKey("Cu6Key");
 
                     b.ToTable("StatusStateType");
@@ -1107,9 +1141,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Ct3Ct8Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "DependentStatusType")
+                        .WithMany()
+                        .HasForeignKey("Ct3DependentCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "MetStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3MetCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentProcessStartStatusType")
+                        .WithMany()
+                        .HasForeignKey("Ct3StartCr2Ct6Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "StartStatusType")

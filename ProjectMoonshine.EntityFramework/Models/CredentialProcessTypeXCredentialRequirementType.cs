@@ -19,9 +19,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Requirement Type")]
         public Guid Ct5Ct3Key { get; set; }
 
-        //public DateTimeOffset? Ct5StartDate { get; set; }
+        [DisplayName("Start Date")]
+        public DateTimeOffset? Ct5StartDate { get; set; }
 
-        //public DateTimeOffset? Ct5EndDate { get; set; }
+        [DisplayName("End Date")]
+        public DateTimeOffset? Ct5EndDate { get; set; }
 
         [DisplayName("Order")]
         public int Ct5Order { get; set; }

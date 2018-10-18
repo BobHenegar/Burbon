@@ -31,19 +31,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="Ct3StartCt6Key" class="control-label"></label>
-                <select asp-for="Ct3StartCt6Key" class ="form-control" asp-items="ViewBag.Ct3StartCt6Key"></select>
+                @Html.DropDownListFor(ct3 => ct3.Ct3StartCt6Key, (SelectList)ViewBag.Ct3StartCt6Key, "", new {@class="form-control"})
+                @*<select asp-for="Ct3StartCt6Key" class ="form-control" asp-items="ViewBag.Ct3StartCt6Key"></select>*@
             </div>
             <div class="form-group">
                 <label asp-for="Ct3CompleteCt6Key" class="control-label"></label>
-                <select asp-for="Ct3CompleteCt6Key" class ="form-control" asp-items="ViewBag.Ct3CompleteCt6Key"></select>
+                @Html.DropDownListFor(ct3 => ct3.Ct3CompleteCt6Key, (SelectList)ViewBag.Ct3CompleteCt6Key, "", new { @class = "form-control" })
+                @*<select asp-for="Ct3CompleteCt6Key" class="form-control" asp-items="ViewBag.Ct3CompleteCt6Key"></select>*@
             </div>
             <div class="form-group">
                 <label asp-for="Ct3SubmitCt6Key" class="control-label"></label>
-                <select asp-for="Ct3SubmitCt6Key" class ="form-control" asp-items="ViewBag.Ct3SubmitCt6Key"></select>
+                @Html.DropDownListFor(ct3 => ct3.Ct3SubmitCt6Key, (SelectList)ViewBag.Ct3SubmitCt6Key, "", new { @class = "form-control" })
+                @*<select asp-for="Ct3SubmitCt6Key" class="form-control" asp-items="ViewBag.Ct3SubmitCt6Key"></select>*@
             </div>
             <div class="form-group">
                 <label asp-for="Ct3MetCt6Key" class="control-label"></label>
-                <select asp-for="Ct3MetCt6Key" class ="form-control" asp-items="ViewBag.Ct3MetCt6Key"></select>
+                @Html.DropDownListFor(ct3 => ct3.Ct3MetCt6Key, (SelectList)ViewBag.Ct3MetCt6Key, "", new { @class = "form-control" })
+                @*<select asp-for="Ct3MetCt6Key" class="form-control" asp-items="ViewBag.Ct3MetCt6Key"></select>*@
             </div>
             <div class="form-group">
                 <label asp-for="Ct3LongDescription" class="control-label"></label>

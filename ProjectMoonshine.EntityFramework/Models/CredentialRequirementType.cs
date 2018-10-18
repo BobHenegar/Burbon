@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -18,7 +19,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Requirement")]
         public string Ct3Requirement { get; set; }
 
-        [DisplayName("Discription")]
+        [DisplayName("Description")]
         public string Ct3Description { get; set; }
 
         //public DateTimeOffset Ct3StartDate { get; set; }
@@ -30,7 +31,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Template")]
         public Guid Ct3Ct8Key { get; set; }
 
-        //public bool Ct3HasRequiredParentsFlag { get; set; }
+        [DisplayName("Has Required Parents")]
+        public bool Ct3HasRequiredParentsFlag { get; set; }
 
         //public Guid Ct3MdtKey { get; set; }
 
@@ -90,7 +92,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Met Status")]
         public Guid? Ct3MetCt6Key { get; set; }
 
-        //public string Ct3Cr3DependentStatus { get; set; }
+        [DisplayName("Dependent Status")]
+        public Guid? Ct3DependentCt6Key { get; set; }
+
+        [DisplayName("Sync to Process Dates")]
+        public bool Ct3SyncToProcessDatesFlag { get; set; }
 
         //public string Ct3Cr3CompleteStatus { get; set; }
 
@@ -98,15 +104,19 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3Cr3MetStatus { get; set; }
 
-        //public string Ct3Cr2StartStatus { get; set; }
+        [DisplayName("Parent Process Start Status")]
+        public Guid? Ct3StartCr2Ct6Key { get; set; }
 
         //public string Ct3Cr2MetStatus { get; set; }
 
-        //public int Ct3DueDateNumber { get; set; }
+        [DisplayName("Due Date Number")]
+        public short? Ct3DueDateNumber { get; set; }
 
-        //public string Ct3DueDateUnit { get; set; }
+        [DisplayName("Due Date Unit")]
+        public GlobalConstants.DueDateUnit Ct3DueDateUnit { get; set; }
 
-        //public string Ct3DueDateRounding { get; set; }
+        [DisplayName("Due Date Rounding")]
+        public GlobalConstants.DueDateRounding Ct3DueDateRounding { get; set; }
 
         //public bool Ct3ShowOnline { get; set; }
 
@@ -135,9 +145,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public int Ct3ExperienceUnitsRequired { get; set; }
 
-        //public string Ct3CalculateStartDateSp { get; set; }
+        [DisplayName("Calculate Start Date Stored Procedure")]
+        public string Ct3CalculateStartDateSp { get; set; }
 
-        //public string Ct3calculateDueDateSp { get; set; }
+        [DisplayName("Calculate Due Date Stored Procedure")]
+        public string Ct3CalculateDueDateSp { get; set; }
 
         //public string Ct3Cr3DeniedStatus { get; set; }
 
@@ -174,6 +186,12 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3MetCt6Key")]
         public virtual CredentialStatusType MetStatusType { get; set; }
+
+        [ForeignKey("Ct3DependentCt6Key")]
+        public CredentialStatusType DependentStatusType { get; set; }
+
+        [ForeignKey("Ct3StartCr2Ct6Key")]
+        public CredentialStatusType ParentProcessStartStatusType { get; set; }
 
         [ForeignKey("Ct3Ct8Key")]
         public virtual CredentialRequirementTemplate Template { get; set; }

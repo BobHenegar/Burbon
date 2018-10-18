@@ -35,10 +35,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ApiControllers\" />
     <Folder Include="Classes\" />
     <Folder Include="Enums\" />
     <Folder Include="CommandModels\" />
-    <Folder Include="RequetResponseModels\" />
+    <Folder Include="wwwroot\lib\boostrap-select\" />
   </ItemGroup>
 
   <ItemGroup>

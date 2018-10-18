@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
@@ -70,35 +71,34 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
         }
 
-        public static DateTimeOffset CalculateDateFromSp(DbContext context, string procedure, string parameterValue)
+        public static async Task<DateTimeOffset> CalculateDateFromSp(DbContext context, string procedure, string parameterValue)
         {
             DbConnection connection = context.Database.GetDbConnection();
-            connection.Open();
+            await connection.OpenAsync();
             DbCommand command = connection.CreateCommand();
             command.CommandText = string.Format("EXEC dbo.{0} {1}", procedure, parameterValue);
-            return command.ExecuteScalar() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
+            return await command.ExecuteScalarAsync() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
         }
 
-        public static short? GetNextCredentialNumber(ApplicationDbContext context, Credential credential)
+        public static async Task<short?> GetNextCredentialNumber(ApplicationDbContext context, Credential credential)
         {
             if (credential == null) return null;
 
             //TODO: add sproc capability
             //
-            /// //if (credential.CredentialType == null) credential.CredentialType = 
+            /// //if (credential.CredentialType == null) credential.CredentialType =
             //    context.CredentialTypes
             //        .Where(ct => ct.Ct1Key == credential.Cr1Ct1Key)
             //        .FirstOrDefault();
 
-            short? nextCredentialNumber = context.Credentials
+            short? nextCredentialNumber = await context.Credentials
                 .Where(c => c.Cr1CredentialNumber != null)
                 .DefaultIfEmpty()
-                .Max(c => c.Cr1CredentialNumber);
+                .MaxAsync(c => c.Cr1CredentialNumber);
 
-            if (nextCredentialNumber != null && nextCredentialNumber == 0)
-                return nextCredentialNumber;
+            return CommonUtils.IsIntValid(nextCredentialNumber) ? nextCredentialNumber : (short?) 1;
 
-            return null;
+            
         }
 
         public static bool SendMail(ApplicationDbContext context, Guid PerKey, Guid TemKey)
@@ -135,10 +135,22 @@ namespace ProjectMoonshine.EntityFramework.Utils
 
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
+        }
+
+        public static async Task<CredentialProcess> GetCredentialProcess(ApplicationDbContext context, Guid cr2Key)
+        {
+            return await context.CredentialProcesses
+                .Where(p => cr2Key == p.Cr2Key)
+                .FirstOrDefaultAsync();
         }
     }
 }

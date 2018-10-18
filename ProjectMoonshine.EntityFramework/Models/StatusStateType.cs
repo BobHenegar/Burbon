@@ -17,6 +17,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("State Code")]
         public string Cu6Code { get; set; }
 
+        [DisplayName("Cu6TerminateProcessFlag")]
+        public bool Cu6TerminateProcessFlag { get; set; }
+
         [DisplayName("Add Date")]
         public DateTimeOffset Cu6AddDate { get; set; }
 

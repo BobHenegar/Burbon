@@ -69,19 +69,34 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: EventRegistrations/Create
-        public IActionResult Create(Guid? id)
+        public async Task<IActionResult> Create(Guid? id)
         {
             ViewData["CusKeyHasValue"] = id.HasValue;
-            if(id.HasValue)
+            var customerQuery = _context
+                .Customers
+                .AsNoTracking()
+                .Include(i => i.Person)
+                .Include(i => i.EventRegistrations)
+                .AsQueryable();
+            if (id.HasValue)
             {
                 ViewData["CusKey"] = id.Value;
+                customerQuery = customerQuery.Where(x => x.CusKey == id.Value);
             }
-            ViewData["EvrCusKey"] = new SelectList(_context
-                .Customers
-                .Include(i => i.Person)
-                .Where(x => id.HasValue ? x.CusKey == id.Value : true)
-                .Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast}), "CusKey", "Name");
-            ViewData["EvrEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName");
+
+            var customerList = await customerQuery
+                .Select(s => new {
+                    s.CusKey,
+                    Name = s.Person.PerFirstMiddleLast
+                })
+                .ToListAsync();
+
+            var eventList = await _context
+                .Events
+                .AsNoTracking()
+                .ToListAsync();
+            ViewData["EvrCusKey"] = new SelectList(customerList, "CusKey", "Name");
+            ViewData["EvrEvtKey"] = new SelectList(eventList, "EvtKey", "EvtName");
             return View();
         }
 
@@ -94,6 +109,11 @@ namespace ProjectMoonshine.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(_context.EventRegistrations.AsNoTracking().Where(x => x.EvrCusKey == eventRegistration.EvrCusKey && x.EvrEvtKey == eventRegistration.EvrEvtKey && x.EvrDropDate == null).Any())
+                {
+                    ModelState.AddModelError("EvrCusKey", "Customer already registered for event.");
+                    return View(eventRegistration);
+                }
                 eventRegistration.EvrKey = Guid.NewGuid();
                 _context.Add(eventRegistration);
                 await _context.SaveChangesAsync();
