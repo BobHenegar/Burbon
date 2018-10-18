@@ -23,6 +23,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Locked Flag")]
         public bool Cu6LockedFlag { get; set; }
 
+        [DisplayName("Met Flag")]
+        public bool Cu6MetFlag { get; set; }
+
         [DisplayName("Add Date")]
         public DateTimeOffset Cu6AddDate { get; set; }
 

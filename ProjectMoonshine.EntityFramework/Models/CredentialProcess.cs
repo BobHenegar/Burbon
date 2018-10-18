@@ -47,7 +47,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Due Date")]
         public DateTimeOffset? Cr2DueDate { get; set; }
 
-        //public DateTimeOffset Cr2SubmitDate { get; set; }
+        [DisplayName("Submit Date")]
+        public DateTimeOffset? Cr2SubmitDate { get; set; }
 
         [DisplayName("Completion Date")]
         public DateTimeOffset? Cr2CompletionDate { get; set; }
@@ -126,7 +127,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public CredentialProcessType CredentialProcessType { get; set; }
 
 
-        public virtual async Task<bool> Update(ApplicationDbContext context)
+        public virtual async Task<bool> UpdateAsync(ApplicationDbContext context)
         {
             try
             {
@@ -272,7 +273,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             // TODO/Roadmap: status type change fields
 
-            if (ct6Key != null && ct6Key != Guid.Empty)
+            if (ct6Key.IsGuidValid() && Cr2Ct6Key != ct6Key)
             {
                 Cr2Ct6Key = ct6Key;
                 if (StatusType == null)
@@ -515,5 +516,48 @@ namespace ProjectMoonshine.EntityFramework.Models
         }
 
 
+        public async Task<bool> SubmitAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (!Cr2SubmitDate.IsDateTimeOffsetValid()) Cr2SubmitDate = DateTimeOffset.Now;
+
+
+                if (await GetCredentialProcessTypeAsync(context) && CredentialProcessType.Ct2SubmittedCt6Key.IsGuidValid())
+                    await SetStatusAsync(context, CredentialProcessType.Ct2SubmittedCt6Key, true);
+
+                context.Update(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        private async Task<bool> GetCredentialProcessTypeAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (CredentialProcessType == null)
+                    CredentialProcessType = await CredentialingUtils.GetCredentialProcessTypeAsync(context, Cr2Ct2Key);
+
+                return CredentialProcessType != null;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
     }
 }

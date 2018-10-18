@@ -98,16 +98,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Sync to Process Dates")]
         public bool Ct3SyncToProcessDatesFlag { get; set; }
 
-        //public string Ct3Cr3CompleteStatus { get; set; }
-
-        //public string Ct3Cr3SubmitStatus { get; set; }
-
-        //public string Ct3Cr3MetStatus { get; set; }
-
         [DisplayName("Parent Process Start Status")]
         public Guid? Ct3StartCr2Ct6Key { get; set; }
 
-        //public string Ct3Cr2MetStatus { get; set; }
+        [DisplayName("Parent Process Met Status")]
+        public Guid? Ct3MetCr2Ct6Key { get; set; }
 
         [DisplayName("Due Date Number")]
         public short? Ct3DueDateNumber { get; set; }
@@ -135,7 +130,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public int Ct3MinExamScore { get; set; }
 
-        //public bool Ct3SubmitProcessFlag { get; set; }
+        [DisplayName("Submit Process Flag")]
+        public bool Ct3SubmitProcessFlag { get; set; }
 
         //public bool Ct3IwebGenerateInvoiceFlag { get; set; }
 
@@ -192,6 +188,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3StartCr2Ct6Key")]
         public CredentialStatusType ParentProcessStartStatusType { get; set; }
+
+        [ForeignKey("Ct3MetCr2Ct6Key")]
+        public CredentialStatusType ParentProcessMetStatusType { get; set; }
 
         [ForeignKey("Ct3Ct8Key")]
         public virtual CredentialRequirementTemplate Template { get; set; }

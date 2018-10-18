@@ -171,5 +171,10 @@ namespace ProjectMoonshine.EntityFramework.Utils
             return await context.CredentialStatusTypes
                 .FindAsync(ct6Key);
         }
+
+        public static async Task<CredentialProcessType> GetCredentialProcessTypeAsync(ApplicationDbContext context, Guid ct2Key)
+        {
+            return await context.CredentialProcessTypes.FindAsync(ct2Key);
+        }
     }
 }

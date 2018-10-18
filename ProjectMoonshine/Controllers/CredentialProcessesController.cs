@@ -123,7 +123,7 @@ namespace ProjectMoonshine.Controllers
                     credentialProcessToUpdate.Cr2StartDate = credentialProcess.Cr2StartDate;
                     credentialProcessToUpdate.Cr2CompletionDate = credentialProcess.Cr2CompletionDate;
 
-                    await credentialProcessToUpdate.Update(_context);
+                    await credentialProcessToUpdate.UpdateAsync(_context);
                 }
                 catch (DbUpdateConcurrencyException e)
                 {

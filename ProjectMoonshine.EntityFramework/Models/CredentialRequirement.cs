@@ -229,6 +229,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         }
 
+        /// <summary>
+        /// Get Credential Process for this requirement.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>Returns true if successful, false if no process is found or on error.</returns>
         private async Task<bool> GetCredentialProcessAsync(ApplicationDbContext context)
         {
             try
@@ -332,7 +337,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!await GetRequirementTypeAsync(context)) return false ;
+                if (!await GetRequirementTypeAsync(context)) return false;
 
 
                 await GetStatusTypeAsync(context, true);
@@ -346,14 +351,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
 
-                if (originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key 
-                    && Cr3Ct6Key.IsGuidValid())
-                    await SetStatusAsync(context, (Guid) Cr3Ct6Key);
-
-                // TODO: find requirement data stuff;
-
-
-
+                await EvaluateRequirementAsync(context, originalCredentialRequirement);
 
                 context.Update(this);
                 await context.SaveChangesAsync();
@@ -371,6 +369,164 @@ namespace ProjectMoonshine.EntityFramework.Models
             
         }
 
+        /// <summary>
+        /// Evaluates Requirement
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="originalCredentialRequirement"></param>
+        /// <returns>Returns true if evaluation succeeds, false on error.</returns>
+        private async Task<bool> EvaluateRequirementAsync(ApplicationDbContext context,
+            CredentialRequirement originalCredentialRequirement)
+        {
+            try
+            {
+                if (originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key
+                    && Cr3Ct6Key.IsGuidValid())
+                    await SetStatusAsync(context, (Guid) Cr3Ct6Key);
+
+                // TODO: find requirement data stuff;
+
+                // refresh status
+
+                if (await EvaluateMetFromMetStatusAsync(context)) return true;
+             
+                if (!originalCredentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
+                {
+                    if (!await EvalAsync(context)) return false;
+
+                    if (Cr3MetDate.IsDateTimeOffsetValid())
+                    {
+                        if (originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
+                        {
+                            if (!await GetRequirementTypeAsync(context)) return false;
+                            if (Cr3Ct6Key != CredentialRequirementType.Ct3MetCt6Key && CredentialRequirementType.Ct3MetCt6Key.IsGuidValid())
+                                if (await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key)) return false;
+
+                            if (CredentialRequirementType.Ct3MetCr2Ct6Key.IsGuidValid())
+                                await SetProcessStatus(context, CredentialRequirementType.Ct3MetCr2Ct6Key, true);
+
+                            if (CredentialRequirementType.Ct3SubmitProcessFlag)
+                            {
+                                if (await GetCredentialProcessAsync(context))
+                                {
+                                    await CredentialProcess.SubmitAsync(context);
+
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Overrideable Eval method for requirements.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>Returns true if Eval succeeds, false on error.</returns>
+        public virtual async Task<bool> EvalAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (!Cr3DataKey.IsGuidValid())
+                {
+                    // find related data stuff
+                }
+
+                await EvaluateMetFromMetStatusAsync(context);
+
+                context.Update(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks if requirement is met based on status, and if status is met sets met date.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>Returns true if met, false if not met or on error.</returns>
+        private async Task<bool> EvaluateMetFromMetStatusAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                await GetStatusTypeAsync(context, true);
+
+                if (Cr3MetDate.IsDateTimeOffsetValid() || Status.State == null || !Status.State.Cu6MetFlag)
+                    return false;
+
+                await SetMetDateFromMetStatusAsync(context);
+
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+        }
+
+        private async Task<bool> SetMetDateFromMetStatusAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                Cr3MetDate = DateTimeOffset.Now;
+                context.Update(this);
+
+                if (await GetCredentialProcessAsync(context))
+                    await CredentialProcess.UpdateAsync(context);
+
+                // TODO: updating parent requirements for checklists / switches
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Set Requirement status and parent process status if applicable.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="ct6Key"></param>
+        /// <returns>Returns true if successful, false on error.</returns>
         private async Task<bool> SetStatusAsync(ApplicationDbContext context, Guid ct6Key)
         {
             try
@@ -479,7 +635,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (Status == null && Cr3Ct6Key.IsGuidValid())
+                if (Cr3Ct6Key.IsGuidValid() 
+                    && (Status == null
+                    || Status != null 
+                        && Status.State == null 
+                        && includeState
+                    ))
                 {
                     Status = await CredentialingUtils.GetCredentialStatusTypeAsync(context, (Guid) Cr3Ct6Key, includeState);
                 }
