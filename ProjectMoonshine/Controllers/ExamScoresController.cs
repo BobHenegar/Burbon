@@ -71,8 +71,9 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: ExamScores/Create
-        public IActionResult Create(Guid? id)
+        public async Task<IActionResult> Create(Guid? id)
         {
+            ViewData["CusKeyHasValue"] = id.HasValue;
             var query = _context
                 .Customers
                 .AsNoTracking()
@@ -80,16 +81,17 @@ namespace ProjectMoonshine.Controllers
                 .Include(i => i.EventRegistrations)
                 .ThenInclude(i => i.Event)
                 .ThenInclude(i => i.Exam)
-                .Where(x => id.HasValue ? x.CusKey == id.Value : x.EventRegistrations.Count() > 0)
-                .ToList();
+                .AsQueryable();
             if(id.HasValue)
             {
-                ViewData["CusKeyHasValue"] = true;
+                ViewData["CusKey"] = id.Value;
+                query = query.Where(x => id.HasValue ? x.CusKey == id.Value : x.EventRegistrations.Count() > 0);
             }
-            ViewData["ExsCusKey"] = new SelectList(query
-                .Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name");
+            var customerlist = await query.Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }).ToListAsync();
+            var examList = await _context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }).ToListAsync();
 
-            ViewData["ExsExmKey"] = new SelectList(_context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name");
+            ViewData["ExsCusKey"] = new SelectList(customerlist, "CusKey", "Name");
+            ViewData["ExsExmKey"] = new SelectList(examList, "ExmKey", "Name");
             return View();
         }
 
@@ -98,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExsKey,ExsExmKey,ExsCusKey,ExsTotalPossible,ExsTotalReceived,ExsAddDate,ExsChangeDate,ExsAddUser,ExsChangeUser,RowVersion")] ExamScore examScore)
+        public async Task<IActionResult> Create(ExamScore examScore)
         {
             if (ModelState.IsValid
                 && _context.Exams
