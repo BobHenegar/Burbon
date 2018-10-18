@@ -359,11 +359,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Ct5Ct3Key");
 
+                    b.Property<DateTimeOffset?>("Ct5EndDate");
+
                     b.Property<bool>("Ct5ExamPrereqFlag");
 
                     b.Property<int>("Ct5Order");
 
                     b.Property<bool>("Ct5ReviewPrereqFlag");
+
+                    b.Property<DateTimeOffset?>("Ct5StartDate");
 
                     b.Property<bool>("Ct5SubmitPrereqFlag");
 
@@ -957,6 +961,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Cu6Code")
                         .IsRequired();
+
+                    b.Property<bool>("Cu6TerminateProcessFlag");
 
                     b.HasKey("Cu6Key");
 

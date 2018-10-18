@@ -164,7 +164,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (!CommonUtils.IsDateTimeOffsetValid(Cr3DueDate)
                     && !string.IsNullOrWhiteSpace(CredentialRequirementType.Ct3CalculateDueDateSp))
                 {
-                    Cr3DueDate = CredentialingUtils.CalculateDateFromSp(context,
+                    Cr3DueDate = await CredentialingUtils.CalculateDateFromSp(context,
                         CredentialRequirementType.Ct3CalculateDueDateSp, Cr3Key.ToString());
                 }
 
@@ -195,7 +195,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (CommonUtils.IsDateTimeOffsetValid(Cr3StartDate)) return true;
                 if (!string.IsNullOrWhiteSpace(CredentialRequirementType.Ct3CalculateStartDateSp))
                 {
-                    Cr3StartDate = CredentialingUtils.CalculateDateFromSp(context,
+                    Cr3StartDate = await CredentialingUtils.CalculateDateFromSp(context,
                         CredentialRequirementType.Ct3CalculateStartDateSp, Cr3Key.ToString());
                 }
 
@@ -298,6 +298,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                 return false;
             }
 
+        }
+
+        public void Update(ApplicationDbContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 

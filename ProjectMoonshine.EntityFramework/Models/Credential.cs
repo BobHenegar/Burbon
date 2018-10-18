@@ -204,7 +204,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                                 Cr1CredentialDate = CurrentCredentialProcess.Cr2CompletionDate;
 
                             //TODO: set up credential numbering
-                            if (Cr1CredentialNumber == null || Cr1CredentialNumber == 0) Cr1CredentialNumber = CredentialingUtils.GetNextCredentialNumber(context, this);
+                            if (Cr1CredentialNumber == null || Cr1CredentialNumber == 0) Cr1CredentialNumber = await CredentialingUtils.GetNextCredentialNumber(context, this);
 
                             //TODO: Add designation to person record?
 
