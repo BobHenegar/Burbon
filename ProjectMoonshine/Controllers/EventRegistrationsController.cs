@@ -109,7 +109,7 @@ namespace ProjectMoonshine.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(_context.EventRegistrations.Where(x => x.EvrCusKey == eventRegistration.EvrCusKey && x.EvrEvtKey == eventRegistration.EvrEvtKey && x.EvrDropDate == null).Any()
+                if(_context.EventRegistrations.AsNoTracking().Where(x => x.EvrCusKey == eventRegistration.EvrCusKey && x.EvrEvtKey == eventRegistration.EvrEvtKey && x.EvrDropDate == null).Any())
                 {
                     ModelState.AddModelError("EvrCusKey", "Customer already registered for event.");
                     return View(eventRegistration);

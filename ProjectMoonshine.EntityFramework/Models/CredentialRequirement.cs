@@ -2,9 +2,11 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -126,12 +128,12 @@ namespace ProjectMoonshine.EntityFramework.Models
                     await SetProcessStatus(context, CredentialRequirementType.Ct3StartCr2Ct6Key);
                 }
 
-                // TODO: Find REquirement Data 
+                // TODO: Find REquirement Data
 
                 await Init(context);
 
                 if (await SetStartDate(context) && await SetDueDate(context)) context.Update(this);
-                
+
 
                 // TODO: Send Correspondence functionality for status
 
@@ -141,8 +143,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
@@ -181,11 +186,14 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
-            
+
         }
 
         private async Task<bool> SetStartDate(ApplicationDbContext context)
@@ -211,11 +219,14 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
-            
+
         }
 
         private async Task<bool> GetCredentialProcess(ApplicationDbContext context)
@@ -229,25 +240,36 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
-            
+
         }
 
         public virtual async Task<bool> Init(ApplicationDbContext context)
         {
             try
             {
-                return true;
+                return await Task.Run(() =>
+                {
+                    return true;
+                });
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
-
-                return false;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return await Task.Run(() =>
+                {
+                    return false;
+                });
             }
         }
 
@@ -268,8 +290,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
@@ -293,8 +318,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
 
