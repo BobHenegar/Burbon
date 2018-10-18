@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.ViewModels;
@@ -26,7 +27,12 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.InitCredentialProcessType)
                 .Include(c => c.InitStatusType)
                 .Include(c => c.RenewStatusType)
-                .Include(c => c.RenewCredentialProcessType);
+                .Include(c => c.RenewCredentialProcessType)
+                .Include(c => c.CredentialTypeXCredentialProcessTypes)
+                .ThenInclude(cx => cx.CredentialProcessType)
+                .ThenInclude(cx => cx.CredentialProcessTypeXCredentialRequirementTypes)
+                .ThenInclude(cr => cr.CredentialRequirementType)
+                .OrderBy(c => c.Ct1Order);
             return View(await applicationDbContext.ToListAsync());
         }
 

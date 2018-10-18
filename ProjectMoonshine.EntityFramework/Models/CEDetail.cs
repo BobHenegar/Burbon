@@ -15,12 +15,18 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public Guid Ce1CusKey { get; set; }
 
+        [DisplayName("Activity Date")]
         public DateTimeOffset Ce1ActivityDate { get; set; }
+
+        [Required]
+        [DisplayName("Activity Description")]
+        public Guid Ce1CetKey { get; set; }
 
         [Required]
         [DisplayName("Activity Description")]
         public string Ce1ActivityDescription { get; set; }
 
+        [DisplayName("Units")]
         public float Ce1Units { get; set; }
 
         public DateTimeOffset Ce1AddDate { get; set; }
@@ -33,5 +39,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ce1CusKey")]
         public virtual Customer Customer { get; set; }
+
+        [ForeignKey("Ce1CetKey")]
+        public virtual CEType CeType { get; set; }
     }
 }

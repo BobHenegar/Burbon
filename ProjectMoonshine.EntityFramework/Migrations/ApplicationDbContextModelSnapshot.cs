@@ -91,6 +91,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ce1AddUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<Guid>("Ce1CetKey");
+
                     b.Property<DateTimeOffset?>("Ce1ChangeDate")
                         .ValueGeneratedOnAdd();
 
@@ -102,6 +104,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<float>("Ce1Units");
 
                     b.HasKey("Ce1Key");
+
+                    b.HasIndex("Ce1CetKey");
 
                     b.HasIndex("Ce1CusKey");
 
@@ -138,6 +142,29 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ce2CusKey");
 
                     b.ToTable("CEPeriod");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEType", b =>
+                {
+                    b.Property<Guid>("CetKey")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("CetAddDate");
+
+                    b.Property<string>("CetAddUser");
+
+                    b.Property<DateTimeOffset?>("CetChangeDate");
+
+                    b.Property<string>("CetChangeUser");
+
+                    b.Property<string>("CetCode")
+                        .IsRequired();
+
+                    b.Property<string>("CetDescription");
+
+                    b.HasKey("CetKey");
+
+                    b.ToTable("CEType");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CommunicationTemplate", b =>
@@ -945,6 +972,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEDetail", b =>
                 {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CEType", "CeType")
+                        .WithMany()
+                        .HasForeignKey("Ce1CetKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("Ce1CusKey")
