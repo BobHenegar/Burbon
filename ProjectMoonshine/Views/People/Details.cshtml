@@ -52,7 +52,7 @@
         </button>
     </div>
 </div>
-<div class="col-lg-12 col-md-12 col-xs-12 row">
+<div style="width:100%;display:flex;flex-wrap:wrap;flex-direction:row;">
     @await Html.PartialAsync("_AddressPartialView", Model.Addresses.OrderBy(x => x.AdrIsPrimary).FirstOrDefault())
     @await Html.PartialAsync("_PhonePartialView", Model.Phones.OrderBy(x => x.PhoIsPrimary).FirstOrDefault())
     @await Html.PartialAsync("_EmailPartialView", Model.Emails.OrderBy(x => x.EmlIsPrimary).FirstOrDefault())
@@ -87,11 +87,9 @@
     </div>
 </div>
 
-@section Scripts{
 <script>
     $('#myModal').on('shown.bs.modal',
         function() {
             $('#myInput').trigger('focus')
         })
 </script>
-}

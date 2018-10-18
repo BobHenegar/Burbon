@@ -19,7 +19,7 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Address> GetAllAddresses(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var addresses = context.Addresses.AsNoTracking().AsQueryable();
+            var addresses = context.Addresses.AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
@@ -151,7 +151,7 @@ namespace ProjectMoonshine.Managers
         // <inheritdoc />
         public async Task<Address> GetAddressByIdAsync(Guid adrKey)
         {
-            var result = await context.Addresses.AsNoTracking().FirstAsync(x => x.AdrKey == adrKey);
+            var result = await context.Addresses.FirstAsync(x => x.AdrKey == adrKey);
             return result;
         }
     }

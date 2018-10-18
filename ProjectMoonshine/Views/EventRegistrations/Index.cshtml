@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrDropDate), "Index", new { sortOrder = "dropDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrDropDate), "Index", new { sortOrder = "dropDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvrAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
                 @Html.ActionLink(Html.DisplayNameFor(model => model.First().Event.EvtName), "Index", new { sortOrder = "eventName", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
@@ -30,25 +30,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvrDropDate)
-            </td>
-            <td>
-                <a asp-action="Details" asp-controller="Events" asp-route-id="@item.EvrEvtKey">@Html.DisplayFor(modelItem => item.Event.EvtName)</a>
-            </td>
-            <td>
-                <a asp-action="Details" asp-controller="People" asp-route-id="@item.EvrCusKey">@Html.DisplayFor(modelItem => item.Customer.Person.PerFirstMiddleLast)</a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EvrKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EvrKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EvrKey">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrDropDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvrAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event.EvtName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Person.PerFirstMiddleLast)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EvrKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EvrKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EvrKey">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
     <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="EventRegistrations" />

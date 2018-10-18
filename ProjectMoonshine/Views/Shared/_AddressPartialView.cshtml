@@ -1,127 +1,99 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Address
 
-<div class="col-lg-4 col-md-4 d-inline" style="padding:20px 5px 20px 5px;">
-    <div class="col-lg-6">
-        <h4> Primary Address</h4>
+<div class="col-lg-4 col-md-4" style="padding:20px 5px 20px 5px;">
+    <h4>Primary Address</h4>
+
+    @if (Model != null)
+    {
+    <div style="width:100%;float:left;">
+        <a style="float:right;" asp-action="Edit" asp-controller="Addresses" asp-route-id="@Model.AdrKey">Edit Address</a>
     </div>
-@if (Model != null && Model.AdrIsPrimary)
-{
-    if (Model.AdrIsHomeAddress)
-    {
-        <div class="col-lg-6">
-            <a style="float:right;" asp-action="Edit" asp-controller="Addresses" asp-route-id="@Model.AdrKey">Edit Address</a>
-            @if (Model.AdrIsMailingAddress)
-            {
-                <span class="glyphicon glyphicon-envelope"></span>
-            }
-            <span class="glyphicon glyphicon-home"></span>
-        </div>
     }
-    else if (Model.AdrIsWorkAddress)
+    @if (Model.AdrIsPrimary)
     {
-        <div class="col-lg-6">
-            <a style="float:right;" asp-action="Edit" asp-controller="Addresses" asp-route-id="@Model.AdrKey">Edit Address</a>
-            @if (Model.AdrIsMailingAddress)
-            {
-                <span class="glyphicon glyphicon-envelope"></span>
-            }
-            <span class="glyphicon glyphicon-briefcase"></span>
+        <div border-top:1px solid #eee">
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrAddress1)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrAddress1)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrAddress2)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrAddress2)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrAddress3)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrAddress3)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrCity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrCity)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrState)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrState)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrZip)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrZip)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-lg-4">
+            <dl class="dl-horizontal">
+                <dt >
+                    @Html.DisplayNameFor(model => model.AdrIsPrimary)
+                </dt>
+                <dd  >
+                    @Html.DisplayFor(model => model.AdrIsPrimary)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
+                </dt>
+                <dd >
+                    @Html.DisplayFor(model => model.AdrIsMailingAddress)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-lg-4">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AdrIsWorkAddress)
+                </dd>
+                <dt >
+                    @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
+                </dt>
+                <dd >
+                    @Html.DisplayFor(model => model.AdrIsHomeAddress)
+                </dd>
+            </dl>
         </div>
     }
     else
     {
-        <div class="col-lg-6" >
-            <a style="float:right" asp-action="Edit" asp-controller="Addresses" asp-route-id="@Model.AdrKey">Edit Address</a>
+    <div>
+        <div>
+            <p>No Primary Addresses on Record</p>
         </div>
+        <div>
+            <a asp-action="Create" asp-controller="Addresses" asp-route-id="@Model.AdrPerKey">Add Primary Address</a>
+        </div>
+    </div>
     }
-        <div class="col-lg-12">
-            <div class="col-lg-12">
-                <div class="col-lg-12">
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrAddress1)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrAddress1)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrAddress2)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrAddress2)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrAddress3)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrAddress3)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrCity)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrCity)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrState)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrState)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.AdrZip)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.AdrZip)
-                        </dd>
-                    </dl>
-                </div>
-                <div class="col-lg-12" style="border-top:1px solid #eee;">
-                    <div class="row col-lg-6">
-                        <dl class="dl-horizontal">
-                            <dt>
-                                @Html.DisplayNameFor(model => model.AdrIsPrimary)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.AdrIsPrimary)
-                            </dd>
-                            <dt>
-                                @Html.DisplayNameFor(model => model.AdrIsMailingAddress)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.AdrIsMailingAddress)
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="row col-lg-6">
-                        <dl class="dl-horizontal">
-                            <dt>
-                                @Html.DisplayNameFor(model => model.AdrIsWorkAddress)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.AdrIsWorkAddress)
-                            </dd>
-                            <dt>
-                                @Html.DisplayNameFor(model => model.AdrIsHomeAddress)
-                            </dt>
-                            <dd>
-                                @Html.DisplayFor(model => model.AdrIsHomeAddress)
-                            </dd>
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        </div>
-}
-else
-{
-        <div class="col-lg-12">
-            <div>
-                <p>No Primary Addresses on Record</p>
-            </div>
-            <div>
-                <a asp-action="Create" asp-controller="Addresses" asp-route-id="@Model.AdrPerKey">Add Primary Address</a>
-            </div>
-        </div>
-}
 </div>

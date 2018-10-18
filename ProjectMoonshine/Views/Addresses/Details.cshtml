@@ -6,28 +6,8 @@
 
 <h2>Details</h2>
 
-<div class="col-sm-12">
+<div>
     <h4>Address</h4>
-    if (Model.AdrIsHomeAddress)
-    {
-    <div class="col-sm-6" style="float:right">
-        @if (Model.AdrIsMailingAddress)
-        {
-            <span class="glyphicon glyphicon-envelope"></span>
-        }
-        <span class="glyphicon glyphicon-home"></span>
-    </div>
-    }
-    else if(Model.AdrIsWorkAddress)
-    {
-    <div class="col-sm-6" style="float:right">
-        @if (Model.AdrIsMailingAddress)
-        {
-            <span class="glyphicon glyphicon-envelope"></span>
-        }
-        <span class="glyphicon glyphicon-briefcase"></span>
-    </div>
-    }
     <hr />
     <dl class="dl-horizontal">
         <dt>

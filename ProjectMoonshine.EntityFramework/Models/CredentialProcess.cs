@@ -139,11 +139,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 CredentialProcess originalCredentialProcess = await context.CredentialProcesses
                     .Include(p => p.Credential)
-                    
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Cr2Key == Cr2Key);
 
                 //Credential originalCredential = context.Credentials
-                //    
+                //    .AsNoTracking()
                 //    .FirstOrDefault(c => c.Cr1Key == Cr2Cr1Key);
 
                 await CheckForStatusChange(context, isCurrentProcess, originalCredentialProcess);

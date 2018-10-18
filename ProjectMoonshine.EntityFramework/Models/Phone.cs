@@ -23,20 +23,20 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Extension")]
         public string PhoExtention { get; set; }
 
-        [DisplayName("Primary")]
+        [DisplayName("Is Primary Phone Number?")]
         [DefaultValue(false)]
         public bool PhoIsPrimary { get; set; }
 
 
-        [DisplayName("Home")]
+        [DisplayName("Is Home Phone?")]
         [DefaultValue(false)]
         public bool PhoIsHome { get; set; }
 
-        [DisplayName("Mobile")]
+        [DisplayName("Is Mobile Phone?")]
         [DefaultValue(false)]
         public bool PhoIsMobile { get; set; }
 
-        [DisplayName("Work")]
+        [DisplayName("Is Work Phone?")]
         [DefaultValue(false)]
         public bool PhoIsWork { get; set; }
 

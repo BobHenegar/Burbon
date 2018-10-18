@@ -2,28 +2,16 @@
 
 <div class="col-lg-4 col-md-4" style="padding:20px 15px 20px 15px">
     <h4>Primary Email</h4>
+    @if (Model != null)
+    {
+        <div style="width:100%;float:left;">
+            <a style="float:right;" asp-action="Edit" asp-controller="Emails" asp-route-id="@Model.EmlKey">Edit Email</a>
+        </div>
+    }
     <div border-top:1px solid #eee">
-        @if(Model != null && Model.EmlIsPrimary)
+        @if (Model.EmlIsPrimary)
         {
-            <div class="col-sm-6" style="float:left">
-                <a style="float:right;" asp-action="Edit" asp-controller="Emails" asp-route-id="@Model.EmlKey">Edit Email</a>
-            </div>
-            if (Model.EmlIsPersonalEmail)
-            {
-                <div class="col-sm-6" style="float:right">
-                    <span class="glyphicon glyphicon-home"></span>
-                </div>
-            }
-            else
-            {
-                <div class="col-sm-6" style="float:right">
-                    <span class="glyphicon glyphicon-briefcase"></span>
-                @if (Model.EmlIsPrimary)
-                {
-                    <span class="glyphicon glyphicon-envelope"></span>
-                }
-                </div>
-            }
+
             <div border-top:1px solid #eee">
                 <dl class="dl-horizontal">
                     <dt>

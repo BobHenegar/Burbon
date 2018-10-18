@@ -178,7 +178,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 {
                     Credential originalCredential = context.Credentials
                         .Include(c => c.CurrentCredentialProcess)
-                        
+                        .AsNoTracking()
                         .FirstOrDefault(c => c.Cr1Key == Cr1Key);
 
                     if (originalCredential == null || originalCredential.Cr1Ct6Key != Cr1Ct6Key) SetStatus(context, Cr1Ct6Key);

@@ -37,7 +37,7 @@ namespace ProjectMoonshine
             services.AddDbContextPool<ApplicationDbContext>(options =>
                 options
                     .UseSqlServer(config.GetConnectionString("Database"),
-                        b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
+                b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
@@ -115,7 +115,7 @@ namespace ProjectMoonshine
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id:guid?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
