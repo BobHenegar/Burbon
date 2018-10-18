@@ -21,6 +21,7 @@ namespace ProjectMoonshine.Managers
                     .Include(i => i.Customer)
                         .ThenInclude(i => i.Person)
                     .Include(i => i.Event)
+                    .AsNoTracking()
                     .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
