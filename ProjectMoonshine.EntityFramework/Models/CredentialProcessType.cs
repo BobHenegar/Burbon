@@ -89,7 +89,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct2CompletedCt6Key")]
         public virtual CredentialStatusType CompletedStatus { get; set; }
 
-        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+        public List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         [ForeignKey("Ct2NextCt2Key")]
         public virtual CredentialProcessType NextCredentialProcessType { get; set; }

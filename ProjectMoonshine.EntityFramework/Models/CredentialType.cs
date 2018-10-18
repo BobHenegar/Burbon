@@ -31,9 +31,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public Guid? Ct1OrgCstKey { get; set; }
 
         [DisplayName("Start Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Ct1StartDate { get; set; }
 
         [DisplayName("End Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Ct1EndDate { get; set; }
 
         [DisplayName("Initial Process Type")]
@@ -89,9 +91,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Ct1SetCredentialNumberSp { get; set; }
 
         [DisplayName("Add Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Ct1AddDate { get; set; }
 
         [DisplayName("Change Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Ct1ChangeDate { get; set; }
 
         [DisplayName("Add User")]
@@ -110,7 +114,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct1InitCt6Key")]
         public virtual CredentialStatusType InitStatusType { get; set; }
 
-        public virtual List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
+        public List<CredentialTypeXCredentialProcessType> CredentialTypeXCredentialProcessTypes { get; set; }
 
         [ForeignKey("Ct1InitCt2Key")]
         public virtual CredentialProcessType InitCredentialProcessType { get; set; }

@@ -47,10 +47,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         #region Navigation Properties
 
         [ForeignKey("Ct4Ct1Key")]
-        public virtual CredentialType CredentialType { get; set; }
+        public CredentialType CredentialType { get; set; }
 
         [ForeignKey("Ct4Ct2Key")]
-        public virtual CredentialProcessType CredentialProcessType { get; set; }
+        public CredentialProcessType CredentialProcessType { get; set; }
 
 
         #endregion Navigation Properties

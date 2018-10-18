@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialType>
+﻿@using System.Collections
+@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialType>
 
 @{
     ViewData["Title"] = "Index";
@@ -26,9 +27,6 @@
                 @Html.DisplayNameFor(model => model.Ct1EndDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ct1RenewCt2Key)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Ct1Order)
             </th>
             <th>
@@ -43,67 +41,54 @@
             <th>
                 @Html.DisplayNameFor(model => model.Ct1ChangeUser)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RenewStatusType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InitStatusType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InitCredentialProcessType)
-            </th>
-
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1Credential)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RenewCredentialProcessType.Ct2Process)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1Order)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1AddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1ChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1AddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct1ChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RenewStatusType.Ct6Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InitStatusType.Ct6Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InitCredentialProcessType.Ct2Process)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Ct1Key">Delete</a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1Credential)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1Order)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1AddDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1ChangeDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1AddUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct1ChangeUser)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Ct1Key">Delete</a>
+        </td>
+
+    </tr>
+    <tr>
+        <td colspan="13">
+            <div style="width: 100%; display: flex; flex-wrap: wrap; flex-direction: row;">
+                @await Html.PartialAsync("_CredentialProcessTypesPartialView", item.CredentialTypeXCredentialProcessTypes.Select(i => i.CredentialProcessType))
+            </div>
+
+        </td>
+    </tr>
 }
     </tbody>
 </table>

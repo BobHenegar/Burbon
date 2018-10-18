@@ -25,7 +25,12 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialProcessTypes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.CredentialProcessTypes.Include(c => c.CompletedStatus).Include(c => c.StartStatus).Include(c => c.SubmittedStatus);
+            var applicationDbContext = _context.CredentialProcessTypes
+                .Include(c => c.CompletedStatus)
+                .Include(c => c.StartStatus)
+                .Include(c => c.SubmittedStatus)
+                .Include(c => c.CredentialProcessTypeXCredentialRequirementTypes)
+                .ThenInclude(cx => cx.CredentialRequirementType);
             return View(await applicationDbContext.ToListAsync());
         }
 
