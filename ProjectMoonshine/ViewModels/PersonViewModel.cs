@@ -54,19 +54,19 @@ namespace ProjectMoonshine.ViewModels
         [StringLength(maximumLength: 500)]
         public string AdrAddress3 { get; set; }
 
-        [DisplayName("Mailing Address")]
+        [DisplayName("Mailing")]
         [DefaultValue(false)]
-        public bool AdrIsMailingAddress { get; set; }
+        public bool AdrIsMailing { get; set; }
 
 
-        [DisplayName("Work Address")]
+        [DisplayName("Work")]
         [DefaultValue(false)]
-        public bool AdrIsWorkAddress { get; set; }
+        public bool AdrIsWork { get; set; }
 
 
-        [DisplayName("Home Address")]
+        [DisplayName("Home")]
         [DefaultValue(false)]
-        public bool AdrIsHomeAddress { get; set; }
+        public bool AdrIsHome { get; set; }
 
         [Required]
         [DisplayName("Phone Number")]
@@ -95,12 +95,12 @@ namespace ProjectMoonshine.ViewModels
         [DisplayName("Email Address")]
         public string EmlAddress { get; set; }
 
-        [DisplayName("Work Email")]
+        [DisplayName("Work")]
         [DefaultValue(false)]
-        public bool EmlIsWorkEmail { get; set; }
+        public bool EmlIsWork { get; set; }
 
-        [DisplayName("Personal Email")]
+        [DisplayName("Personal")]
         [DefaultValue(false)]
-        public bool EmlIsPersonalEmail { get; set; }
+        public bool EmlIsPersonal { get; set; }
     }
 }

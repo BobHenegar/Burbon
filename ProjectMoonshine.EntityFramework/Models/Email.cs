@@ -20,15 +20,15 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Email Address")]
         public string EmlAddress { get; set; }
 
-        [DisplayName("Is Primary Email?")]
+        [DisplayName("Primary")]
         [DefaultValue(false)]
         public bool EmlIsPrimary { get; set; }
 
-        [DisplayName("Is Work Email?")]
+        [DisplayName("Work")]
         [DefaultValue(false)]
         public bool EmlIsWorkEmail { get; set; }
 
-        [DisplayName("Is Personal Email?")]
+        [DisplayName("Personal")]
         [DefaultValue(false)]
         public bool EmlIsPersonalEmail { get; set; }
 
