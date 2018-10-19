@@ -20,6 +20,27 @@
                 <span asp-validation-for="Cu6Code" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6LockedFlag" /> @Html.DisplayNameFor(model => model.Cu6LockedFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6MetFlag" /> @Html.DisplayNameFor(model => model.Cu6MetFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6TerminateProcessFlag" /> @Html.DisplayNameFor(model => model.Cu6TerminateProcessFlag)
+                    </label>
+                </div>
+            </div>
+            @*<div class="form-group">
                 <label asp-for="Cu6AddDate" class="control-label"></label>
                 <input asp-for="Cu6AddDate" class="form-control" />
                 <span asp-validation-for="Cu6AddDate" class="text-danger"></span>
@@ -38,7 +59,7 @@
                 <label asp-for="Cu6ChangeUser" class="control-label"></label>
                 <input asp-for="Cu6ChangeUser" class="form-control" />
                 <span asp-validation-for="Cu6ChangeUser" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

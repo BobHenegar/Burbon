@@ -124,9 +124,10 @@ namespace ProjectMoonshine.Controllers
                     requirementToUpdate.Cr3DueDate = credentialRequirement.Cr3DueDate;
                     requirementToUpdate.Cr3MetDate = credentialRequirement.Cr3MetDate;
                     requirementToUpdate.Cr3Ct3Key = credentialRequirement.Cr3Ct3Key;
-                    
-                    _context.Update(requirementToUpdate);
-                    await _context.SaveChangesAsync();
+
+                    await requirementToUpdate.UpdateAsync(_context);
+                    //_context.Update(requirementToUpdate);
+                    //await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
