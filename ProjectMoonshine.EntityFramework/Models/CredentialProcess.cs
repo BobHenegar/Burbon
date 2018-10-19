@@ -197,7 +197,8 @@ namespace ProjectMoonshine.EntityFramework.Models
                  && Cr2CompletionDate.IsDateTimeOffsetValid())
                 await EvaluateProcessCompleted(context, isCurrentProcess, originalCredentialProcess, originalCredential);
 
-            else if (!Cr2CompletionDate.IsDateTimeOffsetValid())
+            
+            else if (!Cr2CompletionDate.IsDateTimeOffsetValid() && !Cr2TerminationDate.IsDateTimeOffsetValid())
             {
                 await EvaluateRequirements(context, isCurrentProcess);
 
@@ -310,7 +311,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CredentialRequirements == null)
+                //if (CredentialRequirements == null)
                 CredentialRequirements = await context.CredentialRequirements
                     .Include(r => r.Status)
                     .ThenInclude(s => s.State)
@@ -334,10 +335,15 @@ namespace ProjectMoonshine.EntityFramework.Models
                 }
                 if (allRequirementsMet) Cr2CompletionDate = DateTimeOffset.Now;
 
-                else if (!CommonUtils.IsDateTimeOffsetValid(Cr2TerminationDate)
-                         && !CommonUtils.IsDateTimeOffsetValid(Cr2CompletionDate))
+                else if (!Cr2TerminationDate.IsDateTimeOffsetValid()
+                         && !Cr2CompletionDate.IsDateTimeOffsetValid())
                 {
-                    if (CredentialRequirements.Any(r => r.Status.State.Cu6TerminateProcessFlag))
+                    CredentialRequirements = await context.CredentialRequirements
+                        .Include(r => r.Status)
+                        .ThenInclude(s => s.State)
+                        .Where(r => r.Cr3Cr2Key == Cr2Key)
+                        .ToListAsync();
+                    if (CredentialRequirements.Any(r => r.Status.State != null &&  r.Status.State.Cu6TerminateProcessFlag))
                         Cr2TerminationDate = DateTimeOffset.Now;
                 }
 
@@ -440,31 +446,43 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CredentialRequirements == null)
-                CredentialRequirements = await CredentialingUtils.GetCredentialRequirementsForProcessAsync(context, Cr2Key, true);
+                //if (CredentialRequirements == null)
+                CredentialRequirements =
+                    await CredentialingUtils.GetCredentialRequirementsForProcessAsync(context, Cr2Key, true);
 
                 if (CredentialRequirements == null || CredentialRequirements.Count <= 0) return true;
 
                 if (!await GetCredentialProcessTypeAsync(context)) return false;
 
-                foreach (CredentialRequirement credentialRequirement in CredentialRequirements)
+                CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes = await context
+                    .CredentialProcessTypeXCredentialRequirementTypes
+                    .Where(pxr => pxr.Ct5Ct2Key == Cr2Ct2Key)
+                    .ToListAsync();
+
+                if (CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes != null &&
+                    CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes.Count > 0)
                 {
-                            
-                    if (!CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes
-                        .Where(pxr => pxr.Ct5ReviewPrereqFlag)
-                        .Select(pxr => pxr.Ct5Ct3Key)
-                        .Contains(credentialRequirement.CredentialRequirementType.Ct3Key)) continue;
-
-                    if (!await credentialRequirement.SetUnderReviewStatus(context)) return false;
-
-                    if (credentialRequirement.DependentRequirements == null ||
-                        credentialRequirement.DependentRequirements.Count <= 0) continue;
-
-                    foreach (CredentialRequirement credentialRequirementDependentRequirement in credentialRequirement.DependentRequirements)
+                    foreach (CredentialRequirement credentialRequirement in CredentialRequirements)
                     {
-                        if (! await credentialRequirementDependentRequirement.SetUnderReviewStatus(context)) return false;
+                        if (!CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes
+                            .Where(pxr => pxr.Ct5ReviewPrereqFlag)
+                            .Select(pxr => pxr.Ct5Ct3Key)
+                            .Contains(credentialRequirement.CredentialRequirementType.Ct3Key)) continue;
+
+                        if (!await credentialRequirement.SetUnderReviewStatus(context)) return false;
+
+                        if (credentialRequirement.DependentRequirements == null ||
+                            credentialRequirement.DependentRequirements.Count <= 0) continue;
+
+                        foreach (CredentialRequirement credentialRequirementDependentRequirement in
+                            credentialRequirement.DependentRequirements)
+                        {
+                            if (!await credentialRequirementDependentRequirement.SetUnderReviewStatus(context))
+                                return false;
+                        }
                     }
                 }
+
                 return true;
             }
             catch (Exception e)

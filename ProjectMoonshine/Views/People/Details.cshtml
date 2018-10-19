@@ -9,89 +9,101 @@
 <a asp-action="Index">Back to List</a>
 <h4>Person</h4>
 
-<div class ="col-lg-10 col-md-10 col-sm-10" style="border-top: 1px solid #eee">
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PerFirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerFirstName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerMiddleName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerMiddleName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerLastName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerLastName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerDateOfBirth)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerDateOfBirth)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PerGender)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PerGender)
-        </dd>
-
-    </dl>
-</div>
-<div class="col-lg-2 col-md-2 col-sm-2">
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.PerKey" class="btn btn-primary btn-block">Edit Person</a>
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#emailModal">
-            Send Email
-        </button>
-    </div>
-</div>
-<div class="col-lg-12 col-md-12 col-xs-12 row">
-    @await Html.PartialAsync("_AddressPartialView", Model.Addresses.OrderBy(x => x.AdrIsPrimary).FirstOrDefault())
-    @await Html.PartialAsync("_PhonePartialView", Model.Phones.OrderBy(x => x.PhoIsPrimary).FirstOrDefault())
-    @await Html.PartialAsync("_EmailPartialView", Model.Emails.OrderBy(x => x.EmlIsPrimary).FirstOrDefault())
-    @await Html.PartialAsync("_CredentialPartialView", Model.Customer.Credentials.OrderByDescending(x => x.Cr1AddDate).ToList())
-    @await Html.PartialAsync("_ExamScorePartialView", Model.Customer.ExamScores.OrderByDescending(x => x.ExsAddDate).Take(5).ToList())
-    @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
-</div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12" style="border-top: 1px solid #eee">
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.PerFirstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PerFirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PerMiddleName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PerMiddleName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PerLastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PerLastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PerDateOfBirth)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PerDateOfBirth)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PerGender)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PerGender)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-8 col-sm-8 col-lg-8">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <div class="col-md-auto col-xl-auto col-xs-auto float-right">
+                    <a asp-action="Edit" asp-route-id="@Model.PerKey" class="btn btn-default btn-xs text-center">
+                        <span class="glyphicon glyphicon-user" style="font-size:50px"></span>
+                        <br />Edit Person
+                    </a>
+                    <button data-toggle="modal" data-target="#emailModal" class="btn btn-default btn-xs text-center">
+                        <span class="glyphicon glyphicon-envelope" style="font-size:30px"></span>
+                        <br />Send
+                        <br />Communication
+                    </button>
+                    <a asp-action="People" asp-controller="FileUploads" asp-route-id="@Model.PerKey" class="btn btn-default btn-xs text-center">
+                        <span class="glyphicon glyphicon-file" style="font-size:50px"></span>
+                        <br />View Files
+                    </a>
+                </div>
             </div>
-            <div class="modal-body">
-                Select Template
-                <form asp-action="Email">
-                    <div class="form-group">
-                        <input type="hidden" name="perKey" value="@Html.DisplayFor(modelItem => modelItem.PerKey)" />
-                        @Html.DropDownList("ComTemplates")
-                    </div>
-                    <button id="eml" type="submit" class="btn btn-primary btn-block" value="Email">Send mail</button>
-                </form>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            @await Html.PartialAsync("_AddressPartialView", Model.Addresses.OrderBy(x => x.AdrIsPrimary).FirstOrDefault())
+            @await Html.PartialAsync("_PhonePartialView", Model.Phones.OrderBy(x => x.PhoIsPrimary).FirstOrDefault())
+            @await Html.PartialAsync("_EmailPartialView", Model.Emails.OrderBy(x => x.EmlIsPrimary).FirstOrDefault())
+            @await Html.PartialAsync("_CredentialPartialView", Model.Customer.Credentials.OrderByDescending(x => x.Cr1AddDate).ToList())
+            @await Html.PartialAsync("_ExamScorePartialView", Model.Customer.ExamScores.OrderByDescending(x => x.ExsAddDate).Take(5).ToList())
+            @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select Template
+                    <form asp-action="Email">
+                        <div class="form-group">
+                            <input type="hidden" name="perKey" value="@Html.DisplayFor(modelItem => modelItem.PerKey)" />
+                            @Html.DropDownList("ComTemplates")
+                        </div>
+                        <button id="eml" type="submit" class="btn btn-primary btn-block" value="Email">Send mail</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts{
-<script>
-    $('#myModal').on('shown.bs.modal',
-        function() {
-            $('#myInput').trigger('focus')
-        })
-</script>
-}
+    @section Scripts{
+    <script>
+        $('#myModal').on('shown.bs.modal',
+            function () {
+                $('#myInput').trigger('focus')
+            })
+    </script>
+    }

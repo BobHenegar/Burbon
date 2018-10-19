@@ -10,34 +10,23 @@
     <link rel="stylesheet" href="~/lib/boostrap-select/css/bootstrap-select.min.css" />
 </head>
 <body>
-
-    <div id="container">
-        <div id="header">
-            <div class="col-lg-12">
-                <partial name="_Navbar" />
-                <partial name="_CookieConsentPartial" />
+    <header>
+        <partial name="_Navbar" />
+        <partial name="_CookieConsentPartial" />
+    </header>
+    <main role="main">
+        <div class="container">
+            <div class="row">
+                @RenderBody()
             </div>
         </div>
-        <div id="body">
-            <div class="body-content">
-                <div class="container">
-                    <div class="col-lg-12">
-                        <div class="col-lg-12">
-                            @RenderBody()
-                        </div>
-                    </div>
-                </div>
+        <footer class="page-footer font-small navbar-fixed-bottom footer">
+            <div class="footer-copyright text-center py-3 black">
+                &copy; 2018 - Agilutions
+                <img src="~/images/Swoosh_nobackground.png" style="height: 25px;" />
             </div>
-        </div>
-        <div id="footer">
-            <div class="footer">
-                <div style="height:25px;width:200px;">
-                    <p style="float:left;">&copy; 2018 - Agilutions</p>
-                    <img src="~/images/Swoosh_nobackground.png" style="height: 25px;float:right;" />
-                </div>
-            </div>
-        </div>
-    </div>
+        </footer>
+    </main>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>

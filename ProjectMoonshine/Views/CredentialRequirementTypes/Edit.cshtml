@@ -54,6 +54,13 @@
                 <span asp-validation-for="Ct3LongDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Ct3SubmitProcessFlag" /> @Html.DisplayNameFor(model => model.Ct3SubmitProcessFlag)
+                    </label>
+                </div>
+            </div>
+            @*<div class="form-group">
                 <label asp-for="Ct3AddDate" class="control-label"></label>
                 <input asp-for="Ct3AddDate" class="form-control" />
                 <span asp-validation-for="Ct3AddDate" class="text-danger"></span>
@@ -72,7 +79,7 @@
                 <label asp-for="Ct3ChangeUser" class="control-label"></label>
                 <input asp-for="Ct3ChangeUser" class="form-control" />
                 <span asp-validation-for="Ct3ChangeUser" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

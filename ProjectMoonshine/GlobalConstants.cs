@@ -15,6 +15,11 @@ namespace ProjectMoonshine
         public static List<string> StateList = new List<string>() { "Please Select", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN",
             "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA",
             "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY" };
+
+        public static List<string> AcceptedFileTypes = new List<string>()
+        {
+            "docx", "txt", "rtf", "doc"
+        };
         public static List<string> ProcessTypeList = new List<string>() { "Please Select", "Application", "Renewal", "Reinstatement" };
     }
 }

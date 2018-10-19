@@ -396,12 +396,15 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 // refresh status
 
-                if (await EvaluateMetFromMetStatusAsync(context)) return true;
+                //if (await EvaluateMetFromMetStatusAsync(context)) return true;
              
                 if (!originalCredentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
                 {
-                    if (!await EvalAsync(context)) return false;
-
+                    if (!Cr3MetDate.IsDateTimeOffsetValid())
+                    {
+                        if (!await EvalAsync(context)) return false;
+                    }
+                    
                     if (Cr3MetDate.IsDateTimeOffsetValid())
                     {
                         if (originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
@@ -409,7 +412,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                             if (!await GetRequirementTypeAsync(context)) return false;
                             if (Cr3Ct6Key != CredentialRequirementType.Ct3MetCt6Key &&
                                 CredentialRequirementType.Ct3MetCt6Key.IsGuidValid())
-                                if (await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key))
+                                if (!await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key))
                                     return false;
 
                             if (CredentialRequirementType.Ct3MetCr2Ct6Key.IsGuidValid())
@@ -700,6 +703,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                if (Cr3MetDate.IsDateTimeOffsetValid()) return true;
                 if (!await GetRequirementTypeAsync(context)) return false;
                 if (CredentialRequirementType.Ct3SubmitCt6Key.IsGuidValid() &&
                     Cr3Ct6Key != CredentialRequirementType.Ct3SubmitCt6Key)
