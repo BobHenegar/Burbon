@@ -286,6 +286,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("Cr2StartDate");
 
+                    b.Property<DateTimeOffset?>("Cr2SubmitDate");
+
                     b.Property<DateTimeOffset?>("Cr2TerminationDate");
 
                     b.HasKey("Cr2Key");
@@ -428,6 +430,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Cr3Cr2Key");
 
+                    b.Property<Guid?>("Cr3Cr3Key");
+
                     b.Property<Guid>("Cr3Ct3Key");
 
                     b.Property<Guid?>("Cr3Ct6Key");
@@ -443,6 +447,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasKey("Cr3Key");
 
                     b.HasIndex("Cr3Cr2Key");
+
+                    b.HasIndex("Cr3Cr3Key");
 
                     b.HasIndex("Cr3Ct3Key");
 
@@ -520,6 +526,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Ct3LongDescription");
 
+                    b.Property<Guid?>("Ct3MetCr2Ct6Key");
+
                     b.Property<Guid?>("Ct3MetCt6Key");
 
                     b.Property<string>("Ct3Requirement");
@@ -530,6 +538,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Ct3SubmitCt6Key");
 
+                    b.Property<bool>("Ct3SubmitProcessFlag");
+
                     b.Property<bool>("Ct3SyncToProcessDatesFlag");
 
                     b.HasKey("Ct3Key");
@@ -539,6 +549,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ct3Ct8Key");
 
                     b.HasIndex("Ct3DependentCt6Key");
+
+                    b.HasIndex("Ct3MetCr2Ct6Key");
 
                     b.HasIndex("Ct3MetCt6Key");
 
@@ -991,6 +1003,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("Cu6LockedFlag");
 
+                    b.Property<bool>("Cu6MetFlag");
+
                     b.Property<bool>("Cu6TerminateProcessFlag");
 
                     b.HasKey("Cu6Key");
@@ -1120,6 +1134,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Cr3Cr2Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", "ParentRequirement")
+                        .WithMany("DependentRequirements")
+                        .HasForeignKey("Cr3Cr3Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", "CredentialRequirementType")
                         .WithMany()
                         .HasForeignKey("Cr3Ct3Key")
@@ -1146,6 +1165,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "DependentStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3DependentCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentProcessMetStatusType")
+                        .WithMany()
+                        .HasForeignKey("Ct3MetCr2Ct6Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "MetStatusType")

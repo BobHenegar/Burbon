@@ -176,5 +176,22 @@ namespace ProjectMoonshine.EntityFramework.Utils
         {
             return await context.CredentialProcessTypes.FindAsync(ct2Key);
         }
+
+        public static async Task<List<CredentialRequirement>> GetCredentialRequirementsForProcessAsync(ApplicationDbContext context, Guid cr2Key
+            , bool includeDependentRequirements = false)
+        {
+            if (includeDependentRequirements)
+            {
+                return await context.CredentialRequirements
+                    .Include(r => r.DependentRequirements)
+                    .Include(r => r.CredentialRequirementType)
+                    .Where(r => r.Cr3Cr2Key == cr2Key)
+                    .ToListAsync();
+            }
+            return await context.CredentialRequirements
+                .Include(r => r.CredentialRequirementType)
+                .Where(r => r.Cr3Cr2Key == cr2Key)
+                .ToListAsync();
+        }
     }
 }

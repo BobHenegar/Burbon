@@ -127,6 +127,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public CredentialProcessType CredentialProcessType { get; set; }
 
 
+        
         public virtual async Task<bool> UpdateAsync(ApplicationDbContext context)
         {
             try
@@ -352,7 +353,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             //throw new NotImplementedException();
         }
 
-        public async Task<bool> Add(ApplicationDbContext context)
+        public async Task<bool> AddAsync(ApplicationDbContext context)
         {
             try
             {
@@ -405,9 +406,9 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 List<Guid> requirementTypesToAdd = await context.CredentialProcessTypeXCredentialRequirementTypes
                     .Where(cxp => cxp.Ct5Ct2Key == Cr2Ct2Key
-                                  && (!CommonUtils.IsDateTimeOffsetValid(cxp.Ct5StartDate)
+                                  && (!cxp.Ct5StartDate.IsDateTimeOffsetValid()
                                       || cxp.Ct5StartDate <= DateTimeOffset.Now)
-                                  && (!CommonUtils.IsDateTimeOffsetValid(cxp.Ct5EndDate)
+                                  && (!cxp.Ct5EndDate.IsDateTimeOffsetValid()
                                       || cxp.Ct5EndDate >= DateTimeOffset.Now))
                     .Select(cxp => cxp.Ct5Ct3Key)
                     .ToListAsync();
@@ -434,6 +435,46 @@ namespace ProjectMoonshine.EntityFramework.Models
                 return false;
             }
         }
+
+        private async Task<bool> SetRequirementsUnderReviewAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (CredentialRequirements == null)
+                CredentialRequirements = await CredentialingUtils.GetCredentialRequirementsForProcessAsync(context, Cr2Key, true);
+
+                if (CredentialRequirements == null || CredentialRequirements.Count <= 0) return true;
+
+                if (!await GetCredentialProcessTypeAsync(context)) return false;
+
+                foreach (CredentialRequirement credentialRequirement in CredentialRequirements)
+                {
+                            
+                    if (!CredentialProcessType.CredentialProcessTypeXCredentialRequirementTypes
+                        .Where(pxr => pxr.Ct5ReviewPrereqFlag)
+                        .Select(pxr => pxr.Ct5Ct3Key)
+                        .Contains(credentialRequirement.CredentialRequirementType.Ct3Key)) continue;
+
+                    if (!await credentialRequirement.SetUnderReviewStatus(context)) return false;
+
+                    if (credentialRequirement.DependentRequirements == null ||
+                        credentialRequirement.DependentRequirements.Count <= 0) continue;
+
+                    foreach (CredentialRequirement credentialRequirementDependentRequirement in credentialRequirement.DependentRequirements)
+                    {
+                        if (! await credentialRequirementDependentRequirement.SetUnderReviewStatus(context)) return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+                return false;
+            }
+        }
+
 
 
         private async Task SetProcessDueDate(DbContext context)
@@ -520,12 +561,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!Cr2SubmitDate.IsDateTimeOffsetValid()) Cr2SubmitDate = DateTimeOffset.Now;
+                if (!Cr2SubmitDate.IsDateTimeOffsetValid())
+                    Cr2SubmitDate = DateTimeOffset.Now;
 
 
                 if (await GetCredentialProcessTypeAsync(context) && CredentialProcessType.Ct2SubmittedCt6Key.IsGuidValid())
                     await SetStatusAsync(context, CredentialProcessType.Ct2SubmittedCt6Key, true);
 
+                if (!await SetRequirementsUnderReviewAsync(context)) return false;
                 context.Update(this);
                 return true;
             }

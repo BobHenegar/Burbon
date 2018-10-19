@@ -141,7 +141,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                             Cr2Cr1Key = Cr1Key, Cr2Ct2Key = Guid.Parse(Cr1Ct2Key.ToString()), Cr2Key = Guid.NewGuid(),
                         };
 
-                        if (await credentialProcess.Add(context))
+                        if (await credentialProcess.AddAsync(context))
                         {
                             CurrentCredentialProcess = credentialProcess;
 
@@ -236,7 +236,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                                     };
 
 
-                                    if ((await nextCredentialProcess.Add(context)))
+                                    if ((await nextCredentialProcess.AddAsync(context)))
                                     {
                                         CurrentCredentialProcess = nextCredentialProcess;
 

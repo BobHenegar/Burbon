@@ -162,6 +162,11 @@ namespace ProjectMoonshine.EntityFramework
                 .Property(pt => pt.Ct2DueDateRounding)
                 .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateRounding>());
 
+            modelBuilder.Entity<CredentialRequirement>()
+                .HasOne(r => r.ParentRequirement)
+                .WithMany(r => r.DependentRequirements)
+                .HasForeignKey(r => r.Cr3Cr3Key);
+
         }
 
         public void TestOnModelCreating()

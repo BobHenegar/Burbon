@@ -26,6 +26,9 @@
     <Compile Remove="Migrations\20181015034002_latest process updates.cs" />
     <Compile Remove="Migrations\20181017143202_updated process competion date.cs" />
     <Compile Remove="Migrations\20181018170759_updated requirement type model.cs" />
+    <Compile Remove="Migrations\20181019000806_some added stuff.cs" />
+    <Compile Remove="Migrations\20181019001007_added parent dependent requirement relationships, and updates to other credentialing related models.cs" />
+    <Compile Remove="Migrations\20181019001455_added parent dependent requirement relationships, and updates to other credentialing related models.cs" />
   </ItemGroup>
 
   <ItemGroup>

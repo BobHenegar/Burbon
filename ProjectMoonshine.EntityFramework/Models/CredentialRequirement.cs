@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -61,7 +62,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Cr3Owner { get; set; }
 
-        //public Guid Cr3Cr3Key { get; set; }
+        [DisplayName("Parent Requirement")]
+        public Guid? Cr3Cr3Key { get; set; }
 
         //public Guid Cr3ChoiceCt3Key { get; set; }
 
@@ -105,7 +107,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual CredentialRequirementType CredentialRequirementType { get; set; }
 
         [ForeignKey("Cr3Ct6Key")]
-        public CredentialStatusType Status { get; set; }
+        public virtual CredentialStatusType Status { get; set; }
+
+
+        [ForeignKey("Cr3Cr3Key")]
+        public virtual CredentialRequirement ParentRequirement { get; set; }
+
+        
+        public virtual List<CredentialRequirement> DependentRequirements { get; set; }
 
         public virtual async Task<bool> Add(ApplicationDbContext context)
         {
@@ -375,8 +384,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         /// <param name="context"></param>
         /// <param name="originalCredentialRequirement"></param>
         /// <returns>Returns true if evaluation succeeds, false on error.</returns>
-        private async Task<bool> EvaluateRequirementAsync(ApplicationDbContext context,
-            CredentialRequirement originalCredentialRequirement)
+        private async Task<bool> EvaluateRequirementAsync(ApplicationDbContext context, CredentialRequirement originalCredentialRequirement)
         {
             try
             {
@@ -399,25 +407,55 @@ namespace ProjectMoonshine.EntityFramework.Models
                         if (originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
                         {
                             if (!await GetRequirementTypeAsync(context)) return false;
-                            if (Cr3Ct6Key != CredentialRequirementType.Ct3MetCt6Key && CredentialRequirementType.Ct3MetCt6Key.IsGuidValid())
-                                if (await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key)) return false;
+                            if (Cr3Ct6Key != CredentialRequirementType.Ct3MetCt6Key &&
+                                CredentialRequirementType.Ct3MetCt6Key.IsGuidValid())
+                                if (await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key))
+                                    return false;
 
                             if (CredentialRequirementType.Ct3MetCr2Ct6Key.IsGuidValid())
                                 await SetProcessStatus(context, CredentialRequirementType.Ct3MetCr2Ct6Key, true);
+                        }
 
-                            if (CredentialRequirementType.Ct3SubmitProcessFlag)
+                        if (CredentialRequirementType.Ct3SubmitProcessFlag)
                             {
                                 if (await GetCredentialProcessAsync(context))
                                 {
-                                    await CredentialProcess.SubmitAsync(context);
+                                    if (!await CredentialProcess.SubmitAsync(context)) return false;
 
                                 }
                             }
+
+                            if (Cr3Cr3Key.IsGuidValid())
+                            {
+                                if (ParentRequirement == null)
+                                    ParentRequirement = await context.CredentialRequirements.FindAsync(Cr3Cr3Key);
+
+                                if (ParentRequirement != null && !ParentRequirement.Cr3MetDate.IsDateTimeOffsetValid())
+                                    await ParentRequirement.UpdateAsync(context);
+                            }
+
+                            if (!await GetCredentialProcessAsync(context)) return false;
+                            if (!await CredentialProcess.UpdateAsync(context)) return false;
+
                         }
+
                     }
+                else
+                {
+                    context.Update(this);
 
-
+                    // TODO: update requirement data
                 }
+
+
+                if (Cr3Ct6Key.IsGuidValid() && originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key)
+                {
+                    // TODO: corespondence logic
+                }
+                
+                // update dependent requirements
+
+                
 
                 return true;
             }
@@ -654,6 +692,29 @@ namespace ProjectMoonshine.EntityFramework.Models
                 {
                     Debugger.Break();
                 }
+                return false;
+            }
+        }
+
+        public async Task<bool> SetUnderReviewStatus(ApplicationDbContext context)
+        {
+            try
+            {
+                if (!await GetRequirementTypeAsync(context)) return false;
+                if (CredentialRequirementType.Ct3SubmitCt6Key.IsGuidValid() &&
+                    Cr3Ct6Key != CredentialRequirementType.Ct3SubmitCt6Key)
+                    Cr3Ct6Key = CredentialRequirementType.Ct3SubmitCt6Key;
+                context.Update(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
                 return false;
             }
         }
