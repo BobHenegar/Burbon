@@ -62,7 +62,7 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Create()
         {
             CredentialTypeViewModel credentialTypeViewModel = new CredentialTypeViewModel(_context);
-
+            ViewBag.Action = "create";
             return View(credentialTypeViewModel);
         }
 
@@ -73,6 +73,8 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind(ModelBindingConstants.CredentialType)] CredentialType credentialType)
         {
+            ViewBag.Action = "create";
+
             if (ModelState.IsValid)
             {
                 credentialType.Ct1Key = Guid.NewGuid();
@@ -88,6 +90,8 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialTypes/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+
+            ViewBag.Action = "edit";
             if (id == null)
             {
                 return NotFound();
@@ -112,6 +116,8 @@ namespace ProjectMoonshine.Controllers
             [Bind(ModelBindingConstants.CredentialType)]
             CredentialType credentialType)
         {
+            ViewBag.Action = "edit";
+
             if (id != credentialType.Ct1Key)
             {
                 return NotFound();

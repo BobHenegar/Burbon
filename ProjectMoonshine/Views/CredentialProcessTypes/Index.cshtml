@@ -12,40 +12,19 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2Process)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2AddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2ChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2AddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct2ChangeUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SubmittedStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompletedStatus)
-            </th>
-
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ct2Process)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ct2Description)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.Ct2ProcessType)</th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Ct2Process)
@@ -53,34 +32,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Ct2Description)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct2AddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct2ChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct2AddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ct2ChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartStatus.Ct6Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubmittedStatus.Ct6Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletedStatus.Ct6Code)
-            </td>
-
+            <td>@Html.DisplayFor(model => item.Ct2ProcessType)</td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Ct2Key">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Ct2Key">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Ct2Key">Delete</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

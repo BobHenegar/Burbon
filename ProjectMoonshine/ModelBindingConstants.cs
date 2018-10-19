@@ -12,7 +12,7 @@ namespace ProjectMoonshine
         public const string CredentialProcessEdit = "Cr2Key,Cr2Ct6Key,Cr2TerminationDate,Cr2CompletionDate,Cr2DueDate,Cr2StartDate,";
 
         public const string CredentialProcessType =
-            "Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2NextCt2Key,Ct2CalculateDueDateSp,Ct2CalculateStartDateSp,Ct2DueDateNumber,Ct2DueDateRounding,Ct2DueDateUnit,Ct2ProcessType,Ct2CompletedCr1Ct6Key";
+            "Ct2Key,Ct2Process,Ct2Description,Ct2StartCt6Key,Ct2CompletedCt6Key,Ct2SubmittedCt6Key,Ct2ProcessType,Ct2NextCt2Key,Ct2CalculateDueDateSp,Ct2CalculateStartDateSp,Ct2DueDateNumber,Ct2DueDateRounding,Ct2DueDateUnit,Ct2ProcessType,Ct2CompletedCr1Ct6Key";
 
         public const string CredentialTypeXCredentialProcessType = "Ct4Key,Ct4Key,Ct4Ct1Key,Ct4Ct2Key,Ct4Order,Ct4EndDate,Ct4StartDate";
 
