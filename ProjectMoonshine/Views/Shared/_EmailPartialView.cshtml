@@ -2,28 +2,22 @@
 
 <div class="col-lg-4 col-md-4" style="padding:20px 15px 20px 15px">
     <h4>Primary Email</h4>
-    <div border-top:1px solid #eee">
-        @if(Model != null && Model.EmlIsPrimary)
+        @if (Model != null && Model.EmlIsPrimary)
         {
-            <div class="col-sm-6" style="float:left">
-                <a style="float:right;" asp-action="Edit" asp-controller="Emails" asp-route-id="@Model.EmlKey">Edit Email</a>
-            </div>
             if (Model.EmlIsPersonalEmail)
             {
-                <div class="col-sm-6" style="float:right">
-                    <span class="glyphicon glyphicon-home"></span>
-                </div>
+                <span class="glyphicon glyphicon-home" style="float:right"></span>
             }
             else
             {
-                <div class="col-sm-6" style="float:right">
-                    <span class="glyphicon glyphicon-briefcase"></span>
-                @if (Model.EmlIsPrimary)
-                {
-                    <span class="glyphicon glyphicon-envelope"></span>
-                }
-                </div>
+                <span class="glyphicon glyphicon-briefcase" style="float:right"></span>
             }
+            <div>
+                <a asp-action="Create" asp-controller="Emails" asp-route-id="@ViewBag.PerKey">Add Email</a>
+            </div>
+            <div>
+                <a asp-action="Edit" asp-controller="Emails" asp-route-id="@Model.EmlKey">Edit Email</a>
+            </div>
             <div border-top:1px solid #eee">
                 <dl class="dl-horizontal">
                     <dt>
@@ -56,13 +50,10 @@
         else
         {
             <div>
-                <div>
-                    <p>No Primary Email on Record</p>
-                </div>
-                <div>
-                    <a asp-action="Create" asp-controller="Emails" asp-route-id="@Model.EmlPerKey">Add Primary Address</a>
-                </div>
+                <p>No Primary Email on Record</p>
+            </div>
+            <div>
+                <a asp-action="Create" asp-controller="Emails" asp-route-id="@ViewBag.PerKey">Add Email</a>
             </div>
         }
     </div>
-</div>

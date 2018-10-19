@@ -4,31 +4,22 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h4>File Uploads</h4>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-route-id="@ViewBag.PerKey">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FupFileData)
+                @Html.DisplayNameFor(model => model.FupFileName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FupFileType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FupAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FupChangeUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FupAddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FupChangeDate)
+                @Html.DisplayNameFor(model => model.FupFileDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Person)
@@ -37,35 +28,26 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupFileData)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupFileType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FupChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Person.PerFirstName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.FupKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.FupKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.FupKey">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="~/FileUploads/View/@item.FupKey" target=_blank>@Html.DisplayFor(model => item.FupFileName)</a>
+                </td>
+                <td>
+                    @Html.ValueFor(model => item.FupFileType)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.FupFileDescription)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="People" asp-route-id="@item.FupPerKey">@Html.DisplayFor(model => item.Person.PerFirstMiddleLast)</a>
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-controller="FileUploads" asp-route-id="@item.FupKey">Delete @Html.DisplayFor(model => item.FupFileName)</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<a asp-action="Details" asp-controller="People" asp-route-id="@ViewBag.PerKey">Back To Profile</a>

@@ -1,39 +1,51 @@
-﻿@model ProjectMoonshine.EntityFramework.Models.FileUpload
+﻿@model ProjectMoonshine.ViewModels.FileUploadViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
-
+<style>
+    #dropZone {
+        background: gray;
+        border: black dashed 3px;
+        width: 200px;
+        padding: 50px;
+        text-align: center;
+        color: white;
+    }
+</style>
 <h2>Create</h2>
 
 <h4>FileUpload</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <form method="post" enctype="multipart/form-data" asp-controller="FileUploads" asp-action="Create">
+        <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FupPerKey" class="control-label"></label>
-                <select asp-for="FupPerKey" class ="form-control" asp-items="ViewBag.FupPerKey"></select>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="FupFileDescription" class="control-label"></label>
+                    <textarea asp-for="FupFileDescription" class="form-control" style="width:45%;height:150px;text-align:left;"></textarea>
+                    <span asp-validation-for="FupFileDescription" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FupFileData" class="control-label"></label>
-                <input asp-for="FupFileData" class="form-control" />
-                <span asp-validation-for="FupFileData" class="text-danger"></span>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <input type="file" name="file" />
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="FupFileType" class="control-label"></label>
-                <input asp-for="FupFileType" class="form-control" />
-                <span asp-validation-for="FupFileType" class="text-danger"></span>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
+    </form>
+    <div>
+        <a asp-action="People" asp-controller="FileUploads" asp-route-id="@ViewBag.PerKey">Back to Profile</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts{
+}

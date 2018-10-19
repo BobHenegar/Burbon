@@ -896,6 +896,42 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("ExamScores");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.FileUpload", b =>
+                {
+                    b.Property<Guid>("FupKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("FupAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("FupAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("FupChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FupChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("FupFileData");
+
+                    b.Property<string>("FupFileDescription");
+
+                    b.Property<string>("FupFileName");
+
+                    b.Property<string>("FupFileType");
+
+                    b.Property<Guid>("FupPerKey");
+
+                    b.HasKey("FupKey");
+
+                    b.HasIndex("FupPerKey");
+
+                    b.ToTable("FileUploads");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
                 {
                     b.Property<Guid>("PerKey")
@@ -1281,6 +1317,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Exam", "Exam")
                         .WithMany("ExamScores")
                         .HasForeignKey("ExsExmKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.FileUpload", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
+                        .WithMany("FileUploads")
+                        .HasForeignKey("FupPerKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

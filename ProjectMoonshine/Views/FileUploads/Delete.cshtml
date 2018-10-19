@@ -12,10 +12,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FupFileData)
+            @Html.DisplayNameFor(model => model.FupFileName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.FupFileData)
+            @Html.DisplayFor(model => model.FupFileName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FupFileDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FupFileDescription)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.FupFileType)
@@ -24,37 +30,12 @@
             @Html.DisplayFor(model => model.FupFileType)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.FupAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FupAddUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FupChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FupChangeUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FupAddDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FupAddDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FupChangeDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FupChangeDate)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Person)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Person.PerFirstName)
+            @Html.DisplayFor(model => model.Person.PerFirstMiddleLast)
         </dd>
     </dl>
-    
     <form asp-action="Delete">
         <input type="hidden" asp-for="FupKey" />
         <input type="submit" value="Delete" class="btn btn-default" /> |

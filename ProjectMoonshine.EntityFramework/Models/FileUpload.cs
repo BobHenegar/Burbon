@@ -22,6 +22,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("File Type")]
         public string FupFileType { get; set; }
 
+        [DisplayName("File Name")]
+        public string FupFileName { get; set; }
+        [DisplayName("Description")]
+        public string FupFileDescription { get; set; }
+
         [DisplayName("Added By")]
         public string FupAddUser { get; set; }
 
@@ -31,7 +36,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset FupAddDate { get; set; }
 
         [DisplayName("Change Date")]
-        public DateTimeOffset FupChangeDate { get; set; }
+        public DateTimeOffset? FupChangeDate { get; set; }
 
 
         [ForeignKey("FupPerKey")]

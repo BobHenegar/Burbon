@@ -1,161 +1,118 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.Helpers;
+using ProjectMoonshine.Managers;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
-    public class FileUploadsController : Controller
+    public class FileUploadsController : BaseController
     {
         private readonly ApplicationDbContext _context;
+        private readonly FileUploadManager _fileUploadManager;
 
-        public FileUploadsController(ApplicationDbContext context)
+        public FileUploadsController(ApplicationDbContext context
+            ,FileUploadManager fileUploadManager)
         {
+            _fileUploadManager = fileUploadManager;
             _context = context;
         }
 
-        // GET: FileUploads
-        public async Task<IActionResult> Index()
+        // GET: FileUploads/People/5
+        [HttpGet]
+        [Route("FileUploads/People/{perKey:guid}")]
+        public async Task<IActionResult> Index(Guid perKey)
         {
-            var applicationDbContext = _context.FileUploads.Include(f => f.Person);
-            return View(await applicationDbContext.ToListAsync());
+            ViewData["PerKey"] = perKey;
+            var uploads = _context
+                .FileUploads
+                .AsNoTracking()
+                .Include(f => f.Person)
+                .Where(f => f.FupPerKey == perKey)
+                .Select(s => new FileUpload
+                {
+                    FupKey = s.FupKey,
+                    FupPerKey = s.FupPerKey,
+                    FupFileName = s.FupFileName,
+                    FupFileType = s.FupFileType,
+                    FupFileDescription = s.FupFileDescription,
+                    Person = s.Person
+                });
+            return View(await uploads.ToListAsync());
         }
 
-        // GET: FileUploads/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        // GET: FileUploads/View/5
+        [HttpGet]
+        [Route("FileUploads/View/{fupKey:guid}")]
+        public async Task<IActionResult> View(Guid fupKey)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fileUpload = await _context.FileUploads
-                .Include(f => f.Person)
-                .FirstOrDefaultAsync(m => m.FupKey == id);
-            if (fileUpload == null)
-            {
-                return NotFound();
-            }
-
-            return View(fileUpload);
+            var fileUpload = await _context
+                .FileUploads
+                .AsNoTracking()
+                .Where(m => m.FupKey == fupKey)
+                .FirstAsync();
+            byte[] byteArray = fileUpload.FupFileData;
+            MemoryStream pdfStream = new MemoryStream();
+            pdfStream.Write(byteArray, 0, byteArray.Length);
+            pdfStream.Position = 0;
+            Response.ContentType = "application/text";
+            Response.Headers.Add("Content-Disposition", $"filename=\"{fileUpload.FupFileName + fileUpload.FupFileType}\"");
+            return new FileStreamResult(pdfStream, "plain/text");
         }
 
         // GET: FileUploads/Create
-        public IActionResult Create()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("FileUploads/Create/{perKey:guid}")]
+        public async Task<IActionResult> Create(Guid perKey, IFormFile file, FileUploadViewModel model)
         {
-            ViewData["FupPerKey"] = new SelectList(_context.People, "PerKey", "PerFirstName");
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            var fileType = Path.GetExtension(file.FileName);
+            if(GlobalConstants.AcceptedFileTypes.Any(a => a == fileType))
+            {
+                ModelState.AddModelError("file", "File was not of accepted type: " + string.Join(", ", GlobalConstants.AcceptedFileTypes.Select(s => s)));
+                return View();
+            }
+            var fileStream = await file.ReadByteArrayAsync();
+            var entity = _context.FileUploads.Add(
+                new FileUpload()
+                {
+                    FupPerKey = perKey,
+                    FupFileData = fileStream,
+                    FupFileName = fileName,
+                    FupFileType = fileType,
+                    FupFileDescription = model.FupFileDescription
+                }
+            );
+            await _context.SaveChangesAsync();
+            return RedirectToAction("People", "FileUploads", new { id = perKey});
+        }
+
+        // GET: FileUploads/Create
+        [HttpGet]
+        [Route("FileUploads/Create/{perKey:guid}")]
+        public IActionResult Create(Guid perKey)
+        {
+            ViewData["PerKey"] = perKey;
             return View();
-        }
-
-        // POST: FileUploads/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FupKey,FupPerKey,FupFileData,FupFileType,FupAddUser,FupChangeUser,FupAddDate,FupChangeDate")] FileUpload fileUpload)
-        {
-            if (ModelState.IsValid)
-            {
-                fileUpload.FupKey = Guid.NewGuid();
-                _context.Add(fileUpload);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["FupPerKey"] = new SelectList(_context.People, "PerKey", "PerFirstName", fileUpload.FupPerKey);
-            return View(fileUpload);
-        }
-
-        // GET: FileUploads/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fileUpload = await _context.FileUploads.FindAsync(id);
-            if (fileUpload == null)
-            {
-                return NotFound();
-            }
-            ViewData["FupPerKey"] = new SelectList(_context.People, "PerKey", "PerFirstName", fileUpload.FupPerKey);
-            return View(fileUpload);
-        }
-
-        // POST: FileUploads/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FupKey,FupPerKey,FupFileData,FupFileType,FupAddUser,FupChangeUser,FupAddDate,FupChangeDate")] FileUpload fileUpload)
-        {
-            if (id != fileUpload.FupKey)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(fileUpload);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FileUploadExists(fileUpload.FupKey))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["FupPerKey"] = new SelectList(_context.People, "PerKey", "PerFirstName", fileUpload.FupPerKey);
-            return View(fileUpload);
         }
 
         // GET: FileUploads/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fileUpload = await _context.FileUploads
-                .Include(f => f.Person)
-                .FirstOrDefaultAsync(m => m.FupKey == id);
-            if (fileUpload == null)
-            {
-                return NotFound();
-            }
-
-            return View(fileUpload);
-        }
-
-        // POST: FileUploads/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
             var fileUpload = await _context.FileUploads.FindAsync(id);
+            var perKey = fileUpload.FupPerKey;
             _context.FileUploads.Remove(fileUpload);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool FileUploadExists(Guid id)
-        {
-            return _context.FileUploads.Any(e => e.FupKey == id);
+            return RedirectToAction("People", "FileUploads", new { id = perKey });
         }
     }
 }
