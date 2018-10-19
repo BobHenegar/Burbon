@@ -21,6 +21,7 @@ namespace ProjectMoonshine.EntityFramework
         }
 
         public DbSet<Credential> Credentials { get; set; }
+        public DbSet<FileUpload> FileUploads { get; set; }
         public DbSet<CredentialType> CredentialTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Customer> Customers { get; set; }

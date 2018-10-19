@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.FileUpload>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FupFileData)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FupFileType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FupAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FupChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FupAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FupChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Person)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupFileData)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupFileType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FupChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.PerFirstName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.FupKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.FupKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.FupKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
