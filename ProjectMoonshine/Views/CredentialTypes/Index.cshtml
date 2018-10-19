@@ -7,10 +7,17 @@
 }
 
 <h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="col-lg-2">
+    <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypes" asp-action="Index">Process Types</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialRequirementTypes" asp-action="Index">Req Types</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialStatusTypes" asp-action="Index">Status Types</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="StatusStateTypes" asp-action="Index">Status State Types</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialRequirementTemplates" asp-action="Index">Req Templates</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a>
+</div>
+<div class="col-lg-10">
 <table class="table">
     <thead>
         <tr>
@@ -28,18 +35,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ct1Order)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct1AddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct1ChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct1AddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ct1ChangeUser)
             </th>
             <th></th>
         </tr>
@@ -63,21 +58,8 @@
             @Html.DisplayFor(modelItem => item.Ct1Order)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Ct1AddDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1ChangeDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1AddUser)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1ChangeUser)
-        </td>
-        <td>
             <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Ct1Key">Delete</a>
+            <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> 
         </td>
 
     </tr>
@@ -92,3 +74,4 @@
 }
     </tbody>
 </table>
+ </div>
