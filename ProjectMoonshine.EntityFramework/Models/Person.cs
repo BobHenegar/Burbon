@@ -61,6 +61,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual IList<Address> Addresses { get; set; }
         public virtual IList<Email> Emails { get; set; }
         public virtual IList<Phone> Phones { get; set; }
+        public virtual IList<FileUpload> FileUploads { get; set; }
 
 
         #endregion Navigation Properties

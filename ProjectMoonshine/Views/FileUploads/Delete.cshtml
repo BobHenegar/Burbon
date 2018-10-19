@@ -1,0 +1,44 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.FileUpload
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>FileUpload</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FupFileName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FupFileName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FupFileDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FupFileDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FupFileType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FupFileType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Person.PerFirstMiddleLast)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="FupKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

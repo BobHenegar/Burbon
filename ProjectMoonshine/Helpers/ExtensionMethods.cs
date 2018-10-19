@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using ProjectMoonshine.Enums;
 
 namespace ProjectMoonshine.Helpers
@@ -98,6 +102,14 @@ namespace ProjectMoonshine.Helpers
         {
             DescriptionAttribute[] da = (DescriptionAttribute[])(value.GetType().GetField(value.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), false);
             return da.Select(s => s.Description).ToList();
+        }
+
+        public static async Task<byte[]> ReadByteArrayAsync(this IFormFile fileForm)
+        {
+            using (StreamReader reader = new StreamReader(fileForm.OpenReadStream()))
+            {
+                return Encoding.ASCII.GetBytes(await reader.ReadToEndAsync());
+            }
         }
     }
 }

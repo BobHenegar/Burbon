@@ -52,7 +52,7 @@ namespace ProjectMoonshine
                 .AddTransient<ExamScoreManager>()
                 .AddTransient<EventRegistrationManager>()
                 .AddTransient<EventManager>()
-                .AddTransient<EventManager>()
+                .AddTransient<FileUploadManager>()
                 .AddTransient<RequirementManager>();
 
             services.Configure<CookiePolicyOptions>(options =>

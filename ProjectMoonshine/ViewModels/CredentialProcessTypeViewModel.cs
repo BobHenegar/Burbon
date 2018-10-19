@@ -20,6 +20,8 @@ namespace ProjectMoonshine.ViewModels
 
         public SelectList Ct2NextCt2KeySelectList { get; set; }
 
+        public SelectList Ct2ProcessTypeSelectList { get; set; }
+
         public CredentialProcessTypeViewModel(ApplicationDbContext context, CredentialProcessType credentialProcessType = null)
         {
             _context = context;
@@ -28,6 +30,7 @@ namespace ProjectMoonshine.ViewModels
             Ct2SubmittedCt6KeySelectList = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", CredentialProcessType.Ct2SubmittedCt6Key);
             Ct2CompletedCt6KeySelectList = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", CredentialProcessType.Ct2CompletedCt6Key);
             Ct2NextCt2KeySelectList = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", CredentialProcessType.Ct2NextCt2Key);
+            Ct2ProcessTypeSelectList = new SelectList(GlobalConstants.ProcessTypeList.Select(t => new { Type = t }), "Type", "Type", CredentialProcessType.Ct2ProcessType);
         }
     }
 }
