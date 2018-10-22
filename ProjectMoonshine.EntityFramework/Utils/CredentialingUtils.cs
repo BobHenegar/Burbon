@@ -96,7 +96,7 @@ namespace ProjectMoonshine.EntityFramework.Utils
                 .DefaultIfEmpty()
                 .MaxAsync(c => c.Cr1CredentialNumber);
 
-            return CommonUtils.IsIntValid(nextCredentialNumber) ? nextCredentialNumber : (short?) 1;
+            return ((int?) nextCredentialNumber).IsIntValidAndNotZero() ? nextCredentialNumber : (short?) 1;
 
             
         }
@@ -146,52 +146,224 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
         }
 
-        public static async Task<CredentialProcess> GetCredentialProcessAsync(ApplicationDbContext context, Guid cr2Key)
+        /// <summary>
+        /// Get Credential Process
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="processKey"></param>
+        /// <returns>Returns process if successful, null if failure.</returns>
+        public static async Task<CredentialProcess> GetCredentialProcessAsync(ApplicationDbContext context, Guid processKey, bool includeProcessType = false)
         {
-            return await context.CredentialProcesses
-                .Where(p => cr2Key == p.Cr2Key)
-                .FirstOrDefaultAsync();
+            try
+            {
+                if (includeProcessType)
+                    return await context.CredentialProcesses
+                        .Include(p => p.CredentialProcessType)
+                        .Where(p => processKey == p.Cr2Key)
+                        .FirstOrDefaultAsync();
+
+                return await context.CredentialProcesses
+                    .FindAsync(processKey);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
+            
         }
 
-        public static async Task<CredentialRequirementType> GetCredentialRequirementTypeAsync(ApplicationDbContext context, Guid ct3Key)
+        public static async Task<CredentialType> GetCredentialTypeAsync(ApplicationDbContext context,
+            Guid credentialTypeKey)
         {
-            return await context.CredentialRequirementTypes
-                .FindAsync(ct3Key);
+            try
+            {
+                return await context.CredentialTypes.FindAsync(credentialTypeKey);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
         }
 
+
+        /// <summary>
+        /// Get Credential Requirement Type
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="requirementTypeKey"></param>
+        /// <returns>Returns Requirement Type if successful, null on failure.</returns>
+        public static async Task<CredentialRequirementType> GetCredentialRequirementTypeAsync(ApplicationDbContext context, Guid requirementTypeKey)
+        {
+            try
+            {
+                return await context.CredentialRequirementTypes
+                    .FindAsync(requirementTypeKey);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
+            
+        }
+
+        public static async Task<Credential> GetCredentialAsync(ApplicationDbContext context, Guid credentialKey, bool includeCredentialType = false)
+        {
+            try
+            {
+                if (includeCredentialType)
+                    return await context.Credentials
+                        .Include(c => c.CredentialType)
+                        .Where(c => credentialKey == c.Cr1Key)
+                        .FirstOrDefaultAsync();
+
+                return await context.Credentials.FindAsync(credentialKey);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+
+            }
+        }
+
+        /// <summary>
+        /// Get Credential Status type, and include Status.State if specified.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusKey"></param>
+        /// <param name="includeState"></param>
+        /// <returns>Returns status type if successful, null on failure.</returns>
         public static async Task<CredentialStatusType> GetCredentialStatusTypeAsync(ApplicationDbContext context,
-            Guid ct6Key, bool includeState = false)
+            Guid statusKey, bool includeState = false)
         {
-            if (includeState)
-                return await context.CredentialStatusTypes
-                    .Include(st => st.State)
-                    .Where(st => st.Ct6Key == ct6Key)
-                    .FirstOrDefaultAsync();
+            try
+            {
+                if (includeState)
+                    return await context.CredentialStatusTypes
+                        .Include(st => st.State)
+                        .Where(st => st.Ct6Key == statusKey)
+                        .FirstOrDefaultAsync();
 
-            return await context.CredentialStatusTypes
-                .FindAsync(ct6Key);
+                return await context.CredentialStatusTypes
+                    .FindAsync(statusKey);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
         }
 
         public static async Task<CredentialProcessType> GetCredentialProcessTypeAsync(ApplicationDbContext context, Guid ct2Key)
         {
-            return await context.CredentialProcessTypes.FindAsync(ct2Key);
+            try
+            {
+                return await context.CredentialProcessTypes.FindAsync(ct2Key);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
+            
         }
 
-        public static async Task<List<CredentialRequirement>> GetCredentialRequirementsForProcessAsync(ApplicationDbContext context, Guid cr2Key
-            , bool includeDependentRequirements = false)
+        public static async Task<List<CredentialProcessTypeXCredentialRequirementType>> GetCredentialProcessTypeXCredentialRequirementTypesForProcessTypeAsync(ApplicationDbContext context, Guid processTypeKey)
         {
-            if (includeDependentRequirements)
+            try
             {
-                return await context.CredentialRequirements
-                    .Include(r => r.DependentRequirements)
-                    .Include(r => r.CredentialRequirementType)
-                    .Where(r => r.Cr3Cr2Key == cr2Key)
+                return await context
+                    .CredentialProcessTypeXCredentialRequirementTypes
+                    .Where(pxr => pxr.Ct5Ct2Key == processTypeKey)
                     .ToListAsync();
             }
-            return await context.CredentialRequirements
-                .Include(r => r.CredentialRequirementType)
-                .Where(r => r.Cr3Cr2Key == cr2Key)
-                .ToListAsync();
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
+            
+        }
+
+        /// <summary>
+        /// Get Credential Requirements related to a Credential Process
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="processKey"></param>
+        /// <param name="includeDependentRequirements"></param>
+        /// <returns>Returns List of Requirements if successful, or null if there are no requirements or it fails.</returns>
+        public static async Task<List<CredentialRequirement>> GetCredentialRequirementsForProcessAsync(
+            ApplicationDbContext context, Guid processKey
+            , bool includeDependentRequirements = false)
+        {
+            try
+            {
+                if (includeDependentRequirements)
+                {
+                    return await context.CredentialRequirements
+                        .Include(r => r.DependentRequirements)
+                        .Include(r => r.CredentialRequirementType)
+                        .Include(r => r.Status)
+                        .ThenInclude(s => s.State)
+                        .Where(r => r.Cr3Cr2Key == processKey)
+                        .ToListAsync();
+                }
+
+                return await context.CredentialRequirements
+                    .Include(r => r.CredentialRequirementType)
+                    .Include(r => r.Status)
+                    .ThenInclude(s => s.State)
+                    .Where(r => r.Cr3Cr2Key == processKey)
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return null;
+            }
         }
     }
 }

@@ -1037,11 +1037,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cu6Code")
                         .IsRequired();
 
+                    b.Property<bool>("Cu6CompletedFlag");
+
                     b.Property<bool>("Cu6LockedFlag");
 
                     b.Property<bool>("Cu6MetFlag");
 
                     b.Property<bool>("Cu6TerminateProcessFlag");
+
+                    b.Property<bool>("Cu6UnderReviewFlag");
 
                     b.HasKey("Cu6Key");
 

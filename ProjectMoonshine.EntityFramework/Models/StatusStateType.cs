@@ -23,6 +23,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Locked Flag")]
         public bool Cu6LockedFlag { get; set; }
 
+        [DisplayName("Completed Flag")]
+        public bool Cu6CompletedFlag { get; set; }
+
+        [DisplayName("Under Review Flag")]
+        public bool Cu6UnderReviewFlag { get; set; }
+
         [DisplayName("Met Flag")]
         public bool Cu6MetFlag { get; set; }
 
