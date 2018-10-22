@@ -1,0 +1,349 @@
+﻿@model ProjectMoonshine.ViewModels.QueryViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    ul.groupQuery {
+        background-color: #cce5ff;
+        border: 1px solid black;
+        width: 90%;
+    }
+
+    li.ruleQuery {
+        background-color: #ffe6cc;
+        width: 90%;
+    }
+
+    .addGroup, .addRule {
+        width: 75px;
+        height: 25px;
+        background: #ccffcc;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .removeGroup, .removeRule {
+        width: 75px;
+        height: 25px;
+        padding: 5px 5px 5px 5px;
+        background: #ffcccc;
+        box-shadow: none;
+        border: 1px solid black;
+    }
+
+    .groupQuery button {
+        padding: 0;
+        float: right;
+    }
+
+    button:disabled {
+        background-color: lightgray;
+        color: gray;
+    }
+
+    .flexRow {
+        display: flex;
+        height: 30px;
+        flex-direction: row;
+    }
+
+    .equalityComparisonSelect {
+        padding: 5px 5px 5px 5px;
+    }
+
+    div.ruleInput {
+        width: 20%;
+    }
+
+    .ruleInput {
+        padding: 5px 5px 5px 5px;
+        height: 20px;
+        width: 177px;
+    }
+</style>
+
+<h2>QueryBuilder</h2>
+<span>Where:</span>
+<div class="groups">
+    <ul id="groupsHolder" class="groupQuery">
+        <div>
+            <div>
+                <button id="addRule_0" class="addRule">+ Rule</button>
+                <button id="addGroup_0" class="addGroup">+ Group</button>
+            </div>
+            <div>
+                <input value="And" name="toggle_0" type="radio" checked>
+                <label>And</label>
+                <input value="Or" name="toggle_0" type="radio">
+                <label>Or</label>
+            </div>
+        </div>
+        <ul class="groupQuery">
+            <div class="menuBar">
+                <div>
+                    <button class="removeGroup" id="removeGroup_0">- Delete</button>
+                    <button class="addRule" id="addRule_1">+ Rule</button>
+                    <button class="addGroup" id="addGroup_1">+ Group</button>
+                </div>
+                <div>
+                    <input value="And" name="toggle_1" type="radio" checked>
+                    <label>And</label>
+                    <input value="Or" name="toggle_1" type="radio">
+                    <label>Or</label>
+                </div>
+            </div>
+            <li class="ruleQuery">
+                <div class="flexRow">
+                    <div class="ruleInput">
+                        <input id="LeftProperty" type="text" class="ruleInput" value="a">
+                    </div>
+                    <div class="equalityComparisonSelect ruleInput">
+                        <select id="EqualityComparison">
+                            <option value="1" selected>LessThan</option>
+                            <option value="2">GreaterThan</option>
+                            <option value="3">LessThanOrEqualsTo</option>
+                            <option value="4">GreaterThanOrEqualsTo</option>
+                            <option value="5">Equals</option>
+                        </select>
+                    </div>
+                    <div class="ruleInput">
+                        <input id="RightProperty" type="text" class="ruleInput" value="1">
+                    </div>
+                    <div>
+                        <button class="removeRule" id="removeRule_0">- Delete</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="groupQuery">
+            <div class="menuBar">
+                <div>
+                    <button class="removeGroup" id="removeGroup_1">- Delete</button>
+                    <button class="addRule" id="addRule_0">+ Rule</button>
+                    <button class="addGroup" id="addGroup_0">+ Group</button>
+                </div>
+                <div>
+                    <input value="And" name="toggle_2" type="radio">
+                    <label>And</label>
+                    <input value="Or" name="toggle_2" type="radio" checked>
+                    <label>Or</label>
+                </div>
+            </div>
+            <li class="ruleQuery">
+                <div class="flexRow">
+                    <div class="ruleInput">
+                        <input id="LeftProperty" type="text" class="ruleInput"  value="b">
+                    </div>
+                    <div class="equalityComparisonSelect ruleInput">
+                        <select id="EqualityComparison">
+                            <option value="1" selected>LessThan</option>
+                            <option value="2">GreaterThan</option>
+                            <option value="3">LessThanOrEqualsTo</option>
+                            <option value="4">GreaterThanOrEqualsTo</option>
+                            <option value="5">Equals</option>
+                        </select>
+                    </div>
+                    <div class="ruleInput">
+                        <input id="RightProperty" type="text" class="ruleInput"  value="2">
+                    </div>
+                    <div>
+                        <button class="removeRule" id="removeRule_1">- Delete</button>
+                    </div>
+                </div>
+            </li>
+            <li class="ruleQuery">
+                <div class="flexRow">
+                    <div class="ruleInput">
+                        <input id="LeftProperty" type="text" class="ruleInput"  value="c">
+                    </div>
+                    <div class="equalityComparisonSelect ruleInput">
+                        <select id="EqualityComparison">
+                            <option value="1">LessThan</option>
+                            <option value="2" selected>GreaterThan</option>
+                            <option value="3">LessThanOrEqualsTo</option>
+                            <option value="4">GreaterThanOrEqualsTo</option>
+                            <option value="5">Equals</option>
+                        </select>
+                    </div>
+                    <div class="ruleInput">
+                        <input id="RightProperty" type="text" class="ruleInput"  value="3">
+                    </div>
+                    <div>
+                        <button class="removeRule" id="removeRule_2">- Delete</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="groupQuery">
+            <div class="menuBar">
+                <div>
+                    <button class="removeGroup" id="removeGroup_2">- Delete</button>
+                    <button class="addRule" id="addRule_0">+ Rule</button>
+                    <button class="addGroup" id="addGroup_0">+ Group</button>
+                </div>
+                <div>
+                    <input value="And" name="toggle_3" type="radio">
+                    <label>And</label>
+                    <input value="Or" name="toggle_3" type="radio" checked>
+                    <label>Or</label>
+                </div>
+            </div>
+            <li class="ruleQuery">
+                <div class="flexRow">
+                    <div class="ruleInput">
+                        <input id="LeftProperty" type="text" class="ruleInput"  value="d">
+                    </div>
+                    <div class="equalityComparisonSelect ruleInput">
+                        <select id="EqualityComparison">
+                            <option value="1" selected>LessThan</option>
+                            <option value="2">GreaterThan</option>
+                            <option value="3">LessThanOrEqualsTo</option>
+                            <option value="4">GreaterThanOrEqualsTo</option>
+                            <option value="5">Equals</option>
+                        </select>
+                    </div>
+                    <div class="ruleInput">
+                        <input id="RightProperty" type="text" class="ruleInput"  value="4">
+                    </div>
+                    <div>
+                        <button class="removeRule" id="removeRule_3">- Delete</button>
+                    </div>
+                </div>
+            </li>
+            <ul class="groupQuery">
+                <div class="menuBar">
+                    <div>
+                        <button class="removeGroup" id="removeGroup_3">- Delete</button>
+                        <button class="addRule" id="addRule_0">+ Rule</button>
+                        <button class="addGroup" id="addGroup_0">+ Group</button>
+                    </div>
+                    <div>
+                        <input value="And" name="toggle_4" type="radio" checked>
+                        <label>And</label>
+                        <input value="Or" name="toggle_4" type="radio">
+                        <label>Or</label>
+                    </div>
+                </div>
+                <li class="ruleQuery">
+                    <div class="flexRow">
+                        <div class="ruleInput">
+                            <input id="LeftProperty" type="text" class="ruleInput"  value="e">
+                        </div>
+                        <div class="equalityComparisonSelect ruleInput">
+                            <select id="EqualityComparison">
+                                <option value="1">LessThan</option>
+                                <option value="2" selected>GreaterThan</option>
+                                <option value="3">LessThanOrEqualsTo</option>
+                                <option value="4">GreaterThanOrEqualsTo</option>
+                                <option value="5">Equals</option>
+                            </select>
+                        </div>
+                        <div class="ruleInput">
+                            <input id="RightProperty" type="text" class="ruleInput"  value="5">
+                        </div>
+                        <div>
+                            <button class="removeRule" id="removeRule_4">- Delete</button>
+                        </div>
+                    </div>
+                </li>
+                <li class="ruleQuery">
+                    <div class="flexRow">
+                        <div class="ruleInput">
+                            <input id="LeftProperty" type="text" class="ruleInput"  value="f">
+                        </div>
+                        <div class="equalityComparisonSelect ruleInput">
+                            <select id="EqualityComparison">
+                                <option value="1" selected>LessThan</option>
+                                <option value="2">GreaterThan</option>
+                                <option value="3">LessThanOrEqualsTo</option>
+                                <option value="4">GreaterThanOrEqualsTo</option>
+                                <option value="5">Equals</option>
+                            </select>
+                        </div>
+                        <div class="ruleInput">
+                            <input id="RightProperty" type="text" class="ruleInput"  value="6">
+                        </div>
+                        <div>
+                            <button class="removeRule" id="removeRule_5">- Delete</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </ul>
+        <li class="ruleQuery">
+            <div class="flexRow">
+                <div class="ruleInput">
+                    <input id="LeftProperty" type="text" class="ruleInput"  value="g">
+                </div>
+                <div class="equalityComparisonSelect ruleInput">
+                    <select id="EqualityComparison">
+                        <option value="1" selected>LessThan</option>
+                        <option value="2">GreaterThan</option>
+                        <option value="3">LessThanOrEqualsTo</option>
+                        <option value="4">GreaterThanOrEqualsTo</option>
+                        <option value="5">Equals</option>
+                    </select>
+                </div>
+                <div class="ruleInput">
+                    <input id="RightProperty" type="text" class="ruleInput"  value="7">
+                </div>
+                <div>
+                    <button class="removeRule" id="removeRule_6">- Delete</button>
+                </div>
+            </div>
+        </li>
+        <li class="ruleQuery">
+            <div class="flexRow">
+                <div class="ruleInput">
+                    <input id="LeftProperty" type="text" class="ruleInput"  value="h">
+                </div>
+                <div class="equalityComparisonSelect">
+                    <select id="EqualityComparison">
+                        <option value="1">LessThan</option>
+                        <option value="2" selected>GreaterThan</option>
+                        <option value="3">LessThanOrEqualsTo</option>
+                        <option value="4">GreaterThanOrEqualsTo</option>
+                        <option value="5">Equals</option>
+                    </select>
+                </div>
+                <div class="ruleInput">
+                    <input id="RightProperty" type="text" class="ruleInput" value="8">
+                </div>
+                <div>
+                    <button class="removeRule" id="removeRule_7">- Delete</button>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+
+@*<h2>QueryBuilder</h2>
+<span>Where:</span>
+<div class="groups">
+    <ul id="groupsHolder" class="groupQuery">
+        <div>
+            <div>
+                <button id="addRule" class="addRule">+ Rule</button>
+                <button id="addGroup" class="addGroup">+ Group</button>
+            </div>
+            <div>
+                <input value="And" name="toggle_0" type="radio" checked>
+                <label>And</label>
+                <input value="Or" name="toggle_0" type="radio">
+                <label>Or</label>
+            </div>
+        </div>
+    </ul>
+</div>*@
+
+@section Scripts{
+    <script src="~/js/queryBuilder.js"></script>
+}
+
