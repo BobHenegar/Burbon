@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace ProjectMoonshine.EntityFramework
 {
@@ -29,6 +30,34 @@ namespace ProjectMoonshine.EntityFramework
             Month = 2,
             Year = 3
         }
-        
+
+        public enum RequirementTemplateCode
+        {
+            None = 0
+            , Application = 1
+            , Attestment = 2
+            , Audit = 3
+            , CE = 4
+            , Checklist = 5
+            , Course = 6
+            , Custom = 7
+            , Degree = 8
+            , Designation = 9
+            , Disclosure = 10
+            , Document = 11
+            , DocumentRequest = 12
+            , Ethics = 13
+            , Event = 14
+            , Exam = 15
+            , Experience = 16
+            , Fee = 17
+            , License = 18
+            , Membership = 19
+            , Relationship = 20
+            , Signature = 21
+            , Simple = 22
+            , Sql = 23
+            , Switch = 24
+        }
     }
 }

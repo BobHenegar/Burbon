@@ -29,6 +29,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Units")]
         public float Ce1Units { get; set; }
 
+        [DisplayName("Verified Flag")]
+        public bool Ce1VerifiedFlag { get; set; }
+
+
         public DateTimeOffset Ce1AddDate { get; set; }
 
         public DateTimeOffset? Ce1ChangeDate { get; set; }

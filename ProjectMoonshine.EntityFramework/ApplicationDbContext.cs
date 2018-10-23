@@ -168,6 +168,10 @@ namespace ProjectMoonshine.EntityFramework
                 .WithMany(r => r.DependentRequirements)
                 .HasForeignKey(r => r.Cr3Cr3Key);
 
+            modelBuilder
+                .Entity<CredentialRequirementTemplate>()
+                .Property(rt => rt.Ct8Code)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.RequirementTemplateCode>());
         }
 
         public void TestOnModelCreating()

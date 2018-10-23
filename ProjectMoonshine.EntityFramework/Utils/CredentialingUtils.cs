@@ -204,10 +204,16 @@ namespace ProjectMoonshine.EntityFramework.Utils
         /// <param name="context"></param>
         /// <param name="requirementTypeKey"></param>
         /// <returns>Returns Requirement Type if successful, null on failure.</returns>
-        public static async Task<CredentialRequirementType> GetCredentialRequirementTypeAsync(ApplicationDbContext context, Guid requirementTypeKey)
+        public static async Task<CredentialRequirementType> GetCredentialRequirementTypeAsync(ApplicationDbContext context, Guid requirementTypeKey, bool includeTemplate = false)
         {
             try
             {
+                if (includeTemplate)
+                    return await context.CredentialRequirementTypes
+                        .Include(rt => rt.Template)
+                        .Where(rt => rt.Ct3Key == requirementTypeKey)
+                        .FirstOrDefaultAsync();
+
                 return await context.CredentialRequirementTypes
                     .FindAsync(requirementTypeKey);
             }

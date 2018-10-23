@@ -5,10 +5,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
+using System.Linq.Expressions;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
@@ -480,15 +482,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!Cr3DataKey.IsGuidValid())
-                {
-                    // find related data stuff
-                }
+                if (!await EvalMetAsync(context)) return false;
 
-                await EvaluateMetFromMetStatusAsync(context);
 
-                context.Update(this);
-                return true;
+                return (!await EvalCompletedAsync(context));
             }
             catch (Exception e)
             {
@@ -501,6 +498,82 @@ namespace ProjectMoonshine.EntityFramework.Models
                 return false;
             }
         }
+
+        private async Task<bool> EvalMetAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                if (await EvaluateMetFromMetStatusAsync(context)) return true;
+                if (!await LoadRequirementTypeAsync(context, true)) return false;
+
+                if (CredentialRequirementType.Template != null
+                    && await CredentialRequirementType.Template.EvalMetAsync(context, this))
+                {
+                    if (CredentialRequirementType.Ct3MetCt6Key.IsGuidValid()
+                        && !await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3MetCt6Key)) return false;
+
+                    if (!CredentialRequirementType.Ct3MetCt6Key.IsGuidValid()) Cr3MetDate = DateTimeOffset.Now;
+                }
+
+
+                if (!Cr3MetDate.IsDateTimeOffsetValid() && await EvaluateMetFromMetStatusAsync(context)) return true;
+
+                if (!Cr3MetDate.IsDateTimeOffsetValid()) return true;
+
+                context.Update(this);
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private async Task<bool> EvalCompletedAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                await LoadStatusTypeAsync(context, true);
+                if (Status?.State != null
+                    && (Status.State.Cu6CompletedFlag
+                        || Status.State.Cu6UnderReviewFlag
+                        || Status.State.Cu6MetFlag)) return true;
+
+                if (CredentialRequirementType.Template != null &&
+                    await CredentialRequirementType.Template.EvaluateCompleteAsync(context, this))
+                {
+                    if (CredentialRequirementType.Ct3CompleteCt6Key.IsGuidValid()
+                        && !await SetStatusAsync(context, (Guid) CredentialRequirementType.Ct3CompleteCt6Key))
+                        return false;
+                }
+
+                context.Update(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        //private async Task<bool> EvaluateMetRule(ApplicationDbContext context)
+        //{
+        //    try
+        //    {
+        //        // TODO: check for met rule on ct3 level & evaluate
+
+        //        Expression expression = Expression.Parameter()
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //        return false;
+        //    }
+        //}
 
         /// <summary>
         /// Checks if requirement is met based on status, and if status is met sets met date.
@@ -651,14 +724,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         /// </summary>
         /// <param name="context"></param>
         /// <returns>Returns true if load succeeds, false if load fails or on error.</returns>
-        private async Task<bool> LoadRequirementTypeAsync(ApplicationDbContext context)
+        private async Task<bool> LoadRequirementTypeAsync(ApplicationDbContext context, bool includeTemplate = false)
         {
             try
             {
                 if (CredentialRequirementType == null)
                 {
                     CredentialRequirementType =
-                        await CredentialingUtils.GetCredentialRequirementTypeAsync(context, Cr3Ct3Key);
+                        await CredentialingUtils.GetCredentialRequirementTypeAsync(context, Cr3Ct3Key, includeTemplate);
                 }
 
                 return CredentialRequirementType != null;

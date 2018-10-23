@@ -103,6 +103,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<float>("Ce1Units");
 
+                    b.Property<bool>("Ce1VerifiedFlag");
+
                     b.HasKey("Ce1Key");
 
                     b.HasIndex("Ce1CetKey");
@@ -118,12 +120,18 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<float>("Ce2AcceptedUnits");
+
                     b.Property<DateTimeOffset>("Ce2AddDate")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Ce2AddUser")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<float>("Ce2BalanceUnits");
+
+                    b.Property<Guid>("Ce2CetKey");
 
                     b.Property<DateTimeOffset?>("Ce2ChangeDate")
                         .ValueGeneratedOnAdd();
@@ -135,9 +143,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset>("Ce2EndDate");
 
+                    b.Property<float>("Ce2ReportedUnits");
+
+                    b.Property<float>("Ce2RequiredUnits");
+
                     b.Property<DateTimeOffset>("Ce2StartDate");
 
                     b.HasKey("Ce2Key");
+
+                    b.HasIndex("Ce2CetKey");
 
                     b.HasIndex("Ce2CusKey");
 
@@ -476,7 +490,12 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct8ChangeUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Ct8Code")
+                        .IsRequired();
+
                     b.Property<string>("Ct8Description");
+
+                    b.Property<bool>("Ct8SetDataKeyFlag");
 
                     b.Property<string>("Ct8Template");
 
@@ -1075,6 +1094,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CEPeriod", b =>
                 {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CEType", "CeType")
+                        .WithMany()
+                        .HasForeignKey("Ce2CetKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("Ce2CusKey")
