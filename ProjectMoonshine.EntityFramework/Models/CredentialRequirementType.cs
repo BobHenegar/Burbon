@@ -54,9 +54,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3Designation { get; set; }
 
-        //public Guid Ct3CetKey { get; set; }
+        [DisplayName("CE Type")]
+        public Guid? Ct3CetKey { get; set; }
 
-        //public int Ct3CeCredit { get; set; }
+        [DisplayName("CE Units Required")]
+        public float? Ct3CEUnitsRequired { get; set; }
 
         //public Guid Ct3MbtKey { get; set; }
 
@@ -194,6 +196,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3Ct8Key")]
         public virtual CredentialRequirementTemplate Template { get; set; }
+
+        [ForeignKey("Ct3CetKey")]
+        public virtual CEType CEType { get; set; }
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
         #endregion Navigation Properties
     }

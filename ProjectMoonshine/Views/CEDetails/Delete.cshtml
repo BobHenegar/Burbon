@@ -1,0 +1,82 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CEDetail
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CEDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1ActivityDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1ActivityDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1ActivityDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1ActivityDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1Units)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1Units)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1VerifiedFlag)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1VerifiedFlag)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ce1ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ce1ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CeType.CetCode)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Ce1Key" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

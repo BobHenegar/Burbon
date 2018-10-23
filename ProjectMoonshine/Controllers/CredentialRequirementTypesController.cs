@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.ViewModels;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -54,14 +55,16 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialRequirementTypes/Create
         public IActionResult Create()
         {
-            ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
-            List<SelectListItem> list = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template").ToList();
-            list.Insert(0,(new SelectListItem { Text = "Please Select", Value = null }));
-            ViewData["Ct3Ct8Key"] = list;
-            return View();
+            //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            //ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            //ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
+            //List<SelectListItem> list = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template").ToList();
+            //list.Insert(0,(new SelectListItem { Text = "Please Select", Value = null }));
+            //ViewData["Ct3Ct8Key"] = list;
+
+            CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context);
+            return View(viewModel);
         }
 
         // POST: CredentialRequirementTypes/Create
@@ -69,7 +72,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3AddDate,Ct3ChangeDate,Ct3AddUser,Ct3ChangeUser")] CredentialRequirementType credentialRequirementType)
+        public async Task<IActionResult> Create([Bind(ModelBindingConstants.CredentialRequirementType)] CredentialRequirementType credentialRequirementType)
         {
             if (ModelState.IsValid)
             {
@@ -78,12 +81,17 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
-            ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
-            ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
-            ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
-            ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
-            return View(credentialRequirementType);
+            //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
+            //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
+            //ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
+            //ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
+            //ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
+            //ViewData["Ct3DependentCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3DependentCt6Key);
+            //ViewData["Ct3StartCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCr2Ct6Key);
+            //ViewData["Ct3MetCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCr2Ct6Key);
+            //ViewData["Ct3CetKey"] = new SelectList(_context.CEType, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CetKey);
+            CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context, credentialRequirementType);
+            return View(viewModel);
         }
 
         // GET: CredentialRequirementTypes/Edit/5
@@ -99,12 +107,18 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
-            ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
-            ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
-            ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
-            ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
-            return View(credentialRequirementType);
+            //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
+            //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
+            //ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
+            //ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
+            //ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
+            //ViewData["Ct3DependentCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3DependentCt6Key);
+            //ViewData["Ct3StartCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCr2Ct6Key);
+            //ViewData["Ct3MetCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCr2Ct6Key);
+            //ViewData["Ct3CetKey"] = new SelectList(_context.CEType, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CetKey);
+
+            CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context, credentialRequirementType);
+            return View(viewModel);
         }
 
         // POST: CredentialRequirementTypes/Edit/5
@@ -112,7 +126,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3SubmitProcessFlag")] CredentialRequirementType credentialRequirementType)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialRequirementType)] CredentialRequirementType credentialRequirementType)
         {
             if (id != credentialRequirementType.Ct3Key)
             {
@@ -144,12 +158,13 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
-            ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
-            ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
-            ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
-            ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
-            return View(credentialRequirementType);
+            //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
+            //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
+            //ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
+            //ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
+            //ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
+            CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context, credentialRequirementType);
+            return View(viewModel);
         }
 
         // GET: CredentialRequirementTypes/Delete/5

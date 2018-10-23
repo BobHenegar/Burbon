@@ -265,5 +265,23 @@ namespace ProjectMoonshine.EntityFramework.Models
         //    return errorClass;
         //}
 
+        public async Task<bool> AddAsync(ApplicationDbContext context)
+        {
+            try
+            {
+                await context.AddAsync(this);
+                await context.SaveChangesAsync();
+                if (! await CalculateAsync(context)) return false;
+
+                context.Update(this);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

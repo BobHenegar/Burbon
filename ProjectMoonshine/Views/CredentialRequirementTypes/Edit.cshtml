@@ -1,4 +1,4 @@
-﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirementType
+﻿@model ProjectMoonshine.ViewModels.CredentialRequirementTypeViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,74 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Ct3Key" />
-            <div class="form-group">
-                <label asp-for="Ct3Requirement" class="control-label"></label>
-                <input asp-for="Ct3Requirement" class="form-control" />
-                <span asp-validation-for="Ct3Requirement" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3Description" class="control-label"></label>
-                <input asp-for="Ct3Description" class="form-control" />
-                <span asp-validation-for="Ct3Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3Ct8Key" class="control-label"></label>
-                <select asp-for="Ct3Ct8Key" class="form-control" asp-items="ViewBag.Ct3Ct8Key"></select>
-                <span asp-validation-for="Ct3Ct8Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3StartCt6Key" class="control-label"></label>
-                <select asp-for="Ct3StartCt6Key" class="form-control" asp-items="ViewBag.Ct3StartCt6Key"></select>
-                <span asp-validation-for="Ct3StartCt6Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3CompleteCt6Key" class="control-label"></label>
-                <select asp-for="Ct3CompleteCt6Key" class="form-control" asp-items="ViewBag.Ct3CompleteCt6Key"></select>
-                <span asp-validation-for="Ct3CompleteCt6Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3SubmitCt6Key" class="control-label"></label>
-                <select asp-for="Ct3SubmitCt6Key" class="form-control" asp-items="ViewBag.Ct3SubmitCt6Key"></select>
-                <span asp-validation-for="Ct3SubmitCt6Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3MetCt6Key" class="control-label"></label>
-                <select asp-for="Ct3MetCt6Key" class="form-control" asp-items="ViewBag.Ct3MetCt6Key"></select>
-                <span asp-validation-for="Ct3MetCt6Key" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3LongDescription" class="control-label"></label>
-                <input asp-for="Ct3LongDescription" class="form-control" />
-                <span asp-validation-for="Ct3LongDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="Ct3SubmitProcessFlag" /> @Html.DisplayNameFor(model => model.Ct3SubmitProcessFlag)
-                    </label>
-                </div>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="Ct3AddDate" class="control-label"></label>
-                <input asp-for="Ct3AddDate" class="form-control" />
-                <span asp-validation-for="Ct3AddDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3ChangeDate" class="control-label"></label>
-                <input asp-for="Ct3ChangeDate" class="form-control" />
-                <span asp-validation-for="Ct3ChangeDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3AddUser" class="control-label"></label>
-                <input asp-for="Ct3AddUser" class="form-control" />
-                <span asp-validation-for="Ct3AddUser" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct3ChangeUser" class="control-label"></label>
-                <input asp-for="Ct3ChangeUser" class="form-control" />
-                <span asp-validation-for="Ct3ChangeUser" class="text-danger"></span>
-            </div>*@
+            @await Html.PartialAsync("_CredentialRequirementTypeAddEditPartialView", Model)
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

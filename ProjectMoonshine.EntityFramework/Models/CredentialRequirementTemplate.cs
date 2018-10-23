@@ -21,6 +21,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Template")]
         public string Ct8Template { get; set; }
 
+        [DisplayName("Code")]
         public GlobalConstants.RequirementTemplateCode Ct8Code { get; set; }
 
         [DisplayName("Description")]
@@ -192,10 +193,120 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Switch:
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        return false;
                 }
 
                 return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> InitAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                switch (Ct8Code)
+                {
+                    case GlobalConstants.RequirementTemplateCode.None:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Application:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Attestment:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Audit:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.CE:
+                        return await InitCEAsync(context, requirement);
+                    case GlobalConstants.RequirementTemplateCode.Checklist:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Course:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Custom:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Degree:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Designation:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Disclosure:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Document:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.DocumentRequest:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Ethics:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Event:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Exam:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Experience:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Fee:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.License:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Membership:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Relationship:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Signature:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Simple:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Sql:
+                        break;
+                    case GlobalConstants.RequirementTemplateCode.Switch:
+                        break;
+                    default:
+                        return true;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private async Task<bool> InitCEAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                requirement.CredentialRequirementType = 
+                    await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null 
+                    || !requirement.CredentialRequirementType.Ct3CetKey.IsGuidValid()) return false;
+
+                requirement.CredentialProcess =
+                    await CredentialingUtils.GetCredentialProcessAsync(context, requirement.Cr3Cr2Key);
+
+                if (requirement.CredentialProcess == null) return false;
+
+                requirement.CredentialProcess.Credential =
+                    await CredentialingUtils.GetCredentialAsync(context, requirement.CredentialProcess.Cr2Cr1Key);
+
+                if (requirement.CredentialProcess.Credential == null) return false;
+                CEPeriod cePeriod = new CEPeriod()
+                {
+                    Ce2Key = Guid.NewGuid()
+                    , Ce2CusKey = requirement.CredentialProcess.Credential.Cr1CusKey
+                    , Ce2StartDate = requirement.Cr3StartDate.IsDateTimeOffsetValid() ? (DateTimeOffset) requirement.Cr3StartDate : DateTimeOffset.Now
+                    , Ce2EndDate =  requirement.Cr3DueDate.IsDateTimeOffsetValid() ? (DateTimeOffset) requirement.Cr3DueDate : DateTimeOffset.Now
+                    , Ce2CetKey =  (Guid) requirement.CredentialRequirementType.Ct3CetKey
+                    , Ce2RequiredUnits = requirement.CredentialRequirementType.Ct3CEUnitsRequired ?? 0
+                    , Ce2BalanceUnits = requirement.CredentialRequirementType.Ct3CEUnitsRequired ?? 0
+                    , Ce2ReportedUnits = 0
+                    , Ce2AcceptedUnits = 0
+                };
+
+                return await cePeriod.AddAsync(context);
+
             }
             catch (Exception e)
             {

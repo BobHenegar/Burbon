@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CEDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1ActivityDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1ActivityDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1Units)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1VerifiedFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1AddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1ChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1AddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ce1ChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CeType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1ActivityDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1ActivityDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1Units)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1VerifiedFlag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1AddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1ChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ce1ChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CusKey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CeType.CetCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ce1Key">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ce1Key">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ce1Key">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -54,7 +54,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Cu6Key,Cu6Code,Cu6LockedFlag,Cu6MetFlag,Cu6TerminateProcessFlag")] StatusStateType statusStateType)
+        public async Task<IActionResult> Create([Bind(ModelBindingConstants.StatusStateType)] StatusStateType statusStateType)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Cu6Key,Cu6Code,Cu6LockedFlag,Cu6MetFlag,Cu6TerminateProcessFlag")] StatusStateType statusStateType)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.StatusStateType)] StatusStateType statusStateType)
         {
             if (id != statusStateType.Cu6Key)
             {

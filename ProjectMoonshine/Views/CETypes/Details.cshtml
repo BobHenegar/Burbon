@@ -1,0 +1,55 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CEType
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CEType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CetCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CetDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CetAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CetChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CetAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CetChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CetChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CetKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -141,10 +141,13 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 // TODO: Find REquirement Data
 
-                await Init(context);
+                
 
                 if (await SetStartDateAsync(context) && await SetDueDate(context)) context.Update(this);
 
+                if (! await InitAsync(context)) return false;
+
+                if (! await EvaluateRequirementAsync(context)) return false;
 
                 // TODO: Send Correspondence functionality for status
 
@@ -266,14 +269,18 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         }
 
-        public virtual async Task<bool> Init(ApplicationDbContext context)
+        public virtual async Task<bool> InitAsync(ApplicationDbContext context)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    return true;
-                });
+                if (!await LoadRequirementTypeAsync(context, true)) return false;
+
+                if (CredentialRequirementType.Template != null 
+                    && !await CredentialRequirementType.Template.InitAsync(context, this)) return false;
+
+                context.Update(this);
+                return true;
+
             }
             catch (Exception e)
             {
@@ -282,10 +289,8 @@ namespace ProjectMoonshine.EntityFramework.Models
                 {
                     Debugger.Break();
                 }
-                return await Task.Run(() =>
-                {
-                    return false;
-                });
+
+                return false;
             }
         }
 
@@ -383,11 +388,13 @@ namespace ProjectMoonshine.EntityFramework.Models
         /// <param name="context"></param>
         /// <param name="originalCredentialRequirement"></param>
         /// <returns>Returns true if evaluation succeeds, false on error.</returns>
-        private async Task<bool> EvaluateRequirementAsync(ApplicationDbContext context, CredentialRequirement originalCredentialRequirement)
+        private async Task<bool> EvaluateRequirementAsync(ApplicationDbContext context, CredentialRequirement originalCredentialRequirement = null)
         {
             try
             {
-                if (originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key
+                if (
+                    originalCredentialRequirement != null &&
+                    originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key
                     && Cr3Ct6Key.IsGuidValid())
                     await SetStatusAsync(context, (Guid) Cr3Ct6Key);
 
@@ -397,7 +404,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 //if (await EvaluateMetFromMetStatusAsync(context)) return true;
              
-                if (!originalCredentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
+                if (originalCredentialRequirement == null || !originalCredentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
                 {
                     if (!Cr3MetDate.IsDateTimeOffsetValid())
                     {
@@ -406,7 +413,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     
                     if (Cr3MetDate.IsDateTimeOffsetValid())
                     {
-                        if (originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
+                        if (originalCredentialRequirement == null || originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
                         {
                             if (!await LoadRequirementTypeAsync(context)) return false;
                             if (Cr3Ct6Key != CredentialRequirementType.Ct3MetCt6Key &&
@@ -450,7 +457,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 }
 
 
-                if (Cr3Ct6Key.IsGuidValid() && originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key)
+                if (Cr3Ct6Key.IsGuidValid() && (originalCredentialRequirement == null || originalCredentialRequirement.Cr3Ct6Key != Cr3Ct6Key))
                 {
                     // TODO: corespondence logic
                 }
@@ -535,6 +542,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                if (!await LoadRequirementTypeAsync(context, true)) return false;
+
                 await LoadStatusTypeAsync(context, true);
                 if (Status?.State != null
                     && (Status.State.Cu6CompletedFlag

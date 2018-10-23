@@ -54,7 +54,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Ct8Key,Ct8Template,Ct8Description,Ct8AddDate,Ct8ChangeDate,Ct8AddUser,Ct8ChangeUser")] CredentialRequirementTemplate credentialRequirementTemplate)
+        public async Task<IActionResult> Create([Bind(ModelBindingConstants.CredentialRequirementTemplate)] CredentialRequirementTemplate credentialRequirementTemplate)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Ct8Key,Ct8Template,Ct8Description,Ct8AddDate,Ct8ChangeDate,Ct8AddUser,Ct8ChangeUser")] CredentialRequirementTemplate credentialRequirementTemplate)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialRequirementTemplate)] CredentialRequirementTemplate credentialRequirementTemplate)
         {
             if (id != credentialRequirementTemplate.Ct8Key)
             {

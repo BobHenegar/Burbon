@@ -1,0 +1,60 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CEType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>CEType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CetKey" />
+            <div class="form-group">
+                <label asp-for="CetCode" class="control-label"></label>
+                <input asp-for="CetCode" class="form-control" />
+                <span asp-validation-for="CetCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CetDescription" class="control-label"></label>
+                <input asp-for="CetDescription" class="form-control" />
+                <span asp-validation-for="CetDescription" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="CetAddDate" class="control-label"></label>
+                <input asp-for="CetAddDate" class="form-control" />
+                <span asp-validation-for="CetAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CetChangeDate" class="control-label"></label>
+                <input asp-for="CetChangeDate" class="form-control" />
+                <span asp-validation-for="CetChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CetAddUser" class="control-label"></label>
+                <input asp-for="CetAddUser" class="form-control" />
+                <span asp-validation-for="CetAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CetChangeUser" class="control-label"></label>
+                <input asp-for="CetChangeUser" class="form-control" />
+                <span asp-validation-for="CetChangeUser" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

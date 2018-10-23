@@ -50,6 +50,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CEDetail> CEDetails { get; set; }
 
+        public DbSet<CEType> CEType { get; set; }
+
         public DbSet<EventRegistration> EventRegistrations { get; set; }
 
         public DbSet<Event> Events { get; set; }

@@ -517,9 +517,13 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Ct3AddUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<float?>("Ct3CEUnitsRequired");
+
                     b.Property<string>("Ct3CalculateDueDateSp");
 
                     b.Property<string>("Ct3CalculateStartDateSp");
+
+                    b.Property<Guid?>("Ct3CetKey");
 
                     b.Property<DateTimeOffset?>("Ct3ChangeDate")
                         .ValueGeneratedOnAdd();
@@ -562,6 +566,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<bool>("Ct3SyncToProcessDatesFlag");
 
                     b.HasKey("Ct3Key");
+
+                    b.HasIndex("Ct3CetKey");
 
                     b.HasIndex("Ct3CompleteCt6Key");
 
@@ -1216,6 +1222,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", b =>
                 {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CEType", "CEType")
+                        .WithMany()
+                        .HasForeignKey("Ct3CetKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "CompleteStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3CompleteCt6Key")

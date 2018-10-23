@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CEType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CetCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CetDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CetAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CetChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CetAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CetChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CetChangeUser)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CetKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CetKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CetKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
