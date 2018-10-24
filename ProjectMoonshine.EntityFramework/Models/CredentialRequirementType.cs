@@ -38,7 +38,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3InitStoredProcedure { get; set; }
 
-        //public string Ct3EvalStoredProcedure { get; set; }
+        [DisplayName("Eval Stored Procedure")]
+        public string Ct3EvalStoredProcedure { get; set; }
 
         //public Guid Ct3PrdKey { get; set; }
 

@@ -90,7 +90,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Cr3Extension2GrantedReason { get; set; }
 
-        //public bool Cr3AttestmentFlag { get; set; }
+        [DisplayName("Attestment Flag")]
+        public bool Cr3AttestmentFlag { get; set; }
 
         //public string Cr3SignatureFirstName { get; set; }
 
@@ -117,6 +118,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         
         public virtual List<CredentialRequirement> DependentRequirements { get; set; }
+        
 
         public virtual async Task<bool> AddAsync(ApplicationDbContext context)
         {
@@ -491,6 +493,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 if (!await EvalMetAsync(context)) return false;
 
+                if (Cr3MetDate.IsDateTimeOffsetValid()) return true;
+
+                if (!await LoadRequirementTypeAsync(context)) return false;
+
+                if (!CredentialRequirementType.Ct3CompleteCt6Key.IsGuidValid()) return true;
 
                 return (await EvalCompletedAsync(context));
             }
