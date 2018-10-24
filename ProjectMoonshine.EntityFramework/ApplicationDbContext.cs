@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -203,6 +204,25 @@ namespace ProjectMoonshine.EntityFramework
                 entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
                 entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
             }
+        }
+        //
+        // Summary:
+        //     Creates a Microsoft.EntityFrameworkCore.DbQuery`1 that can be used to query instances
+        //     of TQuery.
+        //
+        // Exposure Reason:
+        //     Allows for generic queryies to be built
+        //
+        //
+        // Type parameters:
+        //   TQuery:
+        //     The type of query for which a DbQuery should be returned.
+        //
+        // Returns:
+        //     A DbQuery for the given query type.
+        public new DbQuery<TQuery> Query<TQuery>() where TQuery : class
+        {
+            return base.Query<TQuery>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@model ProjectMoonshine.ViewModels.QueryViewModel
+@using System.Linq;
 @{
     ViewData["Title"] = "Create";
 }
@@ -52,298 +53,450 @@
     }
 
     div.ruleInput {
-        width: 20%;
+        width: 50%;
     }
 
-    .ruleInput {
+    .ruleInputright {
         padding: 5px 5px 5px 5px;
         height: 20px;
         width: 177px;
     }
+
+    .ruleInput {
+        padding: 5px 5px 5px 5px;
+        height: 15px;
+        width: 177px;
+    }
 </style>
 
-<h2>QueryBuilder</h2>
-<span>Where:</span>
-<div class="groups">
-    <ul id="groupsHolder" class="groupQuery">
-        <div>
-            <div>
-                <button id="addRule_0" class="addRule">+ Rule</button>
-                <button id="addGroup_0" class="addGroup">+ Group</button>
-            </div>
-            <div>
-                <input value="And" name="toggle_0" type="radio" checked>
-                <label>And</label>
-                <input value="Or" name="toggle_0" type="radio">
-                <label>Or</label>
-            </div>
-        </div>
-        <ul class="groupQuery">
-            <div class="menuBar">
+
+<div class="row">
+    <style>
+        ul.groupQuery {
+            background-color: #cce5ff;
+            border: 1px solid black;
+            width: 90%;
+        }
+
+        li.ruleQuery {
+            background-color: #ffe6cc;
+            width: 90%;
+        }
+
+        .addGroup, .addRule {
+            width: 75px;
+            height: 25px;
+            background: #ccffcc;
+            box-shadow: none;
+            border: 1px solid black;
+        }
+
+        .removeGroup, .removeRule {
+            width: 75px;
+            height: 25px;
+            padding: 5px 5px 5px 5px;
+            background: #ffcccc;
+            box-shadow: none;
+            border: 1px solid black;
+        }
+
+        .groupQuery button {
+            padding: 0;
+            float: right;
+        }
+
+        button:disabled {
+            background-color: lightgray;
+            color: gray;
+        }
+
+        .flexRow {
+            display: flex;
+            height: 30px;
+            flex-direction: row;
+        }
+
+        .equalityComparisonSelect {
+            padding: 5px 5px 5px 5px;
+        }
+
+        div.ruleInput {
+            width: 50%;
+        }
+
+        .ruleInputright {
+            padding: 5px 5px 5px 5px;
+            height: 20px;
+            width: 177px;
+        }
+
+        .ruleInput {
+            padding: 5px 5px 5px 5px;
+            height: 15px;
+            width: 177px;
+        }
+    </style>
+
+    <h2>QueryBuilder</h2>
+    <form id="QueryForm" action="/query/Create" method="post"></form>
+    <div>
+        <span>From:</span>
+        <select id="TableSelectList" name="Table">
+            <option value=""></option>
+            <option selected="">Address</option>
+            <option>CEDetail</option>
+            <option>CEPeriod</option>
+            <option>CEType</option>
+            <option>CommunicationTemplate</option>
+            <option>Credential</option>
+            <option>CredentialProcess</option>
+            <option>CredentialProcessType</option>
+            <option>CredentialProcessTypeXCredentialRequirementType</option>
+            <option>CredentialRequirement</option>
+            <option>CredentialRequirementTemplate</option>
+            <option>CredentialRequirementType</option>
+            <option>CredentialStatusType</option>
+            <option>CredentialType</option>
+            <option>CredentialTypeXCredentialProcessType</option>
+            <option>Customer</option>
+            <option>Email</option>
+            <option>Event</option>
+            <option>EventRegistration</option>
+            <option>Exam</option>
+            <option>ExamScore</option>
+            <option>FileUpload</option>
+            <option>Person</option>
+            <option>Phone</option>
+            <option>StatusStateType</option>
+        </select>
+    </div>
+    <div>
+        <span>Where:</span>
+        <div class="groups">
+            <ul id="groupsHolder" class="groupQuery">
                 <div>
-                    <button class="removeGroup" id="removeGroup_0">- Delete</button>
-                    <button class="addRule" id="addRule_1">+ Rule</button>
-                    <button class="addGroup" id="addGroup_1">+ Group</button>
-                </div>
-                <div>
-                    <input value="And" name="toggle_1" type="radio" checked>
-                    <label>And</label>
-                    <input value="Or" name="toggle_1" type="radio">
-                    <label>Or</label>
-                </div>
-            </div>
-            <li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <input id="LeftProperty" type="text" class="ruleInput" value="a">
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput">
-                        <select id="EqualityComparison">
-                            <option value="1" selected>LessThan</option>
-                            <option value="2">GreaterThan</option>
-                            <option value="3">LessThanOrEqualsTo</option>
-                            <option value="4">GreaterThanOrEqualsTo</option>
-                            <option value="5">Equals</option>
-                        </select>
-                    </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInput" value="1">
+                    <div>
+                        <button id="addRule_0" class="addRule">+ Rule</button>
+                        <button id="addGroup_0" class="addGroup">+ Group</button>
                     </div>
                     <div>
-                        <button class="removeRule" id="removeRule_0">- Delete</button>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <ul class="groupQuery">
-            <div class="menuBar">
-                <div>
-                    <button class="removeGroup" id="removeGroup_1">- Delete</button>
-                    <button class="addRule" id="addRule_0">+ Rule</button>
-                    <button class="addGroup" id="addGroup_0">+ Group</button>
-                </div>
-                <div>
-                    <input value="And" name="toggle_2" type="radio">
-                    <label>And</label>
-                    <input value="Or" name="toggle_2" type="radio" checked>
-                    <label>Or</label>
-                </div>
-            </div>
-            <li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <input id="LeftProperty" type="text" class="ruleInput"  value="b">
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput">
-                        <select id="EqualityComparison">
-                            <option value="1" selected>LessThan</option>
-                            <option value="2">GreaterThan</option>
-                            <option value="3">LessThanOrEqualsTo</option>
-                            <option value="4">GreaterThanOrEqualsTo</option>
-                            <option value="5">Equals</option>
-                        </select>
-                    </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInput"  value="2">
-                    </div>
-                    <div>
-                        <button class="removeRule" id="removeRule_1">- Delete</button>
-                    </div>
-                </div>
-            </li>
-            <li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <input id="LeftProperty" type="text" class="ruleInput"  value="c">
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput">
-                        <select id="EqualityComparison">
-                            <option value="1">LessThan</option>
-                            <option value="2" selected>GreaterThan</option>
-                            <option value="3">LessThanOrEqualsTo</option>
-                            <option value="4">GreaterThanOrEqualsTo</option>
-                            <option value="5">Equals</option>
-                        </select>
-                    </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInput"  value="3">
-                    </div>
-                    <div>
-                        <button class="removeRule" id="removeRule_2">- Delete</button>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <ul class="groupQuery">
-            <div class="menuBar">
-                <div>
-                    <button class="removeGroup" id="removeGroup_2">- Delete</button>
-                    <button class="addRule" id="addRule_0">+ Rule</button>
-                    <button class="addGroup" id="addGroup_0">+ Group</button>
-                </div>
-                <div>
-                    <input value="And" name="toggle_3" type="radio">
-                    <label>And</label>
-                    <input value="Or" name="toggle_3" type="radio" checked>
-                    <label>Or</label>
-                </div>
-            </div>
-            <li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <input id="LeftProperty" type="text" class="ruleInput"  value="d">
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput">
-                        <select id="EqualityComparison">
-                            <option value="1" selected>LessThan</option>
-                            <option value="2">GreaterThan</option>
-                            <option value="3">LessThanOrEqualsTo</option>
-                            <option value="4">GreaterThanOrEqualsTo</option>
-                            <option value="5">Equals</option>
-                        </select>
-                    </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInput"  value="4">
-                    </div>
-                    <div>
-                        <button class="removeRule" id="removeRule_3">- Delete</button>
-                    </div>
-                </div>
-            </li>
-            <ul class="groupQuery">
-                <div class="menuBar">
-                    <div>
-                        <button class="removeGroup" id="removeGroup_3">- Delete</button>
-                        <button class="addRule" id="addRule_0">+ Rule</button>
-                        <button class="addGroup" id="addGroup_0">+ Group</button>
-                    </div>
-                    <div>
-                        <input value="And" name="toggle_4" type="radio" checked>
+                        <input value="1" name="toggle_0" type="radio" checked="">
                         <label>And</label>
-                        <input value="Or" name="toggle_4" type="radio">
+                        <input value="2" name="toggle_0" type="radio">
                         <label>Or</label>
                     </div>
                 </div>
-                <li class="ruleQuery">
-                    <div class="flexRow">
-                        <div class="ruleInput">
-                            <input id="LeftProperty" type="text" class="ruleInput"  value="e">
-                        </div>
-                        <div class="equalityComparisonSelect ruleInput">
-                            <select id="EqualityComparison">
-                                <option value="1">LessThan</option>
-                                <option value="2" selected>GreaterThan</option>
-                                <option value="3">LessThanOrEqualsTo</option>
-                                <option value="4">GreaterThanOrEqualsTo</option>
-                                <option value="5">Equals</option>
-                            </select>
-                        </div>
-                        <div class="ruleInput">
-                            <input id="RightProperty" type="text" class="ruleInput"  value="5">
+                <ul class="groupQuery">
+                    <div class="menuBar">
+                        <div>
+                            <button class="removeGroup" id="removeGroup_0">- Delete</button>
+                            <button class="addRule" id="addRule_0">+ Rule</button>
+                            <button class="addGroup" id="addGroup_0">+ Group</button>
                         </div>
                         <div>
-                            <button class="removeRule" id="removeRule_4">- Delete</button>
+                            <input value="1" name="toggle_1" type="radio" checked="">
+                            <label>And</label>
+                            <input value="2" name="toggle_1" type="radio">
+                            <label>Or</label>
                         </div>
                     </div>
-                </li>
-                <li class="ruleQuery">
-                    <div class="flexRow">
-                        <div class="ruleInput">
-                            <input id="LeftProperty" type="text" class="ruleInput"  value="f">
+                    <li class="ruleQuery">
+                        <div class="flexRow">
+                            <div class="ruleInput">
+                                <select id="LeftProperty"><option data-type="Guid" value="AdrKey">AdrKey</option><option data-type="DateTimeOffset" value="AdrAddDate">AdrAddDate</option><option data-type="String" value="AdrAddUser">AdrAddUser</option><option data-type="String" value="AdrAddress1">AdrAddress1</option><option data-type="String" value="AdrAddress2">AdrAddress2</option><option data-type="String" value="AdrAddress3">AdrAddress3</option><option data-type="Nullable`1" value="AdrChangeDate">AdrChangeDate</option><option data-type="String" value="AdrChangeUser">AdrChangeUser</option><option data-type="String" value="AdrCity">AdrCity</option><option data-type="Boolean" value="AdrIsHomeAddress">AdrIsHomeAddress</option><option data-type="Boolean" value="AdrIsMailingAddress" selected>AdrIsMailingAddress</option><option data-type="Boolean" value="AdrIsPrimary">AdrIsPrimary</option><option data-type="Boolean" value="AdrIsWorkAddress">AdrIsWorkAddress</option><option data-type="Guid" value="AdrPerKey">AdrPerKey</option><option data-type="String" value="AdrState">AdrState</option><option data-type="String" value="AdrZip">AdrZip</option></select>
+                            </div>
+                            <div class="equalityComparisonSelect ruleInput">
+                                <select id="EqualityComparison">
+                                    <option value="1">LessThen</option>
+                                    <option value="2">GreaterThen</option>
+                                    <option value="3">LessThenOrEqualsTo</option>
+                                    <option value="4">GreaterThenOrEqualsTo</option>
+                                    <option value="5" selected>Equals</option>
+                                </select>
+                            </div>
+                            <div class="ruleInput">
+                                <input id="RightProperty" type="text" class="ruleInputright" value="1">
+                            </div>
+                            <div class="ruleInput">
+                                <button class="removeRule" id="removeRule_0">- Delete</button>
+                            </div>
                         </div>
-                        <div class="equalityComparisonSelect ruleInput">
-                            <select id="EqualityComparison">
-                                <option value="1" selected>LessThan</option>
-                                <option value="2">GreaterThan</option>
-                                <option value="3">LessThanOrEqualsTo</option>
-                                <option value="4">GreaterThanOrEqualsTo</option>
-                                <option value="5">Equals</option>
-                            </select>
-                        </div>
-                        <div class="ruleInput">
-                            <input id="RightProperty" type="text" class="ruleInput"  value="6">
+                    </li>
+                </ul>
+                <ul class="groupQuery">
+                    <div class="menuBar">
+                        <div>
+                            <button class="removeGroup" id="removeGroup_1">- Delete</button>
+                            <button class="addRule" id="addRule_0">+ Rule</button>
+                            <button class="addGroup" id="addGroup_0">+ Group</button>
                         </div>
                         <div>
-                            <button class="removeRule" id="removeRule_5">- Delete</button>
+                            <input value="1" name="toggle_2" type="radio" checked="">
+                            <label>And</label>
+                            <input value="2" name="toggle_2" type="radio">
+                            <label>Or</label>
                         </div>
                     </div>
-                </li>
+                    <li class="ruleQuery">
+                        <div class="flexRow">
+                            <div class="ruleInput">
+                                <select id="LeftProperty"><option data-type="Guid" value="AdrKey">AdrKey</option><option data-type="DateTimeOffset" value="AdrAddDate">AdrAddDate</option><option data-type="String" value="AdrAddUser">AdrAddUser</option><option data-type="String" value="AdrAddress1">AdrAddress1</option><option data-type="String" value="AdrAddress2">AdrAddress2</option><option data-type="String" value="AdrAddress3">AdrAddress3</option><option data-type="Nullable`1" value="AdrChangeDate">AdrChangeDate</option><option data-type="String" value="AdrChangeUser">AdrChangeUser</option><option data-type="String" value="AdrCity">AdrCity</option><option data-type="Boolean" value="AdrIsHomeAddress">AdrIsHomeAddress</option><option data-type="Boolean" value="AdrIsMailingAddress">AdrIsMailingAddress</option><option data-type="Boolean" value="AdrIsPrimary" selected="">AdrIsPrimary</option><option data-type="Boolean" value="AdrIsWorkAddress">AdrIsWorkAddress</option><option data-type="Guid" value="AdrPerKey">AdrPerKey</option><option data-type="String" value="AdrState">AdrState</option><option data-type="String" value="AdrZip">AdrZip</option></select>
+                            </div>
+                            <div class="equalityComparisonSelect ruleInput">
+                                <select id="EqualityComparison">
+                                    <option value="1">LessThen</option>
+                                    <option value="2">GreaterThen</option>
+                                    <option value="3">LessThenOrEqualsTo</option>
+                                    <option value="4">GreaterThenOrEqualsTo</option>
+                                    <option value="5" selected="">Equals</option>
+                                </select>
+                            </div>
+                            <div class="ruleInput">
+                                <input id="RightProperty" type="text" class="ruleInputright" value="1">
+                            </div>
+                            <div class="ruleInput">
+                                <button class="removeRule" id="removeRule_1">- Delete</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </ul>
-        </ul>
-        <li class="ruleQuery">
-            <div class="flexRow">
-                <div class="ruleInput">
-                    <input id="LeftProperty" type="text" class="ruleInput"  value="g">
-                </div>
-                <div class="equalityComparisonSelect ruleInput">
-                    <select id="EqualityComparison">
-                        <option value="1" selected>LessThan</option>
-                        <option value="2">GreaterThan</option>
-                        <option value="3">LessThanOrEqualsTo</option>
-                        <option value="4">GreaterThanOrEqualsTo</option>
-                        <option value="5">Equals</option>
-                    </select>
-                </div>
-                <div class="ruleInput">
-                    <input id="RightProperty" type="text" class="ruleInput"  value="7">
-                </div>
-                <div>
-                    <button class="removeRule" id="removeRule_6">- Delete</button>
-                </div>
-            </div>
-        </li>
-        <li class="ruleQuery">
-            <div class="flexRow">
-                <div class="ruleInput">
-                    <input id="LeftProperty" type="text" class="ruleInput"  value="h">
-                </div>
-                <div class="equalityComparisonSelect">
-                    <select id="EqualityComparison">
-                        <option value="1">LessThan</option>
-                        <option value="2" selected>GreaterThan</option>
-                        <option value="3">LessThanOrEqualsTo</option>
-                        <option value="4">GreaterThanOrEqualsTo</option>
-                        <option value="5">Equals</option>
-                    </select>
-                </div>
-                <div class="ruleInput">
-                    <input id="RightProperty" type="text" class="ruleInput" value="8">
-                </div>
-                <div>
-                    <button class="removeRule" id="removeRule_7">- Delete</button>
-                </div>
-            </div>
-        </li>
-    </ul>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()">
+    </div>
 </div>
 
-
-
-
-
-
-
-
 @*<h2>QueryBuilder</h2>
-<span>Where:</span>
-<div class="groups">
-    <ul id="groupsHolder" class="groupQuery">
-        <div>
+<form asp-action="Create" id="QueryForm"></form>
+<div>
+    <span>From:</span>
+    @Html.DropDownList("Table", new SelectList(Model.TableDetails.Select(s => s.Key)), "", new { id = "TableSelectList" })
+</div>
+<div>
+    <span>Where:</span>
+    <div class="groups">
+        <ul id="groupsHolder" class="groupQuery">
             <div>
-                <button id="addRule" class="addRule">+ Rule</button>
-                <button id="addGroup" class="addGroup">+ Group</button>
+                <div>
+                    <button id="addRule" class="addRule">+ Rule</button>
+                    <button id="addGroup" class="addGroup">+ Group</button>
+                </div>
+                <div>
+                    <input value="1" name="toggle_0" type="radio" checked>
+                    <label>And</label>
+                    <input value="2" name="toggle_0" type="radio">
+                    <label>Or</label>
+                </div>
             </div>
-            <div>
-                <input value="And" name="toggle_0" type="radio" checked>
-                <label>And</label>
-                <input value="Or" name="toggle_0" type="radio">
-                <label>Or</label>
-            </div>
-        </div>
-    </ul>
+        </ul>
+    </div>
+</div>
+<div>
+    <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()" />
 </div>*@
-
 @section Scripts{
-    <script src="~/js/queryBuilder.js"></script>
+    <script>
+        var subItems = @Html.Raw(ViewBag.SelectList);
+        $(document).ready(function () {
+            $('[id^=removeRule]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.ruleQuery').remove();
+                    reRegisterDeligates();
+                });
+            });
+
+            $('[id^=addGroup]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewGroup());
+                    reRegisterDeligates();
+                });
+            });
+
+            $('[id^=addRule]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewRule());
+                    reRegisterDeligates();
+                });
+            });
+        });
+        function reRegisterDeligates() {
+            var addRule = $("[id=addRule]").attr("id", function (i) {
+                return "addRule_" + i;
+            });
+            var addGroup = $("[id=addGroup]").attr("id", function (i) {
+                return "addGroup_" + i;
+            });
+            var removeGroup = $('[id^=removeGroup]').attr("id", function (i) {
+                return "removeGroup_" + i;
+            });
+            var removeRule = $('[id^=removeRule]').attr("id", function (i) {
+                return "removeRule_" + i;
+            });
+
+            $.each(addRule, function (id, pos) {
+                $("#" + id).css(pos);
+            });
+            $.each(addGroup, function (id, pos) {
+                $("#" + id).css(pos);
+            });
+            $.each(removeGroup, function (id, pos) {
+                $("#" + id).css(pos);
+            });
+            $.each(removeRule, function (id, pos) {
+                $("#" + id).css(pos);
+            });
+
+            $('[id^=removeGroup]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('ul').remove();
+                    reRegisterDeligates();
+                });
+            });
+            $('[id^=removeRule]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    console.log($(this).closest('.ruleQuery').remove());
+                    reRegisterDeligates();
+                });
+            });
+            $('[id^=addGroup]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewGroup());
+                    reRegisterDeligates();
+                });
+            });
+            $('[id^=addRule]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewRule());
+                    refreshDropDowns();
+                    reRegisterDeligates();
+                });
+            });
+            refreshDropDowns();
+        }
+        function createNewGroup() {
+            var id = $('ul[class^=groupQuery]').length;
+            var result =
+            `<ul class="groupQuery">
+                <div class="menuBar">
+                    <div>
+                        <button class="removeGroup" id="removeGroup">- Delete</button>
+                        <button class="addRule" id="addRule">+ Rule</button>
+                        <button class="addGroup" id="addGroup">+ Group</button>
+                    </div >
+                    <div>
+                        <input value="1" name="toggle_`+ id + `" type="radio" checked>
+                        <label>And</label>
+                        <input value="2" name="toggle_`+ id + `" type="radio">
+                        <label>Or</label>
+                    </div>
+                </div>
+            </ul>`;
+            return result;
+        }
+
+        function createNewRule() {
+            var result =
+                `<li class="ruleQuery">
+                <div class="flexRow">
+                    <div class="ruleInput">
+                        <select id="LeftProperty"></select>
+                    </div>
+                    <div class="equalityComparisonSelect ruleInput" >
+                        <select id="EqualityComparison">
+                            <option value="1">LessThen</option>
+                            <option value="2">GreaterThen</option>
+                            <option value="3">LessThenOrEqualsTo</option>
+                            <option value="4">GreaterThenOrEqualsTo</option>
+                            <option value="5">Equals</option>
+                        </select>
+                    </div>
+                    <div class="ruleInput">
+                        <input id="RightProperty" type="text" class="ruleInputright"></input>
+                    </div>
+                    <div  class="ruleInput">
+                        <button class="removeRule" id="removeRule">- Delete</button>
+                    </div>
+                </div>
+            </li>`;
+            return result;
+        }
+
+        function submitQueryForm() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Query/Create', true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+            var holder = $('#groupsHolder');
+            var items = holder.children('ul.groupQuery, li.ruleQuery');
+            var result = mapRecursively(items);
+            xhr.send(JSON.stringify(result));
+        }
+
+        function mapRecursively(itemList) {
+            var logic = $('input[name^="toggle_"]:checked').val();
+            var base = $('#TableSelectList').find(':selected').text();
+            var includes = [];
+            //$('').each(function (index, value) {
+            //    includes.push(value);
+            //};
+            var result = {
+                baseType: base,
+                includes: [],
+                logic: logic,
+                logicList: searchObject(itemList, logic)
+            };
+            return result;
+        }
+
+        function searchObject(list, logic) {
+            var res = { logicGroup: [], logic: logic };
+            $(list).map(function (index, item) {
+                var nodeName = $(item).prop('nodeName');
+                if (nodeName === "LI") {
+                    var leftProp = $(item).find('select#LeftProperty').find("option:selected");
+                    var rightProp = $(item).find('input#RightProperty');
+                    res.logicGroup.push({
+                        lhs: { type: $(leftProp).data('type'), value: $(leftProp).val() },
+                        logic: $(item).find('#EqualityComparison').find(":selected").val(),
+                        rhs: $(rightProp).text() === "" ? $(rightProp).val() : $(rightProp).text()
+                    });
+                }
+                else if (nodeName === "UL") {
+                    res.logicGroup.push(searchObject($(item).children('ul.groupQuery, li.ruleQuery'), $(item).find('input[name^="toggle_"]:checked').val()));
+                }
+            });
+            return res;
+        }
+        function refreshDropDowns() {
+            var toAdd = [];
+            var tableValue = $("#TableSelectList").val();
+            if (!tableValue) {
+                tableValue = "Address";
+                $("#TableSelectList").val(tableValue);
+            }
+            $.each(subItems, function (index, value) {
+                if (index == 0) {
+                    toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.name + "</option>");
+                }
+                else if (value.table === tableValue) {
+                    toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.name + "</option>");
+                }
+            });
+            $('select[id^=LeftProp]').each(function (ind, val) {
+                if (val.length == 0) {
+                    $(val).html(toAdd);
+                }
+            });
+        }
+    </script>
 }
 

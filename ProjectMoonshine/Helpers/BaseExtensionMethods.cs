@@ -7,11 +7,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using ProjectMoonshine.Enums;
 
 namespace ProjectMoonshine.Helpers
 {
-    public static class ExtensionMethods
+    public static class BaseExtensionMethods
     {
         /// <summary>
         /// Gets the first match of a regex
