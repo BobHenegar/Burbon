@@ -282,6 +282,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr2AddUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTimeOffset?>("Cr2AuditSelectDate");
+
                     b.Property<DateTimeOffset?>("Cr2ChangeDate")
                         .ValueGeneratedOnAdd();
 
@@ -436,6 +438,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("Cr3AddUser")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Cr3AttestmentFlag");
+
                     b.Property<DateTimeOffset?>("Cr3ChangeDate")
                         .ValueGeneratedOnAdd();
 
@@ -544,6 +548,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<int>("Ct3DueDateRounding");
 
                     b.Property<int>("Ct3DueDateUnit");
+
+                    b.Property<string>("Ct3EvalStoredProcedure");
 
                     b.Property<bool>("Ct3HasRequiredParentsFlag");
 
