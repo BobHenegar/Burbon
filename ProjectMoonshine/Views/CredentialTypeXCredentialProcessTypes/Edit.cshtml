@@ -22,7 +22,16 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @{
+        if (Context.Request.Headers["Referer"].ToString().Contains("CredentialTypes"))
+        {
+            <a asp-controller="CredentialTypes" asp-action="Index">Back to List</a>
+        }
+        else
+        {
+            <a asp-action="Index">Back to List</a>
+        }
+    }
 </div>
 
 @section Scripts {

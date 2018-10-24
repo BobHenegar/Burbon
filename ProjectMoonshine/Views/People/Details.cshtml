@@ -73,7 +73,7 @@
             @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
         </div>
     </div>
-
+</div>
 
     <!-- Modal -->
     <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
