@@ -371,5 +371,19 @@ namespace ProjectMoonshine.EntityFramework.Utils
                 return null;
             }
         }
+
+        public static bool IsUnlocked(StatusStateType state)
+        {
+            try
+            {
+                return !state.Cu6MetFlag && !state.Cu6CompletedFlag && !state.Cu6LockedFlag && !state.Cu6TerminateProcessFlag && !state.Cu6UnderReviewFlag;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+                return false;
+            }
+        }
     }
 }

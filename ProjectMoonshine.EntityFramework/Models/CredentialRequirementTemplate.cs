@@ -70,9 +70,10 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Audit:
                         break;
                     case GlobalConstants.RequirementTemplateCode.CE:
+                        return await EvalCEMetAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Checklist:
-                        return await EvalCEMetAsync(context, requirement);
+                        
                         break;
                     case GlobalConstants.RequirementTemplateCode.Course:
                         break;
@@ -305,7 +306,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                     , Ce2AcceptedUnits = 0
                 };
 
-                return await cePeriod.AddAsync(context);
+                if (!await cePeriod.AddAsync(context)) return false;
+
+                requirement.Cr3DataKey = cePeriod.Ce2Key;
+                context.Update(requirement);
+                return true;
 
             }
             catch (Exception e)
@@ -323,9 +328,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                 CEPeriod cePeriod = await context.CEPeriods
                     .FindAsync(requirement.Cr3DataKey);
 
-                if (cePeriod.Ce2BalanceUnits <= 0 && cePeriod.Ce2RequiredUnits > 0) return true;
+                //if (cePeriod.Ce2BalanceUnits <= 0 && cePeriod.Ce2RequiredUnits > 0) return true;
 
-                if (! await cePeriod.CalculateAsync(context)) return false;
+                //if (! await cePeriod.CalculateAsync(context)) return false;
+
+                if (cePeriod == null) return false;
 
                 return cePeriod.Ce2BalanceUnits <= 0 && cePeriod.Ce2RequiredUnits > 0;
             }
@@ -344,9 +351,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                 CEPeriod cePeriod = await context.CEPeriods
                     .FindAsync(requirement.Cr3DataKey);
 
-                if (cePeriod.Ce2ReportedUnits >= cePeriod.Ce2RequiredUnits && cePeriod.Ce2RequiredUnits > 0) return true;
+                //if (cePeriod.Ce2ReportedUnits >= cePeriod.Ce2RequiredUnits && cePeriod.Ce2RequiredUnits > 0) return true;
 
-                if (!await cePeriod.CalculateAsync(context)) return false;
+                //if (!await cePeriod.CalculateAsync(context)) return false;
+
+                if (cePeriod == null) return false;
 
                 return cePeriod.Ce2ReportedUnits >= cePeriod.Ce2RequiredUnits && cePeriod.Ce2RequiredUnits > 0;
 

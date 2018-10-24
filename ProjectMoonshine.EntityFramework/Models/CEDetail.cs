@@ -68,19 +68,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 await context.AddAsync(this);
                 await context.SaveChangesAsync();
 
-                List<CEPeriod> CEPeriods = await context.CEPeriods
-                    .Where(p => p.Ce2CusKey == Ce1CusKey
-                                && p.Ce2StartDate <= Ce1ActivityDate 
-                                && p.Ce2EndDate >= Ce1ActivityDate)
-                    .ToListAsync();
-
-                if (CEPeriods != null && CEPeriods.Count > 0)
-                {
-                    foreach (CEPeriod cePeriod in CEPeriods)
-                    {
-                        if (!await cePeriod.UpdateAsync(context)) return false;
-                    }
-                }
+                if (!await UpdateCePeriodsAsync(context, Ce1CusKey)) return false;
 
                 await context.SaveChangesAsync();
                 return true;
@@ -102,23 +90,46 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (!CommonUtils.IsGuidValid(Ce1Key)) return false;
                 if (string.IsNullOrWhiteSpace(Ce1ActivityDescription)) return false;
 
+                Guid originalCe1CusKey = await context.CEDetails
+                    .AsNoTracking()
+                    .Where(d => d.Ce1Key == Ce1Key)
+                    .Select(d => d.Ce1CusKey)
+                    .FirstOrDefaultAsync();
+
                 context.Update(this);
+                await context.SaveChangesAsync();
 
-                List<CEPeriod> CEPeriods = await context.CEPeriods
-                    .Where(p => p.Ce2CusKey == Ce1CusKey
-                                && p.Ce2StartDate <= Ce1ActivityDate
-                                && p.Ce2EndDate >= Ce1ActivityDate)
-                    .ToListAsync();
+                if (!await UpdateCePeriodsAsync(context, Ce1CusKey)) return false;
 
-                if (CEPeriods != null && CEPeriods.Count > 0)
+                if (CommonUtils.IsGuidValid(originalCe1CusKey) && Ce1CusKey != originalCe1CusKey)
                 {
-                    foreach (CEPeriod cePeriod in CEPeriods)
-                    {
-                        if (!await cePeriod.UpdateAsync(context)) return false;
-                    }
+                    if (!await UpdateCePeriodsAsync(context, originalCe1CusKey)) return false;
                 }
 
                 await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateCePeriodsAsync(ApplicationDbContext context, Guid cusKey)
+        {
+            try
+            {
+                List<CEPeriod> cePeriods = await context.CEPeriods
+                    .Where(p => p.Ce2CusKey == cusKey)
+                    .ToListAsync();
+
+                if (cePeriods == null || cePeriods.Count <= 0) return true;
+
+                foreach (CEPeriod cePeriod in cePeriods)
+                {
+                    if (!await cePeriod.UpdateAsync(context)) return false;
+                }
                 return true;
             }
             catch (Exception e)

@@ -288,8 +288,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CurrentCredentialProcess == null && Cr1CurrentCr2Key.IsGuidValid())
-                CurrentCredentialProcess = await CredentialingUtils.GetCredentialProcessAsync(context, (Guid) Cr1CurrentCr2Key, true);
+                if (Cr1CurrentCr2Key.IsGuidValid() 
+                    && (CurrentCredentialProcess == null || CurrentCredentialProcess.Cr2Key != Cr1CurrentCr2Key))
+                    CurrentCredentialProcess = await CredentialingUtils.GetCredentialProcessAsync(context, (Guid) Cr1CurrentCr2Key, true);
+
                 return CurrentCredentialProcess != null;
             }
             catch (Exception e)
