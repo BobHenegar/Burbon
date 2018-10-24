@@ -64,10 +64,13 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.None:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Application:
+                        return await EvalApplicationMetAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Attestment:
+                        return EvalAttestmentMet(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
+                        return await EvalAuditMetAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.CE:
                         return await EvalCEMetAsync(context, requirement);
@@ -126,6 +129,60 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
+        private async Task<bool> EvalAuditMetAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                if (requirement.Cr3MetDate.IsDateTimeOffsetValid()) return true;
+
+                requirement.CredentialProcess =
+                    await CredentialingUtils.GetCredentialProcessAsync(context, requirement.Cr3Cr2Key);
+
+                if (requirement.CredentialProcess == null || requirement.CredentialProcess.Cr2AuditSelectDate.IsDateTimeOffsetValid()) return false;
+
+                requirement.CredentialRequirementType =
+                    await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+
+                if (string.IsNullOrWhiteSpace(requirement.CredentialRequirementType.Ct3EvalStoredProcedure))
+                    return false;
+
+                if (await CredentialingUtils.GetStringFromSp(context,
+                        requirement.CredentialRequirementType.Ct3EvalStoredProcedure, requirement.Cr3Key.ToString()) !=
+                    "true") return true;
+
+                requirement.CredentialProcess.Cr2AuditSelectDate = DateTimeOffset.Now;
+
+                context.Update(requirement.CredentialProcess);
+
+                if (!requirement.CredentialRequirementType.Ct3StartCt6Key.IsGuidValid()) return false;
+
+                requirement.Cr3Ct6Key = requirement.CredentialRequirementType.Ct3StartCt6Key;
+                context.Update(requirement);
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private bool EvalAttestmentMet(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                return requirement.Cr3AttestmentFlag;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public async Task<bool> EvaluateCompleteAsync(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
@@ -144,10 +201,13 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.None:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Application:
+                        return await EvalApplicationMetAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Attestment:
+                        return EvalAttestmentMet(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
+                        return await EvalAuditMetAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.CE:
 
@@ -206,6 +266,25 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
+        private async Task<bool> EvalApplicationMetAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                DateTimeOffset? submitDate = await context.CredentialProcesses
+                    .AsNoTracking()
+                    .Where(p => p.Cr2Key == requirement.Cr3Cr2Key)
+                    .Select(p => p.Cr2SubmitDate)
+                    .FirstOrDefaultAsync();
+
+                return (submitDate.IsDateTimeOffsetValid());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         public async Task<bool> InitAsync(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
@@ -219,6 +298,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Attestment:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
+                        return await InitAuditAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.CE:
                         return await InitCEAsync(context, requirement);
@@ -265,6 +345,28 @@ namespace ProjectMoonshine.EntityFramework.Models
                     default:
                         return true;
                 }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private async Task<bool> InitAuditAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                requirement.CredentialRequirementType =
+                    await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+
+                if (!requirement.CredentialRequirementType.Ct3DependentCt6Key.IsGuidValid()) return true;
+                requirement.Cr3Ct6Key = requirement.CredentialRequirementType.Ct3DependentCt6Key;
+                context.Update(requirement);
+
                 return true;
             }
             catch (Exception e)

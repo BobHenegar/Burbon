@@ -80,6 +80,15 @@ namespace ProjectMoonshine.EntityFramework.Utils
             return await command.ExecuteScalarAsync() is DateTimeOffset rawStartDate ? rawStartDate : DateTimeOffset.MinValue;
         }
 
+        public static async Task<string> GetStringFromSp(DbContext context, string procedure, string parameterValue)
+        {
+            DbConnection connection = context.Database.GetDbConnection();
+            await connection.OpenAsync();
+            DbCommand command = connection.CreateCommand();
+            command.CommandText = string.Format("EXEC dbo.{0} {1}", procedure, parameterValue);
+            return await command.ExecuteScalarAsync() is string rawString ? rawString : null;
+        }
+
         public static async Task<short?> GetNextCredentialNumber(ApplicationDbContext context, Credential credential)
         {
             if (credential == null) return null;

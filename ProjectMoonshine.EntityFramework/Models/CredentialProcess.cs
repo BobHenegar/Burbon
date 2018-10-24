@@ -94,7 +94,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public DateTimeOffset Cr2AgreementDate { get; set; }
 
-        //public DateTimeOffset Cr2AuditSelectDate { get; set; }
+        [DisplayName("Selected for Audit Date")]
+        public DateTimeOffset? Cr2AuditSelectDate { get; set; }
 
         //public DateTimeOffset Cr2AuditCompleteDate { get; set; }
 
