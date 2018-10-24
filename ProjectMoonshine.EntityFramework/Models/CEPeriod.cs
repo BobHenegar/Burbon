@@ -58,17 +58,30 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 if (!await CalculateAsync(context)) return false;
 
+                bool isMet = Ce2RequiredUnits > 0 && Ce2BalanceUnits <= 0;
 
-                if (( Ce2RequiredUnits > 0 && Ce2BalanceUnits <= 0  ) 
-                    || (Ce2RequiredUnits > 0 && Ce2ReportedUnits >= Ce2RequiredUnits )  )
+                bool isComplete = Ce2RequiredUnits > 0 && Ce2ReportedUnits >= Ce2RequiredUnits;
+
+                if (isMet || isComplete  )
                 {
                     CredentialRequirement credentialRequirement = await context.CredentialRequirements
+                        .Include(r => r.Status)
+                        .ThenInclude(s => s.State)
                         .Where(r => r.Cr3DataKey == Ce2Key)
                         .FirstOrDefaultAsync();
 
+                    if (credentialRequirement != null 
+                        && isMet 
+                        && !credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid() 
+                        && !await credentialRequirement.UpdateAsync(context))
+                        return false;
+
                     if (credentialRequirement != null
-                        && !credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()
-                        && !await credentialRequirement.UpdateAsync(context)) return false;
+                        && isComplete && credentialRequirement.Status?.State != null 
+                        && CredentialingUtils.IsUnlocked(credentialRequirement.Status.State)
+                        && !await credentialRequirement.UpdateAsync(context))
+                        return false;
+                        
                 }
                 
                 await context.SaveChangesAsync();
@@ -90,16 +103,19 @@ namespace ProjectMoonshine.EntityFramework.Models
                     .Where(d => d.Ce1ActivityDate >= Ce2StartDate
                                 && d.Ce1ActivityDate <= Ce2EndDate
                                 && d.Ce1CetKey == Ce2CetKey
+                                && d.Ce1CusKey == Ce2CusKey
                                 && d.Ce1VerifiedFlag)
                     .SumAsync(d => d.Ce1Units);
 
                 Ce2ReportedUnits = await context.CEDetails
                     .Where(d => d.Ce1ActivityDate >= Ce2StartDate
                                 && d.Ce1ActivityDate <= Ce2EndDate
-                                && d.Ce1CetKey == Ce2CetKey)
+                                && d.Ce1CetKey == Ce2CetKey
+                                && d.Ce1CusKey == Ce2CusKey
+                                )
                     .SumAsync(d => d.Ce1Units);
 
-                Ce2BalanceUnits = Ce2RequiredUnits - Ce2BalanceUnits > 0 ? Ce2RequiredUnits - Ce2BalanceUnits : 0;
+                Ce2BalanceUnits = Ce2RequiredUnits - Ce2AcceptedUnits > 0 ? Ce2RequiredUnits - Ce2AcceptedUnits : 0;
 
                 context.Update(this);
 

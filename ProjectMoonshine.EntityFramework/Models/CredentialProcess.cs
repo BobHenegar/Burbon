@@ -436,7 +436,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (Credential == null) Credential = await CredentialingUtils.GetCredentialAsync(context, Cr2Cr1Key, includeCredentialType);
+                if (Credential == null || Credential.Cr1Key != Cr2Cr1Key)
+                    Credential = await CredentialingUtils.GetCredentialAsync(context, Cr2Cr1Key, includeCredentialType);
 
                 return Credential != null;
             }
@@ -461,12 +462,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (Cr2Ct6Key.IsGuidValid()
-                    && (StatusType == null
-                        || StatusType != null
-                        && StatusType.State == null
-                        && includeState
-                    ))
+                if (Cr2Ct6Key.IsGuidValid() && (StatusType == null 
+                                                || StatusType.Ct6Key != Cr2Ct6Key 
+                                                || (StatusType.State == null && includeState) ) )
+                    
                 {
                     StatusType = await CredentialingUtils.GetCredentialStatusTypeAsync(context, (Guid)Cr2Ct6Key, includeState);
                 }
@@ -807,7 +806,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CredentialProcessType == null)
+                if (CredentialProcessType == null || CredentialProcessType.Ct2Key != Cr2Ct2Key)
                     CredentialProcessType = await CredentialingUtils.GetCredentialProcessTypeAsync(context, Cr2Ct2Key);
 
                 return CredentialProcessType != null;

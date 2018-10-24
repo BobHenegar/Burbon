@@ -252,7 +252,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CredentialProcess == null)
+                if (CredentialProcess == null || CredentialProcess.Cr2Key != Cr3Cr2Key)
                     CredentialProcess = await CredentialingUtils.GetCredentialProcessAsync(context, Cr3Cr2Key);
 
                 return CredentialProcess != null;
@@ -492,7 +492,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (!await EvalMetAsync(context)) return false;
 
 
-                return (!await EvalCompletedAsync(context));
+                return (await EvalCompletedAsync(context));
             }
             catch (Exception e)
             {
@@ -737,7 +737,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (CredentialRequirementType == null)
+                if (CredentialRequirementType == null 
+                    || CredentialRequirementType.Ct3Key != Cr3Ct3Key
+                    || (CredentialRequirementType.Template == null && includeTemplate))
                 {
                     CredentialRequirementType =
                         await CredentialingUtils.GetCredentialRequirementTypeAsync(context, Cr3Ct3Key, includeTemplate);
@@ -767,11 +769,9 @@ namespace ProjectMoonshine.EntityFramework.Models
             try
             {
                 if (Cr3Ct6Key.IsGuidValid() 
-                    && (Status == null
-                    || Status != null 
-                        && Status.State == null 
-                        && includeState
-                    ))
+                    && (Status == null 
+                        || Status.Ct6Key != Cr3Ct6Key 
+                        || ( Status.State == null && includeState)))
                 {
                     Status = await CredentialingUtils.GetCredentialStatusTypeAsync(context, (Guid) Cr3Ct6Key, includeState);
                 }
