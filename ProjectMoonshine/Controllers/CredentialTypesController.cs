@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,13 @@ namespace ProjectMoonshine.Controllers
                 .ThenInclude(cx => cx.CredentialProcessTypeXCredentialRequirementTypes)
                 .ThenInclude(cr => cr.CredentialRequirementType)
                 .OrderBy(c => c.Ct1Order);
+
+
+            List<SelectListItem> list = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process").ToList();
+            list.Insert(0, (new SelectListItem { Text = "Create New Process", Value = null }));
+            list.Insert(0, (new SelectListItem { Text = "Please Select", Value = null }));
+            ViewData["Ct2Processes"] = list;
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -62,7 +70,6 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Create()
         {
             CredentialTypeViewModel credentialTypeViewModel = new CredentialTypeViewModel(_context);
-            ViewBag.Action = "create";
             return View(credentialTypeViewModel);
         }
 
@@ -73,7 +80,6 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind(ModelBindingConstants.CredentialType)] CredentialType credentialType)
         {
-            ViewBag.Action = "create";
 
             if (ModelState.IsValid)
             {
@@ -91,7 +97,6 @@ namespace ProjectMoonshine.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
 
-            ViewBag.Action = "edit";
             if (id == null)
             {
                 return NotFound();
@@ -116,7 +121,6 @@ namespace ProjectMoonshine.Controllers
             [Bind(ModelBindingConstants.CredentialType)]
             CredentialType credentialType)
         {
-            ViewBag.Action = "edit";
 
             if (id != credentialType.Ct1Key)
             {
@@ -185,6 +189,41 @@ namespace ProjectMoonshine.Controllers
         private bool CredentialTypeExists(Guid id)
         {
             return _context.CredentialTypes.Any(e => e.Ct1Key == id);
+        }
+
+        [HttpPost]
+        public ActionResult AddProcessType(string submit)
+        {
+            if (Request.Form["ct4Name"].ToString().Length > 0)
+            {
+
+                Guid g = Guid.NewGuid();
+                CredentialProcessType p = new CredentialProcessType();
+                p.Ct2Key = g;
+                p.Ct2Process = Request.Form["ct4Name"].ToString();
+                p.Ct2Description = Request.Form["ct4Name"].ToString();
+                _context.Add(p);
+                _context.SaveChanges();
+
+
+                CredentialTypeXCredentialProcessType c = new CredentialTypeXCredentialProcessType();
+                c.Ct4Ct1Key = new Guid();
+                c.Ct4Ct1Key = Guid.Parse(Request.Form["ct1Key"]);
+                c.Ct4Ct2Key = g;
+                _context.Add(c);
+                _context.SaveChanges();
+                return RedirectToAction("Edit", "CredentialTypeXCredentialProcessTypes",new {id=c.Ct4Key.ToString()});
+            }
+            else
+            {
+                CredentialTypeXCredentialProcessType c = new CredentialTypeXCredentialProcessType();
+                c.Ct4Ct1Key = new Guid();
+                c.Ct4Ct1Key = Guid.Parse(Request.Form["ct1Key"]);
+                c.Ct4Ct2Key = Guid.Parse(Request.Form["Ct2Processes"]);
+                _context.Add(c);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }
