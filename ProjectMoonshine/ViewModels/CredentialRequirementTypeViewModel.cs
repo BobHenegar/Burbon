@@ -32,6 +32,8 @@ namespace ProjectMoonshine.ViewModels
 
         public SelectList Ct3CetKeySelectList { get; set; }
 
+        public SelectList Ct3Cu6KeySelectList { get; set; }
+
         public CredentialRequirementTypeViewModel(ApplicationDbContext context, CredentialRequirementType credentialRequirementType = null)
         {
             _context = context;
@@ -46,7 +48,7 @@ namespace ProjectMoonshine.ViewModels
             Ct3StartCr2Ct6KeySelectList =  new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", CredentialRequirementType.Ct3StartCr2Ct6Key);
             Ct3MetCr2Ct6KeySelectList =  new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", CredentialRequirementType.Ct3MetCr2Ct6Key);
             Ct3CetKeySelectList = new SelectList(_context.CEType, "CetKey", "CetCode", CredentialRequirementType.Ct3CetKey);
-
+            Ct3Cu6KeySelectList = new SelectList(_context.StatusStateTypes, "Cu6Key","Cu6Code");
         }
     }
 }

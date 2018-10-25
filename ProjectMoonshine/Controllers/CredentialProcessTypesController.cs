@@ -84,7 +84,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: CredentialProcessTypes/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, Guid? ct4Key = null)
         {
             if (id == null)
             {
@@ -96,10 +96,14 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ct4Key"] = ct4Key !=null? ct4Key.ToString(): "";
+
             CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context, credentialProcessType);
 
             return View(credentialProcessTypeViewModel);
         }
+
 
         // POST: CredentialProcessTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -136,7 +140,7 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Request.Form["source"].ToString().Equals("CredentialType") ? RedirectToAction("Edit", "CredentialTypeXCredentialProcessTypes",new{id=Request.Form["ct4Key"].ToString(), source="ProcessTypes"}) : RedirectToAction(nameof(Index));
             }
             CredentialProcessTypeViewModel credentialProcessTypeViewModel = new CredentialProcessTypeViewModel(_context, credentialProcessType);
 
@@ -178,6 +182,42 @@ namespace ProjectMoonshine.Controllers
         private bool CredentialProcessTypeExists(Guid id)
         {
             return _context.CredentialProcessTypes.Any(e => e.Ct2Key == id);
+        }
+
+        [HttpPost]
+        public ActionResult AddRequirementType(string submit)
+        {
+            if (Request.Form["ct3Name"].ToString().Length > 0)
+            {
+
+                Guid g = Guid.NewGuid();
+                CredentialRequirementType r = new CredentialRequirementType();
+                r.Ct3Key = g;
+                r.Ct3Requirement = Request.Form["ct3Name"].ToString();
+                r.Ct3Description = Request.Form["ct3Name"].ToString();
+                r.Ct3Ct8Key = Guid.Parse(Request.Form["Ct8Templates"]);
+                _context.Add(r);
+                _context.SaveChanges();
+
+
+                CredentialProcessTypeXCredentialRequirementType c = new CredentialProcessTypeXCredentialRequirementType();
+                c.Ct5Key = new Guid();
+                c.Ct5Ct2Key = Guid.Parse(Request.Form["ct2Key"]);
+                c.Ct5Ct3Key = g;
+                _context.Add(c);
+                _context.SaveChanges();
+                return RedirectToAction("Edit", "CredentialRequirementTypes", new { id = c.Ct5Ct3Key.ToString(), ct5Key=c.Ct5Key });
+            }
+            else
+            {
+                CredentialProcessTypeXCredentialRequirementType c = new CredentialProcessTypeXCredentialRequirementType();
+                c.Ct5Key = new Guid();
+                c.Ct5Ct2Key = Guid.Parse(Request.Form["ct2Key"]);
+                c.Ct5Ct3Key = Guid.Parse(Request.Form["Ct3Requirements"].ToString());
+                _context.Add(c);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "CredentialTypes");
         }
     }
 }

@@ -7,6 +7,9 @@
 <h2>Edit</h2>
 
 <h4>CredentialRequirementType</h4>
+<button data-toggle="modal" data-target="#addStatus" class="btn btn-default btn-xs text-center btn-success">
+    <span class="glyphicon-plus"></span>
+</button>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,16 +17,61 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @await Html.PartialAsync("_CredentialRequirementTypeAddEditPartialView", Model)
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                @{
+                    if (ViewData["ct5Key"].ToString().Length > 0)
+                    {
+                        <input type="hidden" value="CredentialProcessTypes" name="source" id="source" />
+                        <input type="hidden" value="@ViewData["ct5Key"].ToString()" name="ct5Key" id="ct5Key" />
+
+                    }
+                    else
+                    {
+                        <input type="hidden" value="RequirementType" name="source" id="source" />
+                        <input type="hidden" value="" name="ct5Key" id="ct5Key" />
+                    }
+                    <input type="submit" value="Save" class="btn btn-default" />
+                }
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @{
+        if (!Context.Request.Headers["Referer"].ToString().Contains("CredentialProcessTypes"))
+        {
+            <a asp-action="Index">Back to List</a>
+        }
+    }
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<!-- StatusModal -->
+<div class="modal fade" id="addStatus" tabindex="-1" role="dialog" aria-labelledby="addStatusLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Add Status Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="CredentialStatusTypes" asp-action="AddStatusType">
+                    <div class="form-group">
+                        <input type="hidden" name="ct3Key" value="@Model.CredentialRequirementType.Ct3Key.ToString()" />
+                            <input type="text" name="ct6Name" value="" />
+                            <textarea name="ct6Description" cols="80" rows="30" value=""></textarea>
+                            @Html.DropDownListFor(st => st.Ct3Cu6KeySelectList, Model.Ct3Cu6KeySelectList, "", new { @class = "form-control" })
+
+                    </div>
+                    <button id="ct6s" name="Submit" type="submit" class="btn btn-sm btn-primary" value="Submit">Submit</button>
+                    <button id="ct6x" name="Submit" type="submit" class="btn btn-sm btn-secondary" value="Cancel" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

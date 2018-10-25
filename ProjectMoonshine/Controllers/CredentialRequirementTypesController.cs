@@ -95,7 +95,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: CredentialRequirementTypes/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, Guid? ct5Key = null)
         {
             if (id == null)
             {
@@ -116,6 +116,8 @@ namespace ProjectMoonshine.Controllers
             //ViewData["Ct3StartCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCr2Ct6Key);
             //ViewData["Ct3MetCr2Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCr2Ct6Key);
             //ViewData["Ct3CetKey"] = new SelectList(_context.CEType, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CetKey);
+
+            ViewData["ct5Key"] = ct5Key != null? ct5Key.ToString() : "";
 
             CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context, credentialRequirementType);
             return View(viewModel);
@@ -156,7 +158,7 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Request.Form["source"].ToString().Equals("CredentialProcessTypes") ? RedirectToAction("Edit", "CredentialProcessTypeXCredentialRequirementTypes", new { id = Request.Form["ct5Key"].ToString(), source = "RequirementTypes" }) : RedirectToAction(nameof(Index));
             }
             //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
             //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);

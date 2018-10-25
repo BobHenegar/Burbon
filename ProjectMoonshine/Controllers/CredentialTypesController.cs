@@ -36,10 +36,19 @@ namespace ProjectMoonshine.Controllers
                 .OrderBy(c => c.Ct1Order);
 
 
-            List<SelectListItem> list = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process").ToList();
-            list.Insert(0, (new SelectListItem { Text = "Create New Process", Value = null }));
-            list.Insert(0, (new SelectListItem { Text = "Please Select", Value = null }));
-            ViewData["Ct2Processes"] = list;
+            List<SelectListItem> processList = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process").ToList();
+            processList.Insert(0, (new SelectListItem { Text = "Create New Process", Value = null }));
+            processList.Insert(0, (new SelectListItem { Text = "Please Select", Value = null }));
+            ViewData["Ct2Processes"] = processList;
+
+            List<SelectListItem> reqList = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Requirement").ToList();
+            reqList.Insert(0, (new SelectListItem { Text = "Create New Requirement", Value = null }));
+            reqList.Insert(0, (new SelectListItem { Text = "Please Select", Value = null }));
+            ViewData["Ct3Requirements"] = reqList;
+
+            List<SelectListItem> ct8List = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template").ToList();
+            ct8List.Insert(0, (new SelectListItem { Text = "Please Select", Value = null }));
+            ViewData["Ct8Templates"] = ct8List;
 
             return View(await applicationDbContext.ToListAsync());
         }
@@ -194,32 +203,32 @@ namespace ProjectMoonshine.Controllers
         [HttpPost]
         public ActionResult AddProcessType(string submit)
         {
-            if (Request.Form["ct4Name"].ToString().Length > 0)
+            if (Request.Form["ct2Name"].ToString().Length > 0)
             {
 
                 Guid g = Guid.NewGuid();
                 CredentialProcessType p = new CredentialProcessType();
                 p.Ct2Key = g;
-                p.Ct2Process = Request.Form["ct4Name"].ToString();
-                p.Ct2Description = Request.Form["ct4Name"].ToString();
+                p.Ct2Process = Request.Form["ct2Name"].ToString();
+                p.Ct2Description = Request.Form["ct2Name"].ToString();
                 _context.Add(p);
                 _context.SaveChanges();
 
 
                 CredentialTypeXCredentialProcessType c = new CredentialTypeXCredentialProcessType();
-                c.Ct4Ct1Key = new Guid();
+                c.Ct4Key = new Guid();
                 c.Ct4Ct1Key = Guid.Parse(Request.Form["ct1Key"]);
                 c.Ct4Ct2Key = g;
                 _context.Add(c);
                 _context.SaveChanges();
-                return RedirectToAction("Edit", "CredentialTypeXCredentialProcessTypes",new {id=c.Ct4Key.ToString()});
+                return RedirectToAction("Edit", "CredentialProcessTypes",new {id=c.Ct4Ct2Key.ToString(),ct4Key = c.Ct4Key.ToString()});
             }
             else
             {
                 CredentialTypeXCredentialProcessType c = new CredentialTypeXCredentialProcessType();
-                c.Ct4Ct1Key = new Guid();
+                c.Ct4Key = new Guid();
                 c.Ct4Ct1Key = Guid.Parse(Request.Form["ct1Key"]);
-                c.Ct4Ct2Key = Guid.Parse(Request.Form["Ct2Processes"]);
+                c.Ct4Ct2Key = Guid.Parse(Request.Form["Ct2Processes"].ToString());
                 _context.Add(c);
                 _context.SaveChanges();
             }

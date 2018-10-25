@@ -75,7 +75,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: CredentialTypeXCredentialProcessTypes/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, string source = null)
         {
             if (id == null)
             {
@@ -87,6 +87,10 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+
+            
+            ViewData["source"] = source ?? "";
+
             CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context, credentialTypeXCredentialProcessType);
             return View(credentialTypeXCredentialProcessTypeViewModel);
         }
@@ -96,7 +100,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialTypeXCredentialProcessType)] CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType)
+        public async Task<IActionResult> Edit(Guid id, [Bind(ModelBindingConstants.CredentialTypeXCredentialProcessType)] CredentialTypeXCredentialProcessType credentialTypeXCredentialProcessType, string submit)
         {
             if (id != credentialTypeXCredentialProcessType.Ct4Key)
             {
@@ -126,7 +130,8 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                    return RedirectToAction(nameof(Index));
+
+                return Request.Form["source"].ToString().Equals("CredentialType") ? RedirectToAction(nameof(Index), "CredentialTypes") : RedirectToAction(nameof(Index));
             }
             CredentialTypeXCredentialProcessTypeViewModel credentialTypeXCredentialProcessTypeViewModel = new CredentialTypeXCredentialProcessTypeViewModel(_context, credentialTypeXCredentialProcessType);
             return View(credentialTypeXCredentialProcessTypeViewModel);
