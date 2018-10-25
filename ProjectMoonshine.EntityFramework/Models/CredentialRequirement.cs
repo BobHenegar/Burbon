@@ -103,6 +103,25 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Int16 Cr3ExamAttempts { get; set; }
 
+        [DisplayName("CE Period")]
+        public Guid? Cr3Ce2Key { get; set; }
+
+        [DisplayName("Degree")]
+        public Guid? Cr3DegKey { get; set; }
+
+        [DisplayName("Exam Score")]
+        public Guid? Cr3ExsKey { get; set; }
+
+        [ForeignKey("Cr3ExsKey")]
+        public virtual ExamScore ExamScore { get; set; }
+
+        [ForeignKey("Cr3DegKey")]
+        public virtual Degree Degree { get; set; }
+
+
+        [ForeignKey("Cr3Ce2Key")]
+        public CEPeriod CEPeriod { get; set; }
+
         [ForeignKey("Cr3Cr2Key")]
         public virtual CredentialProcess CredentialProcess { get; set; }
 
@@ -540,8 +559,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -570,8 +593,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
         //private async Task<bool> EvaluateMetRule(ApplicationDbContext context)
