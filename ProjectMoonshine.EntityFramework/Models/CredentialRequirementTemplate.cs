@@ -225,7 +225,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Custom:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Degree:
-                        return await EvalDegreeCompleteAsync(context, requirement);
+                        return EvalDegreeComplete(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Designation:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
@@ -275,12 +275,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private async Task<bool> EvalDegreeCompleteAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        private bool EvalDegreeComplete(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
             {
-                //if ()
-                return false;
+                return requirement.Cr3DataKey != null;
             }
             catch (Exception e)
             {
@@ -392,7 +391,29 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                //context.
+                Customer customer = await CredentialingUtils.GetCustomerFromProcessKey(context, requirement.Cr3Cr2Key);
+
+                if (customer == null) return false;
+
+                if (requirement.CredentialRequirementType == null)
+                    requirement.CredentialRequirementType = await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+
+                Degree degree = await context.Degrees
+                    .AsNoTracking()
+                    .Where(d => d.DegCusKey == customer.CusKey 
+                                && d.DegDetKey == requirement.CredentialRequirementType.Ct3DetKey)
+                    .OrderByDescending( d => d.DegDate)
+                    .FirstOrDefaultAsync();
+
+                if (degree == null) return true;
+
+                requirement.Cr3DataKey = degree.DegKey;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+
+
                 return true;
             }
             catch (Exception e)

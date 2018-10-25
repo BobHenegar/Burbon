@@ -397,5 +397,55 @@ namespace ProjectMoonshine.EntityFramework.Utils
                 return false;
             }
         }
+
+        public static async Task<Customer> GetCustomerFromProcessKey(ApplicationDbContext context, Guid processKey)
+        {
+            try
+            {
+                CredentialProcess process = await context.CredentialProcesses
+                    .Include(p => p.Credential)
+                    .ThenInclude(p => p.Customer)
+                    .Where(p => p.Cr2Key == processKey)
+                    .FirstOrDefaultAsync();
+
+                return process?.Credential?.Customer;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return null;
+            }
+        }
+
+        public static async Task<List<CredentialRequirement>> GetCredentialRequirementsFromCustomerKey(
+            ApplicationDbContext context, Guid customerKey)
+        {
+            try
+            {
+                return await context.CredentialRequirements
+                    .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .Include(r => r.CredentialRequirementType)
+                    .Include(r => r.Status)
+                    .ThenInclude(s => s.State)
+                    .Where(r => r.CredentialProcess.Credential.Customer.CusKey == customerKey)
+                    .ToListAsync();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return null;
+            }
+        }
     }
 }
