@@ -275,7 +275,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Document:
-                        break;
+                        return EvalDocumentComplete(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.DocumentRequest:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Ethics:
@@ -310,6 +310,24 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        private bool EvalDocumentComplete(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                return requirement.Cr3FupKey.IsGuidValid();
+            }
+            catch (Exception e)
+            {
+
                 Debug.WriteLine(e.RecursivelyFormatException());
                 if (Environment.UserInteractive)
                 {
@@ -388,7 +406,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Document:
-                        break;
+                        return await InitDocumentAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.DocumentRequest:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Ethics:
@@ -397,7 +415,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                         break;
                     case GlobalConstants.RequirementTemplateCode.Exam:
                         return await InitExamAsync(context, requirement);
-                        break;
+                        
                     case GlobalConstants.RequirementTemplateCode.Experience:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Fee:
@@ -419,6 +437,50 @@ namespace ProjectMoonshine.EntityFramework.Models
                     default:
                         return true;
                 }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        
+
+        private async Task<bool> InitDocumentAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                Customer customer = await CredentialingUtils.GetCustomerFromProcessKey(context, requirement.Cr3Cr2Key);
+
+                if (customer == null) return false;
+
+                if (requirement.CredentialRequirementType == null)
+                    requirement.CredentialRequirementType =
+                        await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+
+                if (!requirement.CredentialRequirementType.Ct3DtpKey.IsGuidValid()) return true;
+
+                FileUpload fileUpload = await context.FileUploads
+                    .Include(f => f.Person)
+                    .Where(f => f.Person.PerCusKey == customer.CusKey 
+                                && f.FupDtpKey == requirement.CredentialRequirementType.Ct3DtpKey)
+                    .OrderByDescending(f => f.FupAddDate)
+                    .FirstOrDefaultAsync();
+
+                if (fileUpload == null) return true;
+
+                requirement.Cr3FupKey = fileUpload.FupKey;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+
                 return true;
             }
             catch (Exception e)

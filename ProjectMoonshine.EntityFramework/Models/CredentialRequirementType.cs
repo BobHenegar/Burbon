@@ -69,7 +69,8 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Degree Type")]
         public Guid? Ct3DetKey { get; set; }
 
-        //public string Ct3DocType { get; set; }
+        [DisplayName("Document Type")]
+        public Guid? Ct3DtpKey { get; set; }
 
         //public Guid Ct3RltKey { get; set; }
 
@@ -222,6 +223,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3ExmKey")]
         public virtual Exam Exam { get; set; }
+
+        [ForeignKey("Ct3DtpKey")]
+        public virtual DocumentType DocumentType { get; set; }
         #endregion Navigation Properties
     }
 }

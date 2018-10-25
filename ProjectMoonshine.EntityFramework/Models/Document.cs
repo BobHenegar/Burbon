@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    public class Document
+    public class Document: EntityBase
     {
 
         [NotMapped]

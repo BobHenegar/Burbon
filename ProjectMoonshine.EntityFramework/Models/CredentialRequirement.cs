@@ -112,6 +112,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Exam Score")]
         public Guid? Cr3ExsKey { get; set; }
 
+        [DisplayName("File Upload")]
+        public Guid? Cr3FupKey { get; set; }
+
         [ForeignKey("Cr3ExsKey")]
         public virtual ExamScore ExamScore { get; set; }
 
@@ -121,6 +124,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Cr3Ce2Key")]
         public CEPeriod CEPeriod { get; set; }
+
+        [ForeignKey("Cr3FupKey")]
+        public virtual FileUpload FileUpload { get; set; }
 
         [ForeignKey("Cr3Cr2Key")]
         public virtual CredentialProcess CredentialProcess { get; set; }

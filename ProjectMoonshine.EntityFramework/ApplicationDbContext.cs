@@ -66,6 +66,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<DegreeType> DegreeTypes { get; set; }
 
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+
 
 
 
