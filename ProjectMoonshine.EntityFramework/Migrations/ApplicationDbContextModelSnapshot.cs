@@ -466,6 +466,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Cr3FupKey");
 
+                    b.Property<Guid?>("Cr3IxlKey");
+
                     b.Property<DateTimeOffset?>("Cr3MetDate");
 
                     b.Property<DateTimeOffset?>("Cr3StartDate");
@@ -487,6 +489,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Cr3ExsKey");
 
                     b.HasIndex("Cr3FupKey");
+
+                    b.HasIndex("Cr3IxlKey");
 
                     b.ToTable("CredentialRequirement");
                 });
@@ -1110,6 +1114,44 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("FileUploads");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.License", b =>
+                {
+                    b.Property<Guid>("IxlKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("IxlAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("IxlAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("IxlChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("IxlChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("IxlCusKey");
+
+                    b.Property<DateTimeOffset>("IxlExpireDate");
+
+                    b.Property<DateTimeOffset>("IxlIssueDate");
+
+                    b.Property<string>("IxlLicenseName");
+
+                    b.Property<string>("IxlLicenseNo");
+
+                    b.Property<string>("IxlState");
+
+                    b.HasKey("IxlKey");
+
+                    b.HasIndex("IxlCusKey");
+
+                    b.ToTable("Licenses");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Person", b =>
                 {
                     b.Property<Guid>("PerKey")
@@ -1391,6 +1433,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .WithMany()
                         .HasForeignKey("Cr3FupKey")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.License", "License")
+                        .WithMany()
+                        .HasForeignKey("Cr3IxlKey")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirementType", b =>
@@ -1570,6 +1617,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Person", "Person")
                         .WithMany("FileUploads")
                         .HasForeignKey("FupPerKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.License", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("IxlCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

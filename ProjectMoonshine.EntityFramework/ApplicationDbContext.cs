@@ -68,6 +68,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<DocumentType> DocumentTypes { get; set; }
 
+        public DbSet<License> Licenses { get; set; }
+
 
 
 

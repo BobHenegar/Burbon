@@ -289,7 +289,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Fee:
                         break;
                     case GlobalConstants.RequirementTemplateCode.License:
-                        break;
+                        return await EvalLicenseCompleteAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Membership:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Relationship:
@@ -307,6 +307,33 @@ namespace ProjectMoonshine.EntityFramework.Models
                 }
 
                 return false;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        private async Task<bool> EvalLicenseCompleteAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                if (!requirement.Cr3IxlKey.IsGuidValid()) return false;
+
+                if (requirement.License == null)
+                    requirement.License = await context.Licenses.FindAsync(requirement.Cr3IxlKey);
+
+                if (requirement.License == null) return false;
+
+                return CommonUtils.IsDateTimeOffsetValid(requirement.License.IxlIssueDate) 
+                       && requirement.License.IxlIssueDate <= DateTimeOffset.Now 
+                       && CommonUtils.IsDateTimeOffsetValid(requirement.License.IxlExpireDate)
+                       && requirement.License.IxlExpireDate > DateTimeOffset.Now;
             }
             catch (Exception e)
             {
@@ -421,7 +448,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Fee:
                         break;
                     case GlobalConstants.RequirementTemplateCode.License:
-                        break;
+                        return await InitLicenseAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Membership:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Relationship:
@@ -450,7 +477,43 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        
+        private async Task<bool> InitLicenseAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                Customer customer = await CredentialingUtils.GetCustomerFromProcessKey(context, requirement.Cr3Cr2Key);
+                if (customer == null) return false;
+                List<License> licenses = await context.Licenses
+                    .AsNoTracking()
+                    .Where(l => l.IxlCusKey == customer.CusKey)
+                    .OrderByDescending(l => l.IxlIssueDate)
+                    .ToListAsync();
+
+                if (licenses == null || licenses.Count <= 0) return true;
+                foreach (License license in licenses)
+                {
+                    if (license.IxlExpireDate <= DateTimeOffset.Now) return true;
+                    if (!CommonUtils.IsDateTimeOffsetValid(license.IxlIssueDate)) continue;
+
+                    requirement.Cr3IxlKey = license.IxlKey;
+                    context.Update(requirement);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
 
         private async Task<bool> InitDocumentAsync(ApplicationDbContext context, CredentialRequirement requirement)
         {
