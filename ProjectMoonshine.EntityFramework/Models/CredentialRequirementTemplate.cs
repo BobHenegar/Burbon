@@ -95,7 +95,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Event:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Exam:
-                        break;
+                        return await EvalExamMetAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Experience:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Fee:
@@ -130,6 +130,49 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
+        private async Task<bool> EvalExamMetAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                if (!requirement.Cr3ExsKey.IsGuidValid()) return false;
+                if (requirement.CredentialRequirementType == null)
+                    requirement.CredentialRequirementType = await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+                requirement.ExamScore = await context.ExamScores.FindAsync(requirement.Cr3ExsKey);
+                if (requirement.ExamScore == null) return false;
+                if (requirement.ExamScore.ExsSuccessFlag) return true;
+                if (CommonUtils.IsIntValidAndNotZero(requirement.CredentialRequirementType.Ct3MinExamScore) 
+                    && requirement.ExamScore.ExsTotalReceived >= requirement.CredentialRequirementType.Ct3MinExamScore)
+                    return true;
+
+                if (!CommonUtils.IsIntValidAndNotZero(requirement.CredentialRequirementType.Ct3MinExamScore) 
+                    || !(requirement.ExamScore.ExsTotalReceived < requirement.CredentialRequirementType.Ct3MinExamScore) 
+                    || !requirement.CredentialRequirementType.Ct3DeniedCt6Key.IsGuidValid())
+                    return false;
+
+                if (!CommonUtils.IsIntValidAndNotZero(requirement.CredentialRequirementType.Ct3ExamMaxAttempts))
+                    return false;
+
+                if (!(await context.ExamScores
+                          .AsNoTracking()
+                          .Where(e => e.ExsCusKey == requirement.ExamScore.ExsCusKey
+                                      && e.ExsExmKey == requirement.ExamScore.ExsExmKey)
+                          .CountAsync() >=
+                      requirement.CredentialRequirementType.Ct3ExamMaxAttempts)) return false;
+
+                requirement.Cr3Ct6Key = requirement.CredentialRequirementType.Ct3DeniedCt6Key;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+                return false;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         private async Task<bool> EvalAuditMetAsync(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
@@ -141,6 +184,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 if (requirement.CredentialProcess == null || requirement.CredentialProcess.Cr2AuditSelectDate.IsDateTimeOffsetValid()) return false;
 
+                if (requirement.CredentialRequirementType == null)
                 requirement.CredentialRequirementType =
                     await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
 
@@ -279,7 +323,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                return requirement.Cr3DataKey != null;
+                return requirement.Cr3DegKey != null;
             }
             catch (Exception e)
             {
@@ -352,6 +396,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Event:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Exam:
+                        return await InitExamAsync(context, requirement);
                         break;
                     case GlobalConstants.RequirementTemplateCode.Experience:
                         break;
@@ -387,6 +432,79 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
+        private async Task<bool> InitExamAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                Customer customer = await CredentialingUtils.GetCustomerFromProcessKey(context, requirement.Cr3Cr2Key);
+
+                if (customer == null) return false;
+
+                if (requirement.CredentialRequirementType == null)
+                    requirement.CredentialRequirementType =
+                        await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+
+                if (requirement.CredentialRequirementType == null) return false;
+
+                if (!requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleFlag) return true;
+
+                DateTimeOffset? minDate = null;
+                if (requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleDateNumber != null)
+                {
+                    switch (requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleDateUnit)
+                    {
+                        case GlobalConstants.DueDateUnit.None:
+                            break;
+                        case GlobalConstants.DueDateUnit.Day:
+                            minDate = DateTimeOffset.Now.AddDays((short) -requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleDateNumber);
+                            break;
+                        case GlobalConstants.DueDateUnit.Month:
+                            minDate = DateTimeOffset.Now.AddMonths((short)-requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleDateNumber);
+                            break;
+                        case GlobalConstants.DueDateUnit.Year:
+                            minDate = DateTimeOffset.Now.AddYears((short)-requirement.CredentialRequirementType.Ct3PriorExamScoreEligibleDateNumber);
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                }
+                List<ExamScore> examScores = await context.ExamScores
+                    .AsNoTracking()
+                    .Where(e => e.ExsCusKey == customer.CusKey
+                                && e.ExsExmKey == requirement.CredentialRequirementType.Ct3ExmKey)
+                    .OrderByDescending(e => e.ExsDate)
+                    .ToListAsync();
+
+                if (examScores == null || examScores.Count <= 0) return true;
+
+                foreach (ExamScore examScore in examScores)
+                {
+                    if ((minDate == null || (minDate.IsDateTimeOffsetValid() && examScore.ExsDate >= minDate)) 
+                        && (examScore.ExsSuccessFlag 
+                            || (requirement.CredentialRequirementType.Ct3MinExamScore != null 
+                                && examScore.ExsTotalReceived >= requirement.CredentialRequirementType.Ct3MinExamScore)))
+                    {
+                        requirement.Cr3ExsKey = examScore.ExsKey;
+                        context.Update(requirement);
+                        await context.SaveChangesAsync();
+                        break;
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
         private async Task<bool> InitDegreeAsync(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
@@ -409,7 +527,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 if (degree == null) return true;
 
-                requirement.Cr3DataKey = degree.DegKey;
+                requirement.Cr3DegKey = degree.DegKey;
                 context.Update(requirement);
                 await context.SaveChangesAsync();
 
@@ -432,6 +550,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                if (requirement.CredentialRequirementType == null)
                 requirement.CredentialRequirementType =
                     await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
 
@@ -458,6 +577,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                if (requirement.CredentialRequirementType == null)
                 requirement.CredentialRequirementType = 
                     await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
 
@@ -488,7 +608,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 if (!await cePeriod.AddAsync(context)) return false;
 
-                requirement.Cr3DataKey = cePeriod.Ce2Key;
+                requirement.Cr3Ce2Key = cePeriod.Ce2Key;
                 context.Update(requirement);
                 return true;
 
@@ -508,9 +628,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!requirement.Cr3DataKey.IsGuidValid()) return false;
+                if (!requirement.Cr3Ce2Key.IsGuidValid()) return false;
                 CEPeriod cePeriod = await context.CEPeriods
-                    .FindAsync(requirement.Cr3DataKey);
+                    .FindAsync(requirement.Cr3Ce2Key);
 
                 //if (cePeriod.Ce2BalanceUnits <= 0 && cePeriod.Ce2RequiredUnits > 0) return true;
 
@@ -535,9 +655,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!requirement.Cr3DataKey.IsGuidValid()) return false;
+                if (!requirement.Cr3Ce2Key.IsGuidValid()) return false;
                 CEPeriod cePeriod = await context.CEPeriods
-                    .FindAsync(requirement.Cr3DataKey);
+                    .FindAsync(requirement.Cr3Ce2Key);
 
                 //if (cePeriod.Ce2ReportedUnits >= cePeriod.Ce2RequiredUnits && cePeriod.Ce2RequiredUnits > 0) return true;
 

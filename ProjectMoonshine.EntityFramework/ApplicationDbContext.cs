@@ -179,6 +179,11 @@ namespace ProjectMoonshine.EntityFramework
                 .Entity<CredentialRequirementTemplate>()
                 .Property(rt => rt.Ct8Code)
                 .HasConversion(new EnumToStringConverter<GlobalConstants.RequirementTemplateCode>());
+
+            modelBuilder
+                .Entity<CredentialRequirementType>()
+                .Property(rt => rt.Ct3PriorExamScoreEligibleDateUnit)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateUnit>());
         }
 
         public void TestOnModelCreating()

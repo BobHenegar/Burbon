@@ -440,6 +440,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("Cr3AttestmentFlag");
 
+                    b.Property<Guid?>("Cr3Ce2Key");
+
                     b.Property<DateTimeOffset?>("Cr3ChangeDate")
                         .ValueGeneratedOnAdd();
 
@@ -456,13 +458,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid?>("Cr3DataKey");
 
+                    b.Property<Guid?>("Cr3DegKey");
+
                     b.Property<DateTimeOffset?>("Cr3DueDate");
+
+                    b.Property<Guid?>("Cr3ExsKey");
 
                     b.Property<DateTimeOffset?>("Cr3MetDate");
 
                     b.Property<DateTimeOffset?>("Cr3StartDate");
 
                     b.HasKey("Cr3Key");
+
+                    b.HasIndex("Cr3Ce2Key");
 
                     b.HasIndex("Cr3Cr2Key");
 
@@ -471,6 +479,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Cr3Ct3Key");
 
                     b.HasIndex("Cr3Ct6Key");
+
+                    b.HasIndex("Cr3DegKey");
+
+                    b.HasIndex("Cr3ExsKey");
 
                     b.ToTable("CredentialRequirement");
                 });
@@ -539,6 +551,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("Ct3Ct8Key");
 
+                    b.Property<Guid?>("Ct3DeniedCt6Key");
+
                     b.Property<Guid?>("Ct3DependentCt6Key");
 
                     b.Property<string>("Ct3Description");
@@ -553,6 +567,10 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Ct3EvalStoredProcedure");
 
+                    b.Property<short?>("Ct3ExamMaxAttempts");
+
+                    b.Property<Guid?>("Ct3ExmKey");
+
                     b.Property<bool>("Ct3HasRequiredParentsFlag");
 
                     b.Property<string>("Ct3LongDescription");
@@ -560,6 +578,15 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<Guid?>("Ct3MetCr2Ct6Key");
 
                     b.Property<Guid?>("Ct3MetCt6Key");
+
+                    b.Property<short?>("Ct3MinExamScore");
+
+                    b.Property<short?>("Ct3PriorExamScoreEligibleDateNumber");
+
+                    b.Property<string>("Ct3PriorExamScoreEligibleDateUnit")
+                        .IsRequired();
+
+                    b.Property<bool>("Ct3PriorExamScoreEligibleFlag");
 
                     b.Property<string>("Ct3Requirement");
 
@@ -584,6 +611,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ct3DependentCt6Key");
 
                     b.HasIndex("Ct3DetKey");
+
+                    b.HasIndex("Ct3ExmKey");
 
                     b.HasIndex("Ct3MetCr2Ct6Key");
 
@@ -983,7 +1012,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<Guid>("ExsCusKey");
 
+                    b.Property<DateTimeOffset>("ExsDate");
+
                     b.Property<Guid>("ExsExmKey");
+
+                    b.Property<bool>("ExsSuccessFlag");
 
                     b.Property<int>("ExsTotalPossible");
 
@@ -1276,6 +1309,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.CredentialRequirement", b =>
                 {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CEPeriod", "CEPeriod")
+                        .WithMany()
+                        .HasForeignKey("Cr3Ce2Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcess", "CredentialProcess")
                         .WithMany("CredentialRequirements")
                         .HasForeignKey("Cr3Cr2Key")
@@ -1294,6 +1332,16 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "Status")
                         .WithMany()
                         .HasForeignKey("Cr3Ct6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Degree", "Degree")
+                        .WithMany()
+                        .HasForeignKey("Cr3DegKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.ExamScore", "ExamScore")
+                        .WithMany()
+                        .HasForeignKey("Cr3ExsKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -1322,6 +1370,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.DegreeType", "DegreeType")
                         .WithMany()
                         .HasForeignKey("Ct3DetKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Exam", "Exam")
+                        .WithMany()
+                        .HasForeignKey("Ct3ExmKey")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentProcessMetStatusType")

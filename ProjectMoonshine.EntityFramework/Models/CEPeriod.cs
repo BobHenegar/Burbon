@@ -69,7 +69,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     CredentialRequirement credentialRequirement = await context.CredentialRequirements
                         .Include(r => r.Status)
                         .ThenInclude(s => s.State)
-                        .Where(r => r.Cr3DataKey == Ce2Key)
+                        .Where(r => r.Cr3Ce2Key == Ce2Key)
                         .FirstOrDefaultAsync();
 
                     if (credentialRequirement != null 

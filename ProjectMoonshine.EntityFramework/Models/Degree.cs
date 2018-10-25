@@ -115,11 +115,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                 foreach (CredentialRequirement credentialRequirement in requirements)
                 {
                     if (credentialRequirement.CredentialRequirementType.Ct3DetKey != DegDetKey 
-                        || credentialRequirement.Cr3DataKey.IsGuidValid() 
+                        || credentialRequirement.Cr3DegKey.IsGuidValid() 
                         || credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid() 
                         || !CredentialingUtils.IsUnlocked(credentialRequirement.Status.State)) continue;
 
-                    credentialRequirement.Cr3DataKey = DegKey;
+                    credentialRequirement.Cr3DegKey = DegKey;
                     if (!await credentialRequirement.UpdateAsync(context)) return false;
                 }
 
