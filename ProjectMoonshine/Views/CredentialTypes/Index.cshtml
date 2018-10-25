@@ -2,11 +2,11 @@
 @model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialType>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Setup";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Setup</h2>
 <div class="col-lg-2">
     <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypes" asp-action="Index">Process Types</a>
@@ -14,8 +14,8 @@
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialStatusTypes" asp-action="Index">Status Types</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="StatusStateTypes" asp-action="Index">Status State Types</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialRequirementTemplates" asp-action="Index">Req Templates</a>
-    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a>
-    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a>
+    @*<a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a>*@
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CETypes" asp-action="Index">CE Types</a>
 </div>
 <div class="col-lg-10">

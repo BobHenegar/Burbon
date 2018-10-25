@@ -15,7 +15,17 @@
             <input type="hidden" asp-for="CredentialTypeXCredentialProcessType.Ct4Key" />
             @await Html.PartialAsync("_CredentialTypeXCredentialProcessTypeCreateEditPartialView", Model)
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                @{
+                    if (ViewData["source"].ToString().Length > 0)
+                    {
+                        <input type="hidden" value="CredentialType" name="source" id="source" />
+                    }
+                    else
+                    {
+                        <input type="hidden" value="ProcessType" name="source" id="source" />
+                    }
+                    <input type="submit" value="Save" class="btn btn-default" />
+                }
             </div>
         </form>
     </div>
