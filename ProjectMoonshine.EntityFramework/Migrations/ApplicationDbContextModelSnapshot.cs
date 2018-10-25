@@ -543,6 +543,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("Ct3Description");
 
+                    b.Property<Guid?>("Ct3DetKey");
+
                     b.Property<short?>("Ct3DueDateNumber");
 
                     b.Property<int>("Ct3DueDateRounding");
@@ -580,6 +582,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ct3Ct8Key");
 
                     b.HasIndex("Ct3DependentCt6Key");
+
+                    b.HasIndex("Ct3DetKey");
 
                     b.HasIndex("Ct3MetCr2Ct6Key");
 
@@ -747,6 +751,73 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasKey("CusKey");
 
                     b.ToTable("Customer");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Degree", b =>
+                {
+                    b.Property<Guid>("DegKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("DegAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("DegAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("DegChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DegChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("DegCusKey");
+
+                    b.Property<DateTimeOffset>("DegDate");
+
+                    b.Property<Guid>("DegDetKey");
+
+                    b.Property<string>("DegInstitution");
+
+                    b.HasKey("DegKey");
+
+                    b.HasIndex("DegCusKey");
+
+                    b.HasIndex("DegDetKey");
+
+                    b.ToTable("Degrees");
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.DegreeType", b =>
+                {
+                    b.Property<Guid>("DetKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("DetAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("DetAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("DetChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DetChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DetCode")
+                        .IsRequired();
+
+                    b.Property<string>("DetDescription");
+
+                    b.Property<short?>("DetOrder");
+
+                    b.HasKey("DetKey");
+
+                    b.ToTable("DegreeTypes");
                 });
 
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Email", b =>
@@ -1248,6 +1319,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .HasForeignKey("Ct3DependentCt6Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.DegreeType", "DegreeType")
+                        .WithMany()
+                        .HasForeignKey("Ct3DetKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentProcessMetStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3MetCr2Ct6Key")
@@ -1320,6 +1396,19 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialProcessType", "CredentialProcessType")
                         .WithMany("CredentialTypeXCredentialProcessTypes")
                         .HasForeignKey("Ct4Ct2Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Degree", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("DegCusKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.DegreeType", "DegreeType")
+                        .WithMany()
+                        .HasForeignKey("DegDetKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

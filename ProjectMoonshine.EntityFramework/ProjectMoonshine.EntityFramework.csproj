@@ -29,6 +29,7 @@
     <Compile Remove="Migrations\20181019000806_some added stuff.cs" />
     <Compile Remove="Migrations\20181019001007_added parent dependent requirement relationships, and updates to other credentialing related models.cs" />
     <Compile Remove="Migrations\20181019001455_added parent dependent requirement relationships, and updates to other credentialing related models.cs" />
+    <Compile Remove="Migrations\20181025152357_added degree &amp; type models.cs" />
   </ItemGroup>
 
   <ItemGroup>

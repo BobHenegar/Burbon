@@ -62,6 +62,11 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CommunicationTemplate> CommunicationTemplates { get; set; }
 
+        public DbSet<Degree> Degrees { get; set; }
+
+        public DbSet<DegreeType> DegreeTypes { get; set; }
+
+
 
 
         public const string Prefix = "Prefix";

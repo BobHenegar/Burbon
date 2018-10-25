@@ -7,13 +7,14 @@ using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    public class Degree
+    public class Degree : EntityBase
     {
         [NotMapped]
         public const string Prefix = "Deg";
         [Key]
         public Guid DegKey { get; set; }
 
+        [DisplayName("Customer")]
         public Guid DegCusKey { get; set; }
 
         [DisplayName("Institution")]
@@ -21,7 +22,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Graduation Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public string DegDate { get; set; }
+        public DateTimeOffset DegDate { get; set; }
 
         [DisplayName("Add User")]
         public string DegAddUser { get; set; }
@@ -39,5 +40,11 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Degree Type")]
         public Guid DegDetKey { get; set; }
+
+        [ForeignKey("DegDetKey")]
+        public virtual DegreeType DegreeType { get; set; }
+
+        [ForeignKey("DegCusKey")]
+        public virtual Customer Customer { get; set; }
     }
 }

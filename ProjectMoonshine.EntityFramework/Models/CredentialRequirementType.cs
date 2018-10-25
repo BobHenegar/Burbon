@@ -65,7 +65,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Ct3CecKLey { get; set; }
 
-        //public Guid Ct3DetKey { get; set; }
+        [DisplayName("Degree Type")]
+        public Guid? Ct3DetKey { get; set; }
 
         //public string Ct3DocType { get; set; }
 
@@ -201,6 +202,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct3CetKey")]
         public virtual CEType CEType { get; set; }
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
+
+        [ForeignKey("Ct3DetKey")]
+        public virtual DegreeType DegreeType { get; set; }
         #endregion Navigation Properties
     }
 }

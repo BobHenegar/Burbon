@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
-    class DegreeType
+    public class DegreeType : EntityBase
     {
         [NotMapped]
         public const string Prefix = "Det";
@@ -16,11 +17,16 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid DetKey { get; set; }
 
         [Required]
+        [DisplayName("Degree Code")]
         public string DetCode { get; set; }
 
+        [DisplayName("Description")]
         public string DetDescription { get; set; }
 
-        public DateTimeOffset DCetAddDate { get; set; }
+        [DisplayName("Order")]
+        public short? DetOrder { get; set; }
+
+        public DateTimeOffset DetAddDate { get; set; }
 
         public DateTimeOffset? DetChangeDate { get; set; }
 

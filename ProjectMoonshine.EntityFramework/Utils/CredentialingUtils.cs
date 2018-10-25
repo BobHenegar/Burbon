@@ -389,8 +389,11 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }

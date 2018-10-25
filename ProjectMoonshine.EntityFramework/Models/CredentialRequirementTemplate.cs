@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -65,16 +67,12 @@ namespace ProjectMoonshine.EntityFramework.Models
                         break;
                     case GlobalConstants.RequirementTemplateCode.Application:
                         return await EvalApplicationMetAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Attestment:
                         return EvalAttestmentMet(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
                         return await EvalAuditMetAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.CE:
                         return await EvalCEMetAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Checklist:
                         
                         break;
@@ -123,8 +121,11 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
                 return false;
             }
         }
@@ -165,8 +166,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -178,8 +183,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -202,17 +211,13 @@ namespace ProjectMoonshine.EntityFramework.Models
                         break;
                     case GlobalConstants.RequirementTemplateCode.Application:
                         return await EvalApplicationMetAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Attestment:
                         return EvalAttestmentMet(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
                         return await EvalAuditMetAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.CE:
 
                         return await EvalCECompleteAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.Checklist:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Course:
@@ -220,7 +225,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Custom:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Degree:
-                        break;
+                        return await EvalDegreeCompleteAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Designation:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
@@ -261,8 +266,30 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+        }
+
+        private async Task<bool> EvalDegreeCompleteAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                //if ()
+                return false;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -280,8 +307,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -299,7 +330,6 @@ namespace ProjectMoonshine.EntityFramework.Models
                         break;
                     case GlobalConstants.RequirementTemplateCode.Audit:
                         return await InitAuditAsync(context, requirement);
-                        break;
                     case GlobalConstants.RequirementTemplateCode.CE:
                         return await InitCEAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Checklist:
@@ -309,7 +339,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Custom:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Degree:
-                        break;
+                        return await InitDegreeAsync(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Designation:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
@@ -349,9 +379,32 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
+        }
+
+        private async Task<bool> InitDegreeAsync(ApplicationDbContext context, CredentialRequirement requirement)
+        {
+            try
+            {
+                //context.
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
+            }
+            
         }
 
         private async Task<bool> InitAuditAsync(ApplicationDbContext context, CredentialRequirement requirement)
@@ -371,8 +424,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -417,8 +474,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -440,8 +501,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -464,8 +529,12 @@ namespace ProjectMoonshine.EntityFramework.Models
                }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
     }
