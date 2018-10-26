@@ -40,12 +40,15 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Cr3StatusChangeUser { get; set; }
 
             [DisplayName("Start Date")]
+            [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr3StartDate { get; set; }
 
         [DisplayName("Due Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr3DueDate { get; set; }
 
         [DisplayName("Met Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr3MetDate { get; set; }
 
         //public string Cr3MetUser { get; set; }
@@ -76,10 +79,14 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr3AddUser { get; set; }
 
+        [DisplayName("Add Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Cr3AddDate { get; set; }
 
         public string Cr3ChangeUser { get; set; }
 
+        [DisplayName("Change Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr3ChangeDate { get; set; }
 
         //public DateTimeOffset Cr3Extension2Date { get; set; }
@@ -137,6 +144,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr3Cr2Key")]
         public virtual CredentialProcess CredentialProcess { get; set; }
 
+        [DisplayName("Requirement Type")]
         [ForeignKey("Cr3Ct3Key")]
         public virtual CredentialRequirementType CredentialRequirementType { get; set; }
 
@@ -641,7 +649,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 await LoadStatusTypeAsync(context, true);
 
-                if (Cr3MetDate.IsDateTimeOffsetValid() || Status.State == null || !Status.State.Cu6MetFlag)
+                if (Cr3MetDate.IsDateTimeOffsetValid() || Status?.State == null || !Status.State.Cu6MetFlag)
                     return false;
 
                 await SetMetDateFromMetStatusAsync(context);

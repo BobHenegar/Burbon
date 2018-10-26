@@ -111,10 +111,8 @@ namespace ProjectMoonshine.Controllers
                     && x.Event.EventRegistrations.Any(a => a.EvrCusKey == examScore.ExsCusKey)).Any())
             {
 
-                examScore.ExsKey = Guid.NewGuid();
-                _context.Add(examScore);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (await examScore.AddAsync(_context))
+                    return RedirectToAction(nameof(Index));
             }
             else
             {
@@ -159,8 +157,8 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(examScore);
-                    await _context.SaveChangesAsync();
+                    if ( await examScore.UpdateAsync(_context))
+                        return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
@@ -178,7 +176,6 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
             ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmName");

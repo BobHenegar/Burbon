@@ -13,29 +13,14 @@
 <table class="table">
     <thead>
         <tr>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Cr3StartDate)
+        </th>*@
+            @*<th>
+            @Html.DisplayNameFor(model => model.Cr3DueDate)
+        </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.Cr3StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3DueDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3MetDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3DataKey)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3AddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3AddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3ChangeUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cr3ChangeDate)
+                @Html.DisplayNameFor(model => model.CredentialProcess.Credential.Customer.Person)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CredentialProcess)
@@ -46,45 +31,71 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3MetDate)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Cr3DataKey)
+        </th>*@
+            @*<th>
+            @Html.DisplayNameFor(model => model.Cr3AddUser)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3AddDate)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Cr3ChangeUser)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Cr3ChangeDate)
+            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Cr3StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cr3DueDate)
+        </td>*@
+
             <td>
-                @Html.DisplayFor(modelItem => item.Cr3StartDate)
+                @string.Format("{0}, {1}", item.CredentialProcess.Credential.Customer.Person.PerLastName, item.CredentialProcess.Credential.Customer.Person.PerFirstName)
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cr3DueDate)
+                @Html.DisplayFor(modelItem => item.CredentialProcess.CredentialProcessType.Ct2Process)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Cr3MetDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cr3DataKey)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cr3AddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cr3AddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cr3ChangeUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cr3ChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CredentialProcess.Cr2Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CredentialRequirementType.Ct3Key)
+                @Html.DisplayFor(modelItem => item.CredentialRequirementType.Ct3Requirement)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status.Ct6Code)
             </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3MetDate)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Cr3DataKey)
+        </td>*@
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Cr3AddUser)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3AddDate)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Cr3ChangeUser)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Cr3ChangeDate)
+            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Cr3Key">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Cr3Key">Details</a> |

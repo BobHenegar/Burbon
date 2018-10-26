@@ -53,7 +53,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Change Date")]
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTimeOffset IxlChangeDate { get; set; }
+        public DateTimeOffset? IxlChangeDate { get; set; }
 
         [ForeignKey("IxlCusKey")]
         public virtual Customer Customer { get; set; }

@@ -1,0 +1,84 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+
+<div>
+    <h4>CEPeriod</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2RequiredUnits)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2RequiredUnits)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2ReportedUnits)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2ReportedUnits)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2AcceptedUnits)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2AcceptedUnits)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2BalanceUnits)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2BalanceUnits)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2AddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2AddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2ChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2ChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2AddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2AddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Ce2ChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Ce2ChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.Customer.CusKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CEPeriod.CeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CEPeriod.CeType.CetCode)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CEPeriod.Ce2Key">Edit</a> |
+    @*<a asp-action="Index">Back to List</a>*@
+</div>

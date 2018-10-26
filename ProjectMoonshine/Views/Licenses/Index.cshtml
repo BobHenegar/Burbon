@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.License>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlLicenseNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlLicenseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlIssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlExpireDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlLicenseNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlLicenseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlIssueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlExpireDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IxlChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CusKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IxlKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IxlKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IxlKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,67 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Degree
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Degree</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DegInstitution)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegInstitution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegreeType.DetCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DegKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

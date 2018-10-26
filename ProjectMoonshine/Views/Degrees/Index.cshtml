@@ -1,0 +1,78 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Degree>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DegInstitution)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegChangeUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DegreeType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegInstitution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegAddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegAddDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegChangeUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegChangeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DegreeType.DetCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CusKey)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DegKey">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DegKey">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DegKey">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

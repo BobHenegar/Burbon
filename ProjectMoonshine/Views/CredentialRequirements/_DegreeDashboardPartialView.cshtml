@@ -1,0 +1,66 @@
+﻿@using ProjectMoonshine.EntityFramework.Utils
+@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+
+<div>
+    <h4>Degree</h4>
+    <hr />
+    @if (!Model.Cr3DegKey.IsGuidValid())
+    {
+    <a asp-controller="Degrees" asp-action="Create" class="btn btn-primary">Add Degree</a>
+    }
+    else
+    {
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree.DegInstitution)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegInstitution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree.DegDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegDate)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Degree.DegAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegAddUser)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree.DegAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegAddDate)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Degree.DegChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegChangeUser)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree.DegChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Degree.DegreeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.DegreeType.DetCode)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Degree.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Degree.Customer.CusKey)
+        </dd>*@
+    </dl>
+    <a asp-controller="Degrees" asp-action="Edit" asp-route-id="@Model.Degree.DegKey" class="btn btn-primary">Edit Degree</a>
+    }
+
+</div>
