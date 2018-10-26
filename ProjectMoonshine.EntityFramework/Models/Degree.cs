@@ -114,6 +114,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 foreach (CredentialRequirement credentialRequirement in requirements)
                 {
+                    if (!credentialRequirement.CredentialRequirementType.Template.Ct8Code.Equals(GlobalConstants
+                        .RequirementTemplateCode.Degree)) continue;
                     if (credentialRequirement.CredentialRequirementType.Ct3DetKey != DegDetKey 
                         || credentialRequirement.Cr3DegKey.IsGuidValid() 
                         || credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid() 
