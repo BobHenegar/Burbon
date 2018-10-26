@@ -81,7 +81,7 @@ namespace ProjectMoonshine.Controllers
                 try
                 {
                 credential.Cr1Key = Guid.NewGuid();
-                bool success = await credential.Add(_context);
+                bool success = await credential.AddAsync(_context);
                     if (success) return RedirectToAction(nameof(Index));
                 }
                 catch (Exception e)
@@ -143,7 +143,7 @@ namespace ProjectMoonshine.Controllers
                     credentialToUpdate.Cr1EffectiveDate = credential.Cr1EffectiveDate;
                     credentialToUpdate.Cr1ValidThruDate = credential.Cr1ValidThruDate;
 
-                    await credentialToUpdate.Update(_context);
+                    await credentialToUpdate.UpdateAsync(_context);
                     //_context.Update(credential);
 
                     //await _context.SaveChangesAsync();

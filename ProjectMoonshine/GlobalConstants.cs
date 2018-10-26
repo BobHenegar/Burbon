@@ -21,5 +21,6 @@ namespace ProjectMoonshine
         {
             "docx", "txt", "rtf", "doc"
         };
+        public static List<string> ProcessTypeList = new List<string>() { "Please Select", "Application", "Renewal", "Reinstatement" };
     }
 }

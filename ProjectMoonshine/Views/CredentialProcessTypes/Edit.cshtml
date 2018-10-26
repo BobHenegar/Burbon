@@ -17,14 +17,32 @@
             <input type="hidden" asp-for="CredentialProcessType.Ct2Key" />
             @await Html.PartialAsync("_CredentialProcessTypeCreateEditView", Model)
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                @{
+                    if (ViewData["ct4Key"].ToString().Length>0)
+                    {
+                        <input type="hidden" value="CredentialType" name="source" id="source" />
+                        <input type="hidden" value="@ViewData["ct4Key"].ToString()" name="ct4Key" id="ct4Key" />
+
+                    }
+                    else
+                    {
+                        <input type="hidden" value="ProcessType" name="source" id="source" />
+                        <input type="hidden" value="" name="ct4Key" id="ct4Key" />
+                    }
+                    <input type="submit" value="Save" class="btn btn-default" />
+                }
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @{
+        if (!Context.Request.Headers["Referer"].ToString().Contains("CredentialTypes"))
+        {
+            <a asp-action="Index">Back to List</a>
+        }
+    }
 </div>
 
 @section Scripts {

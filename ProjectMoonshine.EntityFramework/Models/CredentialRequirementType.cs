@@ -38,7 +38,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public string Ct3InitStoredProcedure { get; set; }
 
-        //public string Ct3EvalStoredProcedure { get; set; }
+        [DisplayName("Eval Stored Procedure")]
+        public string Ct3EvalStoredProcedure { get; set; }
 
         //public Guid Ct3PrdKey { get; set; }
 
@@ -48,23 +49,28 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public Guid Ct3EvtKey { get; set; }
 
-        //public Guid Ct3CexKey { get; set; }
+        [DisplayName("Exam")]
+        public Guid? Ct3ExmKey { get; set; }
 
         //public Guid Ct3EfcKey { get; set; }
 
         //public string Ct3Designation { get; set; }
 
-        //public Guid Ct3CetKey { get; set; }
+        [DisplayName("CE Type")]
+        public Guid? Ct3CetKey { get; set; }
 
-        //public int Ct3CeCredit { get; set; }
+        [DisplayName("CE Units Required")]
+        public float? Ct3CEUnitsRequired { get; set; }
 
         //public Guid Ct3MbtKey { get; set; }
 
         //public Guid Ct3CecKLey { get; set; }
 
-        //public Guid Ct3DetKey { get; set; }
+        [DisplayName("Degree Type")]
+        public Guid? Ct3DetKey { get; set; }
 
-        //public string Ct3DocType { get; set; }
+        [DisplayName("Document Type")]
+        public Guid? Ct3DtpKey { get; set; }
 
         //public Guid Ct3RltKey { get; set; }
 
@@ -128,7 +134,17 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         //public int Ct3DefaultOrder { get; set; }
 
-        //public int Ct3MinExamScore { get; set; }
+        [DisplayName("Minimum Exam Score")]
+        public short? Ct3MinExamScore { get; set; }
+
+        [DisplayName("Prior Exam Score Eligible Flag")]
+        public bool Ct3PriorExamScoreEligibleFlag { get; set; }
+
+        [DisplayName("Prior Exam Eligible Date Number")]
+        public short? Ct3PriorExamScoreEligibleDateNumber { get; set; }
+
+        [DisplayName("Prior Exam Eligible Date Unit")]
+        public GlobalConstants.DueDateUnit Ct3PriorExamScoreEligibleDateUnit { get; set; }
 
         [DisplayName("Submit Process Flag")]
         public bool Ct3SubmitProcessFlag { get; set; }
@@ -147,9 +163,12 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Calculate Due Date Stored Procedure")]
         public string Ct3CalculateDueDateSp { get; set; }
 
-        //public string Ct3Cr3DeniedStatus { get; set; }
+        [DisplayName("Denied Status")]
+        public Guid? Ct3DeniedCt6Key { get; set; }
 
-        //public int Ct3ExamMaxAttempts { get; set; }
+        [DisplayName("Maximum Exam Attempts")]
+        public short? Ct3ExamMaxAttempts { get; set; }
+
         [DisplayName("Add Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Ct3AddDate { get; set; }
@@ -194,7 +213,19 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3Ct8Key")]
         public virtual CredentialRequirementTemplate Template { get; set; }
+
+        [ForeignKey("Ct3CetKey")]
+        public virtual CEType CEType { get; set; }
         //public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
+
+        [ForeignKey("Ct3DetKey")]
+        public virtual DegreeType DegreeType { get; set; }
+
+        [ForeignKey("Ct3ExmKey")]
+        public virtual Exam Exam { get; set; }
+
+        [ForeignKey("Ct3DtpKey")]
+        public virtual DocumentType DocumentType { get; set; }
         #endregion Navigation Properties
     }
 }

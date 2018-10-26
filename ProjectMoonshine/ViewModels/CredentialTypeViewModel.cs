@@ -36,11 +36,9 @@ namespace ProjectMoonshine.ViewModels
                     .Select(i => i.Ct4Ct2Key)
                     .Contains(pt.Ct2Key));
 
-            InitProcessTypeSelectList = new SelectList(connectedCredentialProcessTypes, "Ct2Key"
-                , "Ct2Process", CredentialType.Ct1InitCt2Key);
-            InitStatusTypeSelectList = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code",
-                CredentialType.Ct1InitCt6Key);
-            RenewProcessTypeSelectList = new SelectList(connectedCredentialProcessTypes, "Ct2Key", "Ct2Process", CredentialType.Ct1RenewCt2Key);
+            InitProcessTypeSelectList = new SelectList(connectedCredentialProcessTypes.Where(t => t.Ct2ProcessType == "Application"), "Ct2Key", "Ct2Process", CredentialType.Ct1InitCt2Key);
+            InitStatusTypeSelectList = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code",CredentialType.Ct1InitCt6Key);
+            RenewProcessTypeSelectList = new SelectList(connectedCredentialProcessTypes.Where(t => t.Ct2ProcessType == "Renewal"), "Ct2Key", "Ct2Process", CredentialType.Ct1RenewCt2Key);
             RenewStatusTypeSelectList =  new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", CredentialType.Ct1RenewCt6Key);
         }
     }

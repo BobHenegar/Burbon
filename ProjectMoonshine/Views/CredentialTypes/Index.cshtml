@@ -2,11 +2,11 @@
 @model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialType>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Setup";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Setup</h2>
 <div class="col-lg-2">
     <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypes" asp-action="Index">Process Types</a>
@@ -14,12 +14,13 @@
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialStatusTypes" asp-action="Index">Status Types</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="StatusStateTypes" asp-action="Index">Status State Types</a>
     <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialRequirementTemplates" asp-action="Index">Req Templates</a>
-    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a>
-    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a>
+    @*<a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialTypeXCredentialProcessTypes" asp-action="Index">Cred->Process</a>
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CredentialProcessTypeXCredentialRequirementTypes" asp-action="Index">Process->Req</a>*@
+    <a class="btn btn-primary btn-block" asp-area="" asp-controller="CETypes" asp-action="Index">CE Types</a>
 </div>
 <div class="col-lg-10">
-<table class="table">
-    <thead>
+    <table class="table">
+        <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Ct1Credential)
@@ -38,40 +39,43 @@
             </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1Credential)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1EndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ct1Order)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Ct1Key">Details</a> 
-        </td>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ct1Credential)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ct1Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ct1StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ct1EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ct1Order)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Ct1Key">Edit</a>
+                </td>
 
-    </tr>
-    <tr>
-        <td colspan="13">
-            <div style="width: 100%; display: flex; flex-wrap: wrap; flex-direction: row;">
-                @await Html.PartialAsync("_CredentialProcessTypesPartialView", item.CredentialTypeXCredentialProcessTypes.Select(i => i.CredentialProcessType))
-            </div>
+            </tr>
+            <tr>
+                <td colspan="13">
+                    <div style="width: 100%; display: flex; flex-wrap: wrap; flex-direction: row;">
+                        @await Html.PartialAsync("_CredentialProcessTypesPartialView",
+                            item.CredentialTypeXCredentialProcessTypes.Select(i => i.CredentialProcessType),
+                            new ViewDataDictionary(this.ViewData) {{ "ct1Key", item.Ct1Key.ToString()},{"ct1Credential", item.Ct1Credential}})
+                    </div>
 
-        </td>
-    </tr>
-}
-    </tbody>
-</table>
- </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+

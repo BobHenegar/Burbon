@@ -1,0 +1,49 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.StatusStateType
+
+
+            <input type="hidden" asp-for="Cu6Key" />
+            <div class="form-group">
+                <label asp-for="Cu6Code" class="control-label"></label>
+                <input asp-for="Cu6Code" class="form-control" />
+                <span asp-validation-for="Cu6Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6TerminateProcessFlag" /> @Html.DisplayNameFor(model => model.Cu6TerminateProcessFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6LockedFlag" /> @Html.DisplayNameFor(model => model.Cu6LockedFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6CompletedFlag" /> @Html.DisplayNameFor(model => model.Cu6CompletedFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6UnderReviewFlag" /> @Html.DisplayNameFor(model => model.Cu6UnderReviewFlag)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Cu6MetFlag" /> @Html.DisplayNameFor(model => model.Cu6MetFlag)
+                    </label>
+                </div>
+            </div>
+            
+
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@

@@ -12,16 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Ct8Template" class="control-label"></label>
-                <input asp-for="Ct8Template" class="form-control" />
-                <span asp-validation-for="Ct8Template" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ct8Description" class="control-label"></label>
-                <input asp-for="Ct8Description" class="form-control" />
-                <span asp-validation-for="Ct8Description" class="text-danger"></span>
-            </div>
+            @await Html.PartialAsync("_CredentialRequirementTemplateAddEditPartialView", Model)
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>

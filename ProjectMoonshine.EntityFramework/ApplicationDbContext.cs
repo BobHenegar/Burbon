@@ -51,6 +51,8 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CEDetail> CEDetails { get; set; }
 
+        public DbSet<CEType> CEType { get; set; }
+
         public DbSet<EventRegistration> EventRegistrations { get; set; }
 
         public DbSet<Event> Events { get; set; }
@@ -61,6 +63,15 @@ namespace ProjectMoonshine.EntityFramework
 
         public DbSet<CommunicationTemplate> CommunicationTemplates { get; set; }
         public DbSet<Query> Queries { get; set; }
+
+        public DbSet<Degree> Degrees { get; set; }
+
+        public DbSet<DegreeType> DegreeTypes { get; set; }
+
+        public DbSet<DocumentType> DocumentTypes { get; set; }
+
+        public DbSet<License> Licenses { get; set; }
+
 
 
 
@@ -170,6 +181,15 @@ namespace ProjectMoonshine.EntityFramework
                 .WithMany(r => r.DependentRequirements)
                 .HasForeignKey(r => r.Cr3Cr3Key);
 
+            modelBuilder
+                .Entity<CredentialRequirementTemplate>()
+                .Property(rt => rt.Ct8Code)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.RequirementTemplateCode>());
+
+            modelBuilder
+                .Entity<CredentialRequirementType>()
+                .Property(rt => rt.Ct3PriorExamScoreEligibleDateUnit)
+                .HasConversion(new EnumToStringConverter<GlobalConstants.DueDateUnit>());
         }
 
         public void TestOnModelCreating()

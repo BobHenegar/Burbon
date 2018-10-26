@@ -13,7 +13,9 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Cu6Key" />
+            
+            @await Html.PartialAsync("_StatusStateTypeAddEditPartialView", Model)
+            @*<input type="hidden" asp-for="Cu6Key" />
             <div class="form-group">
                 <label asp-for="Cu6Code" class="control-label"></label>
                 <input asp-for="Cu6Code" class="form-control" />
@@ -39,7 +41,7 @@
                         <input asp-for="Cu6TerminateProcessFlag" /> @Html.DisplayNameFor(model => model.Cu6TerminateProcessFlag)
                     </label>
                 </div>
-            </div>
+            </div>*@
             @*<div class="form-group">
                 <label asp-for="Cu6AddDate" class="control-label"></label>
                 <input asp-for="Cu6AddDate" class="form-control" />

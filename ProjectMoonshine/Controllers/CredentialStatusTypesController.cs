@@ -157,5 +157,20 @@ namespace ProjectMoonshine.Controllers
         {
             return _context.CredentialStatusTypes.Any(e => e.Ct6Key == id);
         }
+
+        [HttpPost]
+        public ActionResult AddStatusType(string submit)
+        {
+            Guid g = Guid.NewGuid();
+            CredentialStatusType s = new CredentialStatusType();
+            s.Ct6Key = g;
+            s.Ct6Code = Request.Form["ct6Name"].ToString();
+            s.Ct6Description = Request.Form["ct6Description"].ToString();
+            s.Ct6Cu6Key = Guid.Parse(Request.Form["Ct3Cu6KeySelectList"].ToString());
+            _context.Add(s);
+            _context.SaveChanges();
+            return RedirectToAction("Edit", "CredentialRequirementTypes", new{id=Request.Form["ct3Key"]});
+
+        }
     }
 }

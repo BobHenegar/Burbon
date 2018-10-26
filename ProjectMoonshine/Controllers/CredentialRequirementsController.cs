@@ -70,7 +70,7 @@ namespace ProjectMoonshine.Controllers
             if (ModelState.IsValid)
             {
                 //credentialRequirement.Cr3Key = Guid.NewGuid();
-                await credentialRequirement.Add(_context);
+                await credentialRequirement.AddAsync(_context);
                 //_context.Add(credentialRequirement);
                 //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
