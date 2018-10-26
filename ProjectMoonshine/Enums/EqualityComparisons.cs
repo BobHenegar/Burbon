@@ -6,6 +6,10 @@
         GreaterThan = 2,
         LessThanOrEqualsTo = 3,
         GreaterThanOrEqualsTo = 4,
-        Equals = 5
+        Equals = 5,
+        Contains = 6,
+        Like = 7,
+        IsNull = 8,
+        IsNotNull = 9
     }
 }

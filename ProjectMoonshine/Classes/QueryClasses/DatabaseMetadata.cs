@@ -61,7 +61,7 @@ namespace ProjectMoonshine.Classes.QueryClasses
         /// <returns></returns>
         public object TableProperty(string columnName)
         {
-            return _tables.First(x => x.Columns.Any(a => a.ColumnName == columnName));
+            return _tables.First(x => x.TableColumns.Any(a => a.ColumnName == columnName));
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace ProjectMoonshine.Classes.QueryClasses
         {
             try
             {
-                var column = _tables.First(x => x.Columns.Any(a => a.ColumnName == columnName)).Columns.First(x => x.ColumnName == columnName);
+                var column = _tables.First(x => x.TableColumns.Any(a => a.ColumnName == columnName)).TableColumns.First(x => x.ColumnName == columnName);
                 Type result = Type.GetType(column.DataType);
                 return result;
             }
@@ -82,7 +82,6 @@ namespace ProjectMoonshine.Classes.QueryClasses
                 return null;
             }
         }
-
 
         private IReadOnlyList<TableMetadata> FetchTablesMetaData()
         {
@@ -94,8 +93,8 @@ namespace ProjectMoonshine.Classes.QueryClasses
                 {
                     TableName = tableName,
                     TableEntity = entityType,
-                    AssemblyFullName = entityType.ClrType.FullName,
-                    Columns = GetColumnsMetadata(entityType)
+                    TableAssemblyFullName = entityType.ClrType.FullName,
+                    TableColumns = GetColumnsMetadata(entityType)
                 });
                 _tableNameLookup.InsertKeyName(tableName);
             }
@@ -111,11 +110,19 @@ namespace ProjectMoonshine.Classes.QueryClasses
                 tableColumns.Add(new ColumnMetadata
                 {
                     ColumnName = relational.ColumnName,
-                    DataType = relational.ColumnType,
+                    TablePrefix = GetTablePrefix(entityType),
+                    DataType = propertyType.IsNullable
+                                && Nullable.GetUnderlyingType(propertyType.ClrType) != null ?
+                                $"Nullable<{Nullable.GetUnderlyingType(propertyType.ClrType).Name}>" : propertyType.ClrType.Name,
                     TableEntity = entityType
                 });
             }
             return tableColumns;
+
+        }
+        private static string GetTablePrefix(IEntityType src)
+        {
+            return src.ClrType.UnderlyingSystemType.GetProperties().First().Name.Substring(0, 3);
         }
     }
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 
 namespace ProjectMoonshine.Classes.QueryClasses
 {
-    public static class QueryExtensions
+    public static class QueryExtensionMethods
     {
         static readonly MethodInfo SetMethod = typeof(ApplicationDbContext).GetMethod(nameof(ApplicationDbContext.Set));
 

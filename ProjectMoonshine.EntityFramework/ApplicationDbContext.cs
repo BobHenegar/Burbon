@@ -60,6 +60,7 @@ namespace ProjectMoonshine.EntityFramework
         public DbSet<ExamScore> ExamScores { get; set; }
 
         public DbSet<CommunicationTemplate> CommunicationTemplates { get; set; }
+        public DbSet<Query> Queries { get; set; }
 
 
 

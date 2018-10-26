@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using ProjectMoonshine.Enums;
 using ProjectMoonshine.Managers;
 using ProjectMoonshine.ViewModels;
 
@@ -21,19 +22,29 @@ namespace ProjectMoonshine.Controllers
         {
             _queryManager = queryManager;
         }
-        // GET: /<controller>/
+
+
+        [HttpGet]
+        public IActionResult List()
+        {
+            return View();
+        }
+
+        // GET: /Query/Create
         public IActionResult Index()
         {
             var model = _queryManager.BuildQueryViewModel();
             ViewData["FromTable"] = model.TableDetails.Select(s => new SelectListItem(s.Key, s.Key)).ToList();
-            var objects = model.TableDetails.SelectMany(s => s.Value.Select(sv => new { name = sv.ColumnName, type = sv.ColumnType, table = s.Key })).ToList();
+            var objects = model.TableDetails.SelectMany(s => s.Value.Select(sv => new { name = sv.ColumnName, prefixs = sv.TablePrefix, type = sv.ColumnType, table = s.Key })).ToList();
+
             ViewData["SelectList"] = JsonConvert.SerializeObject(objects);
+            ViewData["SelectIncludes"] = JsonConvert.SerializeObject(objects);
             return View(model);
         }
 
         [HttpPost]
         [Route("Query/Create")]
-        public async Task<IActionResult> CreateRuleSet()
+        public async Task<IActionResult> Create()
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))

@@ -54,7 +54,13 @@ namespace ProjectMoonshine
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                // supresses the Newtonsoft.Json.JsonSerializationExceptions for cycles
+                .AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
             if (Assembly.GetEntryAssembly().FullName.StartsWith("ProjectMoonshine,"))
             {

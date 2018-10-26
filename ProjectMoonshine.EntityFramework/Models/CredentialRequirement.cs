@@ -113,7 +113,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Cr3Cr3Key")]
         public virtual CredentialRequirement ParentRequirement { get; set; }
 
-        
+
         public virtual List<CredentialRequirement> DependentRequirements { get; set; }
 
         public virtual async Task<bool> Add(ApplicationDbContext context)
@@ -375,7 +375,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 }
                 return false;
             }
-            
+
         }
 
         /// <summary>
@@ -397,14 +397,14 @@ namespace ProjectMoonshine.EntityFramework.Models
                 // refresh status
 
                 //if (await EvaluateMetFromMetStatusAsync(context)) return true;
-             
+
                 if (!originalCredentialRequirement.Cr3MetDate.IsDateTimeOffsetValid())
                 {
                     if (!Cr3MetDate.IsDateTimeOffsetValid())
                     {
                         if (!await EvalAsync(context)) return false;
                     }
-                    
+
                     if (Cr3MetDate.IsDateTimeOffsetValid())
                     {
                         if (originalCredentialRequirement.Cr3Ct6Key == Cr3Ct6Key)
@@ -455,10 +455,10 @@ namespace ProjectMoonshine.EntityFramework.Models
                 {
                     // TODO: corespondence logic
                 }
-                
+
                 // update dependent requirements
 
-                
+
 
                 return true;
             }
@@ -572,18 +572,18 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (Cr3Ct6Key != ct6Key) 
+                if (Cr3Ct6Key != ct6Key)
                 {
                     Cr3Ct6Key = ct6Key;
                     context.Update(this);
                 }
-                if (await GetStatusTypeAsync(context) 
+                if (await GetStatusTypeAsync(context)
                     && Status.Ct6ParentCt6Key.IsGuidValid())
                 {
                     await SetProcessStatus(context, Status.Ct6ParentCt6Key, true);
                     context.Update(this);
                 };
-        
+
                 return true;
             }
             catch (Exception e)
@@ -596,15 +596,15 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 return false;
             }
-            
+
         }
 
         private async Task<bool> EvaluateUnlocked(ApplicationDbContext context)
         {
             try
             {
-                if (!CredentialRequirementType.Ct3HasRequiredParentsFlag 
-                    || Status?.State == null 
+                if (!CredentialRequirementType.Ct3HasRequiredParentsFlag
+                    || Status?.State == null
                     || !Status.State.Cu6LockedFlag) return true;
 
                 // TODO: buildout AllRequiredParentsDone for checklists / switch
@@ -676,10 +676,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (Cr3Ct6Key.IsGuidValid() 
+                if (Cr3Ct6Key.IsGuidValid()
                     && (Status == null
-                    || Status != null 
-                        && Status.State == null 
+                    || Status != null
+                        && Status.State == null
                         && includeState
                     ))
                 {

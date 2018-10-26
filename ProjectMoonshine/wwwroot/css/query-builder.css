@@ -1,0 +1,63 @@
+﻿ul.groupQuery {
+    background-color: #cce5ff;
+    border: 1px solid black;
+    width: 90%;
+}
+
+.ruleQuery {
+    background-color: #ffe6cc;
+    width: 90%;
+}
+
+.addGroup, .addRule {
+    width: 75px;
+    height: 25px;
+    background: #ccffcc;
+    box-shadow: none;
+    border: 1px solid black;
+}
+
+.removeGroup, .removeRule {
+    width: 75px;
+    height: 25px;
+    padding: 5px 5px 5px 5px;
+    background: #ffcccc;
+    box-shadow: none;
+    border: 1px solid black;
+}
+
+.groupQuery button {
+    padding: 0;
+    float: right;
+}
+
+button:disabled {
+    background-color: lightgray;
+    color: gray;
+}
+
+.flexRow {
+    display: flex;
+    height: 30px;
+    flex-direction: row;
+}
+
+.equalityComparisonSelect {
+    padding: 5px 5px 5px 5px;
+}
+
+div.ruleInput {
+    width: 50%;
+}
+
+.ruleInputright {
+    padding: 5px 5px 5px 5px;
+    height: 20px;
+    width: 177px;
+}
+
+.ruleInput {
+    padding: 5px 5px 5px 5px;
+    height: 15px;
+    width: 177px;
+}

@@ -10,7 +10,7 @@ namespace ProjectMoonshine.Classes.QueryClasses
     {
         public string TableName { get; set; }
         public IEntityType TableEntity { get; set; }
-        public string AssemblyFullName { get; set; }
-        public IEnumerable<ColumnMetadata> Columns { get; set; }
+        public string TableAssemblyFullName { get; set; }
+        public IEnumerable<ColumnMetadata> TableColumns { get; set; }
     }
 }
