@@ -41,6 +41,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
+                .AsNoTracking()
                 .Include(c => c.CredentialType)
                 .Include(c => c.CurrentCredentialProcess)
                     .ThenInclude(cr => cr.CredentialRequirements)
@@ -49,7 +50,12 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.Customer)
                     .ThenInclude(cp => cp.Person)
                 .Include(c => c.StatusType)
-                .FirstOrDefaultAsync(m => m.Cr1Key == id);
+                .Include(c => c.CredentialProcesses)
+                    .ThenInclude(p => p.CredentialProcessType)
+                .Include(c => c.CredentialProcesses)
+                    .ThenInclude(p => p.StatusType)
+                .Where(m => m.Cr1Key == id)
+                .FirstOrDefaultAsync();
             if (credential == null)
             {
                 return NotFound();
