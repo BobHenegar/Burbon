@@ -25,8 +25,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Cr2Key { get; set; }
 
+        [DisplayName("Process Type")]
         public Guid Cr2Ct2Key { get; set; }
 
+        [DisplayName("Credential")]
         public Guid Cr2Cr1Key { get; set; }
 
         //public Guid Cr2PerKey { get; set; }
@@ -108,10 +110,14 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr2AddUser { get; set; }
 
+        [DisplayName("Add Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset Cr2AddDate { get; set; }
 
         public string Cr2ChangeUser { get; set; }
 
+        [DisplayName("Change Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2ChangeDate { get; set; }
 
         //public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }

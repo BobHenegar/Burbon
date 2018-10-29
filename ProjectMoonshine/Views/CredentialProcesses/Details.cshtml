@@ -14,7 +14,44 @@
             @Html.DisplayNameFor(model => model.Cr2Ct2Key)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Cr2Ct2Key)
+            @Html.DisplayFor(model => model.CredentialProcessType.Ct2Process)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Credential)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Credential.CredentialType.Ct1Credential)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2DueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2DueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2SubmitDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2SubmitDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2AuditSelectDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2AuditSelectDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cr2CompletionDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cr2TerminationDate)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Cr2TerminationDate)
@@ -22,24 +59,24 @@
         <dd>
             @Html.DisplayFor(model => model.Cr2TerminationDate)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Cr2AddUser)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Cr2AddUser)
-        </dd>
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Cr2AddDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Cr2AddDate)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Cr2ChangeUser)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Cr2ChangeUser)
-        </dd>
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Cr2ChangeDate)
         </dt>
@@ -50,7 +87,7 @@
             @Html.DisplayNameFor(model => model.Credential)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Credential.Cr1Key)
+            @Html.DisplayFor(model => model.Credential.CredentialType.Ct1Credential)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.StatusType)
