@@ -14,10 +14,10 @@ namespace ProjectMoonshine.Classes.QueryClasses
         private string _databaseName;
         private IEnumerable<TableMetadata> _tables;
 
-        public DatabaseMetadata(ApplicationDbContext dbContext, TableNameLookup tableNameLookup)
+        public DatabaseMetadata(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _tableNameLookup = tableNameLookup;
+            _tableNameLookup = new TableNameLookup();
             _databaseName = _dbContext.Database.GetDbConnection().Database;
             if (_tables == null)
             {
