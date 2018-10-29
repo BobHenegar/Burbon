@@ -43,8 +43,11 @@ namespace ProjectMoonshine.Controllers
             var credential = await _context.Credentials
                 .Include(c => c.CredentialType)
                 .Include(c => c.CurrentCredentialProcess)
+                    .ThenInclude(cr => cr.CredentialRequirements)
+                        .ThenInclude(rt => rt.CredentialRequirementType)
                 .Include(c => c.CurrentCredentialProcessType)
                 .Include(c => c.Customer)
+                    .ThenInclude(cp => cp.Person)
                 .Include(c => c.StatusType)
                 .FirstOrDefaultAsync(m => m.Cr1Key == id);
             if (credential == null)

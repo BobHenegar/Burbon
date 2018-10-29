@@ -42,18 +42,23 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Cr2StatusChangeUser { get; set; }
 
         [DisplayName("Start Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2StartDate { get; set; }
 
         [DisplayName("Due Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2DueDate { get; set; }
 
         [DisplayName("Submit Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2SubmitDate { get; set; }
 
         [DisplayName("Completion Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2CompletionDate { get; set; }
 
         [DisplayName("Termination Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2TerminationDate { get; set; }
 
         //public DateTimeOffset Cr2ExtensionDate { get; set; }
@@ -119,7 +124,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Credential Credential { get; set; }
         //public virtual Person Person { get; set; }
 
-        public List<CredentialRequirement> CredentialRequirements { get; set; }
+        public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
 
         [ForeignKey("Cr2Ct6Key")]
         public CredentialStatusType StatusType { get; set; }
