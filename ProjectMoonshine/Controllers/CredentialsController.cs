@@ -62,7 +62,7 @@ namespace ProjectMoonshine.Controllers
             ViewData["CusKeyHasValue"] = id.HasValue;
             if (id.HasValue)
             {
-                ViewData["CusKey"] = id.Value;
+                ViewData["PerCusKey"] = id.Value;
             }
 
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context);
@@ -82,7 +82,16 @@ namespace ProjectMoonshine.Controllers
                 {
                 credential.Cr1Key = Guid.NewGuid();
                 bool success = await credential.AddAsync(_context);
-                    if (success) return RedirectToAction(nameof(Index));
+                    if (success)
+                    {
+                        var pid = _context.People
+                                        .Where(p => p.PerCusKey == credential.Cr1CusKey)
+                                        .Select(p => p.PerKey)
+                                        .FirstOrDefault()
+                                        .ToString();
+
+                        return RedirectToAction("Details", "People", new {id = pid});
+                    }
                 }
                 catch (Exception e)
                 {
