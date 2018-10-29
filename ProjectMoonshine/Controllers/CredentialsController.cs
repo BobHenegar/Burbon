@@ -53,6 +53,12 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.CredentialProcesses)
                     .ThenInclude(p => p.CredentialProcessType)
                 .Include(c => c.CredentialProcesses)
+                    .ThenInclude(cr => cr.CredentialRequirements)
+                        .ThenInclude(rt => rt.CredentialRequirementType)
+                .Include(c => c.CredentialProcesses)
+                    .ThenInclude(cr => cr.CredentialRequirements)
+                        .ThenInclude(rs => rs.Status)
+                .Include(c => c.CredentialProcesses)
                     .ThenInclude(p => p.StatusType)
                 .Where(m => m.Cr1Key == id)
                 .FirstOrDefaultAsync();

@@ -19,14 +19,14 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a asp-area="" asp-controller="People" asp-action="Index">People</a></li>
-                        <li><a asp-area="" asp-controller="Addresses" asp-action="Index">Addresses</a></li>
-                        <li><a asp-area="" asp-controller="Emails" asp-action="Index">Emails</a></li>
-                        <li><a asp-area="" asp-controller="Phones" asp-action="Index">Phones</a></li>
+                        <li><a asp-area="" asp-controller="People" asp-action="Index">List People</a></li>
+                        <li><a asp-area="" asp-controller="People" asp-action="Search">Find People</a></li>
+                        @*<li><a asp-area="" asp-controller="Emails" asp-action="Index">Emails</a></li>
+                        <li><a asp-area="" asp-controller="Phones" asp-action="Index">Phones</a></li>*@
                     </ul>
 
                 </li>
-                <li class="dropdown">
+                @*<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Credentialing <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a asp-area="" asp-controller="Credentials" asp-action="Index">Credentials</a></li>
@@ -36,7 +36,7 @@
                         <li><a asp-area="" asp-controller="Query" asp-action="Index">Queries</a></li>
                     </ul>
 
-                </li>
+                </li>*@
                 <li><a asp-area="" asp-controller="CredentialTypes" asp-action="Index">Credentialing Setup</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Exam Management<span class="caret"></span></a>

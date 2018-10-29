@@ -292,5 +292,11 @@ namespace ProjectMoonshine.Controllers
             smtpClient.Send(mailMessage);
             return RedirectToAction("Details", new{id=Request.Form["perKey"].ToString()});
         }
+
+        public async Task<IActionResult> Search()
+        {
+           // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            return View();
+        }
     }
 }

@@ -187,6 +187,15 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
+
+                if (Request.Form["source"].ToString().Length > 0)
+                {
+                    return RedirectToAction("Details", "Credentials", new {id = _context.CredentialProcesses
+                                                                                .Where(p => p.Cr2Key == credentialRequirement.Cr3Cr2Key)
+                                                                                .Select(p => p.Cr2Cr1Key)
+                                                                                .FirstOrDefault()
+                                                                                .ToString()});
+                }
                 return RedirectToAction(nameof(Index));
             }
             CredentialRequirementViewModel viewModel = new CredentialRequirementViewModel(_context, credentialRequirement);
