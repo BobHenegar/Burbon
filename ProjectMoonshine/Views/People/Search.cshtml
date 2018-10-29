@@ -1,0 +1,105 @@
+﻿@model ProjectMoonshine.ViewModels.PersonViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h3>Search</h3>
+<hr />
+<div class="row">
+<div class="col-lg-5">
+    <form asp-action="Search">
+        @*<div class="form-group">
+            <div class="col-md-2">
+                <label class="control-label">And/Or</label>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    @Html.RadioButton("And",true) And
+                </div>
+                <div class="col-md-12">
+                    @Html.RadioButton("Or",false) Or
+                </div>
+                <span asp-validation-for="PerGender" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="PerFirstName" class="control-label"></label>
+            <input asp-for="PerFirstName" class="form-control" />
+            <span asp-validation-for="PerFirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PerMiddleName" class="control-label"></label>
+            <input asp-for="PerMiddleName" class="form-control" />
+            <span asp-validation-for="PerMiddleName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PerLastName" class="control-label"></label>
+            <input asp-for="PerLastName" class="form-control" />
+            <span asp-validation-for="PerLastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PerDateOfBirth" class="control-label"></label>
+            <input asp-for="PerDateOfBirth" class="form-control" type="date" />
+            <span asp-validation-for="PerDateOfBirth" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AdrAddress1" class="control-label"></label>
+            <input asp-for="AdrAddress1" class="form-control" />
+            <span asp-validation-for="AdrAddress1" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdrAddress2" class="control-label"></label>
+            <input asp-for="AdrAddress2" class="form-control" />
+            <span asp-validation-for="AdrAddress2" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdrAddress3" class="control-label"></label>
+            <input asp-for="AdrAddress3" class="form-control" />
+            <span asp-validation-for="AdrAddress3" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdrCity" class="control-label"></label>
+            <input asp-for="AdrCity" class="form-control" />
+            <span asp-validation-for="AdrCity" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdrState" class="control-label"></label>
+            <input asp-for="AdrState" class="form-control" />
+            <span asp-validation-for="AdrState" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdrZip" class="control-label"></label>
+            <input asp-for="AdrZip" class="form-control" />
+            <span asp-validation-for="AdrZip" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EmlAddress" class="control-label"></label>
+            <input asp-for="EmlAddress" class="form-control" />
+            <span asp-validation-for="EmlAddress" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                <label asp-for="PhoNumber" class="control-label"></label>
+                <input asp-for="PhoExtention" class="form-control" />
+                <span asp-validation-for="PhoExtention" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+
+    </form>
+</div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
