@@ -1,0 +1,70 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Query>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QryKey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryTable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryTable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryChangeUser)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.QryKey">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,57 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Query
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Query</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.QryKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryKey)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QryAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QryChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QryAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QryChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QryChangeUser)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="QryKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

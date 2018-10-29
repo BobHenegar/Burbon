@@ -34,6 +34,7 @@
     <Compile Remove="Migrations\20181025190317_added exam logic.cs" />
     <Compile Remove="Migrations\20181026193107_remnants2.cs" />
     <Compile Remove="Migrations\20181026220219_remnants 3.cs" />
+    <Compile Remove="Migrations\20181029151550_AddedQueryNameField.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +44,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
