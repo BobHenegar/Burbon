@@ -6,8 +6,8 @@ namespace ProjectMoonshine.Classes.QueryClasses
     {
         public static void AddQueryService(this IServiceCollection services)
         {
-            services.AddTransient<TableNameLookup>();
-            services.AddTransient<DatabaseMetadata>();
+        //    services.AddTransient<TableNameLookup>();
+        //    services.AddTransient<DatabaseMetadata>();
         }
     }
 }

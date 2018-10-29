@@ -1,4 +1,5 @@
-﻿@model ProjectMoonshine.ViewModels.CredentialRequirementViewModel
+﻿@using GlobalConstants = ProjectMoonshine.EntityFramework.GlobalConstants
+@model ProjectMoonshine.ViewModels.CredentialRequirementViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,6 +10,7 @@
 
 <h4>CredentialRequirement</h4>
 <hr />
+<div class="container-fluid"></div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -29,6 +31,67 @@
                 <input type="submit" value="Save" class="btn btn-default"/>
             </div>
         </form>
+    </div>
+    <div class="col-sm-8">
+        @switch (@Model.CredentialRequirement.CredentialRequirementType.Template.Ct8Code)
+        {
+            case GlobalConstants.RequirementTemplateCode.None:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Application:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Attestment:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Audit:
+                break;
+            case GlobalConstants.RequirementTemplateCode.CE:
+                @(await Html.PartialAsync("_CEPeriodDashboardPartialView", Model.CredentialRequirement))
+                break;
+            case GlobalConstants.RequirementTemplateCode.Checklist:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Course:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Custom:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Degree:
+                @(await Html.PartialAsync("_DegreeDashboardPartialView", Model.CredentialRequirement))
+                break;
+            case GlobalConstants.RequirementTemplateCode.Designation:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Disclosure:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Document:
+                @(await Html.PartialAsync("_ExamScoreOnRequirementPartialView", Model.CredentialRequirement))
+                break;
+            case GlobalConstants.RequirementTemplateCode.DocumentRequest:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Ethics:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Event:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Exam:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Experience:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Fee:
+                break;
+            case GlobalConstants.RequirementTemplateCode.License:
+                @(await Html.PartialAsync("_LicenseDashboardPartialView", Model.CredentialRequirement))
+                break;
+            case GlobalConstants.RequirementTemplateCode.Membership:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Relationship:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Signature:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Simple:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Sql:
+                break;
+            case GlobalConstants.RequirementTemplateCode.Switch:
+                break;
+            default:
+                break;
+        }
     </div>
 </div>
 

@@ -25,7 +25,7 @@ namespace ProjectMoonshine.Helpers
                 .AddTransient<EventRegistrationManager>()
                 .AddTransient<EventManager>()
                 .AddTransient<FileUploadManager>()
-                .AddTransient<QueryManager>()
+                //.AddTransient<QueryManager>()
                 .AddTransient<RequirementManager>();
 
             services

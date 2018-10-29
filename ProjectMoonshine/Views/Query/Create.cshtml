@@ -10,37 +10,43 @@
 <div class="row">
     <h2>QueryBuilder</h2>
     <form asp-action="PostCreate" id="QueryForm"></form>
+    <div class="col-md-12">
         <div class="col-md-12">
-            <div class="col-md-12">
-                <span>From:</span>
-                <label asp-for="QryTable" class="control-label"></label>
-                <select asp-for="QryTable" asp-items="ViewBag.FromTable"></select>
-                <span asp-validation-for="QryTable" class="text-danger"></span>
-            </div>
-            <div class="col-md-12">
-                <span>Where:</span>
-                <div class="groups">
-                    <ul id="groupsHolder" class="groupQuery">
+            <span>From:</span>
+            <label asp-for="QryTable" class="control-label"></label>
+            <select asp-for="QryTable" asp-items="ViewBag.FromTable"></select>
+            <span asp-validation-for="QryTable" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <span>From:</span>
+            <label asp-for="QryName" class="control-label"></label>
+            <input asp-for="QryName" type="text" />
+            <span asp-validation-for="QryName" class="text-danger"></span>
+        </div>
+        <div class="col-md-12">
+            <span>Where:</span>
+            <div class="groups">
+                <ul id="groupsHolder" class="groupQuery">
+                    <div>
                         <div>
-                            <div>
-                                <button id="addRule" class="addRule">+ Rule</button>
-                                <button id="addGroup" class="addGroup">+ Group</button>
-                            </div>
-                            <div>
-                                <input value="1" name="toggle_0" type="radio" checked>
-                                <label>And</label>
-                                <input value="2" name="toggle_0" type="radio">
-                                <label>Or</label>
-                            </div>
+                            <button id="addRule" class="addRule">+ Rule</button>
+                            <button id="addGroup" class="addGroup">+ Group</button>
                         </div>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()" />
+                        <div>
+                            <input value="1" name="toggle_0" type="radio" checked>
+                            <label>And</label>
+                            <input value="2" name="toggle_0" type="radio">
+                            <label>Or</label>
+                        </div>
+                    </div>
+                </ul>
             </div>
         </div>
+
+        <div class="col-md-12">
+            <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()" />
+        </div>
+    </div>
     </div>
 </div>
         @section Scripts{

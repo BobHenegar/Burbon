@@ -62,7 +62,8 @@ namespace ProjectMoonshine.Controllers
                 .Include(r => r.FileUpload)
                     .ThenInclude(f => f.DocumentType)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Cr3Key == id);
+                .Where(m => m.Cr3Key == id)
+                .FirstOrDefaultAsync();
             if (credentialRequirement == null)
             {
                 return NotFound();
@@ -111,7 +112,27 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var credentialRequirement = await _context.CredentialRequirements.FindAsync(id);
+            //var credentialRequirement = await _context.CredentialRequirements.FindAsync(id);
+            var credentialRequirement = await _context.CredentialRequirements
+                .AsNoTracking()
+                .Include(c => c.CredentialProcess)
+                .ThenInclude(p => p.CredentialProcessType)
+                .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                .Include(c => c.CredentialRequirementType)
+                .ThenInclude(rt => rt.Template)
+                .Include(c => c.Status)
+                .Include(r => r.CEPeriod)
+                    .ThenInclude(p => p.CeType)
+                .Include(r => r.Degree)
+                .ThenInclude(d => d.DegreeType)
+                .Include(r => r.License)
+                .Include(r => r.ExamScore)
+                    .ThenInclude(s => s.Exam)
+                .Include(r => r.FileUpload)
+                    .ThenInclude(f => f.DocumentType)
+                .Where(m => m.Cr3Key == id)
+                .FirstOrDefaultAsync();
             if (credentialRequirement == null)
             {
                 return NotFound();

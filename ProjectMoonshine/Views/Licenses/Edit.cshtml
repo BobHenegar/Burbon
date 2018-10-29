@@ -64,6 +64,27 @@
                 <input asp-for="IxlChangeDate" class="form-control" />
                 <span asp-validation-for="IxlChangeDate" class="text-danger"></span>
             </div>
+            @await Html.PartialAsync("_RequirementDataRedirectSourcePartialView")
+            @*<div class="form-group">
+                @{
+                    if (ViewData["customerKey"]?.ToString().Length > 0)
+                    {
+                        <input type="hidden" value="Person" name="source" id="source" />
+                        <input type="hidden" value="@ViewData["customerKey"].ToString()" name="customerKey" id="customerKey" />
+
+                    }
+                    else if (ViewData["requirementKey"]?.ToString().Length > 0)
+                    {
+                        <input type="hidden" value="Requirement" name="source" id="source" />
+                        <input type="hidden" value="@ViewData["requirementKey"].ToString()" name="requirementKey" id="requirementKey" />
+                    }
+                    else
+                    {
+                        <input type="hidden" value="License" name="source" id="source" />
+                        <input type="hidden" value="" name="customerKey" id="customerKey" />
+                    }
+                }
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

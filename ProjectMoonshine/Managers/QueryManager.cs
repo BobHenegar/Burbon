@@ -25,11 +25,10 @@ namespace ProjectMoonshine.Managers
         /// </summary>
         /// <param name="context"></param>
         /// <param name="databaseMetadata"></param>
-        public QueryManager(ApplicationDbContext context,
-            DatabaseMetadata databaseMetadata)
+        public QueryManager(ApplicationDbContext context)
         {
             _context = context;
-            _databaseMetadata = databaseMetadata;
+            _databaseMetadata = new DatabaseMetadata(context);
         }
 
         public QueryViewModel BuildQueryViewModel()
@@ -92,10 +91,9 @@ namespace ProjectMoonshine.Managers
             return Expression.Lambda<Func<T, bool>>(body, parameter);
         }
 
-        public async Task DeleteQueryById(Guid id)
+        public void DeleteQueryById(Guid id)
         {
             _context.Queries.RemoveRange(_context.Queries.Where(x => x.QryKey == id));
-            await _context.SaveChangesAsync();
         }
 
         public ParameterExpression GetExpressionType(JToken json)
@@ -119,7 +117,6 @@ namespace ProjectMoonshine.Managers
 
             // Set Parameter for the query
             var result = WalkNode(json["logicList"], param, wrappingLogic);
-            var finalExpression = Expression.Lambda<Func<Address, bool>>(result, param);
             return result;
         }
         public void AddQuery(string jsonBody, Query query)
@@ -130,7 +127,6 @@ namespace ProjectMoonshine.Managers
                 QryName = query.QryName,
                 QryTable = query.QryTable
             });
-            _context.SaveChanges();
         }
 
         private Expression WalkNode(JToken node, ParameterExpression baseParameter, LogicTypes outerLogic, Expression lhs = null)
