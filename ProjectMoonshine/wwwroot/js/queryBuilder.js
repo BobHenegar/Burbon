@@ -1,4 +1,5 @@
 ﻿function submitQueryForm() {
+    $('')
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'Create', true);
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
