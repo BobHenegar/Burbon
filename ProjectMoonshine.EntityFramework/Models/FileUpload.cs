@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -69,8 +71,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -101,8 +107,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
         private bool ValidateFields(bool isUpdate = false)
@@ -113,8 +123,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -124,37 +138,21 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 if (!FupDtpKey.IsGuidValid()) return true;
 
-                if (Person == null) Person = await context.People.FindAsync(personKey);
-                if (Person == null) return false;
+                Person person = await context.People.FindAsync(personKey);
+                if (person == null) return false;
 
-                List<CredentialRequirement> requirements = await
-                    CredentialingUtils.GetCredentialRequirementsFromCustomerKey(context, Person.PerCusKey);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, person.PerCusKey,
+                    GlobalConstants.RequirementTemplateCode.Document, true);
 
-                if (requirements == null || requirements.Count <= 0) return true;
-
-                foreach (CredentialRequirement credentialRequirement in requirements)
-                {
-                    if (!credentialRequirement.CredentialRequirementType.Template.Ct8Code.Equals(GlobalConstants
-                        .RequirementTemplateCode.Document)) continue;
-                    if (!credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()
-                        && credentialRequirement.CredentialRequirementType.Ct3DtpKey.IsGuidValid()
-                        && (credentialRequirement.Status?.State == null
-                            || CredentialingUtils.IsUnlocked(credentialRequirement.Status.State))
-                        && credentialRequirement.CredentialRequirementType.Ct3DtpKey == FupDtpKey)
-                    {
-                        credentialRequirement.Cr3FupKey = FupKey;
-                        if (!await credentialRequirement.UpdateAsync(context)) return false;
-                        await context.SaveChangesAsync();
-                        return true;
-                    }
-                }
-
-                return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
