@@ -270,13 +270,13 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Custom:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Degree:
-                        return EvalDegreeComplete(context, requirement);
+                        return await EvalDegreeComplete(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.Designation:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Document:
-                        return EvalDocumentComplete(context, requirement);
+                        return await EvalDocumentComplete(context, requirement);
                     case GlobalConstants.RequirementTemplateCode.DocumentRequest:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Ethics:
@@ -324,6 +324,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                if (requirement.Cr3IxlKey.IsGuidValid()) return true;
                 Guid customerKey =
                     await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
                 if (!CommonUtils.IsGuidValid(customerKey)) return false;
@@ -364,13 +365,63 @@ namespace ProjectMoonshine.EntityFramework.Models
                 .FirstOrDefaultAsync();
         }
 
+        private static async Task<Degree> FindDegreeAsync(ApplicationDbContext context, CredentialRequirement requirement, Guid customerKey)
+        {
+            if (requirement.CredentialRequirementType == null) 
+                requirement.CredentialRequirementType = await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+            if (requirement.CredentialRequirementType == null) return null;
+            Expression<Func<Degree, bool>> isDegreeValid = d =>
+                        d.DegDetKey == requirement.CredentialRequirementType.Ct3DetKey
+                        && customerKey == d.DegCusKey
+                        && CommonUtils.IsDateTimeOffsetValid(d.DegDate)
+                        && d.DegDate <= DateTimeOffset.Now;
+            return await context.Degrees
+                .AsNoTracking()
+                .Where(isDegreeValid)
+                .OrderByDescending(d => CommonUtils.IsDateTimeOffsetValid(d.DegDate) ? DateTimeOffset.MinValue : d.DegDate )
+                .ThenByDescending(d => d.DegAddDate)
+                .FirstOrDefaultAsync();
+        }
+
+        private static async Task<FileUpload> FindDocumentAsync(ApplicationDbContext context, CredentialRequirement requirement, Guid customerKey)
+        {
+            if (requirement.CredentialRequirementType == null)
+                requirement.CredentialRequirementType = await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
+            if (requirement.CredentialRequirementType == null) return null;
+
+            Expression<Func<FileUpload, bool>> isFileUploadValid = f =>
+                f.Person.PerCusKey == customerKey
+                && f.FupDtpKey == requirement.CredentialRequirementType.Ct3DtpKey;
+
+
+            return await context.FileUploads
+                .Include(f => f.Person)
+                .AsNoTracking()
+                .Where(isFileUploadValid)
+                .OrderByDescending(f => f.FupAddDate)
+                .FirstOrDefaultAsync();
+        }
+
         //private async Task<bool> FindLicenseDataAsync(Context)
 
-        private bool EvalDocumentComplete(ApplicationDbContext context, CredentialRequirement requirement)
+        private async Task<bool> EvalDocumentComplete(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
             {
-                return requirement.Cr3FupKey.IsGuidValid();
+                if (requirement.Cr3FupKey.IsGuidValid()) return true;
+                Guid customerKey =
+                    await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
+                if (!CommonUtils.IsGuidValid(customerKey)) return false;
+
+                FileUpload fileUpload = await FindDocumentAsync(context, requirement, customerKey);
+                if (fileUpload == null) return false;
+
+                requirement.Cr3FupKey = fileUpload.FupKey;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+
+                return true;
+
             }
             catch (Exception e)
             {
@@ -384,11 +435,25 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private bool EvalDegreeComplete(ApplicationDbContext context, CredentialRequirement requirement)
+        private async Task<bool> EvalDegreeComplete(ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
             {
-                return requirement.Cr3DegKey != null;
+
+                if (requirement.Cr3DegKey.IsGuidValid()) return true;
+                Guid customerKey =
+                    await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
+                if (!CommonUtils.IsGuidValid(customerKey)) return false;
+
+                Degree degree = await FindDegreeAsync(context, requirement, customerKey);
+
+                if (degree == null) return false;
+
+                requirement.Cr3DegKey = degree.DegKey;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+
+                return true;
             }
             catch (Exception e)
             {
@@ -447,13 +512,16 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Custom:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Degree:
-                        return await InitDegreeAsync(context, requirement);
+                        //return await InitDegreeAsync(context, requirement);
+                        break;
+                        
                     case GlobalConstants.RequirementTemplateCode.Designation:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Disclosure:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Document:
-                        return await InitDocumentAsync(context, requirement);
+                        //return await InitDocumentAsync(context, requirement);
+                        break;
                     case GlobalConstants.RequirementTemplateCode.DocumentRequest:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Ethics:
@@ -468,7 +536,8 @@ namespace ProjectMoonshine.EntityFramework.Models
                     case GlobalConstants.RequirementTemplateCode.Fee:
                         break;
                     case GlobalConstants.RequirementTemplateCode.License:
-                        return await InitLicenseAsync(context, requirement);
+                        //return await InitLicenseAsync(context, requirement);
+                        break;
                     case GlobalConstants.RequirementTemplateCode.Membership:
                         break;
                     case GlobalConstants.RequirementTemplateCode.Relationship:

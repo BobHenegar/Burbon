@@ -63,12 +63,16 @@ namespace ProjectMoonshine.EntityFramework.Models
                 await context.AddAsync(this);
                 await context.SaveChangesAsync();
 
-                return await UpdateRequirements(context);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, DegCusKey, GlobalConstants.RequirementTemplateCode.Degree, true);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -87,10 +91,10 @@ namespace ProjectMoonshine.EntityFramework.Models
                 context.Update(this);
                 await context.SaveChangesAsync();
 
-                if (!await UpdateRequirements(context)) return false;
-
+                if (!await CredentialingUtils.UpdateRequirementsFromDataAsync(context, DegCusKey, GlobalConstants.RequirementTemplateCode.Degree, true)) return false;
+                
                 if (!CommonUtils.IsGuidValid(originalCusKey) || originalCusKey == DegCusKey) return true;
-                return await UpdateRequirements(context);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, DegCusKey, GlobalConstants.RequirementTemplateCode.Degree, true);
             }
             catch (Exception e)
             {
