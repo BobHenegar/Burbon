@@ -68,6 +68,8 @@
             @await Html.PartialAsync("_AddressPartialView", Model.Addresses.OrderBy(x => x.AdrIsPrimary).FirstOrDefault())
             @await Html.PartialAsync("_PhonePartialView", Model.Phones.OrderBy(x => x.PhoIsPrimary).FirstOrDefault())
             @await Html.PartialAsync("_EmailPartialView", Model.Emails.OrderBy(x => x.EmlIsPrimary).FirstOrDefault())
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12">
             @await Html.PartialAsync("_CredentialPartialView", Model.Customer.Credentials.OrderByDescending(x => x.Cr1AddDate).ToList())
             @await Html.PartialAsync("_ExamScorePartialView", Model.Customer.ExamScores.OrderByDescending(x => x.ExsAddDate).Take(5).ToList())
             @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
