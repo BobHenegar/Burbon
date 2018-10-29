@@ -1,332 +1,70 @@
-﻿@model ProjectMoonshine.ViewModels.QueryViewModel
-@using System.Linq;
-@using ProjectMoonshine.Enums;
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Query>
+
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Index";
 }
-@section Styles {
-    <link rel="stylesheet" href="~/css/query-builder.css" />
-}
-<div class="row">
-    <h2>QueryBuilder</h2>
-    <form asp-action="Create" id="QueryForm"></form>
-    <div>
-        <span>From:</span>
-        @Html.DropDownList("Table", new SelectList(Model.TableDetails.Select(s => s.Key)), "", new { id = "TableSelectList" })
-    </div>
-    <div>
-        <span>Where:</span>
-        <div class="groups">
-            <ul id="groupsHolder" class="groupQuery">
-                <div>
-                    <div>
-                        <button id="addRule" class="addRule">+ Rule</button>
-                        <button id="addGroup" class="addGroup">+ Group</button>
-                    </div>
-                    <div>
-                        <input value="1" name="toggle_0" type="radio" checked>
-                        <label>And</label>
-                        <input value="2" name="toggle_0" type="radio">
-                        <label>Or</label>
-                    </div>
-                </div>
-            </ul>
-        </div>
-    </div>
-    <div>
-        <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()" />
-    </div>
-</div>
-@section Scripts{
-<script>
-    var subItems = @Html.Raw(ViewBag.SelectList);
-    var dropdownList = [{ value:"1", text:"LessThan" },
-        { value:"2", text:"GreaterThan" },
-        { value:"3", text:"LessThanOrEqualsTo" },
-        { value:"4", text:"GreaterThanOrEqualsTo" },
-        { value:"5", text:"Equals" },
-        { value:"6", text:"Contains" },
-        { value:"7", text:"Like" },
-        { value:"8", text:"IsNull" },
-        { value: "9", text: "IsNotNull" }];
 
-    $(document).ready(function () {
-        $("#TableSelectList").on('change', function () {
-            var toAdd = [];
-            var tableValue = $("#TableSelectList").val();
-            $.each(subItems, function (index, value) {
-                if (index == 0) {
-                    toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.name + "</option>");
-                }
-                else if (value.table === tableValue) {
-                    toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.name + "</option>");
-                }
-            });
-        });
-        $('[id^=removeRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.ruleQuery').remove();
-                reRegisterDeligates();
-            });
-        });
+<h2>Index</h2>
 
-        $('[id^=addGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-
-                $(this).closest('.groupQuery').append(createNewGroup());
-                refreshDropDowns();
-                reRegisterDeligates();
-            });
-        });
-
-        $('[id^=addRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewRule()); var toAdd = [];
-                var tableValue = $("#TableSelectList").val();
-                if (!tableValue) {
-                    tableValue = "Address";
-                    $("#TableSelectList").val(tableValue);
-                }
-                $.each(subItems, function (index, value) {
-                    if (toAdd.length == 0
-                        && value.table === tableValue) {
-                        toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.name + "</option>");
-                    }
-                    else if (value.table === tableValue) {
-                        toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.name + "</option>");
-                    }
-                });
-                $('select[id^=LeftProp]').each(function (ind, val) {
-                    if (val.length == 0) {
-                        $(val).html(toAdd);
-                    }
-                });
-                refreshDropDowns();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=LeftProperty]').each(function () {
-            $(this).off('change');
-            $(this).on("change", function () {
-                refreshDropDowns();
-            });
-        });
-    });
-    function reRegisterDeligates() {
-        var addRule = $("[id=addRule]").attr("id", function (i) {
-            return "addRule_" + i;
-        });
-        var addGroup = $("[id=addGroup]").attr("id", function (i) {
-            return "addGroup_" + i;
-        });
-        var removeGroup = $('[id^=removeGroup]').attr("id", function (i) {
-            return "removeGroup_" + i;
-        });
-        var removeRule = $('[id^=removeRule]').attr("id", function (i) {
-            return "removeRule_" + i;
-        });
-
-        $.each(addRule, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(addGroup, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(removeGroup, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(removeRule, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-
-        $('[id^=removeGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('ul').remove();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=removeRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                console.log($(this).closest('.ruleQuery').remove());
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=addGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewGroup());
-                refreshDropDowns();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=addRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewRule());
-                refreshDropDowns();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=LeftProperty]').each(function () {
-            $(this).off('change');
-            $(this).on("change", function () {
-                refreshDropDowns();
-            });
-        });
-    }
-    function createNewGroup() {
-        var id = $('ul[class^=groupQuery]').length;
-        var result =
-        `<ul class="groupQuery">
-            <div class="menuBar">
-                <div>
-                    <button class="removeGroup" id="removeGroup">- Delete</button>
-                    <button class="addRule" id="addRule">+ Rule</button>
-                    <button class="addGroup" id="addGroup">+ Group</button>
-                </div >
-                <div>
-                    <input value="1" name="toggle_`+ id + `" type="radio" checked>
-                    <label>And</label>
-                    <input value="2" name="toggle_`+ id + `" type="radio">
-                    <label>Or</label>
-                </div>
-            </div>
-        </ul>`;
-        return result;
-    }
-
-        function createNewRule() {
-            var result =
-                `<li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <select id="LeftProperty"></select>
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput" >
-                       @Html.DropDownList("EqualityComparsion", new SelectList(Model.EqualityComparisonsList, "Key", "Value", "4"), null, new { id = "EqualityComparsion", })
-                    </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInputright"></input>
-                    </div>
-                    <div  class="ruleInput">
-                        <button class="removeRule" id="removeRule">- Delete</button>
-                    </div>
-                </div>
-            </li>`;
-            return result;
-    }
-
-    function submitQueryForm() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'Query/Create', true);
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-        var holder = $('#groupsHolder');
-        var items = holder.children('ul.groupQuery, li.ruleQuery');
-        var result = mapRecursively(items);
-        console.log(JSON.stringify(result));
-        xhr.send(JSON.stringify(result));
-    }
-
-    function mapRecursively(itemList) {
-        var logic = $('input[name^="toggle_"]:checked').val();
-        var base = $('#TableSelectList').find(':selected').text();
-        var includes = [];
-        var result = {
-            baseType: base,
-            includes: [],
-            logic: logic,
-            logicList: searchObject(itemList, logic)
-        };
-        return result;
-    }
-
-    function searchObject(list, logic) {
-        var res = { logicGroup: [], logic: logic };
-        $(list).map(function (index, item) {
-            var nodeName = $(item).prop('nodeName');
-            if (nodeName === "LI") {
-                var leftProp = $(item).find('select#LeftProperty').find("option:selected");
-                var rightProp = $(item).find('input#RightProperty');
-                var logic = $(item).find('#EqualityComparsion').find('option:selected');
-                res.logicGroup.push({
-                    lhs: { type: $(leftProp).data('type'), value: $(leftProp).val() },
-                    logic: logic.val(),
-                    rhs: $(rightProp).text() === "" ? $(rightProp).val() : $(rightProp).text()
-                });
-            }
-            else if (nodeName === "UL") {
-                res.logicGroup.push(searchObject($(item).children('ul.groupQuery, li.ruleQuery'), $(item).find('input[name^="toggle_"]:checked').val()));
-            }
-        });
-        return res;
-    }
-    function refreshDropDowns() {
-        var toAdd = [];
-        var tableValue = $("#TableSelectList").val();
-        if (!tableValue) {
-            tableValue = "Address";
-            $("#TableSelectList").val(tableValue);
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QryKey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryTable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QryChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryKey)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryTable)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QryChangeUser)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.QryKey">Delete</a>
+                </td>
+            </tr>
         }
-        $.each(subItems, function (index, value) {
-            if (toAdd.length == 0
-                    && value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.name + "</option>");
-            }
-            else if (value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.name + "</option>");
-            }
-        });
-        $('select[id^=LeftProp]').each(function (ind, val) {
-            if (val.length == 0) {
-                $(val).html(toAdd);
-            }
-        });
-        $('#LeftProperty').each(function () {
-            var eqList = $(this).parent().parent().find('select#EqualityComparsion');
-            var dataType = $(this).find('option:selected').data('type');
-            $(eqList).first('select#EqualityComparsion').empty();
-            $.each(dropdownList, function (idx) {
-                if (dataType.includes("Guid")) {
-                    if (dropdownList[idx].value === "5"
-                        || dropdownList[idx].value === "8"
-                        || dropdownList[idx].value === "9") {
-                        eqList.append($('<option>')
-                            .text(dropdownList[idx].text)
-                            .val(dropdownList[idx].value));
-                    }
-                }
-                else if (dataType.includes("String") || dataType.includes("Boolean")) {
-                    if (dropdownList[idx].value !== "1"
-                        && dropdownList[idx].value !== "2"
-                        && dropdownList[idx].value !== "3"
-                        && dropdownList[idx].value !== "4") {
-                        eqList.append($('<option>')
-                            .text(dropdownList[idx].text)
-                            .val(dropdownList[idx].value));
-                    }
-                }
-                else if (dataType.includes("Int") || dataType.includes("DateTime")) {
-                    if (dropdownList[idx].value !== "6"
-                        && dropdownList[idx].value !== "7") {
-                        eqList.append($('<option>')
-                            .text(dropdownList[idx].text)
-                            .val(dropdownList[idx].value));
-                    }
-                }
-                else {
-                    eqList.append($('<option>')
-                        .text(dropdownList[idx].text)
-                        .val(dropdownList[idx].value));
-                }
-            });
-        });
-    }
-</script>
-}
-
+    </tbody>
+</table>

@@ -13,9 +13,19 @@ namespace ProjectMoonshine.EntityFramework.Models
         public const string Prefix = "Qry";
 
         [Key]
+        [DisplayName("Query Key")]
         public Guid QryKey { get; set; }
 
+        [Required]
         public string QryJsonBody { get; set; }
+
+        [DisplayName("Query Name")]
+        [Required]
+        public string QryName { get; set; }
+
+        [DisplayName("For Table")]
+        [Required]
+        public string QryTable { get; set; }
 
         [DisplayName("Date Added")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]

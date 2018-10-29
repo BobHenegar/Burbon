@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Enums;
 using ProjectMoonshine.Managers;
 using ProjectMoonshine.ViewModels;
@@ -25,34 +27,68 @@ namespace ProjectMoonshine.Controllers
 
 
         [HttpGet]
-        public IActionResult List()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _queryManager.GetAllQueriesAsync());
         }
 
-        // GET: /Query/Create
-        public IActionResult Index()
+        // GET: /Query
+        [HttpGet]
+        [Route("Query/Create")]
+        public IActionResult Create()
         {
             var model = _queryManager.BuildQueryViewModel();
             ViewData["FromTable"] = model.TableDetails.Select(s => new SelectListItem(s.Key, s.Key)).ToList();
             var objects = model.TableDetails.SelectMany(s => s.Value.Select(sv => new { name = sv.ColumnName, prefixs = sv.TablePrefix, type = sv.ColumnType, table = s.Key })).ToList();
-
+            ViewData["EqualityComparisonsList"] = model.EqualityComparisonsList;
             ViewData["SelectList"] = JsonConvert.SerializeObject(objects);
             ViewData["SelectIncludes"] = JsonConvert.SerializeObject(objects);
-            return View(model);
+            return View();
         }
 
         [HttpPost]
         [Route("Query/Create")]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(Query query)
         {
             string body = string.Empty;
             using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 body = await reader.ReadToEndAsync();
             }
-            _queryManager.ParseQuery(body);
-            return View();
+            JToken json = JToken.Parse(body);
+
+            query.QryName = json["queryName"].Value<string>();
+            query.QryTable = json["baseType"].Value<string>();
+            var parameter = _queryManager.GetExpressionType(json);
+            var res = _queryManager.ParseQuery(json, parameter);
+            _queryManager.AddQuery(body, query);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Query/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var query = await _queryManager.GetExpressionByKey(id.Value);
+            if (query == null)
+            {
+                return NotFound();
+            }
+
+            return View(query);
+        }
+
+        // POST: Phones/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            await _queryManager.DeleteQueryById(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
