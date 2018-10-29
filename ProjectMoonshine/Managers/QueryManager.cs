@@ -119,7 +119,6 @@ namespace ProjectMoonshine.Managers
 
             // Set Parameter for the query
             var result = WalkNode(json["logicList"], param, wrappingLogic);
-            var finalExpression = Expression.Lambda<Func<Address, bool>>(result, param);
             return result;
         }
         public void AddQuery(string jsonBody, Query query)
