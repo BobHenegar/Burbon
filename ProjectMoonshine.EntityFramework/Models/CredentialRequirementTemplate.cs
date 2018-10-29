@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework.Helpers;
@@ -323,17 +324,19 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
-                if (!requirement.Cr3IxlKey.IsGuidValid()) return false;
+                Guid customerKey =
+                    await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
+                if (!CommonUtils.IsGuidValid(customerKey)) return false;
 
-                if (requirement.License == null)
-                    requirement.License = await context.Licenses.FindAsync(requirement.Cr3IxlKey);
+                License license = await FindLicenseDataAsync(context, customerKey);
 
-                if (requirement.License == null) return false;
+                if (license == null) return false;
 
-                return CommonUtils.IsDateTimeOffsetValid(requirement.License.IxlIssueDate) 
-                       && requirement.License.IxlIssueDate <= DateTimeOffset.Now 
-                       && CommonUtils.IsDateTimeOffsetValid(requirement.License.IxlExpireDate)
-                       && requirement.License.IxlExpireDate > DateTimeOffset.Now;
+                requirement.Cr3IxlKey = license.IxlKey;
+                context.Update(requirement);
+                await context.SaveChangesAsync();
+
+                return true;
             }
             catch (Exception e)
             {
@@ -345,6 +348,23 @@ namespace ProjectMoonshine.EntityFramework.Models
                 return false;
             }
         }
+
+        private static async Task<License> FindLicenseDataAsync(ApplicationDbContext context, Guid customerKey)
+        {
+            Expression<Func<License, bool>> isLicenseValid = l => l.IxlCusKey == customerKey
+                                         && (!CommonUtils.IsDateTimeOffsetValid(l.IxlIssueDate) ||
+                                             l.IxlIssueDate <= DateTimeOffset.Now)
+                                         && (!CommonUtils.IsDateTimeOffsetValid(l.IxlExpireDate) ||
+                                             l.IxlExpireDate > DateTimeOffset.Now);
+            return await context.Licenses
+                .AsNoTracking()
+                .Where(isLicenseValid )
+                .OrderByDescending(l => !CommonUtils.IsDateTimeOffsetValid(l.IxlExpireDate) ? DateTimeOffset.MinValue : l.IxlExpireDate)
+                    .ThenByDescending(l => l.IxlAddDate)
+                .FirstOrDefaultAsync();
+        }
+
+        //private async Task<bool> FindLicenseDataAsync(Context)
 
         private bool EvalDocumentComplete(ApplicationDbContext context, CredentialRequirement requirement)
         {

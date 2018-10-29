@@ -421,6 +421,29 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
         }
 
+        public static async Task<Guid> GetCustomerKeyFromProcessKeyAsync(ApplicationDbContext context, Guid processKey)
+        {
+            try
+            {
+                return await context.CredentialProcesses
+                    .Include(p => p.Credential)
+                    .Where(p => p.Cr2Key == processKey).AsNoTracking()
+                    .Select(p => p.Credential.Cr1CusKey)
+                    .FirstOrDefaultAsync();
+
+                
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return Guid.Empty;
+            }
+        }
+
         public static async Task<List<CredentialRequirement>> GetCredentialRequirementsFromCustomerKey(
             ApplicationDbContext context, Guid customerKey)
         {
@@ -431,8 +454,9 @@ namespace ProjectMoonshine.EntityFramework.Utils
                     .ThenInclude(p => p.Credential)
                     .ThenInclude(c => c.Customer)
                     .Include(r => r.CredentialRequirementType)
+                        .ThenInclude(rt => rt.Template)
                     .Include(r => r.Status)
-                    .ThenInclude(s => s.State)
+                        .ThenInclude(s => s.State)
                     .Where(r => r.CredentialProcess.Credential.Customer.CusKey == customerKey)
                     .ToListAsync();
 
@@ -445,6 +469,33 @@ namespace ProjectMoonshine.EntityFramework.Utils
                     Debugger.Break();
                 }
                 return null;
+            }
+        }
+
+        public static async Task<bool> UpdateRequirementsFromDataAsync(ApplicationDbContext context, Guid customerKey, GlobalConstants.RequirementTemplateCode templateCode, bool skipIfComplete = false)
+        {
+            try
+            {
+                List<CredentialRequirement> requirements = await GetCredentialRequirementsFromCustomerKey(context, customerKey);
+
+                if (requirements == null || requirements.Count <= 0) return true;
+                foreach (CredentialRequirement credentialRequirement in requirements)
+                {
+                    if (credentialRequirement.CredentialRequirementType.Template?.Ct8Code != templateCode) continue;
+                    if (credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()) continue;
+                    if (skipIfComplete && credentialRequirement.Status?.State != null && !IsUnlocked(credentialRequirement.Status.State)) continue;
+                    if (!await credentialRequirement.UpdateAsync(context)) return false;
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
     }

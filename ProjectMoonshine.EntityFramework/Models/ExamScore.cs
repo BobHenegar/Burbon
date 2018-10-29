@@ -125,6 +125,8 @@ namespace ProjectMoonshine.EntityFramework.Models
                 if (requirements == null || requirements.Count <= 0) return true;
                 foreach (CredentialRequirement credentialRequirement in requirements)
                 {
+                    if (!credentialRequirement.CredentialRequirementType.Template.Ct8Code.Equals(GlobalConstants
+                        .RequirementTemplateCode.Exam)) continue;
                     if (ExsExmKey != credentialRequirement.CredentialRequirementType.Ct3ExmKey ||
                         credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()) continue;
                     credentialRequirement.Cr3ExsKey = ExsKey;
