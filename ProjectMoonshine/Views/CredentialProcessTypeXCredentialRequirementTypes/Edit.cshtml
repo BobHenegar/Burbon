@@ -71,7 +71,7 @@
             </div>
             <div class="form-group">
                 @{
-                    if (ViewData["source"].ToString().Length>0)
+                    if (ViewData["source"]?.ToString().Length>0)
                     {
                         <input type="hidden" value="CredentialType" name="source" id="source" />
                     }
@@ -80,6 +80,7 @@
                         <input type="hidden" value="ProcessType" name="source" id="source" />
                     }
                     <input type="submit" value="Save" class="btn btn-default" />
+                    <a asp-action="Delete" asp-route-id="@Model.Ct5Key" class="btn btn-warning">Delete</a>
                 }
             </div>
         </form>

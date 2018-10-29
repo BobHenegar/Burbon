@@ -1,0 +1,83 @@
+﻿@using ProjectMoonshine.EntityFramework.Utils
+@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+
+<div>
+    <h4>FileUpload</h4>
+    <hr />
+    @if (!Model.Cr3FupKey.IsGuidValid())
+    {
+        <a asp-controller="FileUploads" asp-action="Create" class="btn btn-primary">Upload File</a>
+    }
+    else
+    {
+        <dl class="dl-horizontal">
+            @*<dt>
+            @Html.DisplayNameFor(model => model.FileUpload.FupFileData)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FileUpload.FupFileData)
+        </dd>*@
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupFileName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupFileName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupFileDescription)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupFileDescription)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.DocumentType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.DocumentType.DtpCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupFileType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupFileType)
+            </dd>
+
+
+            <dt>
+                @*@Html.DisplayNameFor(model => model.FileUpload.FupAddUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupAddUser)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupChangeUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupChangeUser)
+            </dd>*@
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupAddDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupAddDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FileUpload.FupChangeDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileUpload.FupChangeDate)
+            </dd>
+            @*<dt>
+            @Html.DisplayNameFor(model => model.FileUpload.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FileUpload.Person.PerFirstName)
+        </dd>*@
+
+        </dl>
+    }
+    
+</div>

@@ -25,8 +25,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid Cr2Key { get; set; }
 
+        [DisplayName("Process Type")]
         public Guid Cr2Ct2Key { get; set; }
 
+        [DisplayName("Credential")]
         public Guid Cr2Cr1Key { get; set; }
 
         //public Guid Cr2PerKey { get; set; }
@@ -42,18 +44,23 @@ namespace ProjectMoonshine.EntityFramework.Models
         //public string Cr2StatusChangeUser { get; set; }
 
         [DisplayName("Start Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2StartDate { get; set; }
 
         [DisplayName("Due Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2DueDate { get; set; }
 
         [DisplayName("Submit Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2SubmitDate { get; set; }
 
         [DisplayName("Completion Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2CompletionDate { get; set; }
 
         [DisplayName("Termination Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2TerminationDate { get; set; }
 
         //public DateTimeOffset Cr2ExtensionDate { get; set; }
@@ -108,10 +115,14 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public string Cr2AddUser { get; set; }
 
+        [DisplayName("Add Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset Cr2AddDate { get; set; }
 
         public string Cr2ChangeUser { get; set; }
 
+        [DisplayName("Change Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr2ChangeDate { get; set; }
 
         //public virtual List<CredentialRequirement>  CredentialRequirements { get; set; }
@@ -119,7 +130,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Credential Credential { get; set; }
         //public virtual Person Person { get; set; }
 
-        public List<CredentialRequirement> CredentialRequirements { get; set; }
+        public virtual List<CredentialRequirement> CredentialRequirements { get; set; }
 
         [ForeignKey("Cr2Ct6Key")]
         public CredentialStatusType StatusType { get; set; }

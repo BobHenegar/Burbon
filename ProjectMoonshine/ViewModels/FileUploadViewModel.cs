@@ -8,5 +8,8 @@ namespace ProjectMoonshine.ViewModels
     {
         [DisplayName("Description")]
         public string FupFileDescription { get; set; }
+
+        [DisplayName("Document Type")]
+        public Guid? FupDtpKey { get; set; }
     }
 }

@@ -25,7 +25,16 @@ namespace ProjectMoonshine.Controllers
         // GET: CredentialRequirements
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.CredentialRequirements.Include(c => c.CredentialProcess).Include(c => c.CredentialRequirementType).Include(c => c.Status);
+            var applicationDbContext = _context.CredentialRequirements
+                .Include(c => c.CredentialProcess)
+                    .ThenInclude(p => p.CredentialProcessType)
+                .Include(c => c.CredentialProcess)
+                    .ThenInclude( p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.Person)
+                .Include(c => c.CredentialRequirementType)
+                .Include(c => c.Status)
+                .AsNoTracking();
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -39,8 +48,20 @@ namespace ProjectMoonshine.Controllers
 
             var credentialRequirement = await _context.CredentialRequirements
                 .Include(c => c.CredentialProcess)
+                    .ThenInclude(p => p.CredentialProcessType)
                 .Include(c => c.CredentialRequirementType)
+                    .ThenInclude(rt => rt.Template)
                 .Include(c => c.Status)
+                .Include(r => r.CEPeriod)
+                    .ThenInclude(p => p.CeType)
+                .Include(r => r.Degree)
+                    .ThenInclude(d => d.DegreeType)
+                .Include(r => r.License)
+                .Include(r => r.ExamScore)
+                    .ThenInclude(s => s.Exam)
+                .Include(r => r.FileUpload)
+                    .ThenInclude(f => f.DocumentType)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Cr3Key == id);
             if (credentialRequirement == null)
             {

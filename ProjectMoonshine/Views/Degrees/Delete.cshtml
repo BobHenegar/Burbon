@@ -1,0 +1,70 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.Degree
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Degree</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DegInstitution)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegInstitution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegChangeUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DegreeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DegreeType.DetCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CusKey)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="DegKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

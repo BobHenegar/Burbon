@@ -68,7 +68,8 @@ namespace ProjectMoonshine.Controllers
                 credentialProcessTypeXCredentialRequirementType.Ct5Key = Guid.NewGuid();
                 _context.Add(credentialProcessTypeXCredentialRequirementType);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Credentials");
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["Ct5Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialProcessTypeXCredentialRequirementType.Ct5Ct2Key);
             ViewData["Ct5Ct3Key"] = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Requirement", credentialProcessTypeXCredentialRequirementType.Ct5Ct3Key);
@@ -131,7 +132,8 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                return Request.Form["source"].ToString().Equals("CredentialType") ? RedirectToAction(nameof(Index), "CredentialTypes") : RedirectToAction(nameof(Index));
+                //return Request.Form["source"].ToString().Equals("CredentialType") ? RedirectToAction(nameof(Index), "CredentialTypes") : RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "CredentialTypes");
             }
             ViewData["Ct5Ct2Key"] = new SelectList(_context.CredentialProcessTypes, "Ct2Key", "Ct2Process", credentialProcessTypeXCredentialRequirementType.Ct5Ct2Key);
             ViewData["Ct5Ct3Key"] = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Requirement", credentialProcessTypeXCredentialRequirementType.Ct5Ct3Key);

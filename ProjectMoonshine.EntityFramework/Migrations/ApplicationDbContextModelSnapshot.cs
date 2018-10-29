@@ -1127,7 +1127,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("IxlAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("IxlChangeDate")
+                    b.Property<DateTimeOffset?>("IxlChangeDate")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("IxlChangeUser")

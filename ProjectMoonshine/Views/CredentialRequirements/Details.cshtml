@@ -1,4 +1,5 @@
-﻿@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+﻿@using GlobalConstants = ProjectMoonshine.EntityFramework.GlobalConstants
+@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
 
 @{
     ViewData["Title"] = "Details";
@@ -11,6 +12,27 @@
     <h4>CredentialRequirement</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialRequirementType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialRequirementType.Ct3Requirement)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CredentialProcess)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CredentialProcess.CredentialProcessType.Ct2Process)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status.Ct6Code)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Cr3StartDate)
         </dt>
@@ -29,56 +51,98 @@
         <dd>
             @Html.DisplayFor(model => model.Cr3MetDate)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cr3DataKey)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cr3DataKey)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cr3AddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cr3AddUser)
-        </dd>
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Cr3DataKey)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cr3DataKey)
+            </dd>*@
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Cr3AddUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cr3AddUser)
+            </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Cr3AddDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Cr3AddDate)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Cr3ChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Cr3ChangeUser)
-        </dd>
+        @*<dt>
+                @Html.DisplayNameFor(model => model.Cr3ChangeUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Cr3ChangeUser)
+            </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Cr3ChangeDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Cr3ChangeDate)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CredentialProcess)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CredentialProcess.Cr2Key)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CredentialRequirementType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CredentialRequirementType.Ct3Key)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status.Ct6Code)
-        </dd>
+
     </dl>
 </div>
+@switch (@Model.CredentialRequirementType.Template.Ct8Code)
+{
+    case GlobalConstants.RequirementTemplateCode.None:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Application:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Attestment:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Audit:
+        break;
+    case GlobalConstants.RequirementTemplateCode.CE:
+        @(await Html.PartialAsync("_CEPeriodDashboardPartialView", Model))
+        break;
+    case GlobalConstants.RequirementTemplateCode.Checklist:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Course:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Custom:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Degree:
+        @(await Html.PartialAsync("_DegreeDashboardPartialView", Model))
+        break;
+    case GlobalConstants.RequirementTemplateCode.Designation:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Disclosure:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Document:
+    @(await Html.PartialAsync("_ExamScoreOnRequirementPartialView", Model))
+        break;
+    case GlobalConstants.RequirementTemplateCode.DocumentRequest:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Ethics:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Event:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Exam:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Experience:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Fee:
+        break;
+    case GlobalConstants.RequirementTemplateCode.License:
+    @(await Html.PartialAsync("_LicenseDashboardPartialView", Model))
+        break;
+    case GlobalConstants.RequirementTemplateCode.Membership:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Relationship:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Signature:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Simple:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Sql:
+        break;
+    case GlobalConstants.RequirementTemplateCode.Switch:
+        break;
+    default:
+        break;
+}
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Cr3Key">Edit</a> |
     <a asp-action="Index">Back to List</a>

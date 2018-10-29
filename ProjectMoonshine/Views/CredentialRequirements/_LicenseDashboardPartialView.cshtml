@@ -1,0 +1,84 @@
+﻿@using ProjectMoonshine.Controllers
+@using ProjectMoonshine.EntityFramework.Utils
+@model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
+
+<div>
+    <h4>License</h4>
+    <hr />
+    @if (!Model.Cr3IxlKey.IsGuidValid())
+    {
+        <a asp-controller="Licenses" asp-action="Create" class="btn">Add License</a>
+
+    }
+    else
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlState)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlState)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlLicenseNo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlLicenseNo)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlLicenseName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlLicenseName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlIssueDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlIssueDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlExpireDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlExpireDate)
+            </dd>
+            @*<dt>
+                @Html.DisplayNameFor(model => model.License.IxlAddUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlAddUser)
+            </dd>*@
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlAddDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlAddDate)
+            </dd>
+            @*<dt>
+                @Html.DisplayNameFor(model => model.License.IxlChangeUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlChangeUser)
+            </dd>*@
+            <dt>
+                @Html.DisplayNameFor(model => model.License.IxlChangeDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.IxlChangeDate)
+            </dd>
+            @*<dt>
+                @Html.DisplayNameFor(model => model.License.Customer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.License.Customer.CusKey)
+            </dd>*@
+        </dl>
+        <a asp-controller="Licenses" asp-action="Edit" asp-route-id="@Model.License.IxlKey" class="btn-primary">Edit License</a>
+    }
+
+</div>
+<div>
+    @*<a asp-controller="Licenses" asp-action="Edit" asp-route-id="@Model.License.IxlKey">Edit</a> |*@
+    @*<a asp-action="Index">Back to List</a>*@
+</div>

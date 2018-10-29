@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.CredentialRequirement>
+
+
+<div style="padding:20px 15px 50px 15px">
+
+    @if (Model != null)
+    {
+        <table class="table" style="border: grey; border-width: 2px">
+            <thead>
+                <tr>
+                    <th></th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.CredentialRequirementType.Ct3Requirement)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cr3StartDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cr3DueDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Cr3MetDate != null)
+                            {
+                                <span class="glyphicon glyphicon-ok" style="color:green"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-remove" style="color:red"></span>
+
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CredentialRequirementType.Ct3Requirement)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cr3StartDate)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cr3DueDate)
+                        </td>
+                        <td style="white-space: nowrap">
+                            @Html.DisplayFor(modelItem => item.Status.Ct6Code)
+                        </td>
+                        <td>
+                            <a asp-controller="CredentialRequirements" asp-action="Edit" asp-route-id="@item.Cr3Key">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

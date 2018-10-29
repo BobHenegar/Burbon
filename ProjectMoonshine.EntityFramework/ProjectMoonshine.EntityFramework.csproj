@@ -32,6 +32,8 @@
     <Compile Remove="Migrations\20181025152357_added degree &amp; type models.cs" />
     <Compile Remove="Migrations\20181025163522_updated degree models.cs" />
     <Compile Remove="Migrations\20181025190317_added exam logic.cs" />
+    <Compile Remove="Migrations\20181026193107_remnants2.cs" />
+    <Compile Remove="Migrations\20181026220219_remnants 3.cs" />
     <Compile Remove="Migrations\20181029151550_AddedQueryNameField.cs" />
   </ItemGroup>
 

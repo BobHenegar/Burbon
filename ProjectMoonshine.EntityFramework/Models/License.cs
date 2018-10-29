@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -53,7 +55,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Change Date")]
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTimeOffset IxlChangeDate { get; set; }
+        public DateTimeOffset? IxlChangeDate { get; set; }
 
         [ForeignKey("IxlCusKey")]
         public virtual Customer Customer { get; set; }
@@ -68,13 +70,18 @@ namespace ProjectMoonshine.EntityFramework.Models
                 await context.AddAsync(this);
                 await context.SaveChangesAsync();
 
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, IxlCusKey,
+                    GlobalConstants.RequirementTemplateCode.License, true);
 
-                return await UpdateRequirementsAsync(context, IxlCusKey);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
 
@@ -84,31 +91,6 @@ namespace ProjectMoonshine.EntityFramework.Models
                    && CommonUtils.IsDateTimeOffsetValid(IxlIssueDate) 
                    && CommonUtils.IsDateTimeOffsetValid(IxlExpireDate) 
                    && (!isUpdate || CommonUtils.IsGuidValid(IxlKey));
-        }
-
-        private async Task<bool> UpdateRequirementsAsync(ApplicationDbContext context, Guid customerKey)
-        {
-            try
-            {
-                List<CredentialRequirement> requirements = await CredentialingUtils.GetCredentialRequirementsFromCustomerKey(context, customerKey);
-
-                if (requirements == null || requirements.Count <= 0) return true;
-                foreach (CredentialRequirement credentialRequirement in requirements)
-                {
-                    if (credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid() 
-                        || (credentialRequirement.Status?.State != null && !CredentialingUtils.IsUnlocked(credentialRequirement.Status.State)) 
-                        || IxlExpireDate < DateTimeOffset.Now) continue;
-
-                    credentialRequirement.Cr3IxlKey = IxlKey;
-                    if (! await credentialRequirement.UpdateAsync(context)) return false;
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
         }
 
         public async Task<bool> UpdateAsync(ApplicationDbContext context)
@@ -126,16 +108,23 @@ namespace ProjectMoonshine.EntityFramework.Models
                 context.Update(this);
                 await context.SaveChangesAsync();
 
-                if (! await UpdateRequirementsAsync(context, IxlCusKey)) return false;
+                if (!await CredentialingUtils.UpdateRequirementsFromDataAsync(context, IxlCusKey, GlobalConstants.RequirementTemplateCode.License, true)) return false;
+
+                
 
                 if (!CommonUtils.IsGuidValid(originalCusKey) || originalCusKey == IxlCusKey) return true;
 
-                return await UpdateRequirementsAsync(context, originalCusKey);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, originalCusKey,
+                    GlobalConstants.RequirementTemplateCode.License, true);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return false;
             }
         }
     }

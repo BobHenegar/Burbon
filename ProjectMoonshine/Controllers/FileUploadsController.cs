@@ -82,18 +82,28 @@ namespace ProjectMoonshine.Controllers
                 return View();
             }
             var fileStream = await file.ReadByteArrayAsync();
-            var entity = _context.FileUploads.Add(
-                new FileUpload()
+
+            try
+            {
+                var fileUpload = new FileUpload()
                 {
                     FupPerKey = perKey,
                     FupFileData = fileStream,
                     FupFileName = fileName,
                     FupFileType = fileType,
                     FupFileDescription = model.FupFileDescription
-                }
-            );
-            await _context.SaveChangesAsync();
-            return RedirectToAction("People", "FileUploads", new { id = perKey});
+                    , FupDtpKey = model.FupDtpKey
+                };
+
+                if (await fileUpload.AddAsync(_context)) return RedirectToAction(nameof(Index), "FileUploads", new { id = perKey }); 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            return View();
         }
 
         // GET: FileUploads/Create
@@ -112,7 +122,7 @@ namespace ProjectMoonshine.Controllers
             var perKey = fileUpload.FupPerKey;
             _context.FileUploads.Remove(fileUpload);
             await _context.SaveChangesAsync();
-            return RedirectToAction("People", "FileUploads", new { id = perKey });
+            return RedirectToAction(nameof(Index), "FileUploads", new { id = perKey });
         }
     }
 }

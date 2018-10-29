@@ -41,12 +41,21 @@ namespace ProjectMoonshine.Controllers
             }
 
             var credential = await _context.Credentials
+                .AsNoTracking()
                 .Include(c => c.CredentialType)
                 .Include(c => c.CurrentCredentialProcess)
+                    .ThenInclude(cr => cr.CredentialRequirements)
+                        .ThenInclude(rt => rt.CredentialRequirementType)
                 .Include(c => c.CurrentCredentialProcessType)
                 .Include(c => c.Customer)
+                    .ThenInclude(cp => cp.Person)
                 .Include(c => c.StatusType)
-                .FirstOrDefaultAsync(m => m.Cr1Key == id);
+                .Include(c => c.CredentialProcesses)
+                    .ThenInclude(p => p.CredentialProcessType)
+                .Include(c => c.CredentialProcesses)
+                    .ThenInclude(p => p.StatusType)
+                .Where(m => m.Cr1Key == id)
+                .FirstOrDefaultAsync();
             if (credential == null)
             {
                 return NotFound();
@@ -62,7 +71,7 @@ namespace ProjectMoonshine.Controllers
             ViewData["CusKeyHasValue"] = id.HasValue;
             if (id.HasValue)
             {
-                ViewData["CusKey"] = id.Value;
+                ViewData["PerCusKey"] = id.Value;
             }
 
             CredentialViewModel credentialViewModel = new CredentialViewModel(_context);
@@ -82,7 +91,16 @@ namespace ProjectMoonshine.Controllers
                 {
                 credential.Cr1Key = Guid.NewGuid();
                 bool success = await credential.AddAsync(_context);
-                    if (success) return RedirectToAction(nameof(Index));
+                    if (success)
+                    {
+                        var pid = _context.People
+                                        .Where(p => p.PerCusKey == credential.Cr1CusKey)
+                                        .Select(p => p.PerKey)
+                                        .FirstOrDefault()
+                                        .ToString();
+
+                        return RedirectToAction("Details", "People", new {id = pid});
+                    }
                 }
                 catch (Exception e)
                 {
