@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.EntityFramework.Utils;
+using ProjectMoonshine.Helpers;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -47,10 +49,12 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Degrees/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(Guid? requirementKey = null, Guid? customerKey = null)
         {
-            ViewData["DegCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "DegCusKey", requirementKey, customerKey);
+            
             ViewData["DegDetKey"] = new SelectList(_context.DegreeTypes, "DetKey", "DetCode");
+            
             return View();
         }
 
@@ -64,15 +68,17 @@ namespace ProjectMoonshine.Controllers
             if (ModelState.IsValid)
             {
                 if (await degree.AddAsync(_context))
-                    return RedirectToAction(nameof(Index));
+                {
+                    return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
+                }
             }
-            ViewData["DegCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", degree.DegCusKey);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "DegCusKey", null, null, degree.DegCusKey);
             ViewData["DegDetKey"] = new SelectList(_context.DegreeTypes, "DetKey", "DetCode", degree.DegDetKey);
             return View(degree);
         }
 
         // GET: Degrees/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, Guid? requirementKey = null, Guid? customerKey = null)
         {
             if (id == null)
             {
@@ -84,8 +90,11 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["DegCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", degree.DegCusKey);
+            
             ViewData["DegDetKey"] = new SelectList(_context.DegreeTypes, "DetKey", "DetCode", degree.DegDetKey);
+
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "DegCusKey", requirementKey, customerKey, degree.DegCusKey);
+
             return View(degree);
         }
 
@@ -105,7 +114,10 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    if (await degree.UpdateAsync(_context)) return RedirectToAction(nameof(Index));
+                    if (await degree.UpdateAsync(_context))
+                    {
+                        return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
+                    }
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -121,7 +133,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 
             }
-            ViewData["DegCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", degree.DegCusKey);
+
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "DegCusKey", null, null, degree.DegCusKey);
             ViewData["DegDetKey"] = new SelectList(_context.DegreeTypes, "DetKey", "DetCode", degree.DegDetKey);
             return View(degree);
         }

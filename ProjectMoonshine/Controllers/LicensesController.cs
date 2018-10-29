@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.EntityFramework.Utils;
+using ProjectMoonshine.Helpers;
 
 namespace ProjectMoonshine.Controllers
 {
@@ -47,26 +48,14 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Licenses/Create
-        public IActionResult Create(Guid? requirementKey = null, Guid? customerKey = null)
+        public async Task<IActionResult> Create(Guid? requirementKey = null, Guid? customerKey = null)
         {
 
-            ViewData["IxlCusKey"] = new SelectList(_context.People
-                            .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerCusKey", "Text");
-
-            if (requirementKey.IsGuidValid()) ViewData["requirementKey"] = requirementKey;
-
-            if (!customerKey.IsGuidValid()) return View();
-
-            ViewData["customerKey"] = customerKey;
-            SelectListItem selected = ((SelectList) ViewData["IxlCusKey"])?.FirstOrDefault(x => x.Value == customerKey.ToString());
-            if (selected != null) selected.Selected = true;
-
-
-
-
-
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "IxlCusKey", requirementKey, customerKey);
+            
             return View();
         }
+
 
         // POST: Licenses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -79,28 +68,11 @@ namespace ProjectMoonshine.Controllers
             {
                 if (await license.AddAsync(_context))
                 {
-                    if (Request.Form["source"].ToString().Equals("Requirement"))
-                    {
-                        return RedirectToAction("Edit", "CredentialRequirements",new {id = Request.Form["requirementKey"].ToString()});
-                    }
-
-                    if (!Request.Form["source"].ToString().Equals("Person")) return RedirectToAction(nameof(Index));
-
-                    Guid.TryParse(Request.Form["customerKey"].ToString(), out Guid customerKey);
-
-                    if (customerKey == Guid.Empty) return RedirectToAction(nameof(Index));
-
-                    Guid personKey = await _context.People
-                        .AsNoTracking()
-                        .Where(p => p.PerCusKey == customerKey)
-                        .Select(p => p.PerKey)
-                        .FirstOrDefaultAsync();
-
-                    return personKey != Guid.Empty ? RedirectToAction("Details", "People", new {id = personKey}) : RedirectToAction(nameof(Index));
+                    return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
                 }
                     
             }
-            ViewData["IxlCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", license.IxlCusKey);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "IxlCusKey", null, null, license.IxlCusKey);
             return View(license);
         }
 
@@ -117,15 +89,10 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["IxlCusKey"] = new SelectList(_context.People
-                .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerCusKey", "Text", license.IxlCusKey);
 
-            if (requirementKey.IsGuidValid()) ViewData["requirementKey"] = requirementKey;
-
-            if (!customerKey.IsGuidValid()) return View();
-
-            if (customerKey.IsGuidValid() )ViewData["customerKey"] = customerKey;
-          return View(license);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "IxlCusKey", requirementKey, customerKey, license.IxlCusKey);
+            
+            return View(license);
         }
 
         // POST: Licenses/Edit/5
@@ -146,27 +113,7 @@ namespace ProjectMoonshine.Controllers
                 {
                     if (await license.UpdateAsync(_context))
                     {
-                        if (Request.Form["source"].ToString().Equals("Requirement"))
-                        {
-                            return RedirectToAction("Edit", "CredentialRequirements",
-                                new {id = Request.Form["requirementKey"].ToString()});
-                        }
-
-                        if (!Request.Form["source"].ToString().Equals("Person")) return RedirectToAction(nameof(Index));
-
-                        Guid.TryParse(Request.Form["customerKey"].ToString(), out Guid customerKey);
-
-                        if (customerKey == Guid.Empty) return RedirectToAction(nameof(Index));
-
-                        Guid personKey = await _context.People
-                            .AsNoTracking()
-                            .Where(p => p.PerCusKey == customerKey)
-                            .Select(p => p.PerKey)
-                            .FirstOrDefaultAsync();
-
-                        return personKey != Guid.Empty
-                            ? RedirectToAction("Details", "People", new {id = personKey})
-                            : RedirectToAction(nameof(Index));
+                        return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
                     }
                         
                 }
@@ -183,7 +130,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 
             }
-            ViewData["IxlCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", license.IxlCusKey);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "IxlCusKey", null, null, license.IxlCusKey);
             return View(license);
         }
 
