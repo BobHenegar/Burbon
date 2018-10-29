@@ -1235,6 +1235,39 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.ToTable("Phone");
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Query", b =>
+                {
+                    b.Property<Guid>("QryKey")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTimeOffset>("QryAddDate")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("QryAddUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset?>("QryChangeDate")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("QryChangeUser")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("QryJsonBody")
+                        .IsRequired();
+
+                    b.Property<string>("QryName")
+                        .IsRequired();
+
+                    b.Property<string>("QryTable")
+                        .IsRequired();
+
+                    b.HasKey("QryKey");
+
+                    b.ToTable("Queries");
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.StatusStateType", b =>
                 {
                     b.Property<Guid>("Cu6Key")

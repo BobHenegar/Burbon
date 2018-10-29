@@ -18,7 +18,7 @@ namespace ProjectMoonshine.Managers
         private readonly ApplicationDbContext _context;
         public FileUploadManager(ApplicationDbContext context)
         {
-            context = _context;
+            _context = context;
         }
 
         // <inheritdoc />

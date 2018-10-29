@@ -9,8 +9,10 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjectMoonshine.Classes.QueryClasses;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
+using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine
@@ -39,22 +41,11 @@ namespace ProjectMoonshine
                     .UseSqlServer(config.GetConnectionString("Database"),
                         b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            //Setup Dependency injection
+            services.AddDependencies();
+            services.AddQueryService();
 
-            services
-                .AddTransient<PersonManager>()
-                .AddTransient<AddressManager>()
-                .AddTransient<CredentialManager>()
-                .AddTransient<EmailManager>()
-                .AddTransient<PhoneManager>()
-                .AddTransient<CredentialManager>()
-                .AddTransient<ExamManager>()
-                .AddTransient<ExamScoreManager>()
-                .AddTransient<EventRegistrationManager>()
-                .AddTransient<EventManager>()
-                .AddTransient<FileUploadManager>()
-                .AddTransient<RequirementManager>();
-
+            //Configure Cookie Policy Options
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -63,7 +54,13 @@ namespace ProjectMoonshine
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                // supresses the Newtonsoft.Json.JsonSerializationExceptions for cycles
+                .AddJsonOptions(
+                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
             if (Assembly.GetEntryAssembly().FullName.StartsWith("ProjectMoonshine,"))
             {
