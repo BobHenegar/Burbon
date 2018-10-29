@@ -1,0 +1,23 @@
+﻿
+
+<div class="form-group">
+    @{
+
+        if (ViewData["requirementKey"]?.ToString().Length > 0)
+        {
+        <input type="hidden" value="Requirement" name="source" id="source" />
+        <input type="hidden" value="@ViewData["requirementKey"].ToString()" name="requirementKey" id="requirementKey" />
+        }
+        else if (ViewData["customerKey"]?.ToString().Length > 0)
+        {
+            <input type="hidden" value="Person" name="source" id="source" />
+            <input type="hidden" value="@ViewData["customerKey"].ToString()" name="customerKey" id="customerKey" />
+
+        }
+        else
+        {
+            <input type="hidden" value="License" name="source" id="source" />
+            <input type="hidden" value="" name="customerKey" id="customerKey" />
+        }
+    }
+</div>

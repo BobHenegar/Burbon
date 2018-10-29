@@ -7,7 +7,7 @@
     <hr />
     @if (!Model.Cr3IxlKey.IsGuidValid())
     {
-        <a asp-controller="Licenses" asp-action="Create" class="btn">Add License</a>
+        <a asp-controller="Licenses" asp-action="Create" asp-route-requirementKey=@Model.Cr3Key.ToString() class="btn">Add License</a>
 
     }
     else
@@ -74,7 +74,7 @@
                 @Html.DisplayFor(model => model.License.Customer.CusKey)
             </dd>*@
         </dl>
-        <a asp-controller="Licenses" asp-action="Edit" asp-route-id="@Model.License.IxlKey" class="btn-primary">Edit License</a>
+        <a asp-controller="Licenses" asp-action="Edit" asp-route-id="@Model.License.IxlKey" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey" class="btn-primary">Edit License</a>
     }
 
 </div>
