@@ -45,18 +45,22 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid? Cr1Ct6Key { get; set; }
 
         [DisplayName("Start Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr1StartDate { get; set; }
         //public DateTimeOffset Cr1StatusChangeDate { get; set; }
 
         //public string Cr1StatusChangeUser { get; set; }
 
         [DisplayName("CredentialDate")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr1CredentialDate { get; set; }
 
         [DisplayName("Effective Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr1EffectiveDate { get; set; }
 
         [DisplayName("Valid Through Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr1ValidThruDate { get; set; }
 
         //public Guid Cr1Ct2CurrentProcess { get; set; }
@@ -79,12 +83,14 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string Cr1AddUser { get; set; }
 
         [DisplayName("Add Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Cr1AddDate { get; set; }
 
         [DisplayName("Change User")]
         public string Cr1ChangeUser { get; set; }
 
         [DisplayName("Change Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset? Cr1ChangeDate { get; set; }
 
         //public string Cr1LegalFirstName { get; set; }
@@ -245,6 +251,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                                         CurrentCredentialProcess = nextCredentialProcess;
 
                                         Cr1ValidThruDate = CurrentCredentialProcess.Cr2DueDate;
+                                        Cr1Ct2Key = CurrentCredentialProcess.Cr2Ct2Key;
                                     }
 
                                     context.Update(this);

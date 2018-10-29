@@ -30,9 +30,9 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.RenewStatusType)
                 .Include(c => c.RenewCredentialProcessType)
                 .Include(c => c.CredentialTypeXCredentialProcessTypes)
-                .ThenInclude(cx => cx.CredentialProcessType)
-                .ThenInclude(cx => cx.CredentialProcessTypeXCredentialRequirementTypes)
-                .ThenInclude(cr => cr.CredentialRequirementType)
+                    .ThenInclude(cx => cx.CredentialProcessType)
+                    .ThenInclude(cx => cx.CredentialProcessTypeXCredentialRequirementTypes)
+                        .ThenInclude(cr => cr.CredentialRequirementType)
                 .OrderBy(c => c.Ct1Order);
 
 
