@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Enums;
 
 namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
