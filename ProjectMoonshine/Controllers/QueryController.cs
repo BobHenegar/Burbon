@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Enums;
 using ProjectMoonshine.Managers;
@@ -19,10 +21,12 @@ namespace ProjectMoonshine.Controllers
 {
     public class QueryController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly QueryManager _queryManager;
-        public QueryController(QueryManager queryManager)
+        public QueryController(ApplicationDbContext context)
         {
-            _queryManager = queryManager;
+            _queryManager = new QueryManager(context);
+            _context = context;
         }
 
 
@@ -50,19 +54,27 @@ namespace ProjectMoonshine.Controllers
         [Route("Query/Create")]
         public async Task<IActionResult> Create(Query query)
         {
-            string body = string.Empty;
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            try
             {
-                body = await reader.ReadToEndAsync();
-            }
-            JToken json = JToken.Parse(body);
+                string body = string.Empty;
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                JToken json = JToken.Parse(body);
 
-            query.QryName = json["queryName"].Value<string>();
-            query.QryTable = json["baseType"].Value<string>();
-            var parameter = _queryManager.GetExpressionType(json);
-            var res = _queryManager.ParseQuery(json, parameter);
-            _queryManager.AddQuery(body, query);
-            return RedirectToAction(nameof(Index));
+                query.QryName = json["queryName"].Value<string>();
+                query.QryTable = json["baseType"].Value<string>();
+                var parameter = _queryManager.GetExpressionType(json);
+                var res = _queryManager.ParseQuery(json, parameter);
+                _queryManager.AddQuery(body, query);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception ex)
+            {
+                return View();
+            }
         }
 
         // GET: Query/Delete/5
@@ -87,7 +99,8 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await _queryManager.DeleteQueryById(id);
+            _queryManager.DeleteQueryById(id);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }

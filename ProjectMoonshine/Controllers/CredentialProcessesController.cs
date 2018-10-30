@@ -42,6 +42,10 @@ namespace ProjectMoonshine.Controllers
                 .Include(c => c.Credential)
                     .ThenInclude(c => c.CredentialType)
                 .Include(c => c.StatusType)
+                .Include(p => p.CredentialRequirements)
+                .ThenInclude(r => r.CredentialRequirementType)
+                .Include(p => p.CredentialRequirements)
+                .ThenInclude(r => r.Status)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Cr2Key == id);
             if (credentialProcess == null)
