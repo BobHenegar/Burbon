@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Classes.QueryClasses;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
@@ -324,6 +325,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         {
             try
             {
+                
                 if (requirement.Cr3IxlKey.IsGuidValid()) return true;
                 Guid customerKey =
                     await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
@@ -352,6 +354,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         private static async Task<License> FindLicenseDataAsync(ApplicationDbContext context, Guid customerKey)
         {
+            //QueryManager qm = new QueryManager(context);
+            //var expression = await qm.GetExpressionByKey<License>(Guid.Parse("0ECB62E9-89DA-4806-AFF8-0431F2C7BA48"));
             Expression<Func<License, bool>> isLicenseValid = l => l.IxlCusKey == customerKey
                                          && (!CommonUtils.IsDateTimeOffsetValid(l.IxlIssueDate) ||
                                              l.IxlIssueDate <= DateTimeOffset.Now)
