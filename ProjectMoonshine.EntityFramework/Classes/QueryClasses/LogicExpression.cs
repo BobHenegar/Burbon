@@ -1,6 +1,6 @@
 ﻿using ProjectMoonshine.Enums;
 
-namespace ProjectMoonshine.Classes.QueryClasses
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class LogicExpression
     {
