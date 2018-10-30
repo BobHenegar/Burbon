@@ -15,6 +15,7 @@ namespace ProjectMoonshine.ViewModels
     public class ColumnDefinition
     {
         public string ColumnName { get; set; }
+        public string ColumnDisplayName { get; set; }
         public string TablePrefix { get; set; }
         public string TableName { get; set; }
         public string ColumnType { get; set; }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using ProjectMoonshine.EntityFramework;
 
-namespace ProjectMoonshine.Classes.QueryClasses
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public static class QueryExtensionMethods
     {
