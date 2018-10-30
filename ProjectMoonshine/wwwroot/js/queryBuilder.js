@@ -17,12 +17,12 @@ function searchObject(list, logic) {
         var nodeName = $(item).prop('nodeName');
         if (nodeName === "LI") {
             var leftProp = $(item).find('select#LeftProperty').find("option:selected");
-            var rightProp = $(item).find('input#RightPropertyInput');
+            var rightProp = $(item).find('#RightPropertyInput.ruleInputright');
             var logic = $(item).find('#EqualityComparison').find('option:selected');
             res.logicGroup.push({
                 lhs: { type: $(leftProp).data('type'), value: $(leftProp).val() },
                 logic: logic.val(),
-                rhs: $(rightProp).text() === "" ? $(rightProp).val() : $(rightProp).text()
+                rhs: $(rightProp).val() !== "" ? $(rightProp).val() : $(rightProp).text()
             });
         }
         else if (nodeName === "UL") {

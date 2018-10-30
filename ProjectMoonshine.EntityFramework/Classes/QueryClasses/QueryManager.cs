@@ -286,6 +286,38 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
         }
 
+        //private Expression CreateAnyStatement(string propertyType, string propertyName, string propertyValue, EqualityComparisons expressionType)
+        //{
+        //    // AdrKey select Adr
+        //    var prefix = propertyName.Substring(0, 3);
+        //    // adr
+        //    var path = prefix.ToLower();
+        //    //person.Addresses
+        //    var accessorPath = _routeTable.FindRouteByPrefix(path);
+        //    // typeof(Address)
+        //    Type T = _databaseMetadata.GetTypeByPrefix(path).TableEntity.ClrType;
+        //    Type propType = GetTypeByName(propertyType);
+        //    // adr =>
+        //    var parameter = Expression.Parameter(T, path.ToLower());
+        //    // adr.AdrKey
+        //    var property = Expression.Parameter(T, propertyName);
+        //    // Address.key == "abc123"
+        //    var condition = Expression.Equal(
+        //        Expression.PropertyOrField(parameter, propertyName),
+        //        Expression.Constant(propertyType, propType)
+        //    );
+        //    // adr => adr.Adrkey == "abc123"
+        //    var predicate = Expression.Lambda<Func<bool>>(condition, property);
+        //    // Adrresses.Any(adr => adr.AdrKey == "abc123")
+        //    var anyCall = Expression.Call(
+        //        typeof(Enumerable), "Any", new[] { T },
+        //        accessorPath,
+        //        predicate
+        //    );
+        //    // per => per.Addresses.Any(adr => adr.AdrKey == "abc123")
+        //    return Expression.Lambda<Func<bool>> (anyCall, parameter);
+        //}
+
         private object CreateExpressionConstant(string value, string type)
         {
             try
