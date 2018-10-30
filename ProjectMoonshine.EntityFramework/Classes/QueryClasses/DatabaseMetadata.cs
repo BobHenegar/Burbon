@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using ProjectMoonshine.EntityFramework;
 
-namespace ProjectMoonshine.Classes.QueryClasses
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class DatabaseMetadata
     {
@@ -94,14 +95,14 @@ namespace ProjectMoonshine.Classes.QueryClasses
                     TableName = tableName,
                     TableEntity = entityType,
                     TableAssemblyFullName = entityType.ClrType.FullName,
-                    TableColumns = GetColumnsMetadata(entityType)
+                    TableColumns = GetColumnsMetadata(entityType, tableName)
                 });
                 _tableNameLookup.InsertKeyName(tableName);
             }
 
             return metaTables;
         }
-        private IReadOnlyList<ColumnMetadata> GetColumnsMetadata(IEntityType entityType)
+        private IReadOnlyList<ColumnMetadata> GetColumnsMetadata(IEntityType entityType, string tableName)
         {
             var tableColumns = new List<ColumnMetadata>();
             foreach (var propertyType in entityType.GetProperties())
@@ -109,7 +110,8 @@ namespace ProjectMoonshine.Classes.QueryClasses
                 var relational = propertyType.Relational();
                 tableColumns.Add(new ColumnMetadata
                 {
-                    ColumnName = relational.ColumnName,
+                    ColumnName = propertyType.Name,
+                    ColumnDisplayName = GetPropertyDisplayName(entityType.ClrType, relational.ColumnName, tableName),
                     TablePrefix = GetTablePrefix(entityType),
                     DataType = propertyType.IsNullable
                                 && Nullable.GetUnderlyingType(propertyType.ClrType) != null ?
@@ -119,6 +121,48 @@ namespace ProjectMoonshine.Classes.QueryClasses
             }
             return tableColumns;
 
+        }
+        private static string GetPropertyDisplayName(Type baseType, string propertyName, string tableName)
+        {
+            var displayName = string.Empty;
+            var prop = baseType
+                .GetProperty(propertyName);
+            var displayNameAttribute = prop
+                .GetCustomAttributes(false)
+                .FirstOrDefault(x => x.GetType() == typeof(DisplayNameAttribute));
+            if (displayNameAttribute == null)
+            {
+                if (propertyName.Contains("Key"))
+                {
+                    displayName = $"{tableName} Primary Key";
+                }
+                else if (propertyName.Contains("AddDate"))
+                {
+                    displayName = $"{tableName} Add Date";
+                }
+                else if (propertyName.Contains("AddUser"))
+                {
+                    displayName = $"{tableName} Added By";
+                }
+                else if (propertyName.Contains("ChangeDate"))
+                {
+                    displayName = $"{tableName} Change Date";
+                }
+                else if (propertyName.Contains("ChangeUser"))
+                {
+                    displayName = $"{tableName} Changed By";
+                }
+            }
+            else
+            {
+                displayName = ((DisplayNameAttribute)displayNameAttribute).DisplayName;
+
+                if (!displayName.ToLower().Contains(tableName.ToLower()))
+                {
+                    displayName = $"{tableName} {displayName}";
+                }
+            }
+            return displayName;
         }
         private static string GetTablePrefix(IEntityType src)
         {

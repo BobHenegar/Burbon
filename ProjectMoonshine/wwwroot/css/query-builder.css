@@ -49,6 +49,11 @@ button:disabled {
 div.ruleInput {
     width: 50%;
 }
+input.dangerInput {
+    color: #a94442 !important;
+    background-color: #f2dede !important;
+    border-color: #ebccd1 !important;
+}
 
 .ruleInputright {
     padding: 5px 5px 5px 5px;
