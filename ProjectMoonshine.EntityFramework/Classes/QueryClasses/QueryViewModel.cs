@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProjectMoonshine.ViewModels
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class QueryViewModel
     {

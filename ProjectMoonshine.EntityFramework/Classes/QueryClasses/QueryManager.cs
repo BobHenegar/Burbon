@@ -6,14 +6,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using ProjectMoonshine.EntityFramework;
-using ProjectMoonshine.EntityFramework.Classes.QueryClasses;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Enums;
-using ProjectMoonshine.ViewModels;
 
-namespace ProjectMoonshine.Managers
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class QueryManager
     {

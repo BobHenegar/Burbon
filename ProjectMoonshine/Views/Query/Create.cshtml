@@ -126,13 +126,16 @@
             var canContinue = true;
             $('li').each(function (idx, val) {
                 $(val).find('.flexRow').each(function (ind, item) {
-                    var leftProp = $(item).find('.ruleInput').find('select#LeftProperty');
-                    var eqProp = $(item).find('.ruleInput').find('select#EqualityComparison');
-                    var rightProp = $(item).find('.ruleInput').find('input#RightPropertyInput.ruleInputright');
+                    var ruleInput = $(item).find('.ruleInput');
+                    var leftProp = $(ruleInput).find('select#LeftProperty');
+                    var eqProp = $(ruleInput).find('select#EqualityComparison');
+                    var rightProp = $(ruleInput).find('input#RightPropertyInput.ruleInputright');
                     var leftType = $(leftProp).find('option:selected').data('type');
                     var rightValue = $(rightProp).val();
                     var eqValue = $(eqProp).val();
                     if (!validateInput(leftType, rightValue)) {
+                        var id = "Error_" + ind;
+                        canContinue = false;
                         var validationString = validateEquality(leftType, eqValue);
                         var errorString = "";
                         if (leftType.includes("String")) {
@@ -149,14 +152,17 @@
                         if (validationString) {
                             errorString += buildErrorDiv(validationString);
                         }
-                        canContinue = false;
+
                         $(rightProp).addClass("dangerInput");
-                        var id = "Error_" + ind;
-                        $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div><span class="glyphicon-class" id="`+id+`" hidden="true">glyphicon glyphicon-chevron-left</span>`);
+                        $(rightProp).append(`<span class="glyphicon glyphicon-chevron-left" id="chevron_` + id + `" hidden="true"></span>`);
+                        $(item).find("span#chevron_" + id).hide();
+                        $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div>`);
 
                         $(span).find('div#' + id).hover(function () {
-                            $(span).find("span#" + id).hidden = false;
-                        })
+                            $(span).find("span#chevron_" + id).show();
+                        }, function () {
+                            $(span).find("span#chevron_" + id).hide();
+                        });
                     }
                 });
             });
