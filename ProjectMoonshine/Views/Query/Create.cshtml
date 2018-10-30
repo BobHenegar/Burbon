@@ -154,14 +154,14 @@
                         }
 
                         $(rightProp).addClass("dangerInput");
-                        $(rightProp).append(`<span class="glyphicon glyphicon-chevron-left" id="chevron_` + id + `" hidden="true"></span>`);
+                        $(item).find("div#RightProperty.ruleInput").append(`<span class="glyphicon glyphicon-chevron-left" id="chevron_` + id + `" hidden="true"></span>`);
                         $(item).find("span#chevron_" + id).hide();
                         $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div>`);
 
                         $(span).find('div#' + id).hover(function () {
-                            $(span).find("span#chevron_" + id).show();
+                            $(item).find("div#RightProperty.ruleInput").find("span#chevron_" + id).show();
                         }, function () {
-                            $(span).find("span#chevron_" + id).hide();
+                            $(item).find("div#RightProperty.ruleInput").find("span#chevron_" + id).hide();
                         });
                     }
                 });
