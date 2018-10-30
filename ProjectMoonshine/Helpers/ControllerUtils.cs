@@ -76,5 +76,44 @@ namespace ProjectMoonshine.Helpers
             if (selected != null) selected.Selected = true;
 
         }
+
+        //public static async Task SetRequirementRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? processKey = null, Guid? customerKey = null, object selectedValue = null)
+        //{
+
+        //    //if (customerKey == null)
+        //    //{
+        //    //    if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed)) customerKey = customerKeyParsed;
+        //    //}
+
+        //    if (requirementKey == null)
+        //    {
+        //        if (Guid.TryParse(controller.Request.Form["processKey"].ToString(), out Guid requirementKeyParsed))
+        //            requirementKey = requirementKeyParsed;
+        //    }
+        //    //if (selectedValue != null)
+        //    //{
+        //    //    controller.ViewData[customerFieldName] = new SelectList(await context.People
+        //    //        .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text", selectedValue);
+        //    //}
+
+        //    //else
+        //    //{
+        //    //    controller.ViewData[customerFieldName] = new SelectList(await context.People
+        //    //        .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text");
+        //    //}
+
+
+        //    if (processKey.IsGuidValid()) controller.ViewData["processKey"] = requirementKey;
+        //    if (!customerKey.IsGuidValid()) return;
+
+        //    controller.ViewData["customerKey"] = customerKey;
+        //    if (selectedValue != null) return;
+
+        //    SelectListItem selected =
+        //        ((SelectList)controller.ViewData[customerFieldName])?.FirstOrDefault(x =>
+        //            x.Value == customerKey.ToString());
+        //    if (selected != null) selected.Selected = true;
+
+        //}
     }
 }
