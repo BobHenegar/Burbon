@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.License>
+<hr />
+<h4>Licenses</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlLicenseNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlLicenseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlIssueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IxlExpireDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IxlState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IxlLicenseNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IxlLicenseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IxlIssueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IxlExpireDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

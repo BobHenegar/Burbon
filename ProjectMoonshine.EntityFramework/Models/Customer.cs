@@ -33,5 +33,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         public virtual IList<Credential> Credentials { get; set; }
         public virtual IList<ExamScore> ExamScores { get; set; }
         public virtual IList<EventRegistration> EventRegistrations { get; set; }
+
+        public virtual IList<License> Licenses { get; set; }
+
+        public virtual IList<Degree> Degrees { get; set; }
+
+        
     }
 }

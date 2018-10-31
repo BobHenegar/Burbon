@@ -75,7 +75,13 @@
             case GlobalConstants.RequirementTemplateCode.Fee:
                 break;
             case GlobalConstants.RequirementTemplateCode.License:
-                @(await Html.PartialAsync("_LicenseDashboardPartialView", Model.CredentialRequirement))
+                <div class="row" style="padding: 0px 0px 15px 30px">
+                    @(await Html.PartialAsync("_LicenseDashboardPartialView", Model.CredentialRequirement))
+                </div>
+                <div class="row" style="padding: 15px 0px 10px 30px ">
+                    @(await Html.PartialAsync("_LicensesForCustomerListPartialView", Model.CredentialRequirement.CredentialProcess.Credential.Customer.Licenses))
+                </div>
+                
                 break;
             case GlobalConstants.RequirementTemplateCode.Membership:
                 break;

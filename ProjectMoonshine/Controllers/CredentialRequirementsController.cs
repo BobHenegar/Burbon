@@ -117,8 +117,28 @@ namespace ProjectMoonshine.Controllers
                 .AsNoTracking()
                 .Include(c => c.CredentialProcess)
                 .ThenInclude(p => p.CredentialProcessType)
+                
                 .Include(r => r.CredentialProcess)
                     .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.Licenses)
+
+                .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.ExamScores)
+
+                .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.Person)
+                    .ThenInclude(p=>  p.FileUploads)
+                
+                .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.Degrees)
+
                 .Include(c => c.CredentialRequirementType)
                 .ThenInclude(rt => rt.Template)
                 .Include(c => c.Status)

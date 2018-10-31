@@ -52,24 +52,25 @@
             @Html.DisplayFor(model => model.ExamScore.ExsChangeDate)
         </dd>
         @*<dt>
-            @Html.DisplayNameFor(model => model.ExamScore.ExsAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ExamScore.ExsAddUser)
-        </dd>*@
+                @Html.DisplayNameFor(model => model.ExamScore.ExsAddUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExamScore.ExsAddUser)
+            </dd>*@
         @*<dt>
-            @Html.DisplayNameFor(model => model.ExamScore.ExsChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ExamScore.ExsChangeUser)
-        </dd>*@
+                @Html.DisplayNameFor(model => model.ExamScore.ExsChangeUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExamScore.ExsChangeUser)
+            </dd>*@
         @*<dt>
-            @Html.DisplayNameFor(model => model.ExamScore.Customer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ExamScore.Customer.CusKey)
-        </dd>*@
+                @Html.DisplayNameFor(model => model.ExamScore.Customer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExamScore.Customer.CusKey)
+            </dd>*@
 
     </dl>
     <a asp-action="Edit" asp-route-id="@Model.ExamScore.ExsKey" class="btn btn-primary">Edit Exam Score</a>
+    <a asp-controller="ExamScores" asp-action="Create" class="btn btn-primary">Add Exam Score</a>
 </div>
