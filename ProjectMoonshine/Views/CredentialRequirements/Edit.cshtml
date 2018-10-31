@@ -4,6 +4,8 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.requirementKey = @Model.CredentialRequirement.Cr3Key;
+    ViewBag.customerKey = @Model.CredentialRequirement.CredentialProcess.Credential.Cr1CusKey;
 }
 
 <h2>Edit</h2>
@@ -44,7 +46,12 @@
             case GlobalConstants.RequirementTemplateCode.Audit:
                 break;
             case GlobalConstants.RequirementTemplateCode.CE:
-                @(await Html.PartialAsync("_CEPeriodDashboardPartialView", Model.CredentialRequirement))
+        <div class="row" style="" padding: 0px 0px 15px 30px>
+            @(await Html.PartialAsync("_CEPeriodDashboardPartialView", Model.CredentialRequirement))
+        </div>
+                <div class="row" style="padding: 15px 0px 10px 30px">
+                    @(await Html.PartialAsync("_CEDetailListPartialView", Model.CredentialRequirement.CredentialProcess.Credential.Customer.CEDetails))
+                </div>
                 break;
             case GlobalConstants.RequirementTemplateCode.Checklist:
                 break;

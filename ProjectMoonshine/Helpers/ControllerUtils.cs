@@ -38,17 +38,17 @@ namespace ProjectMoonshine.Helpers
                 : controller.RedirectToAction("Index");
         }
 
-        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, object selectedValue = null)
+        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, Guid? selectedValue = null)
         {
             if (controller.Request.HasFormContentType)
             {
-                if (customerKey == null)
+                if (customerKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed))
                         customerKey = customerKeyParsed;
                 }
 
-                if (requirementKey == null)
+                if (requirementKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(),
                         out Guid requirementKeyParsed))
@@ -56,7 +56,7 @@ namespace ProjectMoonshine.Helpers
                 }
             }
             
-            if (selectedValue != null)
+            if (selectedValue.IsGuidValid() )
             {
                 controller.ViewData[customerFieldName] = new SelectList(await context.People
                                 .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text", selectedValue);
@@ -73,7 +73,7 @@ namespace ProjectMoonshine.Helpers
             if (!customerKey.IsGuidValid()) return;
 
             controller.ViewData["customerKey"] = customerKey;
-            if (selectedValue != null) return;
+            if (selectedValue.IsGuidValid()) return;
 
             SelectListItem selected =
                 ((SelectList) controller.ViewData[customerFieldName])?.FirstOrDefault(x =>
