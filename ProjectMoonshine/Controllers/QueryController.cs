@@ -45,7 +45,7 @@ namespace ProjectMoonshine.Controllers
         {
             var model = _queryManager.BuildQueryViewModel();
             ViewData["FromTable"] = model.TableDetails.Select(s => new SelectListItem(s.Key, s.Key)).ToList();
-            var objects = model
+            var tableMetadata = model
                 .TableDetails
                 .SelectMany(s => s
                     .Value
@@ -59,9 +59,10 @@ namespace ProjectMoonshine.Controllers
                             table = s.Key
                         }))
                 .ToList();
+            var degreeTypes = _context.DegreeTypes.Select(s => new { Key = s.DetKey, Name = s.DetCode, Type = s.DetCode});
             ViewData["EqualityComparisonsList"] = model.EqualityComparisonsList;
-            ViewData["SelectList"] = JsonConvert.SerializeObject(objects);
-            ViewData["SelectIncludes"] = JsonConvert.SerializeObject(objects);
+            ViewData["SelectList"] = JsonConvert.SerializeObject(tableMetadata);
+            ViewData["SelectDegreeTypes"] = JsonConvert.SerializeObject(degreeTypes);
             return View();
         }
 
