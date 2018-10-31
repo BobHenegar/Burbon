@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
@@ -177,9 +181,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Person person)
+        public async Task<IActionResult> Edit(Guid id, Person model)
         {
-            if (id != person.PerKey)
+            if (id != model.PerKey)
             {
                 return NotFound();
             }
@@ -188,12 +192,18 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    var obj = await _context.People.FirstOrDefaultAsync(x => x.PerKey == id);
+
+                    obj.PerFirstName = model.PerFirstName;
+                    obj.PerMiddleName = model.PerMiddleName;
+                    obj.PerLastName = model.PerLastName;
+                    obj.PerDateOfBirth = model.PerDateOfBirth;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
-                    if (!PersonExists(person.PerKey))
+                    if (!PersonExists(model.PerKey))
                     {
                         return NotFound();
                     }
@@ -209,8 +219,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
-            return View(person);
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", model.PerCusKey);
+            return View(model);
         }
 
         // GET: People/Delete/5
@@ -293,10 +303,67 @@ namespace ProjectMoonshine.Controllers
             return RedirectToAction("Details", new{id=Request.Form["perKey"].ToString()});
         }
 
-        public async Task<IActionResult> Search()
+        public  IActionResult Search()
         {
-           // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-            return View();
+
+                // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+                return View();
+            
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search(Person person)
+        {
+
+            Expression ex = null;
+
+            var people = _context.People
+                //.Include(p => p.Addresses)
+                //.Include(p => p.Emails)
+                .AsNoTracking()
+                .AsQueryable();
+
+            var param = Expression.Parameter(typeof(Person), "p");
+
+            foreach (KeyValuePair<string, StringValues> key in Request.Form)
+            {
+                if (key.Value.ToString().Length > 0 && key.Key != "__RequestVerificationToken" 
+                                                    && key.Key != "andor" 
+                                                    && key.Key != "contains")
+                {
+                    var prop = Expression.Property(param, key.Key);
+                    var constant = Expression.Constant(key.Value.ToString());
+                    var rhs = Request.Form["contains"].ToString() == "cont"?
+                                    Expression.Call(prop, typeof(string).GetMethod("Contains", new[] {typeof(string)}), constant):
+                                    Expression.Call(prop, typeof(string).GetMethod("StartsWith", new[] { typeof(string) }), constant);
+
+                    if (ex == null)
+                    {
+                        ex = rhs;
+                    }
+                    else
+                    {
+                        ex = Request.Form["andor"].ToString()=="and"? Expression.AndAlso(ex, rhs): Expression.OrElse(ex, rhs);
+                    }
+                }
+            }
+
+            var body = Expression.Lambda<Func<Person, bool>>(ex, param);
+            
+            people = people.Where(body);
+
+            switch (people.Count())
+            {
+                case 0:
+                    return View();
+                case 1:
+                    return RedirectToAction("Details", new {id = people.FirstOrDefault().PerKey});
+                default:
+                    return View("Index", people.ToPagedList(1, GlobalConstants.PageSize));
+            }
+
+        }
+
     }
 }

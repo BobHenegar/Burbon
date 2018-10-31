@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -89,6 +90,11 @@ namespace ProjectMoonshine.Controllers
             }
             catch(Exception ex)
             {
+                if(Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return View();
             }
         }

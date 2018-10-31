@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CommandModels\" />
     <Folder Include="wwwroot\lib\boostrap-select\" />
   </ItemGroup>
 

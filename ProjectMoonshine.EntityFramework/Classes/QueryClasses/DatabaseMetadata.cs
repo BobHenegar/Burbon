@@ -89,15 +89,16 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             var metaTables = new List<TableMetadata>();
             foreach (var entityType in _dbContext.Model.GetEntityTypes())
             {
-                var tableName = entityType.Relational().TableName;
+                var dbSetName = entityType.Relational().TableName;
                 metaTables.Add(new TableMetadata
                 {
-                    TableName = tableName,
+                    TableName = entityType.ClrType.Name,
+                    DbSetName = dbSetName,
                     TableEntity = entityType,
                     TableAssemblyFullName = entityType.ClrType.FullName,
-                    TableColumns = GetColumnsMetadata(entityType, tableName)
+                    TableColumns = GetColumnsMetadata(entityType, dbSetName)
                 });
-                _tableNameLookup.InsertKeyName(tableName);
+                _tableNameLookup.InsertKeyName(dbSetName);
             }
 
             return metaTables;
@@ -107,20 +108,26 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             var tableColumns = new List<ColumnMetadata>();
             foreach (var propertyType in entityType.GetProperties())
             {
+                IEntityType foreignKeyEntityType = null;
+                if(propertyType.IsForeignKey())
+                {
+                    foreignKeyEntityType = propertyType.GetContainingForeignKeys().First().PrincipalEntityType;
+                }
                 var relational = propertyType.Relational();
                 tableColumns.Add(new ColumnMetadata
                 {
+                    IsForeignKey = propertyType.IsForeignKey(),
                     ColumnName = propertyType.Name,
                     ColumnDisplayName = GetPropertyDisplayName(entityType.ClrType, relational.ColumnName, tableName),
                     TablePrefix = GetTablePrefix(entityType),
                     DataType = propertyType.IsNullable
                                 && Nullable.GetUnderlyingType(propertyType.ClrType) != null ?
                                 $"Nullable<{Nullable.GetUnderlyingType(propertyType.ClrType).Name}>" : propertyType.ClrType.Name,
-                    TableEntity = entityType
+                    TableEntity = entityType,
+                    ForeinKeyTableEntity = foreignKeyEntityType
                 });
             }
             return tableColumns;
-
         }
         private static string GetPropertyDisplayName(Type baseType, string propertyName, string tableName)
         {

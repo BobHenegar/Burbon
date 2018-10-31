@@ -4,9 +4,12 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using ProjectMoonshine.EntityFramework.Attributes;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+
+    [CanBeSelectList(true)]
     public class DegreeType : EntityBase
     {
         [NotMapped]
@@ -17,6 +20,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid DetKey { get; set; }
 
         [Required]
+        [CanBeDescription(true)]
         [DisplayName("Degree Code")]
         public string DetCode { get; set; }
 
