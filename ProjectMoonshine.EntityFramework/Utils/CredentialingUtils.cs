@@ -444,6 +444,29 @@ namespace ProjectMoonshine.EntityFramework.Utils
             }
         }
 
+        public static Guid GetCustomerKeyFromProcessKey(ApplicationDbContext context, Guid processKey)
+        {
+            try
+            {
+                return context.CredentialProcesses
+                    .Include(p => p.Credential)
+                    .Where(p => p.Cr2Key == processKey).AsNoTracking()
+                    .Select(p => p.Credential.Cr1CusKey)
+                    .FirstOrDefault();
+
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                return Guid.Empty;
+            }
+        }
+
         public static async Task<List<CredentialRequirement>> GetCredentialRequirementsFromCustomerKey(
             ApplicationDbContext context, Guid customerKey)
         {
