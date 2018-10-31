@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ProjectMoonshine.EntityFramework.Attributes;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [CanBeSelectList(true)]
     public class Exam : EntityBase
     {
         [NotMapped]
@@ -22,6 +24,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public int? ExmSeatCount { get; set; }
 
         [DisplayName("Exam Name")]
+        [CanBeDescription(true)]
         public string ExmName{ get; set; }
 
         [DisplayName("Allow Retakes")]

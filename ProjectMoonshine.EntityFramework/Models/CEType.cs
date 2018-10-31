@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using ProjectMoonshine.EntityFramework.Attributes;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [CanBeSelectList(true)]
     public class CEType
     {
 
@@ -17,6 +17,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid CetKey { get; set; }
 
         [Required]
+        [CanBeDescription(true)]
         public string CetCode { get; set; }
 
         public string CetDescription { get; set; }

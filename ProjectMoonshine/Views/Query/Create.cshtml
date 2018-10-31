@@ -17,7 +17,7 @@
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
             <label asp-for="QryTable" class="control-label"></label>
-            <select asp-for="QryTable" asp-items="ViewBag.FromTable"></select>
+            <select asp-for="QryTable"></select>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12">
             <span>Where:</span>
@@ -48,19 +48,21 @@
 </div>
     @section Scripts{
 <script>
-    var subItems = @Html.Raw(ViewBag.SelectList);
-    var degreeSelect = @Html.Raw(ViewBag.SelectDegreeTypes);
-    var equalitySelect = [{ value: "1", text: "LessThan" },
-    { value: "2", text: "GreaterThan" },
-    { value: "3", text: "LessThanOrEqualsTo" },
-    { value: "4", text: "GreaterThanOrEqualsTo" },
-    { value: "5", text: "Equals" },
-    { value: "6", text: "Contains" },
-    { value: "7", text: "Like" },
-    { value: "8", text: "IsNull" },
-    { value: "9", text: "IsNotNull" }];
-
     $(document).ready(function () {
+        $.ajax({
+            url: buildRequestUrl('api/Metadata/Tables'),
+            type: 'GET',
+            success: function (data) {
+                var item = $("#QryTable");
+                console.log(data);
+                $.each(data, function (index, value) {
+                    $(item).append(buildOptionItem(null, value.tableName, value.dbSetName, index == 0));
+                })
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
         $("#QryTable").on('change', function () {
             $("#groupsHolder").empty();
             $("#groupsHolder").html(`<div>
@@ -151,334 +153,120 @@
         });
         return canContinue;
     }
-    function buildErrorDiv(errorString) {
-        return `<div>` + errorString + `</div>`;
-    }
-    function validateEquality(inputType, eq) {
-        var type = "";
-        type = inputType;
-        switch (type) {
-            case "Guid":
-                {
-                    if (eq !== "5") {
-                        return "Valid comparison for a Guid is Equals";
-                    }
-                    return "";
-                }
-            case "Nullable<Guid>":
-                {
-                    if (eq !== "5"
-                        && eq !== "7"
-                        && eq !== "8"
-                        && eq !== "9") {
-                        return "Valid comparison(s) for a Nullable Guid is Equals IsNull or IsNotNull";
-                    }
-                    return "";
-                }
-            case "DateTimeOffset":
-                {
-                    if (eq === "6"
-                        || eq === "7"
-                        || eq === "8"
-                        || eq === "9") {
-                        return "Valid comparison(s) for a DateTimeOffset is LessThan, GreaterThan, LessThanOrEqualsTo or GreaterThanOrEqualsTo";
-                    }
-                    return "";
-                }
-            case "Nullable<DateTimeOffset>":
-                {
-                    if (eq === "6"
-                        || eq === "7") {
-                        return "Valid comparison(s) for a Nullable DateTimeOffset is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo, Equals, IsNull, IsNotNull";
-                    }
-                    return "";
-                }
-            case "Int":
-                {
-                    if (eq === "6"
-                        || eq === "7"
-                        || eq === "8"
-                        || eq === "9") {
-                        return "Valid comparison(s) for an Integer is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo or Equals";
-                    }
-                    return "";
-                }
-            case "Nullable<Int>":
-                {
-                    if (eq === "6"
-                        || eq === "7") {
-                        return "Valid comparison(s) for a Nullable Integer is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo, IsNull or IsNotNull";
-                    }
-                    return "";
-                }
-            case "Boolean":
-                {
-                    if (eq !== "5") {
-                        return "Valid comparison(s) for a Boolean is Equals";
-                    }
-                    return "";
-                }
-            case "Nullable<Boolean>":
-                {
-                    if (eq !== "5"
-                        || eq === "8"
-                        || eq === "9") {
-                        return "Valid comparison(s) for a Nullable Boolean is Equals, IsNull or Is Not Null";
-                    }
-                    return "";
-                }
+
+    function buildRequestUrl(endpoint) {
+        var url = '';
+        if (endpoint.charAt(0) !== '/') {
+            url = '/' + endpoint;
         }
+        return window.location.protocol + '//' + window.location.host + url;
     }
-    function validateInput(type, value) {
-        switch (type) {
-            case "Guid":
-                {
-                    var regex = /^(([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/;
-                    if (!regex.test(value)) {
-                        return false;
-                    }
-                    return true;
-                }
-            case "Nullable<Guid>":
-                {
-                    if (value !== "") {
-                        var regex = /^(([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/;
-                        if (!regex.test(value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            case "DateTimeOffset":
-            case "Nullable<DateTimeOffset>":
-                {
-                    if (value !== "") {
-                        var regex = /^(((([0-9])|(0[1-9])|([12][0-9])|(3[01])){1})([-. /]{1})((([0-9])|([012][0-9])|(3[01])){1})([-. /]{1})([12]{1}[0-9]{3}))/;
-                        if (!regex.test(value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            case "Int":
-                {
-                    var regex = /^(\d)+/;
-                    if (!regex.test(value)) {
-                        return false;
-                    }
-                    return true;
-                }
-            case "Nullable<Int>":
-                {
-                    if (value !== "") {
-                        var regex = /^(\d)+/;
-                        if (!regex.test(value)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            case "Boolean":
-                {
-                    if (value.toLowerCase() !== "true") {
-                        return false;
-                    }
-                    return true;
-                }
-            case "Nullable<Boolean>":
-                {
-                    if (value.toLowerCase() !== "") {
-                        if (value.toLowerCase() !== "true") {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
+
+    function buildOptionItem(type, value, text, selected) {
+        var optionResult = '<option';
+        if (type) {
+            optionResult += ' data-type="' + type + '"';
         }
-    }
-
-    function reRegisterDeligates() {
-        $("span#RightPropertyValidation").html("");
-        $("input#RightPropertyInput").removeClass("dangerInput");
-        var addRule = $("[id=addRule]").attr("id", function (i) {
-            return "addRule_" + i;
-        });
-        var addGroup = $("[id=addGroup]").attr("id", function (i) {
-            return "addGroup_" + i;
-        });
-        var removeGroup = $('[id^=removeGroup]').attr("id", function (i) {
-            return "removeGroup_" + i;
-        });
-        var removeRule = $('[id^=removeRule]').attr("id", function (i) {
-            return "removeRule_" + i;
-        });
-
-        $.each(addRule, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(addGroup, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(removeGroup, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-        $.each(removeRule, function (id, pos) {
-            $("#" + id).css(pos);
-        });
-
-        $('[id^=removeRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.ruleQuery').remove();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=removeGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').remove();
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=addGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-
-                $(this).closest('.groupQuery').append(createNewGroup());
-                reRegisterDeligates();
-            });
-        });
-
-        $('[id^=addRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewRule());
-                populateEqualitySelect($(this).closest('.groupQuery'));
-                populateLeftSelect($(this).closest('.groupQuery'));
-                populateNewRightSide($(this).closest('.groupQuery'));
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=LeftProp]').each(function () {
-            $(this).off('change');
-            $(this).on('change', function () {
-                populateRightSideChange($(this).parent());
-                reRegisterDeligates();
-            });
-        });
-    }
-
-    function populateNewRightSide(parent) {
-        var rhs = $(parent).find('div#RightProperty.ruleInput').last();
-        var lhs = $(parent).find('select#LeftProperty').last();
-        $(rhs).empty();
-        $(rhs).html('<input id="RightPropertyInput" type="text" class="ruleInputright"></input>');
-    }
-
-    function populateRightSideChange(self) {
-        var rhs = $(self).parent().find('div#RightProperty.ruleInput');
-        var lhs = $(self).parent().find('select#LeftProperty');
-        var lhsValue = $(lhs).find('option:selected').val();
-        var lhsType = $(lhs).find('option:selected').data('type');
-        if (lhsValue === "DegDetKey") {
-            $(rhs).html(populateDegreeTypes($(rhs)));
+        if (value) {
+            optionResult += ' value="' + value + '"';
+        }
+        if (selected) {
+            optionResult += "selected>";
         }
         else {
-            $(rhs).empty();
-            $(rhs).html('<input id="RightPropertyInput" type="text" class="ruleInputright"></input>');
+            optionResult += ">";
         }
+        if (text) {
+            optionResult += text + "</option>";
+        }
+        else {
+            optionResult += value + "</option>";
+        }
+        return optionResult;
     }
 
     function populateLeftSelect(self) {
-        var toAdd = [];
-        var item = $(self).find('select#LeftProperty').last();
+        var item = $(self).find('div#LeftPropertyDiv').last();
         var tableValue = $("#QryTable").val();
         if (!tableValue) {
             tableValue = "Address";
             $("#QryTable").val(tableValue);
         }
-        $.each(subItems, function (index, value) {
-            if (toAdd.length == 0
-                && value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.textName + "</option>");
-            }
-            else if (value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.textName + "</option>");
+        $.ajax({
+            url: buildRequestUrl('api/metadata/columns'),
+            type: 'GET',
+            data: $.param({ tableName: tableValue }),
+            success: function (data) {
+                console.log(data);
+                var select = $('<select id="LeftPropertyInput"></select>');
+                $.each(data, function (index, value) {
+                    $(select).append(buildOptionItem(value.columnType, value.columnName, value.columnDisplayName, index == 0));
+                })
+                $(item).html();
+                $(item).html(select);
+            },
+            error: function (data) {
+                console.log(data);
             }
         });
-        $(item).html(toAdd);
     }
-    function populateDegreeTypes(self) {
-        var toAdd = [];
-        $.each(degreeSelect, function (index, value) {
-            if (toAdd.length == 0) {
-                toAdd.push("<option data-type='" + value.Type + "' value='" + value.Key + "' selected>" + value.Name + "</option>");
-            }
-            else {
-                toAdd.push("<option data-type='" + value.Type + "' value='" + value.Key + "'>" + value.Name + "</option>");
-            }
-        });
-        $(self).empty();
-        var html = `<select id="RightPropertyInput" class="ruleInputright">` + toAdd + `</select>`;
-        $(self).append(html)
+
+    function createRightProperty(self) {
+        var item = $(self).find('div#RightPropertyDiv').last();
+        var leftValue = $('#LeftPropertyInput').val();
+        if (leftValue) {
+            $.ajax({
+                url: buildRequestUrl('api/metadata/tables'),
+                type: 'GET',
+                data: $.param({ columnName: leftValue }),
+                success: function (data) {
+                    console.log(data);
+                    if (data.length > 0) {
+                        var select = $('<select id="LeftPropertyInput"></select>');
+                        $.each(data, function (index, value) {
+                            $(select).append(buildOptionItem("Guid", value.key, value.value, index == 0));
+                        })
+                        $(self).parent().find('#EqualityComparisonInput').val("5").change();
+                        $(item).html();
+                        $(item).html(select);
+                    }
+                    else {
+                        $(item).html();
+                        $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+        else {
+            $(item).html();
+            $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
+        }
     }
 
     function populateEqualitySelect(self) {
-        var toAdd = [];
-        var item = $(self).find('select#EqualityComparison').last();
-        $.each(equalitySelect, function (index, value) {
-            if (toAdd.length == 0) {
-                toAdd.push("<option value='" + value.value + "' selected>" + value.text + "</option>");
-            }
-            else {
-                toAdd.push("<option value='" + value.value + "'>" + value.text + "</option>");
+        var item = $(self).find('div#EqualityPropertyDiv').last();
+        $.ajax({
+            url: buildRequestUrl('api/EqualityComparisons'),
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+                var select = $('<select id="EqualityComparisonInput"></select>');
+                $.each(data, function (index, value) {
+                    $(select).append(buildOptionItem(null, value.value, value.key, index == 0));
+                })
+                $(item).empty();
+                $(item).html(select)
+            },
+            error: function (data) {
+                console.log(data);
             }
         });
-        $(item).html(toAdd);
     }
 
-    function createNewRule() {
-        var result =
-            `<li class="ruleQuery">
-                <div class="flexRow">
-                    <div class="ruleInput">
-                        <select id="LeftProperty"></select>
-                    </div>
-                    <div class="equalityComparisonSelect ruleInput" >
-                        <select id="EqualityComparison" name="EqualityComparison">
-                        </select>
-                    </div>
-                    <div class="ruleInput" id="RightProperty">
-                    </div>
-                    <div  class="ruleInput removeButton">
-                        <button class="removeRule" id="removeRule">- Delete</button>
-                    </div>
-                </div>
-            </li>`;
-        return result;
-    }
-    function submitQueryForm() {
-        if (validateBeforePost()) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'Create', true);
-            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    window.location = xhr.responseURL;
-                }
-                else if (xhr.status === 500) {
-                    $('#RightPropertyValidation').html('<div class="alert alert-danger" role="alert"><p>I EXPLODED!!!</p></div>');
-                }
-            };
 
-
-            var holder = $('#groupsHolder');
-            var items = holder.children('ul.groupQuery, li.ruleQuery');
-            var result = mapRecursively(items);
-            console.log(JSON.stringify(result));
-            xhr.send(JSON.stringify(result));
-        }
-    }
 </script>
 <script src="~/js/queryBuilder.js"></script>
     }

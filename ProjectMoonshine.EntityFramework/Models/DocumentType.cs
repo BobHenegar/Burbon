@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using ProjectMoonshine.EntityFramework.Attributes;
 
 namespace ProjectMoonshine.EntityFramework.Models
 {
+    [CanBeSelectList(true)]
     public class DocumentType : EntityBase
     {
 
@@ -17,6 +19,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid DtpKey { get; set; }
 
         [Required]
+        [CanBeDescription(true)]
         [DisplayName("Code")]
         public string DtpCode { get; set; }
 

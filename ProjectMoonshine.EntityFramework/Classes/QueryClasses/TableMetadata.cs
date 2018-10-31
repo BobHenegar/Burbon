@@ -9,6 +9,7 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
     public class TableMetadata
     {
         public string TableName { get; set; }
+        public string DbSetName { get; set; }
         public IEntityType TableEntity { get; set; }
         public string TableAssemblyFullName { get; set; }
         public IEnumerable<ColumnMetadata> TableColumns { get; set; }

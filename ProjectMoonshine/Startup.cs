@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -51,8 +52,18 @@ namespace ProjectMoonshine
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services
+                .AddCors(options =>
+                {
+                    options.AddPolicy("AllowGET",
+                        builder => builder
+                            .WithOrigins("http://localhost:44314", "https://localhost:44314", "https://credengnext.azurewebsites.net")
+                            .WithMethods("GET"));
+                    options.AddPolicy("AllowOPTIONS",
+                        builder => builder
+                            .WithOrigins("http://localhost:44314", "https://localhost:44314", "https://credengnext.azurewebsites.net")
+                            .WithMethods("OPTIONS"));
+                })
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 // supresses the Newtonsoft.Json.JsonSerializationExceptions for cycles
@@ -98,6 +109,11 @@ namespace ProjectMoonshine
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app
+                .UseCors("AllowGET")
+                .UseCors("AllowOPTIONS");
+
             //Hide and log errors only in when not deployed
 #if !DEBUG
             //app.UseErrorLogging();
@@ -111,6 +127,10 @@ namespace ProjectMoonshine
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id:guid?}");
+
+                routes.MapRoute(
+                    name: "api",
+                    template: "api/{controller}/{action}/{id:guid?}");
             });
         }
     }

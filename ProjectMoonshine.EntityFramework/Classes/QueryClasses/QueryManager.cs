@@ -194,8 +194,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.RecursivelyFormatException());
-                Debugger.Break();
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return null;
             }
         }
@@ -256,8 +259,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.RecursivelyFormatException());
-                Debugger.Break();
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return null;
             }
         }
@@ -280,8 +286,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.RecursivelyFormatException());
-                Debugger.Break();
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return null;
             }
         }
@@ -372,8 +381,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.RecursivelyFormatException());
-                Debugger.Break();
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return null;
             }
         }
@@ -424,8 +436,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.RecursivelyFormatException());
-                Debugger.Break();
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+                Debug.Write(ex.RecursivelyFormatException());
                 return null;
             }
         }

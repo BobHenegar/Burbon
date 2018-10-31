@@ -181,9 +181,9 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Person person)
+        public async Task<IActionResult> Edit(Guid id, Person model)
         {
-            if (id != person.PerKey)
+            if (id != model.PerKey)
             {
                 return NotFound();
             }
@@ -192,12 +192,18 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    var obj = await _context.People.FirstOrDefaultAsync(x => x.PerKey == id);
+
+                    obj.PerFirstName = model.PerFirstName;
+                    obj.PerMiddleName = model.PerMiddleName;
+                    obj.PerLastName = model.PerLastName;
+                    obj.PerDateOfBirth = model.PerDateOfBirth;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
-                    if (!PersonExists(person.PerKey))
+                    if (!PersonExists(model.PerKey))
                     {
                         return NotFound();
                     }
@@ -213,8 +219,8 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
-            return View(person);
+            ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", model.PerCusKey);
+            return View(model);
         }
 
         // GET: People/Delete/5
@@ -297,7 +303,7 @@ namespace ProjectMoonshine.Controllers
             return RedirectToAction("Details", new{id=Request.Form["perKey"].ToString()});
         }
 
-        public async Task<IActionResult> Search()
+        public  IActionResult Search()
         {
 
                 // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
