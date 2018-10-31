@@ -3,11 +3,13 @@
 
 <div>
     <h4>ExamScore</h4>
-    <hr />
+    
     @if (!Model.Cr3ExsKey.IsGuidValid())
     {
         <a asp-controller="ExamScores" asp-action="Create" class="btn btn-primary">Add Exam Score</a>
     }
+    else
+    {
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.ExamScore.Exam)
@@ -73,4 +75,6 @@
     </dl>
     <a asp-action="Edit" asp-route-id="@Model.ExamScore.ExsKey" class="btn btn-primary">Edit Exam Score</a>
     <a asp-controller="ExamScores" asp-action="Create" class="btn btn-primary">Add Exam Score</a>
+    }
+
 </div>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.FileUpload>
+
+<hr/>
+<h4>Documents</h4>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DocumentType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FupFileName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FupFileType)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FupFileDescription)
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DocumentType.DtpCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FupFileName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.FupFileType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FupFileDescription)
+        </td>
+        
+    </tr>
+}
+    </tbody>
+</table>

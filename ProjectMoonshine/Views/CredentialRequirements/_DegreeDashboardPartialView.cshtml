@@ -2,11 +2,12 @@
 @model ProjectMoonshine.EntityFramework.Models.CredentialRequirement
 
 <div>
-    <h4>Degree</h4>
     <hr />
+    <h4>Current Degree</h4>
+    
     @if (!Model.Cr3DegKey.IsGuidValid())
     {
-    <a asp-controller="Degrees" asp-action="Create" class="btn btn-primary">Add Degree</a>
+    <a asp-controller="Degrees" asp-action="Create" asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey"  asp-route-requirementKey="@Model.Cr3Key" class="btn btn-primary">Add Degree</a>
     }
     else
     {
@@ -23,24 +24,12 @@
         <dd>
             @Html.DisplayFor(model => model.Degree.DegDate)
         </dd>
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Degree.DegAddUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Degree.DegAddUser)
-        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Degree.DegAddDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Degree.DegAddDate)
         </dd>
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Degree.DegChangeUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Degree.DegChangeUser)
-        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Degree.DegChangeDate)
         </dt>
@@ -53,14 +42,9 @@
         <dd>
             @Html.DisplayFor(model => model.Degree.DegreeType.DetCode)
         </dd>
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Degree.Customer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Degree.Customer.CusKey)
-        </dd>*@
     </dl>
-    <a asp-controller="Degrees" asp-action="Edit" asp-route-id="@Model.Degree.DegKey" class="btn btn-primary">Edit Degree</a>
+        <a asp-controller="Degrees" asp-action="Edit" asp-route-id="@Model.Degree.DegKey" asp-route-requirementKey="@Model.Degree.DegCusKey" class="btn btn-primary">Edit Degree</a>
+        <a asp-controller="Degrees" asp-action="Create" asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey"  asp-route-requirementKey="@Model.Cr3Key" class="btn btn-primary">Add New Degree</a>
     }
 
 </div>

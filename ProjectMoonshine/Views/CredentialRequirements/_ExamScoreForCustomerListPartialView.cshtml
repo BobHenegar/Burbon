@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.ExamScore>
+
+<div>
+    <h4>
+        Exam Scores
+    </h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exam)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.ExsDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExsTotalPossible)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExsTotalReceived)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExsSuccessFlag)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exam.ExmKey)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExsDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExsTotalPossible)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExsTotalReceived)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExsSuccessFlag)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<hr/>
+

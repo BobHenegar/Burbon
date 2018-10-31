@@ -32,7 +32,7 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-8">
+    <div class="col-md-8">
         @switch (@Model.CredentialRequirement.CredentialRequirementType.Template.Ct8Code)
         {
             case GlobalConstants.RequirementTemplateCode.None:
@@ -53,14 +53,26 @@
             case GlobalConstants.RequirementTemplateCode.Custom:
                 break;
             case GlobalConstants.RequirementTemplateCode.Degree:
-                @(await Html.PartialAsync("_DegreeDashboardPartialView", Model.CredentialRequirement))
+                
+                <div class="row" style="padding: 0px 0px 15px 30px">
+                    @(await Html.PartialAsync("_DegreeDashboardPartialView", Model.CredentialRequirement))
+                </div>
+                <div class="row" style="padding: 15px 0px 10px 30px">
+                    @(await Html.PartialAsync("_DegreeForCustomerListPartialView", Model.CredentialRequirement.CredentialProcess.Credential.Customer.Degrees))
+                </div>
+                
                 break;
             case GlobalConstants.RequirementTemplateCode.Designation:
                 break;
             case GlobalConstants.RequirementTemplateCode.Disclosure:
                 break;
             case GlobalConstants.RequirementTemplateCode.Document:
-                @(await Html.PartialAsync("_ExamScoreOnRequirementPartialView", Model.CredentialRequirement))
+                <div class="row" style="padding: 0px 0px 15px 30px">
+                    @(await Html.PartialAsync("_FileUploadOnRequirementPartialView", Model.CredentialRequirement))
+                </div>
+                <div class="row" style="padding: 15px 0px 10px 30px">
+                    @(await Html.PartialAsync("_FileUploadForCustomerListPartialView", Model.CredentialRequirement.CredentialProcess.Credential.Customer.Person.FileUploads))
+                </div>
                 break;
             case GlobalConstants.RequirementTemplateCode.DocumentRequest:
                 break;
@@ -69,6 +81,12 @@
             case GlobalConstants.RequirementTemplateCode.Event:
                 break;
             case GlobalConstants.RequirementTemplateCode.Exam:
+                <div class="row" style="padding: 0px 0px 15px 30px">
+                @(await Html.PartialAsync("_ExamScoreOnRequirementPartialView", Model.CredentialRequirement))
+                 </div>
+                 <div class="row" style="padding: 15px 0px 10px 30px">
+                 @(await Html.PartialAsync("_ExamScoreForCustomerListPartialView", Model.CredentialRequirement.CredentialProcess.Credential.Customer.ExamScores))
+                  </div>
                 break;
             case GlobalConstants.RequirementTemplateCode.Experience:
                 break;
