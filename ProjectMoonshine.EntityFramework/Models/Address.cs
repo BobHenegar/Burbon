@@ -30,15 +30,15 @@ namespace ProjectMoonshine.EntityFramework.Models
         [StringLength(10, MinimumLength = 1)]
         public string AdrZip { get; set; }
 
-        [DisplayName("Address1")]
+        [DisplayName("Address Line 1")]
         [StringLength(500, MinimumLength = 1)]
         public string AdrAddress1 { get; set; }
 
-        [DisplayName("Address2")]
+        [DisplayName("Address Line 2")]
         [StringLength(maximumLength: 500)]
         public string AdrAddress2 { get; set; }
 
-        [DisplayName("Address3")]
+        [DisplayName("Address Line 3")]
         [StringLength(maximumLength: 500)]
         public string AdrAddress3 { get; set; }
 

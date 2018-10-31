@@ -1,29 +1,25 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Query
-@using System.Linq;
-@using ProjectMoonshine.Enums;
-@{
-    ViewData["Title"] = "Create";
-}
-@section Styles {
+
+    @{
+        ViewData["Title"] = "Create";
+    }
+
+    @section Styles {
 <link rel="stylesheet" href="~/css/query-builder.css" />
-}
-<div class="row">
-    <h2>QueryBuilder</h2>
+    }
+<h2>QueryBuilder</h2>
+<div class="row full-width">
     <form asp-action="PostCreate" id="QueryForm"></form>
-    <div class="col-md-12">
-        <div class="col-md-12">
-            <span>From:</span>
-            <label asp-for="QryTable" class="control-label"></label>
-            <select asp-for="QryTable" asp-items="ViewBag.FromTable"></select>
-            <span asp-validation-for="QryTable" class="text-danger"></span>
-        </div>
-        <div class="col-md-12">
-            <span>From:</span>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <label asp-for="QryName" class="control-label"></label>
             <input asp-for="QryName" type="text" />
-            <span asp-validation-for="QryName" class="text-danger"></span>
         </div>
-        <div class="col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <label asp-for="QryTable" class="control-label"></label>
+            <select asp-for="QryTable" asp-items="ViewBag.FromTable"></select>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <span>Where:</span>
             <div class="groups">
                 <ul id="groupsHolder" class="groupQuery">
@@ -42,17 +38,19 @@
                 </ul>
             </div>
         </div>
-
-        <div class="col-md-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <span id="RightPropertyValidation" class="text-danger"></span>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <input type="submit" value="Create" class="btn btn-default" id="CreateQuery" onclick="submitQueryForm()" />
         </div>
     </div>
-    </div>
 </div>
-        @section Scripts{
+    @section Scripts{
 <script>
     var subItems = @Html.Raw(ViewBag.SelectList);
-    var dropdownList = [{ value: "1", text: "LessThan" },
+    var degreeSelect = @Html.Raw(ViewBag.SelectDegreeTypes);
+    var equalitySelect = [{ value: "1", text: "LessThan" },
     { value: "2", text: "GreaterThan" },
     { value: "3", text: "LessThanOrEqualsTo" },
     { value: "4", text: "GreaterThanOrEqualsTo" },
@@ -66,40 +64,242 @@
         $("#QryTable").on('change', function () {
             $("#groupsHolder").empty();
             $("#groupsHolder").html(`<div>
-                    <div>
-                        <button id="addRule" class="addRule">+ Rule</button>
-                        <button id="addGroup" class="addGroup">+ Group</button>
-                    </div>
-                    <div>
-                        <input value="1" name="toggle_0" type="radio" checked>
-                        <label>And</label>
-                        <input value="2" name="toggle_0" type="radio">
-                        <label>Or</label>
-                    </div>
-                </div>`);
+                        <div>
+                            <button id="addRule" class="addRule">+ Rule</button>
+                            <button id="addGroup" class="addGroup">+ Group</button>
+                        </div>
+                        <div>
+                            <input value="1" name="toggle_0" type="radio" checked>
+                            <label>And</label>
+                            <input value="2" name="toggle_0" type="radio">
+                            <label>Or</label>
+                        </div>
+                    </div>`);
             reRegisterDeligates();
-            refreshDropDowns();
         });
         $('[id^=addGroup]').each(function () {
             $(this).off('click');
             $(this).on("click", function () {
                 $(this).closest('.groupQuery').append(createNewGroup());
                 reRegisterDeligates();
-                refreshDropDowns();
             });
         });
-
         $('[id^=addRule]').each(function () {
             $(this).off('click');
             $(this).on("click", function () {
                 $(this).closest('.groupQuery').append(createNewRule());
+                populateEqualitySelect($(this).closest('.groupQuery'));
+                populateLeftSelect($(this).closest('.groupQuery'));
+                populateNewRightSide($(this).closest('.groupQuery'));
                 reRegisterDeligates();
-                refreshDropDowns();
             });
         });
-        refreshDropDowns();
     });
+    function validateBeforePost() {
+        var span = $("span#RightPropertyValidation");
+        $(span).html("");
+        $("input#RightPropertyInput").removeClass("dangerInput");
+        $('[id^=chevron]').remove();
+
+        var canContinue = true;
+        $('li').each(function (idx, val) {
+            $(val).find('.flexRow').each(function (ind, item) {
+                var ruleInput = $(item).find('.ruleInput');
+                var leftProp = $(ruleInput).find('select#LeftProperty');
+                var eqProp = $(ruleInput).find('select#EqualityComparison');
+                var rightProp = $(ruleInput).find('#RightPropertyInput.ruleInputright');
+                var leftType = $(leftProp).find('option:selected').data('type');
+                var rightValue = $(rightProp).val();
+                var eqValue = $(eqProp).val();
+                var validationString = validateEquality(leftType, eqValue);
+                var validated = validateInput(leftType, rightValue)
+                if (!validated || validationString) {
+                    var id = "Error_" + idx;
+                    canContinue = false;
+
+                    var errorString = "";
+                    if (!validated) {
+                        if (leftType.includes("String")) {
+                            errorString = buildErrorDiv(`String is not of the proper format`);
+                        }
+                        else if (leftType.includes("Guid")) {
+                            errorString = buildErrorDiv(`Guid is not of the proper format`);
+
+                        }
+                        else if (leftType.includes("DateTime")) {
+                            errorString = buildErrorDiv(`Date format is not valid like MM/DD/YYYY or "now" for the current time`);
+                        }
+                    }
+                    if (validationString) {
+                        errorString += buildErrorDiv(validationString);
+                    }
+                    var chevId = "chevron_" + id;
+                    $(rightProp).addClass("dangerInput");
+                    $(item).find("div.ruleInput.removeButton").prepend(`<span class="glyphicon glyphicon-chevron-left" id="` + chevId + `" hidden="true"></span>`);
+                    $(item).find("span#chevron_" + id).hide();
+                    $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div>`);
+
+                    $(span).find('div#' + id).hover(function () {
+                        var searchString = "span#" + chevId;
+                        $(item).find("div.ruleInput.removeButton").find(searchString).show();
+                    }, function () {
+                        var searchString = "span#" + chevId;
+                        $(item).find("div.ruleInput.removeButton").find(searchString).hide();
+                    });
+                }
+            });
+        });
+        return canContinue;
+    }
+    function buildErrorDiv(errorString) {
+        return `<div>` + errorString + `</div>`;
+    }
+    function validateEquality(inputType, eq) {
+        var type = "";
+        type = inputType;
+        switch (type) {
+            case "Guid":
+                {
+                    if (eq !== "5") {
+                        return "Valid comparison for a Guid is Equals";
+                    }
+                    return "";
+                }
+            case "Nullable<Guid>":
+                {
+                    if (eq !== "5"
+                        && eq !== "7"
+                        && eq !== "8"
+                        && eq !== "9") {
+                        return "Valid comparison(s) for a Nullable Guid is Equals IsNull or IsNotNull";
+                    }
+                    return "";
+                }
+            case "DateTimeOffset":
+                {
+                    if (eq === "6"
+                        || eq === "7"
+                        || eq === "8"
+                        || eq === "9") {
+                        return "Valid comparison(s) for a DateTimeOffset is LessThan, GreaterThan, LessThanOrEqualsTo or GreaterThanOrEqualsTo";
+                    }
+                    return "";
+                }
+            case "Nullable<DateTimeOffset>":
+                {
+                    if (eq === "6"
+                        || eq === "7") {
+                        return "Valid comparison(s) for a Nullable DateTimeOffset is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo, Equals, IsNull, IsNotNull";
+                    }
+                    return "";
+                }
+            case "Int":
+                {
+                    if (eq === "6"
+                        || eq === "7"
+                        || eq === "8"
+                        || eq === "9") {
+                        return "Valid comparison(s) for an Integer is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo or Equals";
+                    }
+                    return "";
+                }
+            case "Nullable<Int>":
+                {
+                    if (eq === "6"
+                        || eq === "7") {
+                        return "Valid comparison(s) for a Nullable Integer is LessThan, GreaterThan, LessThanOrEqualsTo, GreaterThanOrEqualsTo, IsNull or IsNotNull";
+                    }
+                    return "";
+                }
+            case "Boolean":
+                {
+                    if (eq !== "5") {
+                        return "Valid comparison(s) for a Boolean is Equals";
+                    }
+                    return "";
+                }
+            case "Nullable<Boolean>":
+                {
+                    if (eq !== "5"
+                        || eq === "8"
+                        || eq === "9") {
+                        return "Valid comparison(s) for a Nullable Boolean is Equals, IsNull or Is Not Null";
+                    }
+                    return "";
+                }
+        }
+    }
+    function validateInput(type, value) {
+        switch (type) {
+            case "Guid":
+                {
+                    var regex = /^(([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/;
+                    if (!regex.test(value)) {
+                        return false;
+                    }
+                    return true;
+                }
+            case "Nullable<Guid>":
+                {
+                    if (value !== "") {
+                        var regex = /^(([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/;
+                        if (!regex.test(value)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            case "DateTimeOffset":
+            case "Nullable<DateTimeOffset>":
+                {
+                    if (value !== "") {
+                        var regex = /^(((([0-9])|(0[1-9])|([12][0-9])|(3[01])){1})([-. /]{1})((([0-9])|([012][0-9])|(3[01])){1})([-. /]{1})([12]{1}[0-9]{3}))/;
+                        if (!regex.test(value)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            case "Int":
+                {
+                    var regex = /^(\d)+/;
+                    if (!regex.test(value)) {
+                        return false;
+                    }
+                    return true;
+                }
+            case "Nullable<Int>":
+                {
+                    if (value !== "") {
+                        var regex = /^(\d)+/;
+                        if (!regex.test(value)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            case "Boolean":
+                {
+                    if (value.toLowerCase() !== "true") {
+                        return false;
+                    }
+                    return true;
+                }
+            case "Nullable<Boolean>":
+                {
+                    if (value.toLowerCase() !== "") {
+                        if (value.toLowerCase() !== "true") {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+        }
+    }
+
     function reRegisterDeligates() {
+        $("span#RightPropertyValidation").html("");
+        $("input#RightPropertyInput").removeClass("dangerInput");
         var addRule = $("[id=addRule]").attr("id", function (i) {
             return "addRule_" + i;
         });
@@ -130,7 +330,6 @@
             $(this).off('click');
             $(this).on("click", function () {
                 $(this).closest('.ruleQuery').remove();
-                refreshDropDowns();
                 reRegisterDeligates();
             });
         });
@@ -138,17 +337,14 @@
             $(this).off('click');
             $(this).on("click", function () {
                 $(this).closest('.groupQuery').remove();
-                refreshDropDowns();
                 reRegisterDeligates();
             });
         });
-
         $('[id^=addGroup]').each(function () {
             $(this).off('click');
             $(this).on("click", function () {
 
                 $(this).closest('.groupQuery').append(createNewGroup());
-                refreshDropDowns();
                 reRegisterDeligates();
             });
         });
@@ -157,32 +353,88 @@
             $(this).off('click');
             $(this).on("click", function () {
                 $(this).closest('.groupQuery').append(createNewRule());
-                refreshDropDowns();
+                populateEqualitySelect($(this).closest('.groupQuery'));
+                populateLeftSelect($(this).closest('.groupQuery'));
+                populateNewRightSide($(this).closest('.groupQuery'));
                 reRegisterDeligates();
             });
         });
-        refreshDropDowns();
+        $('[id^=LeftProp]').each(function () {
+            $(this).off('change');
+            $(this).on('change', function () {
+                populateRightSideChange($(this).parent());
+                reRegisterDeligates();
+            });
+        });
     }
 
-    function createNewGroup() {
-        var id = $('ul[class^=groupQuery]').length;
-        var result =
-            `<ul class="groupQuery">
-            <div class="menuBar">
-                <div>
-                    <button class="removeGroup" id="removeGroup">- Delete</button>
-                    <button class="addRule" id="addRule">+ Rule</button>
-                    <button class="addGroup" id="addGroup">+ Group</button>
-                </div >
-                <div>
-                    <input value="1" name="toggle_`+ id + `" type="radio" checked>
-                    <label>And</label>
-                    <input value="2" name="toggle_`+ id + `" type="radio">
-                    <label>Or</label>
-                </div>
-            </div>
-        </ul>`;
-        return result;
+    function populateNewRightSide(parent) {
+        var rhs = $(parent).find('div#RightProperty.ruleInput').last();
+        var lhs = $(parent).find('select#LeftProperty').last();
+        $(rhs).empty();
+        $(rhs).html('<input id="RightPropertyInput" type="text" class="ruleInputright"></input>');
+    }
+
+    function populateRightSideChange(self) {
+        var rhs = $(self).parent().find('div#RightProperty.ruleInput');
+        var lhs = $(self).parent().find('select#LeftProperty');
+        var lhsValue = $(lhs).find('option:selected').val();
+        var lhsType = $(lhs).find('option:selected').data('type');
+        if (lhsValue === "DegDetKey") {
+            $(rhs).html(populateDegreeTypes($(rhs)));
+        }
+        else {
+            $(rhs).empty();
+            $(rhs).html('<input id="RightPropertyInput" type="text" class="ruleInputright"></input>');
+        }
+    }
+
+    function populateLeftSelect(self) {
+        var toAdd = [];
+        var item = $(self).find('select#LeftProperty').last();
+        var tableValue = $("#QryTable").val();
+        if (!tableValue) {
+            tableValue = "Address";
+            $("#QryTable").val(tableValue);
+        }
+        $.each(subItems, function (index, value) {
+            if (toAdd.length == 0
+                && value.table === tableValue) {
+                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.textName + "</option>");
+            }
+            else if (value.table === tableValue) {
+                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.textName + "</option>");
+            }
+        });
+        $(item).html(toAdd);
+    }
+    function populateDegreeTypes(self) {
+        var toAdd = [];
+        $.each(degreeSelect, function (index, value) {
+            if (toAdd.length == 0) {
+                toAdd.push("<option data-type='" + value.Type + "' value='" + value.Key + "' selected>" + value.Name + "</option>");
+            }
+            else {
+                toAdd.push("<option data-type='" + value.Type + "' value='" + value.Key + "'>" + value.Name + "</option>");
+            }
+        });
+        $(self).empty();
+        var html = `<select id="RightPropertyInput" class="ruleInputright">` + toAdd + `</select>`;
+        $(self).append(html)
+    }
+
+    function populateEqualitySelect(self) {
+        var toAdd = [];
+        var item = $(self).find('select#EqualityComparison').last();
+        $.each(equalitySelect, function (index, value) {
+            if (toAdd.length == 0) {
+                toAdd.push("<option value='" + value.value + "' selected>" + value.text + "</option>");
+            }
+            else {
+                toAdd.push("<option value='" + value.value + "'>" + value.text + "</option>");
+            }
+        });
+        $(item).html(toAdd);
     }
 
     function createNewRule() {
@@ -193,92 +445,41 @@
                         <select id="LeftProperty"></select>
                     </div>
                     <div class="equalityComparisonSelect ruleInput" >
-                       @Html.DropDownList("EqualityComparison", new SelectList(ViewBag.EqualityComparisonsList, "Key", "Value", "4"), null, new { id = "EqualityComparison", })
+                        <select id="EqualityComparison" name="EqualityComparison">
+                        </select>
                     </div>
-                    <div class="ruleInput">
-                        <input id="RightProperty" type="text" class="ruleInputright"></input>
+                    <div class="ruleInput" id="RightProperty">
                     </div>
-                    <div  class="ruleInput">
+                    <div  class="ruleInput removeButton">
                         <button class="removeRule" id="removeRule">- Delete</button>
                     </div>
                 </div>
             </li>`;
         return result;
     }
-
     function submitQueryForm() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'Create', true);
-        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                window.location = xhr.responseURL;
-            }
-        };
+        if (validateBeforePost()) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Create', true);
+            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    window.location = xhr.responseURL;
+                }
+                else if (xhr.status === 500) {
+                    $('#RightPropertyValidation').html('<div class="alert alert-danger" role="alert"><p>I EXPLODED!!!</p></div>');
+                }
+            };
 
-        var holder = $('#groupsHolder');
-        var items = holder.children('ul.groupQuery, li.ruleQuery');
-        var result = mapRecursively(items);
-        console.log(JSON.stringify(result));
-        xhr.send(JSON.stringify(result))
-    }
 
-    function mapRecursively(itemList) {
-        var logic = $('input[name^="toggle_"]:checked').val();
-        var base = $('#QryTable').val();
-        var name = $('#QryName').val();
-        var result = {
-            queryName: name,
-            baseType: base,
-            logic: logic,
-            logicList: searchObject(itemList, logic)
-        };
-        return result;
-    }
-
-    function searchObject(list, logic) {
-        var res = { logicGroup: [], logic: logic };
-        $(list).map(function (index, item) {
-            var nodeName = $(item).prop('nodeName');
-            if (nodeName === "LI") {
-                var leftProp = $(item).find('select#LeftProperty').find("option:selected");
-                var rightProp = $(item).find('input#RightProperty');
-                var logic = $(item).find('#EqualityComparison').find('option:selected');
-                res.logicGroup.push({
-                    lhs: { type: $(leftProp).data('type'), value: $(leftProp).val() },
-                    logic: logic.val(),
-                    rhs: $(rightProp).text() === "" ? $(rightProp).val() : $(rightProp).text()
-                });
-            }
-            else if (nodeName === "UL") {
-                res.logicGroup.push(searchObject($(item).children('ul.groupQuery, li.ruleQuery'), $(item).find('input[name^="toggle_"]:checked').val()));
-            }
-        });
-        return res;
-    }
-
-    function refreshDropDowns() {
-        var toAdd = [];
-        var tableValue = $("#QryTable").val();
-        if (!tableValue) {
-            tableValue = "Address";
-            $("#QryTable").val(tableValue);
+            var holder = $('#groupsHolder');
+            var items = holder.children('ul.groupQuery, li.ruleQuery');
+            var result = mapRecursively(items);
+            console.log(JSON.stringify(result));
+            xhr.send(JSON.stringify(result));
         }
-        $.each(subItems, function (index, value) {
-            if (toAdd.length == 0
-                && value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "' selected>" + value.name + "</option>");
-            }
-            else if (value.table === tableValue) {
-                toAdd.push("<option data-type='" + value.type + "' value='" + value.name + "'>" + value.name + "</option>");
-            }
-        });
-        $('select[id^=LeftProp]').each(function (ind, val) {
-            if (val.length == 0) {
-                $(val).html(toAdd);
-            }
-        });
     }
 </script>
-        }
+<script src="~/js/queryBuilder.js"></script>
+    }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectMoonshine.Classes.QueryClasses
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class TableNameLookup
     {

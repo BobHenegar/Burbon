@@ -1,4 +1,4 @@
-﻿namespace ProjectMoonshine.Enums
+﻿namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
 
     public enum LogicTypes

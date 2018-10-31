@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace ProjectMoonshine.Classes.QueryClasses
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class TableMetadata
     {

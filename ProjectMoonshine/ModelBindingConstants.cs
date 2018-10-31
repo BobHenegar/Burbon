@@ -31,6 +31,6 @@ namespace ProjectMoonshine
             "Ct8Key,Ct8Template,Ct8Description,Ct8Code,Ct8SetDataKeyFlag";
 
         public const string CredentialRequirementType =
-            "Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3SubmitProcessFlag,Ct3CalculateDueDateSp,Ct3CalculateStartDateSp,Ct3DependentCt6Key,Ct3DueDateNumber,Ct3DueDateRounding,Ct3DueDateUnit,Ct3HasRequiredParentsFlag,Ct3StartCr2Ct6Key,Ct3SyncToProcessDatesFlag,Ct3MetCr2Ct6Key,Ct3SubmitProcessFlag,Ct3CEUnitsRequired,Ct3CetKey";
+            "Ct3Key,Ct3Requirement,Ct3Description,Ct3Ct8Key,Ct3StartCt6Key,Ct3CompleteCt6Key,Ct3SubmitCt6Key,Ct3MetCt6Key,Ct3LongDescription,Ct3SubmitProcessFlag,Ct3CalculateDueDateSp,Ct3CalculateStartDateSp,Ct3DependentCt6Key,Ct3DueDateNumber,Ct3DueDateRounding,Ct3DueDateUnit,Ct3HasRequiredParentsFlag,Ct3StartCr2Ct6Key,Ct3SyncToProcessDatesFlag,Ct3MetCr2Ct6Key,Ct3SubmitProcessFlag,Ct3CEUnitsRequired,Ct3CetKey,Ct3QryKey";
     }
 }

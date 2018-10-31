@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ProjectMoonshine.EntityFramework.Models;
 
 namespace ProjectMoonshine.EntityFramework.Helpers
@@ -11,11 +12,47 @@ namespace ProjectMoonshine.EntityFramework.Helpers
             {
                 context.SeedExamsAndEvents();
             }
-        }
-        public static void SeedData(this ApplicationDbContext context)
-        {
+            if(migrationsApplied.Contains("20181030194828_SeedDegreeTypes")
+                || context.DegreeTypes.Count() == 0)
+            {
+                context.SeedDegreeTypes();
+            }
         }
 
+
+
+        private static void SeedDegreeTypes(this ApplicationDbContext context)
+        {
+            context.DegreeTypes.AddRange(new List<DegreeType>()
+            {
+                new DegreeType()
+                {
+                    DetCode = "Bachelor Degree",
+                    DetDescription = "four or five year degree."
+                },
+                new DegreeType()
+                {
+                    DetCode = "Associate Degree",
+                    DetDescription = "Two-year degree."
+                },
+                new DegreeType()
+                {
+                    DetCode = "Graduate Degree",
+                    DetDescription = "Graduate degrees are advanced degrees pursued after earning a bachelor’s degree."
+                },
+                new DegreeType()
+                {
+                    DetCode = "Professional Degree",
+                    DetDescription = "Licensed to work in professions like medicine or law."
+                },
+                new DegreeType()
+                {
+                    DetCode = "Certification",
+                    DetDescription = "Official document attesting to a status or level of achievement."
+                },
+            });
+            context.SaveChanges();
+        }
         private static void SeedExamsAndEvents(this ApplicationDbContext context)
         {
             context.Events.AddRange(new List<Event>()

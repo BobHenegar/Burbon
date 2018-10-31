@@ -105,7 +105,7 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: CredentialRequirements/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, Guid? processKey = null, Guid? customerKey = null)
         {
             if (id == null)
             {
@@ -168,8 +168,7 @@ namespace ProjectMoonshine.Controllers
                     requirementToUpdate.Cr3Ct3Key = credentialRequirement.Cr3Ct3Key;
 
                     await requirementToUpdate.UpdateAsync(_context);
-                    //_context.Update(requirementToUpdate);
-                    //await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "CredentialProcesses", new {id = requirementToUpdate.Cr3Cr2Key});
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
@@ -187,16 +186,6 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-
-                if (Request.Form["source"].ToString().Length > 0)
-                {
-                    return RedirectToAction("Details", "Credentials", new {id = _context.CredentialProcesses
-                                                                                .Where(p => p.Cr2Key == credentialRequirement.Cr3Cr2Key)
-                                                                                .Select(p => p.Cr2Cr1Key)
-                                                                                .FirstOrDefault()
-                                                                                .ToString()});
-                }
-                return RedirectToAction(nameof(Index));
             }
             CredentialRequirementViewModel viewModel = new CredentialRequirementViewModel(_context, credentialRequirement);
             return View(viewModel);

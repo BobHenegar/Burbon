@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Classes.QueryClasses;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.Enums;
@@ -43,10 +45,24 @@ namespace ProjectMoonshine.Controllers
         {
             var model = _queryManager.BuildQueryViewModel();
             ViewData["FromTable"] = model.TableDetails.Select(s => new SelectListItem(s.Key, s.Key)).ToList();
-            var objects = model.TableDetails.SelectMany(s => s.Value.Select(sv => new { name = sv.ColumnName, prefixs = sv.TablePrefix, type = sv.ColumnType, table = s.Key })).ToList();
+            var tableMetadata = model
+                .TableDetails
+                .SelectMany(s => s
+                    .Value
+                    .Select(sv =>
+                        new
+                        {
+                            textName = sv.ColumnDisplayName,
+                            name = sv.ColumnName,
+                            prefixs = sv.TablePrefix,
+                            type = sv.ColumnType,
+                            table = s.Key
+                        }))
+                .ToList();
+            var degreeTypes = _context.DegreeTypes.Select(s => new { Key = s.DetKey, Name = s.DetCode, Type = s.DetCode});
             ViewData["EqualityComparisonsList"] = model.EqualityComparisonsList;
-            ViewData["SelectList"] = JsonConvert.SerializeObject(objects);
-            ViewData["SelectIncludes"] = JsonConvert.SerializeObject(objects);
+            ViewData["SelectList"] = JsonConvert.SerializeObject(tableMetadata);
+            ViewData["SelectDegreeTypes"] = JsonConvert.SerializeObject(degreeTypes);
             return View();
         }
 
@@ -82,26 +98,15 @@ namespace ProjectMoonshine.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
-
-            var query = await _queryManager.GetExpressionByKey(id.Value);
-            if (query == null)
+            else
             {
-                return NotFound();
+                var entity = await _context.Queries.FirstOrDefaultAsync(a => a.QryKey == id);
+                _context.Queries.Remove(entity);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(query);
-        }
-
-        // POST: Phones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            _queryManager.DeleteQueryById(id);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
     }
 }

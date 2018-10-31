@@ -169,6 +169,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Maximum Exam Attempts")]
         public short? Ct3ExamMaxAttempts { get; set; }
 
+        [DisplayName("Rule")]
+        public Guid? Ct3QryKey { get; set; }
+
         [DisplayName("Add Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTimeOffset Ct3AddDate { get; set; }
@@ -226,6 +229,9 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [ForeignKey("Ct3DtpKey")]
         public virtual DocumentType DocumentType { get; set; }
+
+        [ForeignKey("Ct3QryKey")]
+        public virtual Query QueryRule { get; set; }
         #endregion Navigation Properties
     }
 }

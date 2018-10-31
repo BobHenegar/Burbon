@@ -6,14 +6,10 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
-using ProjectMoonshine.Classes.QueryClasses;
-using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Enums;
-using ProjectMoonshine.ViewModels;
 
-namespace ProjectMoonshine.Managers
+namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public class QueryManager
     {
@@ -43,9 +39,10 @@ namespace ProjectMoonshine.Managers
                         new ColumnDefinition()
                         {
                             ColumnName = cd.ColumnName,
+                            ColumnDisplayName = cd.ColumnDisplayName,
                             TablePrefix = cd.TablePrefix,
                             TableName = nameof(cd.TableEntity),
-                            // String type is inherintly nullable we only care about <object>? types
+                            // String type is inherintly nullable we only care about Nullable<T> types
                             ColumnType = cd.DataType
                         }
                     )
@@ -78,14 +75,15 @@ namespace ProjectMoonshine.Managers
         public async Task<Expression> GetUncompiledQuery(Guid key)
         {
             var result = await _context.Queries.FirstOrDefaultAsync();
-            var json = result.QryJsonBody;
+            JToken json = JToken.Parse(result.QryJsonBody);
             var parameter = GetExpressionType(json);
             var body = ParseQuery(json, parameter);
             return body;
         }
 
-        private Expression<Func<T, bool>> GetCompiledExpression<T>(string json) where T : EntityBase
+        private Expression<Func<T, bool>> GetCompiledExpression<T>(string queryBody) where T : EntityBase
         {
+            JToken json = JToken.Parse(queryBody);
             var parameter = GetExpressionType(json);
             var body = ParseQuery(json, parameter);
             return Expression.Lambda<Func<T, bool>>(body, parameter);
@@ -287,6 +285,38 @@ namespace ProjectMoonshine.Managers
                 return null;
             }
         }
+
+        //private Expression CreateAnyStatement(string propertyType, string propertyName, string propertyValue, EqualityComparisons expressionType)
+        //{
+        //    // AdrKey select Adr
+        //    var prefix = propertyName.Substring(0, 3);
+        //    // adr
+        //    var path = prefix.ToLower();
+        //    //person.Addresses
+        //    var accessorPath = _routeTable.FindRouteByPrefix(path);
+        //    // typeof(Address)
+        //    Type T = _databaseMetadata.GetTypeByPrefix(path).TableEntity.ClrType;
+        //    Type propType = GetTypeByName(propertyType);
+        //    // adr =>
+        //    var parameter = Expression.Parameter(T, path.ToLower());
+        //    // adr.AdrKey
+        //    var property = Expression.Parameter(T, propertyName);
+        //    // Address.key == "abc123"
+        //    var condition = Expression.Equal(
+        //        Expression.PropertyOrField(parameter, propertyName),
+        //        Expression.Constant(propertyType, propType)
+        //    );
+        //    // adr => adr.Adrkey == "abc123"
+        //    var predicate = Expression.Lambda<Func<bool>>(condition, property);
+        //    // Adrresses.Any(adr => adr.AdrKey == "abc123")
+        //    var anyCall = Expression.Call(
+        //        typeof(Enumerable), "Any", new[] { T },
+        //        accessorPath,
+        //        predicate
+        //    );
+        //    // per => per.Addresses.Any(adr => adr.AdrKey == "abc123")
+        //    return Expression.Lambda<Func<bool>> (anyCall, parameter);
+        //}
 
         private object CreateExpressionConstant(string value, string type)
         {
