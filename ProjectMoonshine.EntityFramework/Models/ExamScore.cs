@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.EntityFramework.Models
@@ -72,12 +74,17 @@ namespace ProjectMoonshine.EntityFramework.Models
                 await context.AddAsync(this);
                 await context.SaveChangesAsync();
 
-                return await UpdateRequirementsAsync(context, ExsCusKey);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, ExsCusKey, GlobalConstants.RequirementTemplateCode.Exam);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
             }
         }
 
@@ -87,25 +94,32 @@ namespace ProjectMoonshine.EntityFramework.Models
             {
                 if (!ValidateFields(true)) return false;
 
-                context.Update(this);
-                await context.SaveChangesAsync();
-
-                if (!await UpdateRequirementsAsync(context, ExsCusKey)) return false;
-
                 Guid originalCustomerKey = await context.ExamScores
                     .AsNoTracking()
                     .Where(e => e.ExsKey == ExsKey)
                     .Select(e => ExsCusKey)
                     .FirstOrDefaultAsync();
 
+                context.Update(this);
+                await context.SaveChangesAsync();
+
+                if (!await CredentialingUtils.UpdateRequirementsFromDataAsync(context, ExsCusKey, GlobalConstants.RequirementTemplateCode.Exam)) return false;
+
                 if (originalCustomerKey == ExsCusKey) return true;
 
-                return await UpdateRequirementsAsync(context, originalCustomerKey);
+                return await CredentialingUtils.UpdateRequirementsFromDataAsync(context, originalCustomerKey,
+                    GlobalConstants.RequirementTemplateCode.Exam);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                Debug.WriteLine(e.RecursivelyFormatException());
+                if (Environment.UserInteractive)
+                {
+                    Debugger.Break();
+                }
+
+                return false;
             }
         }
 
@@ -114,32 +128,6 @@ namespace ProjectMoonshine.EntityFramework.Models
             return CommonUtils.IsGuidValid(ExsCusKey) && CommonUtils.IsGuidValid(ExsExmKey) &&
                    CommonUtils.IsDateTimeOffsetValid(ExsDate) &&
                    (!isUpdate || CommonUtils.IsGuidValid(ExsKey));
-        }
-
-        private async Task<bool> UpdateRequirementsAsync(ApplicationDbContext context, Guid customerKey)
-        {
-            try
-            {
-                List<CredentialRequirement> requirements = await CredentialingUtils.GetCredentialRequirementsFromCustomerKey(context, customerKey);
-
-                if (requirements == null || requirements.Count <= 0) return true;
-                foreach (CredentialRequirement credentialRequirement in requirements)
-                {
-                    if (!credentialRequirement.CredentialRequirementType.Template.Ct8Code.Equals(GlobalConstants
-                        .RequirementTemplateCode.Exam)) continue;
-                    if (ExsExmKey != credentialRequirement.CredentialRequirementType.Ct3ExmKey ||
-                        credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid()) continue;
-                    credentialRequirement.Cr3ExsKey = ExsKey;
-                    if (!await credentialRequirement.UpdateAsync(context)) return false;
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
         }
     }
 }

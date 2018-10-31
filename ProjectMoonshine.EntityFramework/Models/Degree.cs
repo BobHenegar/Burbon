@@ -107,41 +107,6 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private async Task<bool> UpdateRequirements(ApplicationDbContext context)
-        {
-            try
-            {
-                List<CredentialRequirement> requirements = await
-                    CredentialingUtils.GetCredentialRequirementsFromCustomerKey(context, DegCusKey);
-                  
-                if (requirements == null || requirements.Count <= 0) return true;
-
-                foreach (CredentialRequirement credentialRequirement in requirements)
-                {
-                    if (!credentialRequirement.CredentialRequirementType.Template.Ct8Code.Equals(GlobalConstants
-                        .RequirementTemplateCode.Degree)) continue;
-                    if (credentialRequirement.CredentialRequirementType.Ct3DetKey != DegDetKey 
-                        || credentialRequirement.Cr3DegKey.IsGuidValid() 
-                        || credentialRequirement.Cr3MetDate.IsDateTimeOffsetValid() 
-                        || !CredentialingUtils.IsUnlocked(credentialRequirement.Status.State)) continue;
-
-                    credentialRequirement.Cr3DegKey = DegKey;
-                    if (!await credentialRequirement.UpdateAsync(context)) return false;
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.RecursivelyFormatException());
-                if (Environment.UserInteractive)
-                {
-                    Debugger.Break();
-                }
-                return false;
-            }
-        }
-
         private bool ValidateRequiredFields(bool isUpdate = false)
         {
             return CommonUtils.IsGuidValid(DegCusKey) 

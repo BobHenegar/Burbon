@@ -598,6 +598,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("Ct3PriorExamScoreEligibleFlag");
 
+                    b.Property<Guid?>("Ct3QryKey");
+
                     b.Property<string>("Ct3Requirement");
 
                     b.Property<Guid?>("Ct3StartCr2Ct6Key");
@@ -629,6 +631,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasIndex("Ct3MetCr2Ct6Key");
 
                     b.HasIndex("Ct3MetCt6Key");
+
+                    b.HasIndex("Ct3QryKey");
 
                     b.HasIndex("Ct3StartCr2Ct6Key");
 
@@ -1518,6 +1522,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "MetStatusType")
                         .WithMany()
                         .HasForeignKey("Ct3MetCt6Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Query", "QueryRule")
+                        .WithMany()
+                        .HasForeignKey("Ct3QryKey")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "ParentProcessStartStatusType")

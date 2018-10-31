@@ -40,17 +40,22 @@ namespace ProjectMoonshine.Helpers
 
         public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, object selectedValue = null)
         {
-
-            if (customerKey == null)
+            if (controller.Request.HasFormContentType)
             {
-                if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed)) customerKey = customerKeyParsed;
-            }
+                if (customerKey == null)
+                {
+                    if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed))
+                        customerKey = customerKeyParsed;
+                }
 
-            if (requirementKey == null)
-            {
-                if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(), out Guid requirementKeyParsed))
-                    requirementKey = requirementKeyParsed;
+                if (requirementKey == null)
+                {
+                    if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(),
+                        out Guid requirementKeyParsed))
+                        requirementKey = requirementKeyParsed;
+                }
             }
+            
             if (selectedValue != null)
             {
                 controller.ViewData[customerFieldName] = new SelectList(await context.People
