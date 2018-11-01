@@ -24,6 +24,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public Guid Ce1CusKey { get; set; }
 
         [DisplayName("Activity Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset Ce1ActivityDate { get; set; }
 
         [Required]

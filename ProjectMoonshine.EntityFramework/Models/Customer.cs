@@ -38,6 +38,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         public virtual IList<Degree> Degrees { get; set; }
 
+        public virtual IList<CEDetail> CEDetails { get; set; }
+
         
     }
 }

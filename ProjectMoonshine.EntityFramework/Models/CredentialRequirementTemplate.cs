@@ -721,8 +721,8 @@ namespace ProjectMoonshine.EntityFramework.Models
                 requirement.CredentialRequirementType = 
                     await CredentialingUtils.GetCredentialRequirementTypeAsync(context, requirement.Cr3Ct3Key);
 
-                if (requirement.CredentialRequirementType == null 
-                    || !requirement.CredentialRequirementType.Ct3CetKey.IsGuidValid()) return false;
+                //if (requirement.CredentialRequirementType == null 
+                //    || !requirement.CredentialRequirementType.Ct3CetKey.IsGuidValid()) return false;
 
                 requirement.CredentialProcess =
                     await CredentialingUtils.GetCredentialProcessAsync(context, requirement.Cr3Cr2Key);
@@ -739,7 +739,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                     , Ce2CusKey = requirement.CredentialProcess.Credential.Cr1CusKey
                     , Ce2StartDate = requirement.Cr3StartDate.IsDateTimeOffsetValid() ? (DateTimeOffset) requirement.Cr3StartDate : DateTimeOffset.Now
                     , Ce2EndDate =  requirement.Cr3DueDate.IsDateTimeOffsetValid() ? (DateTimeOffset) requirement.Cr3DueDate : DateTimeOffset.Now
-                    , Ce2CetKey =  (Guid) requirement.CredentialRequirementType.Ct3CetKey
+                    , Ce2CetKey =   requirement.CredentialRequirementType.Ct3CetKey.IsGuidValid() ? requirement.CredentialRequirementType.Ct3CetKey : null
                     , Ce2RequiredUnits = requirement.CredentialRequirementType.Ct3CEUnitsRequired ?? 0
                     , Ce2BalanceUnits = requirement.CredentialRequirementType.Ct3CEUnitsRequired ?? 0
                     , Ce2ReportedUnits = 0

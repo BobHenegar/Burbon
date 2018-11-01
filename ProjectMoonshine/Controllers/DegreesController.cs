@@ -174,5 +174,12 @@ namespace ProjectMoonshine.Controllers
         {
             return _context.Degrees.Any(e => e.DegKey == id);
         }
+
+        public async Task<IActionResult> GoBack(Guid? requirementKey = null, Guid? customerKey = null)
+        {
+            return await ControllerUtils.RedirectToRequirementCustomerOrDefault(this, _context, requirementKey, customerKey);
+        }
+
+        
     }
 }

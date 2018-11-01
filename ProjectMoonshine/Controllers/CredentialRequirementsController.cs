@@ -139,6 +139,11 @@ namespace ProjectMoonshine.Controllers
                     .ThenInclude(c => c.Customer)
                     .ThenInclude(c => c.Degrees)
 
+                .Include(r => r.CredentialProcess)
+                    .ThenInclude(p => p.Credential)
+                    .ThenInclude(c => c.Customer)
+                    .ThenInclude(c => c.CEDetails)
+
                 .Include(c => c.CredentialRequirementType)
                 .ThenInclude(rt => rt.Template)
                 .Include(c => c.Status)

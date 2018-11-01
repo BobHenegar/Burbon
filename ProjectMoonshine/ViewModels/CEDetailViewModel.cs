@@ -17,7 +17,7 @@ namespace ProjectMoonshine.ViewModels
 
         public SelectList Ce1CetKeySelectList { get; set; }
 
-        public SelectList Ce1CusKeySelectList { get; set; }
+        //public SelectList Ce1CusKeySelectList { get; set; }
 
         public CEDetailViewModel(ApplicationDbContext context, CEDetail ceDetail = null)
         {
@@ -25,10 +25,10 @@ namespace ProjectMoonshine.ViewModels
             CeDetail = ceDetail ?? new CEDetail();
 
             Ce1CetKeySelectList = new SelectList(_context.CEType, "CetKey", "CetCode", CeDetail.Ce1CetKey);
-            Ce1CusKeySelectList = new SelectList(_context
-                    .People
-                    .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName })
-                , "PerCusKey", "Text", Ce1CusKeySelectList);
+            //Ce1CusKeySelectList = new SelectList(_context
+            //        .People
+            //        .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName })
+            //    , "PerCusKey", "Text", Ce1CusKeySelectList);
 
         }
     }

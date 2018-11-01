@@ -131,7 +131,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<float>("Ce2BalanceUnits");
 
-                    b.Property<Guid>("Ce2CetKey");
+                    b.Property<Guid?>("Ce2CetKey");
 
                     b.Property<DateTimeOffset?>("Ce2ChangeDate")
                         .ValueGeneratedOnAdd();
@@ -1325,7 +1325,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("CEDetails")
                         .HasForeignKey("Ce1CusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -1597,7 +1597,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Degree", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Degrees")
                         .HasForeignKey("DegCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -1665,7 +1665,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.License", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Licenses")
                         .HasForeignKey("IxlCusKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

@@ -13,42 +13,44 @@ namespace ProjectMoonshine.Helpers
 {
     public class ControllerUtils
     {
-        public static async Task<IActionResult> RedirectFromRequirementDataAsync(Controller controller, ApplicationDbContext context)
+        public static async Task<IActionResult> RedirectFromRequirementDataAsync(Controller controller,
+            ApplicationDbContext context)
         {
-            if (controller.Request.Form["source"].ToString().Equals("Requirement"))
+            if (!controller.Request.HasFormContentType) return controller.RedirectToAction("Index");
+
+            Guid requirementKey = Guid.Empty;
+            if (controller.Request.Form["source"].ToString().Equals("Requirement") 
+                && !string.IsNullOrWhiteSpace(controller.Request.Form["requirementKey"].ToString()))
             {
-                return controller.RedirectToAction("Edit", "CredentialRequirements",
-                    new { id = controller.Request.Form["requirementKey"].ToString() });
+                Guid.TryParse(controller.Request.Form["requirementKey"].ToString(), out requirementKey);
             }
 
-            if (!controller.Request.Form["source"].ToString().Equals("Person")) return controller.RedirectToAction("Index");
+            else if (!controller.Request.Form["source"].ToString().Equals("Person"))
+                return controller.RedirectToAction("Index");
 
-            Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKey);
+            Guid customerKey = Guid.Empty;
+            if (!string.IsNullOrWhiteSpace(controller.Request.Form["customerKey"].ToString()))
+            {
+                Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out customerKey);
+            }
 
-            if (customerKey == Guid.Empty) return controller.RedirectToAction("Index");
+            return await RedirectToRequirementCustomerOrDefault(controller, context,
+                requirementKey != Guid.Empty ? (Guid?) requirementKey : null,
+                customerKey != Guid.Empty ? (Guid?) customerKey : null);
 
-            Guid personKey = await context.People
-                .AsNoTracking()
-                .Where(p => p.PerCusKey == customerKey)
-                .Select(p => p.PerKey)
-                .FirstOrDefaultAsync();
-
-            return personKey != Guid.Empty
-                ? controller.RedirectToAction("Details", "People", new { id = personKey })
-                : controller.RedirectToAction("Index");
         }
 
-        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, object selectedValue = null)
+        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, Guid? selectedValue = null)
         {
             if (controller.Request.HasFormContentType)
             {
-                if (customerKey == null)
+                if (customerKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed))
                         customerKey = customerKeyParsed;
                 }
 
-                if (requirementKey == null)
+                if (requirementKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(),
                         out Guid requirementKeyParsed))
@@ -56,7 +58,7 @@ namespace ProjectMoonshine.Helpers
                 }
             }
             
-            if (selectedValue != null)
+            if (selectedValue.IsGuidValid() )
             {
                 controller.ViewData[customerFieldName] = new SelectList(await context.People
                                 .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text", selectedValue);
@@ -73,13 +75,26 @@ namespace ProjectMoonshine.Helpers
             if (!customerKey.IsGuidValid()) return;
 
             controller.ViewData["customerKey"] = customerKey;
-            if (selectedValue != null) return;
+            if (selectedValue.IsGuidValid()) return;
 
             SelectListItem selected =
                 ((SelectList) controller.ViewData[customerFieldName])?.FirstOrDefault(x =>
                     x.Value == customerKey.ToString());
             if (selected != null) selected.Selected = true;
 
+        }
+
+        public static async Task<IActionResult> RedirectToRequirementCustomerOrDefault(Controller controller, ApplicationDbContext context, Guid? requirementKey = null, Guid? customerKey = null)
+        {
+            if (requirementKey.IsGuidValid()) return controller.RedirectToAction("Edit", "CredentialRequirements", new { id = requirementKey
+            });
+            if (!customerKey.IsGuidValid()) return controller.RedirectToAction("Index");
+            Guid? personKey = await context.People
+                .AsNoTracking()
+                .Where(p => p.PerCusKey == customerKey)
+                .Select(p => p.PerKey)
+                .FirstOrDefaultAsync();
+            return personKey.IsGuidValid()? controller.RedirectToAction("Details", "People", new { id = personKey}) : controller.RedirectToAction("Index");
         }
 
         //public static async Task SetRequirementRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? processKey = null, Guid? customerKey = null, object selectedValue = null)
