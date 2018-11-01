@@ -21,7 +21,6 @@ namespace ProjectMoonshine.Managers
                 .Include(i => i.Customer)
                 .ThenInclude(i => i.Person)
                 .Include(i => i.Exam)
-                .ThenInclude(i => i.Event)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
@@ -42,16 +41,6 @@ namespace ProjectMoonshine.Managers
                 case "personName_desc":
                     {
                         people = people.OrderByDescending(x => x.Customer.Person.PerFirstMiddleLast);
-                        break;
-                    }
-                case "eventName":
-                    {
-                        people = people.OrderByDescending(x => x.Exam.Event.EvtName);
-                        break;
-                    }
-                case "eventName_desc":
-                    {
-                        people = people.OrderByDescending(x => x.Exam.Event.EvtName);
                         break;
                     }
                 case "addDate":

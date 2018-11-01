@@ -28,8 +28,11 @@ namespace ProjectMoonshine.EntityFramework.Models
         [DisplayName("Event Start Date")]
         public DateTimeOffset? EvtStartDate { get; set; }
 
-        [DisplayName("Event Start Date")]
+        [DisplayName("Event End Date")]
         public DateTimeOffset? EvtEndDate { get; set; }
+
+        [DisplayName("Exam")]
+        public Guid? EvtExmKey { get; set; }
 
 
         [DisplayName("Date Added")]
@@ -49,6 +52,8 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         #region Navigation Properties
         public virtual IList<EventRegistration> EventRegistrations { get; set; }
+
+        [ForeignKey("EvtExmKey")]
         public virtual Exam Exam { get; set; }
         #endregion Navigation Properties
     }

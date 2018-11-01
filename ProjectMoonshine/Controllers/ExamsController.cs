@@ -57,7 +57,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var exam = await _context.Exams
-                .Include(e => e.Event)
+                //.Include(e => e.Event)
                 .FirstOrDefaultAsync(m => m.ExmKey == id);
             if (exam == null)
             {
@@ -70,7 +70,6 @@ namespace ProjectMoonshine.Controllers
         // GET: Exams/Create
         public IActionResult Create()
         {
-            ViewData["ExmEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName");
             return View();
         }
 
@@ -79,7 +78,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExmKey,ExmEvtKey,ExmSeatCount,ExmCanRetake,ExmName,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser,RowVersion")] Exam exam)
+        public async Task<IActionResult> Create([Bind("ExmKey,ExmSeatCount,ExmCanRetake,ExmName,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser")] Exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +87,6 @@ namespace ProjectMoonshine.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExmEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", exam.ExmEvtKey);
             return View(exam);
         }
 
@@ -105,7 +103,7 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["ExmEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", exam.ExmEvtKey);
+            
             return View(exam);
         }
 
@@ -114,7 +112,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ExmKey,ExmEvtKey,ExmSeatCount,ExmName,ExmCanRetake,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser,RowVersion")] Exam exam)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ExmKey,ExmSeatCount,ExmName,ExmCanRetake,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser")] Exam exam)
         {
             if (id != exam.ExmKey)
             {
@@ -146,7 +144,7 @@ namespace ProjectMoonshine.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExmEvtKey"] = new SelectList(_context.Events, "EvtKey", "EvtName", exam.ExmEvtKey);
+            
             return View(exam);
         }
 
@@ -159,7 +157,6 @@ namespace ProjectMoonshine.Controllers
             }
 
             var exam = await _context.Exams
-                .Include(e => e.Event)
                 .FirstOrDefaultAsync(m => m.ExmKey == id);
             if (exam == null)
             {

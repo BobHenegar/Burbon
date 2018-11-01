@@ -16,10 +16,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid ExmKey { get; set; }
 
-        [DisplayName("Event")]
-        public Guid? ExmEvtKey { get; set; }
-
-
         [DisplayName("Exam Seating Limit")]
         public int? ExmSeatCount { get; set; }
 
@@ -52,8 +48,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         #region Navigation Properties
         public virtual IList<ExamScore> ExamScores { get; set; }
 
-        [ForeignKey("ExmEvtKey")]
-        public virtual Event Event { get; set; }
+        public virtual IList<Event> Events { get; set; }
         #endregion Navigation Properties
     }
 }

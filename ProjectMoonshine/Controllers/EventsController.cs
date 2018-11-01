@@ -82,7 +82,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,RowVersion")] Event @event)
+        public async Task<IActionResult> Create([Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,EvtExmKey")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -115,7 +115,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,RowVersion")] Event @event)
+        public async Task<IActionResult> Edit(Guid id, [Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,EvtExmKey")] Event @event)
         {
             if (id != @event.EvtKey)
             {

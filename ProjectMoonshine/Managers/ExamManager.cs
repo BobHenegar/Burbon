@@ -18,26 +18,26 @@ namespace ProjectMoonshine.Managers
             //Defer query executing until our sorting and pagination is finished
             var people = _context
                 .Exams
-                .Include(i => i.Event)
+                .Include(i => i.Events)
                 .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
-                people = people.Where(s => s.Event.EvtName.ToLower().Contains(searchString)
-                                       || s.Event.EvtDescription.ToLower().Contains(searchString));
+                //people = people.Where(s => s.Event.EvtName.ToLower().Contains(searchString)
+                //                       || s.Event.EvtDescription.ToLower().Contains(searchString));
             }
             switch (sortOrder)
             {
-                case "eventName":
-                    {
-                        people = people.OrderByDescending(x => x.Event.EvtName);
-                        break;
-                    }
-                case "eventName_Desc":
-                    {
-                        people = people.OrderByDescending(x => x.Event.EvtName);
-                        break;
-                    }
+                //case "eventName":
+                //    {
+                //        people = people.OrderByDescending(x => x.Event.EvtName);
+                //        break;
+                //    }
+                //case "eventName_Desc":
+                //    {
+                //        people = people.OrderByDescending(x => x.Event.EvtName);
+                //        break;
+                //    }
                 case "addDate":
                     {
                         people = people.OrderBy(x => x.ExmAddDate);

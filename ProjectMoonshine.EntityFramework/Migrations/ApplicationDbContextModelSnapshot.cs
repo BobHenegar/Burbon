@@ -957,6 +957,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<DateTimeOffset?>("EvtEndDate");
 
+                    b.Property<Guid?>("EvtExmKey");
+
                     b.Property<string>("EvtName")
                         .IsRequired()
                         .HasMaxLength(500);
@@ -964,6 +966,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<DateTimeOffset?>("EvtStartDate");
 
                     b.HasKey("EvtKey");
+
+                    b.HasIndex("EvtExmKey");
 
                     b.ToTable("Events");
                 });
@@ -1023,17 +1027,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("ExmChangeUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("ExmEvtKey");
-
                     b.Property<string>("ExmName");
 
                     b.Property<int?>("ExmSeatCount");
 
                     b.HasKey("ExmKey");
-
-                    b.HasIndex("ExmEvtKey")
-                        .IsUnique()
-                        .HasFilter("[ExmEvtKey] IS NOT NULL");
 
                     b.ToTable("Exams");
                 });
@@ -1615,6 +1613,14 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Event", b =>
+                {
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Exam", "Exam")
+                        .WithMany("Events")
+                        .HasForeignKey("EvtExmKey")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.EventRegistration", b =>
                 {
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Customer", "Customer")
@@ -1625,14 +1631,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
                         .WithMany("EventRegistrations")
                         .HasForeignKey("EvrEvtKey")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("ProjectMoonshine.EntityFramework.Models.Exam", b =>
-                {
-                    b.HasOne("ProjectMoonshine.EntityFramework.Models.Event", "Event")
-                        .WithOne("Exam")
-                        .HasForeignKey("ProjectMoonshine.EntityFramework.Models.Exam", "ExmEvtKey")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

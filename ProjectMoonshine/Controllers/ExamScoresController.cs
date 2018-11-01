@@ -103,12 +103,13 @@ namespace ProjectMoonshine.Controllers
         public async Task<IActionResult> Create(ExamScore examScore)
         {
             if (ModelState.IsValid
-                && _context.Exams
-                .AsNoTracking()
-                .Include(i => i.Event)
-                    .ThenInclude(i => i.EventRegistrations)
-                .Where(x => x.ExmKey == examScore.ExsExmKey
-                    && x.Event.EventRegistrations.Any(a => a.EvrCusKey == examScore.ExsCusKey)).Any())
+                && await _context.Events
+                    .AsNoTracking()
+                    .Include(i => i.Exam)
+                    .Include(i => i.EventRegistrations)
+                    .AnyAsync(x => x.EvtExmKey == examScore.ExsExmKey
+                              && x.EventRegistrations
+                                       .Any(a => a.EvrCusKey == examScore.ExsCusKey)))
             {
 
                 if (await examScore.AddAsync(_context))

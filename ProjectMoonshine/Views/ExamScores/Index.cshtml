@@ -24,9 +24,7 @@
             <th>
                 @Html.ActionLink(@Html.DisplayNameFor(model => model.First().Customer.Person.PerFirstMiddleLast), "Index", new { sortOrder = "Customer Name", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
-            <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.First().Exam.Event.EvtName), "Index", new { sortOrder = "Customer Name", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -45,9 +43,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Customer.Person.PerFirstMiddleLast)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Exam.Event.EvtName)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ExsKey">Edit</a> |
