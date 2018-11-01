@@ -1,13 +1,24 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProjectMoonshine.EntityFramework;
 
 namespace ProjectMoonshine.Controllers
 {
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public IActionResult Index(int? page)
+        {
+            ViewData["page"] = page ?? 1;
+            var applicationDbContext = _context.CredentialProcesses.Include(c => c.Credential).Include(c => c.StatusType);
+            return View(applicationDbContext);
         }
 
         public IActionResult About()
