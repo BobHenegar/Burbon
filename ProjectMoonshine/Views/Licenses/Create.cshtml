@@ -13,37 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="IxlCusKey" class="control-label"></label>
-                <select asp-for="IxlCusKey" class="form-control" asp-items="ViewBag.IxlCusKey"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="IxlState" class="control-label"></label>
-                <input asp-for="IxlState" class="form-control" />
-                <span asp-validation-for="IxlState" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IxlLicenseNo" class="control-label"></label>
-                <input asp-for="IxlLicenseNo" class="form-control" />
-                <span asp-validation-for="IxlLicenseNo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IxlLicenseName" class="control-label"></label>
-                <input asp-for="IxlLicenseName" class="form-control" />
-                <span asp-validation-for="IxlLicenseName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IxlIssueDate" class="control-label"></label>
-                <input asp-for="IxlIssueDate" class="form-control" />
-                <span asp-validation-for="IxlIssueDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IxlExpireDate" class="control-label"></label>
-                <input asp-for="IxlExpireDate" class="form-control" />
-                <span asp-validation-for="IxlExpireDate" class="text-danger"></span>
-            </div>
-            @(await Html.PartialAsync("_RequirementDataRedirectSourcePartialView"))
+            @(await Html.PartialAsync("_LicenseAddEditPartialView", Model))
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -51,9 +21,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@(await Html.PartialAsync("_GoBackToRequirementPersonDefaultPartialView"))
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

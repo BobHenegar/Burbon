@@ -177,5 +177,10 @@ namespace ProjectMoonshine.Controllers
         {
             return _context.CEDetails.Any(e => e.Ce1Key == id);
         }
+
+        public async Task<IActionResult> GoBack(Guid? requirementKey = null, Guid? customerKey = null)
+        {
+            return await ControllerUtils.RedirectToRequirementCustomerOrDefault(this, _context, requirementKey, customerKey);
+        }
     }
 }

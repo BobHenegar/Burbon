@@ -21,9 +21,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-controller="CredentialRequirements" asp-action="Edit" asp-route-id="@ViewBag.requirementKey" class="btn btn-primary">Back to Requirement</a>
-</div>
+@(await Html.PartialAsync("_GoBackToRequirementPersonDefaultPartialView"))
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
