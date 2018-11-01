@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
@@ -17,16 +18,35 @@ namespace ProjectMoonshine.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+
         public CredentialProcessesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: CredentialProcesses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
+            int currentPage = page.HasValue ? page.Value : 1;
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "firstName";
+                ViewBag.LastSortParam = sortOrder;
+            }
+            else
+            {
+                if (sortOrder == lastOrder)
+                {
+                    int index = sortOrder.IndexOf("_desc");
+                    string cleanPath = (index < 0)
+                        ? sortOrder = sortOrder + "_desc"
+                        : sortOrder.Remove(index, "_desc".Length);
+                }
+            }
+            ViewBag.LastSortParam = sortOrder;
+
             var applicationDbContext = _context.CredentialProcesses.Include(c => c.Credential).Include(c => c.StatusType);
-            return View(await applicationDbContext.ToListAsync());
+            return PartialView("_CredentialProcessHomePartialView",applicationDbContext.ToPagedList(currentPage, 10));
         }
 
         // GET: CredentialProcesses/Details/5

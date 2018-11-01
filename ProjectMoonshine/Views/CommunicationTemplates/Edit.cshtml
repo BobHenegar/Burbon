@@ -8,9 +8,9 @@
 
 <h4>CommunicationTemplate</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post">
+    <div class="row">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TemKey" />
             <div class="form-group">
@@ -28,11 +28,19 @@
                 <input asp-for="TemSubject" class="form-control" />
                 <span asp-validation-for="TemSubject" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
             <div class="form-group">
                 <label asp-for="TemHtml" class="control-label"></label>
                 <input asp-for="TemHtml" class="form-control summernote" />
                 <span asp-validation-for="TemHtml" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="TemText" class="control-label"></label>
                 <input asp-for="TemText" class="form-control" />
@@ -61,7 +69,7 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
-        </form>
+</form>
     </div>
 </div>
 
@@ -73,7 +81,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
     <script>
-    $(document).ready(function () {
-        $('.summernote').summernote();
-    });</script>
+        $(document).ready(function () {
+            $('.summernote').summernote();
+        });</script>
 }
