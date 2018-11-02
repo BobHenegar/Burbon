@@ -18,7 +18,7 @@ namespace ProjectMoonshine.Managers
             //Defer query executing until our sorting and pagination is finished
             var people = _context
                 .Exams
-                .Include(i => i.Event)
+                .Include(i => i.Events)
                 .AsNoTracking()
                 .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
