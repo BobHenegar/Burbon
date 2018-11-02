@@ -69,18 +69,19 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Phones/Create
-        public IActionResult Create(Guid? id)
+        public async Task<IActionResult> Create(Guid? id)
         {
-            if (id.HasValue)
+            var hasId = id.HasValue ? true : false;
+            ViewData["PhoPerKeyHasValue"] = hasId;
+            if (hasId)
             {
                 SetRefererInfo("Emails");
-                ViewData["PhoPerKey"] = new SelectList(_context.People.Where(x => x.PerKey == id.Value).Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
-                ViewData["PhoPerKeyHasValue"] = true;
+                var person = await _context.People.AsNoTracking().Where(x => x.PerKey == id.Value).FirstAsync();
+                ViewData["Person"] = person;
             }
             else
             {
-                ViewData["PhoPerKey"] = new SelectList(_context.People.Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
-                ViewData["PhoPerKeyHasValue"] = false;
+                ViewData["People"] = new SelectList(_context.People.AsNoTracking().Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
             }
             return View();
         }
@@ -95,6 +96,17 @@ namespace ProjectMoonshine.Controllers
             if (ModelState.IsValid)
             {
                 phone.PhoKey = Guid.NewGuid();
+                if (phone.PhoIsPrimary == true)
+                {
+                    var primaryPhones = _context.Phones.Where(x => x.PhoPerKey == phone.PhoPerKey);
+                    if (primaryPhones != null)
+                    {
+                        await primaryPhones.ForEachAsync(x =>
+                        {
+                            x.PhoIsPrimary = false;
+                        });
+                    }
+                }
                 _context.Add(phone);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

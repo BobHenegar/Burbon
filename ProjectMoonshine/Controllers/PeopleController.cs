@@ -89,6 +89,7 @@ namespace ProjectMoonshine.Controllers
 
             ViewData["ComTemplates"] = new SelectList(_context.CommunicationTemplates, "TemKey", "TemCode");
             ViewData["PerCusKey"] = person.PerCusKey;
+            ViewData["PerFirstMiddleLast"] = person.PerFirstMiddleLast;
             return View(person);
         }
 
@@ -308,12 +309,12 @@ namespace ProjectMoonshine.Controllers
 
                 // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
                 return View();
-            
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search(Person person)
+        public IActionResult Search(Person person)
         {
 
             Expression ex = null;
@@ -328,8 +329,8 @@ namespace ProjectMoonshine.Controllers
 
             foreach (KeyValuePair<string, StringValues> key in Request.Form)
             {
-                if (key.Value.ToString().Length > 0 && key.Key != "__RequestVerificationToken" 
-                                                    && key.Key != "andor" 
+                if (key.Value.ToString().Length > 0 && key.Key != "__RequestVerificationToken"
+                                                    && key.Key != "andor"
                                                     && key.Key != "contains")
                 {
                     var prop = Expression.Property(param, key.Key);
@@ -350,7 +351,7 @@ namespace ProjectMoonshine.Controllers
             }
 
             var body = Expression.Lambda<Func<Person, bool>>(ex, param);
-            
+
             people = people.Where(body);
 
             switch (people.Count())

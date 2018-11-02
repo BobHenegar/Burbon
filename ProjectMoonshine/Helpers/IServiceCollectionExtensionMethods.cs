@@ -10,7 +10,7 @@ namespace ProjectMoonshine.Helpers
 {
     public static class IServiceCollectionExtensionMethods
     {
-        public static void AddDependencies(this IServiceCollection services)
+        public static IServiceCollection AddDependencies(this IServiceCollection services)
         {
 
             services
@@ -30,6 +30,8 @@ namespace ProjectMoonshine.Helpers
 
             services
                 .AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            return services;
         }
     }
 }

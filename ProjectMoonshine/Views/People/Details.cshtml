@@ -65,27 +65,26 @@
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-xs-12">
-            @await Html.PartialAsync("_AddressPartialView", Model.Addresses.OrderBy(x => x.AdrIsPrimary).FirstOrDefault())
-            @await Html.PartialAsync("_PhonePartialView", Model.Phones.OrderBy(x => x.PhoIsPrimary).FirstOrDefault())
-            @await Html.PartialAsync("_EmailPartialView", Model.Emails.OrderBy(x => x.EmlIsPrimary).FirstOrDefault())
+            @await Html.PartialAsync("_AddressPartialView", Model.Addresses.Where(x => x.AdrIsPrimary).OrderBy(x => x.AdrIsPrimary).FirstOrDefault(), ViewData)
+            @await Html.PartialAsync("_PhonePartialView", Model.Phones.Where(x => x.PhoIsPrimary).OrderBy(x => x.PhoIsPrimary).FirstOrDefault(), ViewData)
+            @await Html.PartialAsync("_EmailPartialView", Model.Emails.Where(x => x.EmlIsPrimary).OrderBy(x => x.EmlIsPrimary).FirstOrDefault(), ViewData)
         </div>
         <div class="col-lg-12 col-md-12 col-xs-12">
             <ul class="nav nav-tabs">
                 <li><a data-toggle="tab" href="#cert">Cert</a></li>
                 <li><a data-toggle="tab" href="#contact">Contact Info</a></li>
-
             </ul>
         </div>
         <div class="tab-content">
             <div class="col-lg-12 col-md-12 col-xs-12 tab-pane fade in active" id="cert">
-                @await Html.PartialAsync("_CredentialPartialView", Model.Customer.Credentials.OrderBy(x => x.Cr1AddDate).ToList())
-                @await Html.PartialAsync("_ExamScorePartialView", Model.Customer.ExamScores.OrderByDescending(x => x.ExsAddDate).Take(5).ToList())
-                @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList())
+                @await Html.PartialAsync("_CredentialPartialView", Model.Customer.Credentials.OrderBy(x => x.Cr1AddDate).ToList(), ViewData)
+                @await Html.PartialAsync("_ExamScorePartialView", Model.Customer.ExamScores.OrderByDescending(x => x.ExsAddDate).Take(5).ToList(), ViewData)
+                @await Html.PartialAsync("_EventRegistrationPartialView", Model.Customer.EventRegistrations.OrderByDescending(x => x.EvrAddDate).Take(5).ToList(), ViewData)
             </div>
             <div class="col-lg-12 col-md-12 col-xs-12 tab-pane fade in" id="contact">
-                @await Html.PartialAsync("_AddressListPartialView", Model.Customer.Person.Addresses.ToList())
-                @await Html.PartialAsync("_PhoneListPartialView", Model.Customer.Person.Phones.ToList())
-                @await Html.PartialAsync("_EmailListPartialView", Model.Customer.Person.Emails.ToList())
+                @await Html.PartialAsync("_AddressListPartialView", Model.Customer.Person.Addresses.ToList(), ViewData)
+                @await Html.PartialAsync("_PhoneListPartialView", Model.Customer.Person.Phones.ToList(), ViewData)
+                @await Html.PartialAsync("_EmailListPartialView", Model.Customer.Person.Emails.ToList(), ViewData)
             </div>
     </div>
         </div>

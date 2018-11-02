@@ -18,6 +18,7 @@ namespace ProjectMoonshine.Managers
             //Defer query executing until our sorting and pagination is finished
             var people = _context
                 .ExamScores
+                .AsNoTracking()
                 .Include(i => i.Customer)
                 .ThenInclude(i => i.Person)
                 .Include(i => i.Exam)

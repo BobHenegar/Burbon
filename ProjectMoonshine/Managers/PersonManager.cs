@@ -30,7 +30,10 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Person> GetAllPeople(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var people = context.People.AsNoTracking().AsQueryable();
+            var people = context
+                .People
+                .AsNoTracking()
+                .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();

@@ -20,7 +20,10 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Email> GetAllEmails(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var emails = context.Emails.AsQueryable();
+            var emails = context
+                .Emails
+                .AsNoTracking()
+                .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();

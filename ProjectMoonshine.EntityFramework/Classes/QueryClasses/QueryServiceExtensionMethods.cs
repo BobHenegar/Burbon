@@ -4,10 +4,11 @@ namespace ProjectMoonshine.EntityFramework.Classes.QueryClasses
 {
     public static class QueryServiceExtensionMethods
     {
-        public static void AddQueryService(this IServiceCollection services)
+        public static IServiceCollection AddQueryService(this IServiceCollection services)
         {
-        //    services.AddTransient<TableNameLookup>();
-        //    services.AddTransient<DatabaseMetadata>();
+            //    services.AddTransient<TableNameLookup>()
+            //      .AddTransient<DatabaseMetadata>();
+            return services;
         }
     }
 }
