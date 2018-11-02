@@ -1,0 +1,61 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.DegreeType
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DegreeType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DetCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetOrder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetOrder)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DetChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DetChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DetKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

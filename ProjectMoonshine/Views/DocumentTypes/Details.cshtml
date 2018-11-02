@@ -1,0 +1,61 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.DocumentType
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DocumentType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpOrder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpOrder)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpChangeUser)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DtpKey">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

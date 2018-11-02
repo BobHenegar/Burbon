@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.DegreeType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div class="row" style="padding-top: 15px">
+    <div class="col-lg-2">
+        <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
+        <a class="btn btn-info btn-block" asp-area="" asp-controller="CredentialTypes" asp-action="Index">Back to Setup</a>
+    </div>
+    <div class="col-lg-10"><table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DetCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetAddDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetChangeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetAddUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DetChangeUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetAddDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetChangeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DetChangeUser)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DetKey">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.DetKey">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.DetKey">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table></div>
+</div>
+
+

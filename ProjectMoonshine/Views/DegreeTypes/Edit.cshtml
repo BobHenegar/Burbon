@@ -1,0 +1,65 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.DegreeType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>DegreeType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DetKey" />
+            <div class="form-group">
+                <label asp-for="DetCode" class="control-label"></label>
+                <input asp-for="DetCode" class="form-control" />
+                <span asp-validation-for="DetCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetDescription" class="control-label"></label>
+                <input asp-for="DetDescription" class="form-control" />
+                <span asp-validation-for="DetDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetOrder" class="control-label"></label>
+                <input asp-for="DetOrder" class="form-control" />
+                <span asp-validation-for="DetOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetAddDate" class="control-label"></label>
+                <input asp-for="DetAddDate" class="form-control" />
+                <span asp-validation-for="DetAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetChangeDate" class="control-label"></label>
+                <input asp-for="DetChangeDate" class="form-control" />
+                <span asp-validation-for="DetChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetAddUser" class="control-label"></label>
+                <input asp-for="DetAddUser" class="form-control" />
+                <span asp-validation-for="DetAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DetChangeUser" class="control-label"></label>
+                <input asp-for="DetChangeUser" class="form-control" />
+                <span asp-validation-for="DetChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

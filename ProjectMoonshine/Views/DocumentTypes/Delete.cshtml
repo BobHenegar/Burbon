@@ -1,0 +1,64 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.DocumentType
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DocumentType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpOrder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpOrder)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpAddDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpAddDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpChangeDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpChangeDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpAddUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpAddUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DtpChangeUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DtpChangeUser)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="DtpKey" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -6,61 +6,68 @@
 }
 
 <h2>Index</h2>
+<div class="row" style="padding-top: 15px">
+    <div class="col-lg-2">
+        <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
+        <a class="btn btn-info btn-block" asp-area="" asp-controller="CredentialTypes" asp-action="Index">Back to Setup</a>
+    </div>
+    <div class="col-lg-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetAddDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetChangeDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetAddUser)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CetChangeUser)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetAddDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetChangeDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetAddUser)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CetChangeUser)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.CetKey">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.CetKey">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.CetKey">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CetCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CetDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CetAddDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CetChangeDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CetAddUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CetChangeUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetAddDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetChangeDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetAddUser)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CetChangeUser)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CetKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CetKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CetKey">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+

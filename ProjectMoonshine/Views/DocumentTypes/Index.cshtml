@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.DocumentType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<div class="row" style="padding-top: 15px">
+
+    <div class="col-lg-2">
+        <a class="btn btn-primary btn-block" asp-area="" asp-action="Create">Create New</a>
+        <a class="btn btn-info btn-block" asp-area="" asp-controller="CredentialTypes" asp-action="Index">Back to Setup</a>
+    </div>
+    <div class="col-lg-10">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpOrder)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpAddDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpChangeDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpAddUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DtpChangeUser)
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpOrder)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpAddDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpChangeDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpAddUser)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DtpChangeUser)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.DtpKey">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.DtpKey">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.DtpKey">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

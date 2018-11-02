@@ -2,9 +2,9 @@
 
 <div class="col-lg-4 col-md-4" style="padding:20px 15px 20px 15px">
     <h4>Primary Address</h4>
-    <div border-top:1px solid #eee">
+    <div style="border-top:1px solid #eee">
         <div>
-            <a asp-action="Create" asp-controller="Address" asp-route-id="@ViewBag.PerKey">Add Address</a>
+            <a asp-action="Create" asp-controller="Addresses" asp-route-id="@ViewBag.PerKey">Add Address</a>
         </div>
         @if (Model != null && Model.AdrIsPrimary)
         {

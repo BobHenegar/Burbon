@@ -1,0 +1,65 @@
+﻿@model ProjectMoonshine.EntityFramework.Models.DocumentType
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+<h4>DocumentType</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="DtpKey" />
+            <div class="form-group">
+                <label asp-for="DtpCode" class="control-label"></label>
+                <input asp-for="DtpCode" class="form-control" />
+                <span asp-validation-for="DtpCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpDescription" class="control-label"></label>
+                <input asp-for="DtpDescription" class="form-control" />
+                <span asp-validation-for="DtpDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpOrder" class="control-label"></label>
+                <input asp-for="DtpOrder" class="form-control" />
+                <span asp-validation-for="DtpOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpAddDate" class="control-label"></label>
+                <input asp-for="DtpAddDate" class="form-control" />
+                <span asp-validation-for="DtpAddDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpChangeDate" class="control-label"></label>
+                <input asp-for="DtpChangeDate" class="form-control" />
+                <span asp-validation-for="DtpChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpAddUser" class="control-label"></label>
+                <input asp-for="DtpAddUser" class="form-control" />
+                <span asp-validation-for="DtpAddUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DtpChangeUser" class="control-label"></label>
+                <input asp-for="DtpChangeUser" class="form-control" />
+                <span asp-validation-for="DtpChangeUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
