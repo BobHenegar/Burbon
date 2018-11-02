@@ -5,119 +5,116 @@
 }
 
 <div style="width:100%;padding:0px 15px 0px 15px">
-<p>
+    <p>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#addressTarget" aria-expanded="false" aria-controls="addressTarget">
-                Addresses
-            </button>
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#addressTarget" aria-expanded="false" aria-controls="addressTarget">
+                    Addresses
+                </button>
+            </div>
         </div>
-    </div>
-</p>
-<div class="collapse" id="addressTarget">
-<div class="card card-body" style="width:100%;min-width:320px;height:150px;">
-<a asp-action="Create" asp-controller="Addresses" asp-route-id="@ViewData["PerCusKey"]">Add Address</a>
-@if (Model != null && Model.Count() > 0)
-{
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress3)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrCity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrZip)
-            </th>
+    </p>
+    <div class="collapse" id="addressTarget">
+        <div class="card card-body" style="width:100%;min-width:320px;height:150px;">
+            <a asp-action="Create" asp-controller="Addresses" asp-route-id="@ViewBag.PerKey">Add Address</a>
+            @if (Model != null && Model.Count() > 0) {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress1)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress2)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddress3)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrCity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrState)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrZip)
+                            </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsPrimary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsMailingAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsWorkAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsHomeAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddress3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrCity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrState)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrZip)
-            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsPrimary)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsMailingAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsWorkAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrIsHomeAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().AdrAddDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrAddress1)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrAddress2)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrAddress3)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrCity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrState)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrZip)
+                                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsPrimary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsWorkAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrIsHomeAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdrAddDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrIsPrimary)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrIsMailingAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrIsWorkAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrIsHomeAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AdrAddDate)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.AdrKey">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.AdrKey">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.AdrKey">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
 
-}
-else
-{
-    <div>
-        <div>
-            <p>No Addresses Currently on Record</p>
-        </div>
-    </div>
-}
+            }
+            else {
+                <div>
+                    <div>
+                        <p>No Addresses Currently on Record</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>

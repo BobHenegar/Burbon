@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if (ViewBag.PhoPerKeyHasValue)
+            @if ((bool)ViewBag.PhoPerKeyHasValue)
             {
             <div class="form-group">
                 <label asp-for="@Model.PhoPerKey" class="control-label"></label>

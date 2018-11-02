@@ -12,15 +12,15 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if ((bool)ViewBag.AdrPerKeyHasValue)
-            {
+            @if ((bool)ViewBag.EmlPerKeyHasValue) {
                 <div class="form-group">
                     <label asp-for="EmlPerKey" class="control-label"></label>
-                    <select asp-for="EmlPerKey" class="form-control" asp-items="ViewBag.EmlPerKey" readonly="true"></select>
+                    <select asp-for="EmlPerKey" class="form-control" asp-items="ViewBag.PerKey" readonly>
+                        <option value="@ViewBag.Person.PerKey" selected="selected">@ViewBag.Person.PerFirstMiddleLast</option>
+                    </select>
                 </div>
             }
-            else
-            {
+            else {
                 <div class="form-group">
                     <label asp-for="EmlPerKey" class="control-label"></label>
                     <select asp-for="EmlPerKey" class="form-control" asp-items="ViewBag.EmlPerKey"></select>

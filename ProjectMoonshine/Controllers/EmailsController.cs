@@ -9,7 +9,6 @@ using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
-using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
@@ -30,15 +29,12 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
-            if (string.IsNullOrEmpty(sortOrder))
-            {
+            if (string.IsNullOrEmpty(sortOrder)) {
                 sortOrder = "firstName";
                 ViewBag.LastSortParam = sortOrder;
             }
-            else
-            {
-                if (sortOrder == lastOrder)
-                {
+            else {
+                if (sortOrder == lastOrder) {
                     int index = sortOrder.IndexOf("_desc");
                     string cleanPath = (index < 0)
                         ? sortOrder = sortOrder + "_desc"
@@ -51,15 +47,13 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
             var email = await _context.Emails
                 .FirstOrDefaultAsync(m => m.EmlKey == id);
-            if (email == null)
-            {
+            if (email == null) {
                 return NotFound();
             }
 
@@ -67,18 +61,16 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Emails/Create
-        public IActionResult Create(Guid? id)
+        public async Task<IActionResult> Create(Guid? id)
         {
-            if (id.HasValue)
-            {
-                ViewData["EmlPerKey"] = new SelectList(_context
-                    .People
-                    .Where(x => x.PerKey == id.Value)
-                    .Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
+            ViewData["EmlPerKeyHasValue"] = id.HasValue;
+            if (id.HasValue) {
+
+                var person = await _context.People.AsNoTracking().Where(x => x.PerKey == id.Value).FirstAsync();
+                ViewData["Person"] = person;
                 ViewData["EmlPerKeyHasValue"] = true;
             }
-            else
-            {
+            else {
                 ViewData["EmlPerKey"] = new SelectList(_context
                     .People
                     .Select(s => new { s.PerKey, Text = s.PerLastName + ", " + s.PerFirstName }), "PerKey", "Text");
@@ -92,18 +84,16 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Email email)
+        public async Task<IActionResult> Create(Email email)
         {
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 SetRefererInfo("Emails");
                 email.EmlKey = Guid.NewGuid();
                 _context.Add(email);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            if (!string.IsNullOrEmpty(email.RefAction))
-            {
+            if (!string.IsNullOrEmpty(email.RefAction)) {
                 return RedirectToAction(email.RefAction, email.RefController, new { id = email.RefId });
             }
             return View(email);
@@ -112,14 +102,12 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
             var email = await _context.Emails.FindAsync(id);
-            if (email == null)
-            {
+            if (email == null) {
                 return NotFound();
             }
             SetRefererInfo("Emails");
@@ -133,36 +121,28 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, Email email)
         {
-            if (id != email.EmlKey)
-            {
+            if (id != email.EmlKey) {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
+            if (ModelState.IsValid) {
+                try {
                     _context.Update(email);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException e)
-                {
-                    if (!EmailExists(email.EmlKey))
-                    {
+                catch (DbUpdateConcurrencyException e) {
+                    if (!EmailExists(email.EmlKey)) {
                         return NotFound();
                     }
-                    else
-                    {
+                    else {
                         Debug.WriteLine(e.RecursivelyFormatException());
-                        if (Environment.UserInteractive)
-                        {
+                        if (Environment.UserInteractive) {
                             Debugger.Break();
                         }
                         throw;
                     }
                 }
-                if (!string.IsNullOrEmpty(email.RefAction))
-                {
+                if (!string.IsNullOrEmpty(email.RefAction)) {
                     return RedirectToAction(email.RefAction, email.RefController, new { id = email.RefId });
                 }
                 return RedirectToAction(nameof(Index));
@@ -173,15 +153,13 @@ namespace ProjectMoonshine.Controllers
         // GET: Emails/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
             var email = await _context.Emails
                 .FirstOrDefaultAsync(m => m.EmlKey == id);
-            if (email == null)
-            {
+            if (email == null) {
                 return NotFound();
             }
 
