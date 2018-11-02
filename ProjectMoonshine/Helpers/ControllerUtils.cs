@@ -46,13 +46,13 @@ namespace ProjectMoonshine.Helpers
         {
             if (controller.Request.HasFormContentType)
             {
-                if (customerKey.IsGuidValid())
+                if (!customerKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed))
                         customerKey = customerKeyParsed;
                 }
 
-                if (requirementKey.IsGuidValid())
+                if (!requirementKey.IsGuidValid())
                 {
                     if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(),
                         out Guid requirementKeyParsed))
@@ -94,6 +94,22 @@ namespace ProjectMoonshine.Helpers
 
         }
 
+        public static void SetRequirementDataRedirectFieldsAsync(Controller controller,
+            ApplicationDbContext context, Guid? requirementKey = null)
+        {
+            if (controller.Request.HasFormContentType)
+            {
+               
+                if (!requirementKey.IsGuidValid())
+                {
+                    if (Guid.TryParse(controller.Request.Form["requirementKey"].ToString(),
+                        out Guid requirementKeyParsed))
+                        requirementKey = requirementKeyParsed;
+                }
+            }
+            if (requirementKey.IsGuidValid()) controller.ViewData["requirementKey"] = requirementKey;
+        }
+
         public static async Task<IActionResult> RedirectToRequirementCustomerOrDefault(Controller controller, ApplicationDbContext context, Guid? requirementKey = null, Guid? customerKey = null)
         {
             if (requirementKey.IsGuidValid()) return controller.RedirectToAction("Edit", "CredentialRequirements", new { id = requirementKey
@@ -106,5 +122,7 @@ namespace ProjectMoonshine.Helpers
                 .FirstOrDefaultAsync();
             return personKey.IsGuidValid()? controller.RedirectToAction("Details", "People", new { id = personKey}) : controller.RedirectToAction("Index");
         }
+
+        
     }
 }

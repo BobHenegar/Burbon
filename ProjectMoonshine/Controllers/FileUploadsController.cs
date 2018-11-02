@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.EntityFramework.Utils;
 using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 using ProjectMoonshine.ViewModels;
@@ -85,7 +86,7 @@ namespace ProjectMoonshine.Controllers
 
             try
             {
-                var fileUpload = new FileUpload()
+                FileUpload fileUpload = new FileUpload()
                 {
                     FupPerKey = perKey,
                     FupFileData = fileStream,
@@ -95,7 +96,29 @@ namespace ProjectMoonshine.Controllers
                     , FupDtpKey = model.FupDtpKey
                 };
 
-                if (await fileUpload.AddAsync(_context)) return RedirectToAction(nameof(Index), "FileUploads", new { id = perKey }); 
+                if (await fileUpload.AddAsync(_context))
+                {
+                    if (!Request.HasFormContentType)
+                        return RedirectToAction(nameof(Index), "FileUploads", new {id = perKey});
+                    if (!Request.Form["source"].ToString().Equals("Requirement") ||
+                        string.IsNullOrWhiteSpace(Request.Form["requirementKey"].ToString()))
+                        return RedirectToAction(nameof(Index), "FileUploads", new {id = perKey});
+
+                    if (!Guid.TryParse(Request.Form["requirementKey"].ToString(),
+                        out Guid requirementKeyParsed))
+                        return RedirectToAction(nameof(Index), "FileUploads", new {id = perKey});
+
+                    if (CommonUtils.IsGuidValid(requirementKeyParsed))
+                    {
+                        return RedirectToAction("Edit", "CredentialRequirements", new
+                        {
+                            id = requirementKeyParsed
+                        });
+                    }
+
+
+                    return RedirectToAction(nameof(Index), "FileUploads", new {id = perKey});
+                }    
             }
             catch (Exception e)
             {
@@ -109,9 +132,16 @@ namespace ProjectMoonshine.Controllers
         // GET: FileUploads/Create
         [HttpGet]
         [Route("FileUploads/Create/{perKey:guid}")]
-        public IActionResult Create(Guid perKey)
+        public async Task<IActionResult> Create(Guid perKey, Guid? requirementKey = null)
         {
             ViewData["PerKey"] = perKey;
+            ViewData["FupDtpKey"] = new SelectList(await _context.DocumentTypes
+                .AsNoTracking()
+                .OrderBy(t => CommonUtils.IsIntValidAndNotZero(t.DtpOrder))
+                    .ThenBy(t => t.DtpOrder)
+                    .ThenBy(t => t.DtpCode)
+                .Select(t => new {t.DtpKey, t.DtpCode}).ToListAsync(), "DtpKey", "DtpCode");
+            ControllerUtils.SetRequirementDataRedirectFieldsAsync(this, _context, requirementKey);
             return View();
         }
 
@@ -123,6 +153,11 @@ namespace ProjectMoonshine.Controllers
             _context.FileUploads.Remove(fileUpload);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index), "FileUploads", new { id = perKey });
+        }
+
+        public async Task<IActionResult> GoBack(Guid? requirementKey = null)
+        {
+            return await ControllerUtils.RedirectToRequirementCustomerOrDefault(this, _context, requirementKey, null);
         }
     }
 }

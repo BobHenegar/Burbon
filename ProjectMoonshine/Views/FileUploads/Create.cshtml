@@ -19,32 +19,48 @@
 <hr />
 <div class="row">
     <form method="post" enctype="multipart/form-data" asp-controller="FileUploads" asp-action="Create">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label asp-for="FupFileDescription" class="control-label"></label>
-                    <textarea asp-for="FupFileDescription" class="form-control" style="width:45%;height:150px;text-align:left;"></textarea>
-                    <span asp-validation-for="FupFileDescription" class="text-danger"></span>
-                </div>
+
+            <div class="form-group">
+                <label asp-for="FupFileDescription" class="control-label"></label>
+                <textarea asp-for="FupFileDescription" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="FupFileDescription" class="text-danger"></span>
             </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <input type="file" name="file" />
-                    </div>
-                </div>
+            <div class="form-group">
+                <label asp-for="FupDtpKey" class="control-label"></label>
+                @Html.DropDownListFor(f => f.FupDtpKey, (SelectList)ViewBag.FupDtpKey, "", new { @class = "form-control" })
+                <span asp-validation-for="FupDtpKey" class="text-danger"></span>
             </div>
-            <div class="col-md-12">
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
+
+            <div class="form-group">
+
+                <input type="file" name="file" />
+
+            </div>
+
+
+            @(await Html.PartialAsync("_RequirementDataRedirectSourcePartialView"))
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </form>
-    <div>
-        <a asp-action="People" asp-controller="FileUploads" asp-route-id="@ViewBag.PerKey">Back to Profile</a>
+
+</div>    
+<div class="row">
+    <div class="col-md-4">
+        @if (@ViewData["requirementKey"]?.ToString().Length > 0)
+        {
+            <a asp-action="GoBack" asp-route-requirementKey="@ViewData["requirementKey"]">Back to Requirement</a>
+        }
+        else
+        {
+            <a asp-action="People" asp-controller="FileUploads" asp-route-id="@ViewBag.PerKey">Back to Profile</a>
+        }
     </div>
+    
 </div>
 
 @section Scripts{
