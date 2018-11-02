@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,8 +40,9 @@ namespace ProjectMoonshine
                         b => b.MigrationsAssembly("ProjectMoonshine.EntityFramework")));
 
             //Setup Dependency injection
-            services.AddDependencies();
-            services.AddQueryService();
+            services
+                .AddDependencies()
+                .AddQueryService();
 
             //Configure Cookie Policy Options
             services.Configure<CookiePolicyOptions>(options =>

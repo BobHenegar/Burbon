@@ -16,7 +16,11 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Event> GetAllEvents(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var events = _context.Events.AsNoTracking().Include(e => e.Exam).AsQueryable();
+            var events = _context
+                .Events
+                .Include(e => e.Exam)
+                .AsNoTracking()
+                .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();

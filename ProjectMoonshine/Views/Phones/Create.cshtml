@@ -12,18 +12,20 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @if ((bool)ViewBag.AdrPerKeyHasValue)
+            @if (ViewBag.PhoPerKeyHasValue)
             {
-                <div class="form-group">
-                    <label asp-for="PhoPerKey" class="control-label"></label>
-                    <select asp-for="PhoPerKey" class="form-control" asp-items="ViewBag.PhoPerKey" readonly="true"></select>
-                </div>
+            <div class="form-group">
+                <label asp-for="@Model.PhoPerKey" class="control-label"></label>
+                <select asp-for="@Model.PhoPerKey" class="form-control" readonly>
+                    <option value="@ViewBag.Person.PerKey" selected="selected">@ViewBag.Person.PerFirstMiddleLast</option>
+                </select>
+            </div>
             }
             else
             {
                 <div class="form-group">
                     <label asp-for="PhoPerKey" class="control-label"></label>
-                    <select asp-for="PhoPerKey" class="form-control" asp-items="ViewBag.AdrPerKey"></select>
+                    <select asp-for="PhoPerKey" class="form-control" asp-items="@ViewBag.People"></select>
                 </div>
             }
             <div class="form-group">

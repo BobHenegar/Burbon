@@ -33,10 +33,11 @@ namespace ProjectMoonshine.Managers
         public async Task<IList<Customer>> GetAllCustomersAsync(int page, int resultsPerPage)
         {
             var result = await context
-                            .Customers
-                            .Skip(page * resultsPerPage)
-                            .Take(resultsPerPage)
-                            .ToListAsync();
+                .Customers
+                .AsNoTracking()
+                .Skip(page * resultsPerPage)
+                .Take(resultsPerPage)
+                .ToListAsync();
             return result;
         }
     }

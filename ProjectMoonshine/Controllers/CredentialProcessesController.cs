@@ -45,8 +45,12 @@ namespace ProjectMoonshine.Controllers
             }
             ViewBag.LastSortParam = sortOrder;
 
-            var applicationDbContext = _context.CredentialProcesses.Include(c => c.Credential).Include(c => c.StatusType);
-            return PartialView("_CredentialProcessHomePartialView",applicationDbContext.ToPagedList(currentPage, 10));
+            var credProcess = await _context
+                .CredentialProcesses
+                .Include(c => c.Credential)
+                .Include(c => c.StatusType)
+                .ToListAsync();
+            return PartialView("_CredentialProcessHomePartialView",credProcess.ToPagedList(currentPage, 10));
         }
 
         // GET: CredentialProcesses/Details/5

@@ -19,6 +19,7 @@ namespace ProjectMoonshine.Managers
             var people = _context
                 .Exams
                 .Include(i => i.Events)
+                .AsNoTracking()
                 .AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
