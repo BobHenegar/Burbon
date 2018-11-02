@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.Degree>
-
+<hr/>
+<h4>Degrees</h4>
+<a asp-controller="Degrees" asp-action="Create" asp-route-customerKey="@ViewBag.customerKey" asp-route-requirementKey="@ViewBag.requirementKey" >Add Degree</a>
 <table class="table">
     <thead>
         <tr>
@@ -28,7 +30,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DegDate)
             </td>
-            </tr>
+            <td>
+                <a asp-controller="Degrees" asp-action="Edit" asp-route-customerKey="@item.DegCusKey" asp-route-requirementKey="@ViewBag.requirementKey">Edit</a>
+            </td>
+        </tr>
 }
     </tbody>
 </table>

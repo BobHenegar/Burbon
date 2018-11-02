@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+            <input type="hidden" asp-for="Cu6Key" />
             @await Html.PartialAsync("_StatusStateTypeAddEditPartialView", Model)
             @*<input type="hidden" asp-for="Cu6Key" />
             <div class="form-group">

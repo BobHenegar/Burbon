@@ -26,13 +26,19 @@ namespace ProjectMoonshine.EntityFramework.Models
         public string EvtName { get; set; }
 
         [DisplayName("Event Start Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? EvtStartDate { get; set; }
 
         [DisplayName("Event End Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTimeOffset? EvtEndDate { get; set; }
 
         [DisplayName("Exam")]
         public Guid? EvtExmKey { get; set; }
+
+
+        [DisplayName("Registrant Limit")]
+        public int? EvtRegistrantLimit { get; set; }
 
 
         [DisplayName("Date Added")]

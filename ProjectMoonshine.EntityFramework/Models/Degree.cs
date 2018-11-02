@@ -42,7 +42,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
         [DisplayName("Change Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTimeOffset DegChangeDate { get; set; }
+        public DateTimeOffset? DegChangeDate { get; set; }
 
         [DisplayName("Degree Type")]
         public Guid DegDetKey { get; set; }

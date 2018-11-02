@@ -78,7 +78,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExmKey,ExmSeatCount,ExmCanRetake,ExmName,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser")] Exam exam)
+        public async Task<IActionResult> Create([Bind("ExmKey,ExmCanRetake,ExmName")] Exam exam)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ExmKey,ExmSeatCount,ExmName,ExmCanRetake,ExmAddDate,ExmChangeDate,ExmAddUser,ExmChangeUser")] Exam exam)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ExmKey,ExmName,ExmCanRetake")] Exam exam)
         {
             if (id != exam.ExmKey)
             {

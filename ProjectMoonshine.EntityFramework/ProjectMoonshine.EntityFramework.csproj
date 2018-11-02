@@ -35,6 +35,7 @@
     <Compile Remove="Migrations\20181026193107_remnants2.cs" />
     <Compile Remove="Migrations\20181026220219_remnants 3.cs" />
     <Compile Remove="Migrations\20181029151550_AddedQueryNameField.cs" />
+    <Compile Remove="Migrations\20181102054154_stuff things.cs" />
   </ItemGroup>
 
   <ItemGroup>

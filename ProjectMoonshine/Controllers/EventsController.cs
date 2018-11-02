@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
@@ -56,8 +57,9 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            var @event = await _context
-                .Events
+            var @event = await _context.Events
+                .AsNoTracking()
+                .Include(i => i.Exam)
                 .Include(i => i.EventRegistrations)
                 .ThenInclude(i => i.Customer)
                 .ThenInclude(i => i.Person)
@@ -72,8 +74,13 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: Events/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["EvtExmKey"] =
+                new SelectList(await _context.Exams
+                        .AsNoTracking()
+                        .Select(e => new {e.ExmKey, e.ExmName})
+                        .ToListAsync(), "ExmKey", "ExmName");
             return View();
         }
 
@@ -82,7 +89,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,EvtExmKey")] Event @event)
+        public async Task<IActionResult> Create([Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtExmKey,EvtRegistrantLimit")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -107,6 +114,11 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
+            ViewData["EvtExmKey"] =
+                new SelectList(await _context.Exams
+                    .AsNoTracking()
+                    .Select(e => new { e.ExmKey, e.ExmName })
+                    .ToListAsync(), "ExmKey", "ExmName");
             return View(@event);
         }
 
@@ -115,7 +127,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtAddDate,EvtChangeDate,EvtAddUser,EvtChangeUser,EvtExmKey")] Event @event)
+        public async Task<IActionResult> Edit(Guid id, [Bind("EvtKey,EvtDescription,EvtName,EvtStartDate,EvtEndDate,EvtExmKey,EvtRegistrantLimit")] Event @event)
         {
             if (id != @event.EvtKey)
             {

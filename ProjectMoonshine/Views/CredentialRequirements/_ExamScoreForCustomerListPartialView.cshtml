@@ -4,6 +4,9 @@
     <h4>
         Exam Scores
     </h4>
+    <p>
+        <a asp-controller="ExamScores" asp-action="Create" asp-route-customerKey="@ViewBag.customerKey" asp-route-requirementKey="@ViewBag.requirementKey">Create New</a>
+    </p>
     <table class="table">
         <thead>
             <tr>
@@ -32,7 +35,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Exam.ExmKey)
+                        @Html.DisplayFor(modelItem => item.Exam.ExmName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ExsDate)
@@ -46,6 +49,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ExsSuccessFlag)
                     </td>
+                    <td><a asp-controller="ExamScores" asp-action="Edit" asp-route-id="@item.ExsKey" asp-route-requirementKey="@ViewBag.requirementKey" asp-route-customerKey="@item.ExsCusKey">Edit</a> |</td>
                 </tr>
             }
         </tbody>

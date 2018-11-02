@@ -12,26 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EvtDescription" class="control-label"></label>
-                <input asp-for="EvtDescription" class="form-control" />
-                <span asp-validation-for="EvtDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EvtName" class="control-label"></label>
-                <input asp-for="EvtName" class="form-control" />
-                <span asp-validation-for="EvtName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EvtStartDate" class="control-label"></label>
-                <input asp-for="EvtStartDate" class="form-control" />
-                <span asp-validation-for="EvtStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EvtEndDate" class="control-label"></label>
-                <input asp-for="EvtEndDate" class="form-control" />
-                <span asp-validation-for="EvtEndDate" class="text-danger"></span>
-            </div>
+            @(await Html.PartialAsync("_EventsAddEditPartialView", Model))
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -40,7 +21,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-info">Back to List</a>
 </div>
 
 @section Scripts {

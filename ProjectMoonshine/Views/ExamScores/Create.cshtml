@@ -19,36 +19,7 @@
         }
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @if ((bool)ViewBag.CusKeyHasValue)
-                {
-                    <label asp-for="ExsCusKey" class="control-label"></label>
-                    <div class="form-group">
-                        <select asp-for="ExsCusKey" asp-items="ViewBag.ExsCusKey" class="selectpicker show-tick" data-live-search="true" id="selectCustomer" readonly="true"></select>
-                    </div>
-                }
-                else
-                {
-                    <label asp-for="ExsCusKey" class="control-label"></label>
-                    <div class="form-group">
-                        <select asp-for="ExsCusKey" asp-items="ViewBag.ExsCusKey" class="selectpicker show-tick" data-live-search="true">
-                            <option data-hidden="true">Customer:</option>
-                        </select>
-                    </div>
-                }
-                <div class="form-group">
-                    <label class="control-label">Exam</label>
-                    <select asp-for="ExsExmKey" class="form-control" asp-items="ViewBag.ExsExmKey"></select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ExsTotalPossible" class="control-label"></label>
-                    <input asp-for="ExsTotalPossible" class="form-control" />
-                    <span asp-validation-for="ExsTotalPossible" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ExsTotalReceived" class="control-label"></label>
-                    <input asp-for="ExsTotalReceived" class="form-control" />
-                    <span asp-validation-for="ExsTotalReceived" class="text-danger"></span>
-                </div>
+                @(await Html.PartialAsync("_ExamScoresAddEditPartialView", Model))
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-default" />
                 </div>
@@ -56,9 +27,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@(await Html.PartialAsync("_GoBackToRequirementPersonDefaultPartialView"))
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

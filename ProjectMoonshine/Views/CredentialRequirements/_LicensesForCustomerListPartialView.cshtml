@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ProjectMoonshine.EntityFramework.Models.License>
 <hr />
 <h4>Licenses</h4>
-
+<a asp-controller="Licenses" asp-action="Create" asp-route-requirementKey=@ViewBag.requirementKey asp-route-customerKey="@ViewBag.customerKey" >Add License</a>
 <table class="table">
     <thead>
         <tr>
@@ -42,6 +42,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IxlExpireDate)
                 </td>
+                <td><a asp-controller="Licenses" asp-action="Edit" asp-route-id="@item.IxlKey" asp-route-requirementKey="@ViewBag.requirementKey" asp-route-customerKey="@item.IxlCusKey" >Edit License</a></td>
             </tr>
         }
     </tbody>

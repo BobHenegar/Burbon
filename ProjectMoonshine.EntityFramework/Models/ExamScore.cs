@@ -33,7 +33,7 @@ namespace ProjectMoonshine.EntityFramework.Models
         public DateTimeOffset ExsDate { get; set; }
 
         [DisplayName("Total Possible")]
-        public int ExsTotalPossible { get; set; }
+        public int? ExsTotalPossible { get; set; }
         [DisplayName("Total Received")]
         public int ExsTotalReceived { get; set; }
 

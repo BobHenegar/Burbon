@@ -76,9 +76,6 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Create()
         {
             CredentialRequirementViewModel viewModel = new CredentialRequirementViewModel(_context);
-            //ViewData["Cr3Cr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key");
-            //ViewData["Cr3Ct3Key"] = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Key");
-            //ViewData["Cr3Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code");
             return View(viewModel);
         }
 
@@ -91,15 +88,9 @@ namespace ProjectMoonshine.Controllers
         {
             if (ModelState.IsValid)
             {
-                //credentialRequirement.Cr3Key = Guid.NewGuid();
                 await credentialRequirement.AddAsync(_context);
-                //_context.Add(credentialRequirement);
-                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["Cr3Cr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credentialRequirement.Cr3Cr2Key);
-            //ViewData["Cr3Ct3Key"] = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Key", credentialRequirement.Cr3Ct3Key);
-            //ViewData["Cr3Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirement.Cr3Ct6Key);
             CredentialRequirementViewModel viewModel = new CredentialRequirementViewModel(_context, credentialRequirement);
             return View(viewModel);
         }
@@ -112,11 +103,10 @@ namespace ProjectMoonshine.Controllers
                 return NotFound();
             }
 
-            //var credentialRequirement = await _context.CredentialRequirements.FindAsync(id);
             var credentialRequirement = await _context.CredentialRequirements
                 .AsNoTracking()
                 .Include(c => c.CredentialProcess)
-                .ThenInclude(p => p.CredentialProcessType)
+                    .ThenInclude(p => p.CredentialProcessType)
                 
                 .Include(r => r.CredentialProcess)
                     .ThenInclude(p => p.Credential)
@@ -127,17 +117,20 @@ namespace ProjectMoonshine.Controllers
                     .ThenInclude(p => p.Credential)
                     .ThenInclude(c => c.Customer)
                     .ThenInclude(c => c.ExamScores)
+                    .ThenInclude(s => s.Exam)
 
                 .Include(r => r.CredentialProcess)
                     .ThenInclude(p => p.Credential)
                     .ThenInclude(c => c.Customer)
                     .ThenInclude(c => c.Person)
                     .ThenInclude(p=>  p.FileUploads)
+                    .ThenInclude(f => f.DocumentType)
                 
                 .Include(r => r.CredentialProcess)
                     .ThenInclude(p => p.Credential)
                     .ThenInclude(c => c.Customer)
                     .ThenInclude(c => c.Degrees)
+                    .ThenInclude(d => d.DegreeType)
 
                 .Include(r => r.CredentialProcess)
                     .ThenInclude(p => p.Credential)
@@ -145,26 +138,30 @@ namespace ProjectMoonshine.Controllers
                     .ThenInclude(c => c.CEDetails)
 
                 .Include(c => c.CredentialRequirementType)
-                .ThenInclude(rt => rt.Template)
+                    .ThenInclude(rt => rt.Template)
+                
                 .Include(c => c.Status)
+                
                 .Include(r => r.CEPeriod)
                     .ThenInclude(p => p.CeType)
+                
                 .Include(r => r.Degree)
-                .ThenInclude(d => d.DegreeType)
+                    .ThenInclude(d => d.DegreeType)
+                
                 .Include(r => r.License)
+                
                 .Include(r => r.ExamScore)
                     .ThenInclude(s => s.Exam)
+                
                 .Include(r => r.FileUpload)
                     .ThenInclude(f => f.DocumentType)
+                
                 .Where(m => m.Cr3Key == id)
                 .FirstOrDefaultAsync();
             if (credentialRequirement == null)
             {
                 return NotFound();
             }
-            //ViewData["Cr3Cr2Key"] = new SelectList(_context.CredentialProcesses, "Cr2Key", "Cr2Key", credentialRequirement.Cr3Cr2Key);
-            //ViewData["Cr3Ct3Key"] = new SelectList(_context.CredentialRequirementTypes, "Ct3Key", "Ct3Key", credentialRequirement.Cr3Ct3Key);
-            //ViewData["Cr3Ct6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirement.Cr3Ct6Key);
             CredentialRequirementViewModel viewModel = new CredentialRequirementViewModel(_context, credentialRequirement);
             return View(viewModel);
         }
@@ -191,6 +188,10 @@ namespace ProjectMoonshine.Controllers
                     requirementToUpdate.Cr3DueDate = credentialRequirement.Cr3DueDate;
                     requirementToUpdate.Cr3MetDate = credentialRequirement.Cr3MetDate;
                     requirementToUpdate.Cr3Ct3Key = credentialRequirement.Cr3Ct3Key;
+                    requirementToUpdate.Cr3DegKey = credentialRequirement.Cr3DegKey;
+                    requirementToUpdate.Cr3FupKey = credentialRequirement.Cr3FupKey;
+                    requirementToUpdate.Cr3ExsKey = credentialRequirement.Cr3ExsKey;
+                    requirementToUpdate.Cr3IxlKey = credentialRequirement.Cr3IxlKey;
 
                     await requirementToUpdate.UpdateAsync(_context);
                     return RedirectToAction("Details", "CredentialProcesses", new {id = requirementToUpdate.Cr3Cr2Key});

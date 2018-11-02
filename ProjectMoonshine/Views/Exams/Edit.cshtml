@@ -13,11 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ExmKey" />
-            <div class="form-group">
-                <label asp-for="ExmSeatCount" class="control-label"></label>
-                <input asp-for="ExmSeatCount" class="form-control" />
-                <span asp-validation-for="ExmSeatCount" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <div class="checkbox">
                     <label>

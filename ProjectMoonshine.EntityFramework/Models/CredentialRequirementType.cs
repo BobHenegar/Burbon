@@ -208,6 +208,9 @@ namespace ProjectMoonshine.EntityFramework.Models
         [ForeignKey("Ct3DependentCt6Key")]
         public CredentialStatusType DependentStatusType { get; set; }
 
+        [ForeignKey("Ct3DeniedCt6Key")]
+        public virtual CredentialStatusType DeniedStatusType { get; set; }
+
         [ForeignKey("Ct3StartCr2Ct6Key")]
         public CredentialStatusType ParentProcessStartStatusType { get; set; }
 

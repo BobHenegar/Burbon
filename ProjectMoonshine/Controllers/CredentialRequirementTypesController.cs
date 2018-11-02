@@ -160,11 +160,6 @@ namespace ProjectMoonshine.Controllers
                 }
                 return Request.Form["source"].ToString().Equals("CredentialProcessTypes") ? RedirectToAction("Edit", "CredentialProcessTypeXCredentialRequirementTypes", new { id = Request.Form["ct5Key"].ToString(), source = "RequirementTypes" }) : RedirectToAction(nameof(Index));
             }
-            //ViewData["Ct3CompleteCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3CompleteCt6Key);
-            //ViewData["Ct3MetCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3MetCt6Key);
-            //ViewData["Ct3StartCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3StartCt6Key);
-            //ViewData["Ct3SubmitCt6Key"] = new SelectList(_context.CredentialStatusTypes, "Ct6Key", "Ct6Code", credentialRequirementType.Ct3SubmitCt6Key);
-            //ViewData["Ct3Ct8Key"] = new SelectList(_context.CredentialRequirementTemplates, "Ct8Key", "Ct8Template", credentialRequirementType.Ct3Ct8Key);
             CredentialRequirementTypeViewModel viewModel = new CredentialRequirementTypeViewModel(_context, credentialRequirementType);
             return View(viewModel);
         }

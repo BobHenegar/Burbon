@@ -3,11 +3,11 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 <div>
-    @if (@ViewData["requirementKey"].ToString().Length > 0)
+    @if (@ViewData["requirementKey"]?.ToString().Length > 0)
     {
         <a asp-action="GoBack" asp-route-requirementKey="@ViewData["requirementKey"]">Back to Requirement</a>
     }
-    else if (@ViewData["customerKey"].ToString().Length > 0)
+    else if (@ViewData["customerKey"]?.ToString().Length > 0)
     {
         <a asp-action="GoBack" asp-route-customerKey="@ViewData["customerKey"]">Back to Person</a>
     }

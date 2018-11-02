@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.Controllers;
 using ProjectMoonshine.EntityFramework;
+using ProjectMoonshine.EntityFramework.Models;
 using ProjectMoonshine.EntityFramework.Utils;
 
 namespace ProjectMoonshine.Helpers
@@ -40,7 +42,7 @@ namespace ProjectMoonshine.Helpers
 
         }
 
-        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, Guid? selectedValue = null)
+        public static async Task SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? requirementKey = null, Guid? customerKey = null, Guid? selectedValue = null, IQueryable<Person> peopleQueryable = null)
         {
             if (controller.Request.HasFormContentType)
             {
@@ -58,19 +60,27 @@ namespace ProjectMoonshine.Helpers
                 }
             }
             
+            if (peopleQueryable == null)
+            {
+                peopleQueryable = context.People
+                    .AsNoTracking()
+                    .OrderBy(p => p.PerLastName).AsQueryable();
+            }
+
             if (selectedValue.IsGuidValid() )
             {
-                controller.ViewData[customerFieldName] = new SelectList(await context.People
-                                .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text", selectedValue);
+                controller.ViewData[customerFieldName] = new SelectList( await peopleQueryable
+                    .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName })
+                    .ToListAsync(), "PerCusKey", "Text", selectedValue);
             }
 
             else
             {
-                controller.ViewData[customerFieldName] = new SelectList(await context.People
-                    .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text");
+                controller.ViewData[customerFieldName] = new SelectList(await peopleQueryable
+                    .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName })
+                    .ToListAsync(), "PerCusKey", "Text");
             }
             
-
             if (requirementKey.IsGuidValid()) controller.ViewData["requirementKey"] = requirementKey;
             if (!customerKey.IsGuidValid()) return;
 
@@ -96,44 +106,5 @@ namespace ProjectMoonshine.Helpers
                 .FirstOrDefaultAsync();
             return personKey.IsGuidValid()? controller.RedirectToAction("Details", "People", new { id = personKey}) : controller.RedirectToAction("Index");
         }
-
-        //public static async Task SetRequirementRedirectFieldsAsync(Controller controller, ApplicationDbContext context, string customerFieldName, Guid? processKey = null, Guid? customerKey = null, object selectedValue = null)
-        //{
-
-        //    //if (customerKey == null)
-        //    //{
-        //    //    if (Guid.TryParse(controller.Request.Form["customerKey"].ToString(), out Guid customerKeyParsed)) customerKey = customerKeyParsed;
-        //    //}
-
-        //    if (requirementKey == null)
-        //    {
-        //        if (Guid.TryParse(controller.Request.Form["processKey"].ToString(), out Guid requirementKeyParsed))
-        //            requirementKey = requirementKeyParsed;
-        //    }
-        //    //if (selectedValue != null)
-        //    //{
-        //    //    controller.ViewData[customerFieldName] = new SelectList(await context.People
-        //    //        .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text", selectedValue);
-        //    //}
-
-        //    //else
-        //    //{
-        //    //    controller.ViewData[customerFieldName] = new SelectList(await context.People
-        //    //        .Select(s => new { s.PerCusKey, Text = s.PerLastName + ", " + s.PerFirstName }).ToListAsync(), "PerCusKey", "Text");
-        //    //}
-
-
-        //    if (processKey.IsGuidValid()) controller.ViewData["processKey"] = requirementKey;
-        //    if (!customerKey.IsGuidValid()) return;
-
-        //    controller.ViewData["customerKey"] = customerKey;
-        //    if (selectedValue != null) return;
-
-        //    SelectListItem selected =
-        //        ((SelectList)controller.ViewData[customerFieldName])?.FirstOrDefault(x =>
-        //            x.Value == customerKey.ToString());
-        //    if (selected != null) selected.Selected = true;
-
-        //}
     }
 }

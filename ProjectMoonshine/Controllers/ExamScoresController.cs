@@ -9,6 +9,8 @@ using PagedList.Core;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Helpers;
 using ProjectMoonshine.EntityFramework.Models;
+using ProjectMoonshine.EntityFramework.Utils;
+using ProjectMoonshine.Helpers;
 using ProjectMoonshine.Managers;
 
 namespace ProjectMoonshine.Controllers
@@ -71,26 +73,22 @@ namespace ProjectMoonshine.Controllers
         }
 
         // GET: ExamScores/Create
-        public async Task<IActionResult> Create(Guid? id)
+        public async Task<IActionResult> Create(Guid? requirementKey = null, Guid? customerKey = null)
         {
-            ViewData["CusKeyHasValue"] = id.HasValue;
-            var query = _context
-                .Customers
+            IQueryable<Person> peopleQueryable = _context.People
                 .AsNoTracking()
-                .Include(i => i.Person)
-                .Include(i => i.EventRegistrations)
+                .Include(i => i.Customer)
+                .ThenInclude(i => i.EventRegistrations)
                 .ThenInclude(i => i.Event)
                 .ThenInclude(i => i.Exam)
+                .OrderBy(p => p.PerLastName)
                 .AsQueryable();
-            if(id.HasValue)
-            {
-                ViewData["CusKey"] = id.Value;
-                query = query.Where(x => id.HasValue ? x.CusKey == id.Value : x.EventRegistrations.Count() > 0);
-            }
-            var customerlist = await query.Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }).ToListAsync();
-            var examList = await _context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }).ToListAsync();
 
-            ViewData["ExsCusKey"] = new SelectList(customerlist, "CusKey", "Name");
+            peopleQueryable = customerKey.IsGuidValid() ? peopleQueryable.Where(x => x.PerCusKey == customerKey) : peopleQueryable.Where(x => x.Customer.EventRegistrations.Any());
+            var examList = await _context.Exams.AsNoTracking().OrderBy(e => e.ExmName).Select(s => new { s.ExmKey, Name = s.ExmName }).ToListAsync();
+
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "ExsCusKey",
+                requirementKey, customerKey, null, peopleQueryable);
             ViewData["ExsExmKey"] = new SelectList(examList, "ExmKey", "Name");
             return View();
         }
@@ -113,19 +111,23 @@ namespace ProjectMoonshine.Controllers
             {
 
                 if (await examScore.AddAsync(_context))
-                    return RedirectToAction(nameof(Index));
+                    return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
+                    
             }
             else
             {
                 ViewData["Error"] = "Customer is not registered for the selected exam";
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+
             ViewData["ExsExmKey"] = new SelectList(_context.Exams.Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "ExsCusKey",
+                null, null, examScore.ExsCusKey);
+            
             return View(examScore);
         }
 
         // GET: ExamScores/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id, Guid? requirementKey = null, Guid? customerKey = null)
         {
             if (id == null)
             {
@@ -137,8 +139,9 @@ namespace ProjectMoonshine.Controllers
             {
                 return NotFound();
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers.AsNoTracking().Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
             ViewData["ExsExmKey"] = new SelectList(_context.Exams.AsNoTracking().Select(s => new { s.ExmKey, Name = s.ExmName }), "ExmKey", "Name", examScore.ExsExmKey);
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "ExsCusKey",
+                requirementKey, customerKey, examScore.ExsCusKey);
             return View(examScore);
         }
 
@@ -147,7 +150,7 @@ namespace ProjectMoonshine.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ExsKey,ExsExmKey,ExsCusKey,ExsTotalPossible,ExsTotalReceived,ExsAddDate,ExsChangeDate,ExsAddUser,ExsChangeUser,RowVersion")] ExamScore examScore)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ExsKey,ExsExmKey,ExsCusKey,ExsTotalPossible,ExsTotalReceived,ExsSuccessFlag,ExsDate")] ExamScore examScore)
         {
             if (id != examScore.ExsKey)
             {
@@ -158,8 +161,9 @@ namespace ProjectMoonshine.Controllers
             {
                 try
                 {
-                    if ( await examScore.UpdateAsync(_context))
-                        return RedirectToAction(nameof(Index));
+                    if (await examScore.UpdateAsync(_context))
+                        return await ControllerUtils.RedirectFromRequirementDataAsync(this, _context);
+
                 }
                 catch (DbUpdateConcurrencyException e)
                 {
@@ -178,8 +182,10 @@ namespace ProjectMoonshine.Controllers
                     }
                 }
             }
-            ViewData["ExsCusKey"] = new SelectList(_context.Customers.Include(i => i.Person).Select(s => new { s.CusKey, Name = s.Person.PerFirstMiddleLast }), "CusKey", "Name", examScore.ExsCusKey);
+            
             ViewData["ExsExmKey"] = new SelectList(_context.Exams, "ExmKey", "ExmName");
+            await ControllerUtils.SetRequirementDataCustomerDropdownAndRedirectFieldsAsync(this, _context, "ExsCusKey", null,
+                null, examScore.ExsCusKey);
             return View(examScore);
         }
 
@@ -218,6 +224,11 @@ namespace ProjectMoonshine.Controllers
         private bool ExamScoreExists(Guid id)
         {
             return _context.ExamScores.Any(e => e.ExsKey == id);
+        }
+
+        public async Task<IActionResult> GoBack(Guid? requirementKey = null, Guid? customerKey = null)
+        {
+            return await ControllerUtils.RedirectToRequirementCustomerOrDefault(this, _context, requirementKey, customerKey);
         }
     }
 }

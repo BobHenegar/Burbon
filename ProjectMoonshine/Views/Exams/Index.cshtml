@@ -12,9 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.ActionLink(@Html.DisplayNameFor(model => model.First().ExmSeatCount), "Index", new { sortOrder = "seatCount", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.First().ExmCanRetake)
             </th>
@@ -28,9 +26,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExmSeatCount)
-                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.ExmCanRetake)
                 </td>

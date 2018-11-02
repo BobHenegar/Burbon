@@ -26,7 +26,10 @@
                 @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtEndDate), "Index", new { sortOrder = "endDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th>
-                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtAddDate), "Index", new { sortOrder = "addDate", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtRegistrantLimit), "Index", new { sortOrder = "registrationLimit", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
+            </th>
+            <th>
+                @Html.ActionLink(Html.DisplayNameFor(model => model.First().EvtExmKey), "Index", new { sortOrder = "exam", lastOrder = ViewBag.LastSortParam, filterString = ViewBag.FilterString })
             </th>
             <th></th>
         </tr>
@@ -47,6 +50,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EvtEndDate)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EvtRegistrantLimit)
+                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Exam.ExmName)
+                    </td>
+                
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.EvtKey">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.EvtKey">Details</a> |

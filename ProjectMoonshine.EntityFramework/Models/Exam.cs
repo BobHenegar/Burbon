@@ -16,8 +16,6 @@ namespace ProjectMoonshine.EntityFramework.Models
         [Key]
         public Guid ExmKey { get; set; }
 
-        [DisplayName("Exam Seating Limit")]
-        public int? ExmSeatCount { get; set; }
 
         [DisplayName("Exam Name")]
         [CanBeDescription(true)]

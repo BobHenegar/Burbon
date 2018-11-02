@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectMoonshine.EntityFramework;
 using ProjectMoonshine.EntityFramework.Models;
 
@@ -15,7 +16,7 @@ namespace ProjectMoonshine.Managers
         public IQueryable<Event> GetAllEvents(string searchString, string sortOrder)
         {
             //Defer query executing until our sorting and pagination is finished
-            var events = _context.Events.AsQueryable();
+            var events = _context.Events.AsNoTracking().Include(e => e.Exam).AsQueryable();
             if (!string.IsNullOrEmpty(searchString))
             {
                 searchString = searchString.ToLower();
@@ -24,6 +25,27 @@ namespace ProjectMoonshine.Managers
             }
             switch (sortOrder)
             {
+                case "exam":
+                {
+                    events = events.OrderBy(x => x.Exam.ExmName);
+                    break;
+                }
+                case "exam_desc":
+                {
+                    events = events.OrderByDescending(x => x.Exam.ExmName);
+                    break;
+                }
+                case "registrationLimit":
+                {
+                    events = events.OrderBy(x => x.EvtRegistrantLimit);
+                    break;
+                    }
+                case "registrationLimit_desc":
+                {
+                    events = events.OrderByDescending(x => x.EvtRegistrantLimit);
+                    break;
+                }
+
                 case "eventName":
                     {
                         events = events.OrderBy(x => x.EvtName);

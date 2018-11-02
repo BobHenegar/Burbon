@@ -172,7 +172,7 @@ namespace ProjectMoonshine.EntityFramework.Models
                 Guid customerKey = await CredentialingUtils.GetCustomerKeyFromProcessKeyAsync(context, requirement.Cr3Cr2Key);
                 if (!CommonUtils.IsGuidValid(customerKey)) return false;
 
-                DateTimeOffset? minDate = GetPriorExamScoreEligibilityMinDate(requirement.CredentialRequirementType);
+                DateTimeOffset? minDate = GetPriorExamScoreEligibilityMinDate(requirement.CredentialRequirementType, requirement.Cr3StartDate);
 
                 if (!(await context.ExamScores
                           .AsNoTracking()
@@ -189,23 +189,24 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private static DateTimeOffset? GetPriorExamScoreEligibilityMinDate(CredentialRequirementType requirementType)
+        private static DateTimeOffset? GetPriorExamScoreEligibilityMinDate(CredentialRequirementType requirementType, DateTimeOffset? requirementStartDate)
         {
             DateTimeOffset? minDate = null;
-            if (!requirementType.Ct3PriorExamScoreEligibleFlag ||
-                requirementType.Ct3PriorExamScoreEligibleDateNumber == null) return null;
+            if (!requirementType.Ct3PriorExamScoreEligibleFlag 
+                || requirementType.Ct3PriorExamScoreEligibleDateNumber == null
+                || !requirementStartDate.IsDateTimeOffsetValid()) return null;
             switch (requirementType.Ct3PriorExamScoreEligibleDateUnit)
             {
                 case GlobalConstants.DueDateUnit.None:
                     break;
                 case GlobalConstants.DueDateUnit.Day:
-                    minDate = DateTimeOffset.Now.AddDays((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
+                    minDate = ((DateTimeOffset)requirementStartDate).AddDays((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
                     break;
                 case GlobalConstants.DueDateUnit.Month:
-                    minDate = DateTimeOffset.Now.AddMonths((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
+                    minDate = ((DateTimeOffset)requirementStartDate).AddMonths((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
                     break;
                 case GlobalConstants.DueDateUnit.Year:
-                    minDate = DateTimeOffset.Now.AddYears((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
+                    minDate = ((DateTimeOffset)requirementStartDate).AddYears((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
                     break;
                 default:
                     break;
@@ -213,37 +214,18 @@ namespace ProjectMoonshine.EntityFramework.Models
             return minDate;
         }
 
-        private async Task<ExamScore> FindExamScoreAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirementType requirementType)
+        private async Task<ExamScore> FindExamScoreAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirement requirement)
         {
-            Expression<Func<ExamScore, bool>> rule = await GetRuleExpression<ExamScore>(context, requirementType);
+            if (requirement.CredentialRequirementType == null) return null;
+            Expression<Func<ExamScore, bool>> rule = await GetRuleExpression<ExamScore>(context, requirement.CredentialRequirementType);
 
-            Expression<Func<ExamScore, bool>> defaultRule = e => e.ExsExmKey == requirementType.Ct3ExmKey 
+            Expression<Func<ExamScore, bool>> defaultRule = e => e.ExsExmKey == requirement.CredentialRequirementType.Ct3ExmKey 
                                               && (e.ExsSuccessFlag 
-                                                  || (CommonUtils.IsIntValidAndNotZero(requirementType.Ct3MinExamScore)
-                                                      && e.ExsTotalReceived >= requirementType.Ct3MinExamScore)); 
+                                                  || (CommonUtils.IsIntValidAndNotZero(requirement.CredentialRequirementType.Ct3MinExamScore)
+                                                      && e.ExsTotalReceived >= requirement.CredentialRequirementType.Ct3MinExamScore)); 
 
             if (rule == null) rule = defaultRule;
-            DateTimeOffset? minDate = GetPriorExamScoreEligibilityMinDate(requirementType);
-            if (requirementType.Ct3PriorExamScoreEligibleFlag && requirementType.Ct3PriorExamScoreEligibleDateNumber != null)
-            {
-
-                switch (requirementType.Ct3PriorExamScoreEligibleDateUnit)
-                {
-                    case GlobalConstants.DueDateUnit.None:
-                        break;
-                    case GlobalConstants.DueDateUnit.Day:
-                        minDate = DateTimeOffset.Now.AddDays((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
-                        break;
-                    case GlobalConstants.DueDateUnit.Month:
-                        minDate = DateTimeOffset.Now.AddMonths((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
-                        break;
-                    case GlobalConstants.DueDateUnit.Year:
-                        minDate = DateTimeOffset.Now.AddYears((short)-requirementType.Ct3PriorExamScoreEligibleDateNumber);
-                        break;
-                    default:
-                        break;
-                }
-            };
+            DateTimeOffset? minDate = GetPriorExamScoreEligibilityMinDate(requirement.CredentialRequirementType, requirement.Cr3StartDate );
 
             return await context.ExamScores
                 .AsNoTracking()
@@ -428,7 +410,7 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        public async Task<T> FindRequirementDataAsync<T>(Func<ApplicationDbContext, Guid, CredentialRequirementType, Task<T>> findMethod, ApplicationDbContext context, CredentialRequirement requirement)
+        public async Task<T> FindRequirementDataAsync<T>(Func<ApplicationDbContext, Guid, CredentialRequirement, Task<T>> findMethod, ApplicationDbContext context, CredentialRequirement requirement)
         {
             try
             {
@@ -441,7 +423,7 @@ namespace ProjectMoonshine.EntityFramework.Models
 
                 if (requirement.CredentialRequirementType == null) return default(T);
 
-                return await findMethod(context, customerKey, requirement.CredentialRequirementType);
+                return await findMethod(context, customerKey, requirement);
             }
             catch (Exception e)
             {
@@ -456,9 +438,10 @@ namespace ProjectMoonshine.EntityFramework.Models
         }
 
 
-        private static async Task<License> FindLicenseAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirementType requirementType)
+        private static async Task<License> FindLicenseAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirement requirement)
         {
-            Expression<Func<License, bool>> rule = await GetRuleExpression<License>(context, requirementType);
+            if (requirement.CredentialRequirementType == null) return null;
+            Expression<Func<License, bool>> rule = await GetRuleExpression<License>(context, requirement.CredentialRequirementType);
 
             Expression<Func<License, bool>> defaultRule = l => (!CommonUtils.IsDateTimeOffsetValid(l.IxlIssueDate) ||
                                              l.IxlIssueDate <= DateTimeOffset.Now)
@@ -495,11 +478,12 @@ namespace ProjectMoonshine.EntityFramework.Models
             }
         }
 
-        private static async Task<Degree> FindDegreeAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirementType requirementType )
+        private static async Task<Degree> FindDegreeAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirement requirement )
         {
-            Expression<Func<Degree, bool>> rule = await GetRuleExpression<Degree>(context, requirementType);
+            if (requirement.CredentialRequirementType == null) return null;
+            Expression<Func<Degree, bool>> rule = await GetRuleExpression<Degree>(context, requirement.CredentialRequirementType);
             Expression<Func<Degree, bool>> defaultRule = d =>
-                        d.DegDetKey == requirementType.Ct3DetKey
+                        d.DegDetKey == requirement.CredentialRequirementType.Ct3DetKey
                         && CommonUtils.IsDateTimeOffsetValid(d.DegDate)
                         && d.DegDate <= DateTimeOffset.Now;
 
@@ -514,11 +498,11 @@ namespace ProjectMoonshine.EntityFramework.Models
                 .FirstOrDefaultAsync();
         }
 
-        private static async Task<FileUpload> FindDocumentAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirementType requirementType)
+        private static async Task<FileUpload> FindDocumentAsync(ApplicationDbContext context, Guid customerKey, CredentialRequirement requirement)
         {
-
-            Expression<Func<FileUpload, bool>> rule = await GetRuleExpression<FileUpload>(context, requirementType);
-            Expression<Func<FileUpload, bool>> defaultRule = f => f.FupDtpKey == requirementType.Ct3DtpKey;
+            if (requirement.CredentialRequirementType == null) return null;
+            Expression<Func<FileUpload, bool>> rule = await GetRuleExpression<FileUpload>(context, requirement.CredentialRequirementType);
+            Expression<Func<FileUpload, bool>> defaultRule = f => f.FupDtpKey == requirement.CredentialRequirementType.Ct3DtpKey;
 
             if (rule == null) rule = defaultRule;
             return await context.FileUploads

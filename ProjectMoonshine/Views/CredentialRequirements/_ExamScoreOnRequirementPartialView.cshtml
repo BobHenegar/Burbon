@@ -6,7 +6,7 @@
     
     @if (!Model.Cr3ExsKey.IsGuidValid())
     {
-        <a asp-controller="ExamScores" asp-action="Create" class="btn btn-primary">Add Exam Score</a>
+        <a asp-controller="ExamScores" asp-action="Create" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@ViewBag.requirementKey" class="btn btn-primary">Add Exam Score</a>
     }
     else
     {
@@ -53,28 +53,9 @@
         <dd>
             @Html.DisplayFor(model => model.ExamScore.ExsChangeDate)
         </dd>
-        @*<dt>
-                @Html.DisplayNameFor(model => model.ExamScore.ExsAddUser)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ExamScore.ExsAddUser)
-            </dd>*@
-        @*<dt>
-                @Html.DisplayNameFor(model => model.ExamScore.ExsChangeUser)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ExamScore.ExsChangeUser)
-            </dd>*@
-        @*<dt>
-                @Html.DisplayNameFor(model => model.ExamScore.Customer)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ExamScore.Customer.CusKey)
-            </dd>*@
 
     </dl>
-    <a asp-action="Edit" asp-route-id="@Model.ExamScore.ExsKey" class="btn btn-primary">Edit Exam Score</a>
-    <a asp-controller="ExamScores" asp-action="Create" class="btn btn-primary">Add Exam Score</a>
+    <a asp-controller="ExamScores" asp-action="Edit" asp-route-id="@Model.ExamScore.ExsKey" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@ViewBag.customerKey" class="btn btn-primary">Edit Exam Score</a>
     }
 
 </div>

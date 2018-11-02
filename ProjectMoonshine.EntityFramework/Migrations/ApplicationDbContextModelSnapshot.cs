@@ -620,6 +620,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.HasIndex("Ct3Ct8Key");
 
+                    b.HasIndex("Ct3DeniedCt6Key");
+
                     b.HasIndex("Ct3DependentCt6Key");
 
                     b.HasIndex("Ct3DetKey");
@@ -811,7 +813,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.Property<string>("DegAddUser")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("DegChangeDate")
+                    b.Property<DateTimeOffset?>("DegChangeDate")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("DegChangeUser")
@@ -963,6 +965,8 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                         .IsRequired()
                         .HasMaxLength(500);
 
+                    b.Property<int?>("EvtRegistrantLimit");
+
                     b.Property<DateTimeOffset?>("EvtStartDate");
 
                     b.HasKey("EvtKey");
@@ -1029,8 +1033,6 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<string>("ExmName");
 
-                    b.Property<int?>("ExmSeatCount");
-
                     b.HasKey("ExmKey");
 
                     b.ToTable("Exams");
@@ -1063,7 +1065,7 @@ namespace ProjectMoonshine.EntityFramework.Migrations
 
                     b.Property<bool>("ExsSuccessFlag");
 
-                    b.Property<int>("ExsTotalPossible");
+                    b.Property<int?>("ExsTotalPossible");
 
                     b.Property<int>("ExsTotalReceived");
 
@@ -1490,6 +1492,11 @@ namespace ProjectMoonshine.EntityFramework.Migrations
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialRequirementTemplate", "Template")
                         .WithMany("CredentialRequirementTypes")
                         .HasForeignKey("Ct3Ct8Key")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "DeniedStatusType")
+                        .WithMany()
+                        .HasForeignKey("Ct3DeniedCt6Key")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("ProjectMoonshine.EntityFramework.Models.CredentialStatusType", "DependentStatusType")

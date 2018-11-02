@@ -75,7 +75,6 @@
             </dd>*@
         </dl>
         <a asp-controller="Licenses" asp-action="Edit" asp-route-id="@Model.License.IxlKey" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey" class="btn btn-primary">Edit License</a>
-        <a asp-controller="Licenses" asp-action="Create" asp-route-requirementKey=@Model.Cr3Key.ToString() asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey.ToString()" class="btn btn-primary">Add New License</a>
     }
 
 </div>
