@@ -8,8 +8,6 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using PagedList.Core;
@@ -37,15 +35,12 @@ namespace ProjectMoonshine.Controllers
         public IActionResult Index(string sortOrder, string lastOrder, string currentFilter, string searchString, int? page)
         {
             int currentPage = page.HasValue ? page.Value : 1;
-            if (string.IsNullOrEmpty(sortOrder))
-            {
+            if (string.IsNullOrEmpty(sortOrder)) {
                 sortOrder = "firstName";
                 ViewBag.LastSortParam = sortOrder;
             }
-            else
-            {
-                if(sortOrder == lastOrder)
-                {
+            else {
+                if (sortOrder == lastOrder) {
                     int index = sortOrder.IndexOf("_desc");
                     string cleanPath = (index < 0)
                         ? sortOrder = sortOrder + "_desc"
@@ -60,8 +55,7 @@ namespace ProjectMoonshine.Controllers
         // GET: People/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
@@ -82,8 +76,7 @@ namespace ProjectMoonshine.Controllers
                 .Include(p => p.Phones)
                 .Where(m => m.PerKey == id)
                 .FirstOrDefaultAsync();
-            if (person == null)
-            {
+            if (person == null) {
                 return NotFound();
             }
 
@@ -107,14 +100,13 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var person = _context.People.Add(new Person()
-                {
+            if (ModelState.IsValid) {
+                var person = _context.People.Add(new Person() {
                     PerFirstName = model.PerFirstName,
                     PerMiddleName = model.PerMiddleName,
                     PerLastName = model.PerLastName,
                     PerDateOfBirth = model.PerDateOfBirth,
+                    PerGender = model.PerGender,
                     Customer = new Customer(),
                     Addresses = new List<Address>()
                     {
@@ -155,7 +147,7 @@ namespace ProjectMoonshine.Controllers
                     }
                 });
                 await _context.SaveChangesAsync();
-                return View(person);
+                return RedirectToAction(nameof(Details), new { id = person.Entity.PerKey });
             }
             return RedirectToAction(nameof(Index));
         }
@@ -163,14 +155,12 @@ namespace ProjectMoonshine.Controllers
         // GET: People/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
             var person = await _context.People.FindAsync(id);
-            if (person == null)
-            {
+            if (person == null) {
                 return NotFound();
             }
             ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey", person.PerCusKey);
@@ -184,15 +174,12 @@ namespace ProjectMoonshine.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, Person model)
         {
-            if (id != model.PerKey)
-            {
+            if (id != model.PerKey) {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
+            if (ModelState.IsValid) {
+                try {
                     var obj = await _context.People.FirstOrDefaultAsync(x => x.PerKey == id);
 
                     obj.PerFirstName = model.PerFirstName;
@@ -202,17 +189,13 @@ namespace ProjectMoonshine.Controllers
 
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException e)
-                {
-                    if (!PersonExists(model.PerKey))
-                    {
+                catch (DbUpdateConcurrencyException e) {
+                    if (!PersonExists(model.PerKey)) {
                         return NotFound();
                     }
-                    else
-                    {
+                    else {
                         Debug.WriteLine(e.RecursivelyFormatException());
-                        if (Environment.UserInteractive)
-                        {
+                        if (Environment.UserInteractive) {
                             Debugger.Break();
                         }
                         throw;
@@ -227,8 +210,7 @@ namespace ProjectMoonshine.Controllers
         // GET: People/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null)
-            {
+            if (id == null) {
                 return NotFound();
             }
 
@@ -236,8 +218,7 @@ namespace ProjectMoonshine.Controllers
                 .Include(p => p.Customer)
                 .Where(m => m.PerKey == id)
                 .FirstOrDefaultAsync();
-            if (person == null)
-            {
+            if (person == null) {
                 return NotFound();
             }
 
@@ -273,8 +254,7 @@ namespace ProjectMoonshine.Controllers
         {
 
 
-            var mailMessage = new MailMessage
-            {
+            var mailMessage = new MailMessage {
                 From = new MailAddress("support@credengnext.net"),
                 Subject = _context.CommunicationTemplates
                             .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
@@ -284,7 +264,7 @@ namespace ProjectMoonshine.Controllers
                            .Where(t => t.TemKey.ToString() == Request.Form["ComTemplates"].ToString())
                            .Select(t => t.TemHtml)
                            .FirstOrDefault() ?? throw new InvalidOperationException()
-        };
+            };
 
             string emladdr = _context.Emails
                 .Where(e => e.EmlPerKey.ToString() == Request.Form["perKey"].ToString() && e.EmlIsPrimary == true)
@@ -293,22 +273,21 @@ namespace ProjectMoonshine.Controllers
 
             mailMessage.To.Add(emladdr.ToString());
 
-            var smtpClient = new SmtpClient
-            {
+            var smtpClient = new SmtpClient {
                 Credentials = new NetworkCredential("azure_62dfa7dda67490fad6f34fdee29cbab6@azure.com", "1425Market"),
                 Host = "smtp.sendgrid.net",
                 Port = 587
             };
 
             smtpClient.Send(mailMessage);
-            return RedirectToAction("Details", new{id=Request.Form["perKey"].ToString()});
+            return RedirectToAction("Details", new { id = Request.Form["perKey"].ToString() });
         }
 
-        public  IActionResult Search()
+        public IActionResult Search()
         {
 
-                // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
-                return View();
+            // ViewData["PerCusKey"] = new SelectList(_context.Customers, "CusKey", "CusKey");
+            return View();
 
         }
 
@@ -327,25 +306,21 @@ namespace ProjectMoonshine.Controllers
 
             var param = Expression.Parameter(typeof(Person), "p");
 
-            foreach (KeyValuePair<string, StringValues> key in Request.Form)
-            {
+            foreach (KeyValuePair<string, StringValues> key in Request.Form) {
                 if (key.Value.ToString().Length > 0 && key.Key != "__RequestVerificationToken"
                                                     && key.Key != "andor"
-                                                    && key.Key != "contains")
-                {
+                                                    && key.Key != "contains") {
                     var prop = Expression.Property(param, key.Key);
                     var constant = Expression.Constant(key.Value.ToString());
-                    var rhs = Request.Form["contains"].ToString() == "cont"?
-                                    Expression.Call(prop, typeof(string).GetMethod("Contains", new[] {typeof(string)}), constant):
+                    var rhs = Request.Form["contains"].ToString() == "cont" ?
+                                    Expression.Call(prop, typeof(string).GetMethod("Contains", new[] { typeof(string) }), constant) :
                                     Expression.Call(prop, typeof(string).GetMethod("StartsWith", new[] { typeof(string) }), constant);
 
-                    if (ex == null)
-                    {
+                    if (ex == null) {
                         ex = rhs;
                     }
-                    else
-                    {
-                        ex = Request.Form["andor"].ToString()=="and"? Expression.AndAlso(ex, rhs): Expression.OrElse(ex, rhs);
+                    else {
+                        ex = Request.Form["andor"].ToString() == "and" ? Expression.AndAlso(ex, rhs) : Expression.OrElse(ex, rhs);
                     }
                 }
             }
@@ -354,12 +329,11 @@ namespace ProjectMoonshine.Controllers
 
             people = people.Where(body);
 
-            switch (people.Count())
-            {
+            switch (people.Count()) {
                 case 0:
                     return View();
                 case 1:
-                    return RedirectToAction("Details", new {id = people.FirstOrDefault().PerKey});
+                    return RedirectToAction("Details", new { id = people.FirstOrDefault().PerKey });
                 default:
                     return View("Index", people.ToPagedList(1, GlobalConstants.PageSize));
             }

@@ -1,12 +1,12 @@
 ﻿@model ProjectMoonshine.EntityFramework.Models.Query
 
-    @{
-        ViewData["Title"] = "Create";
-    }
+@{
+    ViewData["Title"] = "Create";
+}
 
-    @section Styles {
-<link rel="stylesheet" href="~/css/query-builder.css" />
-    }
+@section Styles {
+    <link rel="stylesheet" href="~/css/query-builder.css" />
+}
 <h2>QueryBuilder</h2>
 <div class="row full-width">
     <form asp-action="PostCreate" id="QueryForm"></form>
@@ -46,228 +46,228 @@
         </div>
     </div>
 </div>
-    @section Scripts{
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: buildRequestUrl('api/Metadata/Tables'),
-            type: 'GET',
-            success: function (data) {
-                var item = $("#QryTable");
-                console.log(data);
-                $.each(data, function (index, value) {
-                    $(item).append(buildOptionItem(null, value.tableName, value.dbSetName, index == 0));
-                })
-            },
-            error: function (data) {
-                console.log(data);
-            }
-        });
-        $("#QryTable").on('change', function () {
-            $("#groupsHolder").empty();
-            $("#groupsHolder").html(`<div>
-                        <div>
-                            <button id="addRule" class="addRule">+ Rule</button>
-                            <button id="addGroup" class="addGroup">+ Group</button>
-                        </div>
-                        <div>
-                            <input value="1" name="toggle_0" type="radio" checked>
-                            <label>And</label>
-                            <input value="2" name="toggle_0" type="radio">
-                            <label>Or</label>
-                        </div>
-                    </div>`);
-            reRegisterDeligates();
-        });
-        $('[id^=addGroup]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewGroup());
-                reRegisterDeligates();
-            });
-        });
-        $('[id^=addRule]').each(function () {
-            $(this).off('click');
-            $(this).on("click", function () {
-                $(this).closest('.groupQuery').append(createNewRule());
-                populateEqualitySelect($(this).closest('.groupQuery'));
-                populateLeftSelect($(this).closest('.groupQuery'));
-                populateNewRightSide($(this).closest('.groupQuery'));
-                reRegisterDeligates();
-            });
-        });
-    });
-    function validateBeforePost() {
-        var span = $("span#RightPropertyValidation");
-        $(span).html("");
-        $("input#RightPropertyInput").removeClass("dangerInput");
-        $('[id^=chevron]').remove();
-
-        var canContinue = true;
-        $('li').each(function (idx, val) {
-            $(val).find('.flexRow').each(function (ind, item) {
-                var ruleInput = $(item).find('.ruleInput');
-                var leftProp = $(ruleInput).find('select#LeftProperty');
-                var eqProp = $(ruleInput).find('select#EqualityComparison');
-                var rightProp = $(ruleInput).find('#RightPropertyInput.ruleInputright');
-                var leftType = $(leftProp).find('option:selected').data('type');
-                var rightValue = $(rightProp).val();
-                var eqValue = $(eqProp).val();
-                var validationString = validateEquality(leftType, eqValue);
-                var validated = validateInput(leftType, rightValue)
-                if (!validated || validationString) {
-                    var id = "Error_" + idx;
-                    canContinue = false;
-
-                    var errorString = "";
-                    if (!validated) {
-                        if (leftType.includes("String")) {
-                            errorString = buildErrorDiv(`String is not of the proper format`);
-                        }
-                        else if (leftType.includes("Guid")) {
-                            errorString = buildErrorDiv(`Guid is not of the proper format`);
-
-                        }
-                        else if (leftType.includes("DateTime")) {
-                            errorString = buildErrorDiv(`Date format is not valid like MM/DD/YYYY or "now" for the current time`);
-                        }
-                    }
-                    if (validationString) {
-                        errorString += buildErrorDiv(validationString);
-                    }
-                    var chevId = "chevron_" + id;
-                    $(rightProp).addClass("dangerInput");
-                    $(item).find("div.ruleInput.removeButton").prepend(`<span class="glyphicon glyphicon-chevron-left" id="` + chevId + `" hidden="true"></span>`);
-                    $(item).find("span#chevron_" + id).hide();
-                    $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div>`);
-
-                    $(span).find('div#' + id).hover(function () {
-                        var searchString = "span#" + chevId;
-                        $(item).find("div.ruleInput.removeButton").find(searchString).show();
-                    }, function () {
-                        var searchString = "span#" + chevId;
-                        $(item).find("div.ruleInput.removeButton").find(searchString).hide();
-                    });
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: buildRequestUrl('api/Metadata/Tables'),
+                type: 'GET',
+                success: function (data) {
+                    var item = $("#QryTable");
+                    console.log(data);
+                    $.each(data, function (index, value) {
+                        $(item).append(buildOptionItem(null, value.tableName, value.dbSetName, index == 0));
+                    })
+                },
+                error: function (data) {
+                    console.log(data);
                 }
             });
+            $("#QryTable").on('change', function () {
+                $("#groupsHolder").empty();
+                $("#groupsHolder").html(`<div>
+                                        <div>
+                                            <button id="addRule" class="addRule">+ Rule</button>
+                                            <button id="addGroup" class="addGroup">+ Group</button>
+                                        </div>
+                                        <div>
+                                            <input value="1" name="toggle_0" type="radio" checked>
+                                            <label>And</label>
+                                            <input value="2" name="toggle_0" type="radio">
+                                            <label>Or</label>
+                                        </div>
+                                    </div>`);
+                reRegisterDeligates();
+            });
+            $('[id^=addGroup]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewGroup());
+                    reRegisterDeligates();
+                });
+            });
+            $('[id^=addRule]').each(function () {
+                $(this).off('click');
+                $(this).on("click", function () {
+                    $(this).closest('.groupQuery').append(createNewRule());
+                    populateEqualitySelect($(this).closest('.groupQuery'));
+                    populateLeftSelect($(this).closest('.groupQuery'));
+                    populateNewRightSide($(this).closest('.groupQuery'));
+                    reRegisterDeligates();
+                });
+            });
         });
-        return canContinue;
-    }
+        function validateBeforePost() {
+            var span = $("span#RightPropertyValidation");
+            $(span).html("");
+            $("input#RightPropertyInput").removeClass("dangerInput");
+            $('[id^=chevron]').remove();
 
-    function buildRequestUrl(endpoint) {
-        var url = '';
-        if (endpoint.charAt(0) !== '/') {
-            url = '/' + endpoint;
-        }
-        return window.location.protocol + '//' + window.location.host + url;
-    }
+            var canContinue = true;
+            $('li').each(function (idx, val) {
+                $(val).find('.flexRow').each(function (ind, item) {
+                    var ruleInput = $(item).find('.ruleInput');
+                    var leftProp = $(ruleInput).find('select#LeftPropertyInput');
+                    var eqProp = $(ruleInput).find('select#EqualityComparisonInput');
+                    var rightProp = $(ruleInput).find('#RightPropertyInput');
+                    var leftType = $(leftProp).find('option:selected').data('type');
+                    var rightValue = $(rightProp).val();
+                    var eqValue = $(eqProp).val();
+                    var validationString = validateEquality(leftType, eqValue);
+                    var validated = validateInput(leftType, rightValue)
+                    if (!validated || validationString) {
+                        var id = "Error_" + idx;
+                        canContinue = false;
 
-    function buildOptionItem(type, value, text, selected) {
-        var optionResult = '<option';
-        if (type) {
-            optionResult += ' data-type="' + type + '"';
-        }
-        if (value) {
-            optionResult += ' value="' + value + '"';
-        }
-        if (selected) {
-            optionResult += "selected>";
-        }
-        else {
-            optionResult += ">";
-        }
-        if (text) {
-            optionResult += text + "</option>";
-        }
-        else {
-            optionResult += value + "</option>";
-        }
-        return optionResult;
-    }
+                        var errorString = "";
+                        if (!validated) {
+                            if (leftType.includes("String")) {
+                                errorString = buildErrorDiv(`String is not of the proper format`);
+                            }
+                            else if (leftType.includes("Guid")) {
+                                errorString = buildErrorDiv(`Guid is not of the proper format`);
 
-    function populateLeftSelect(self) {
-        var item = $(self).find('div#LeftPropertyDiv').last();
-        var tableValue = $("#QryTable").val();
-        if (!tableValue) {
-            tableValue = "Address";
-            $("#QryTable").val(tableValue);
+                            }
+                            else if (leftType.includes("DateTime")) {
+                                errorString = buildErrorDiv(`Date format is not valid like MM/DD/YYYY or "now" for the current time`);
+                            }
+                        }
+                        if (validationString) {
+                            errorString += buildErrorDiv(validationString);
+                        }
+                        var chevId = "chevron_" + id;
+                        $(rightProp).addClass("dangerInput");
+                        $(item).find("div.ruleInput.removeButton").prepend(`<span class="glyphicon glyphicon-chevron-left" id="` + chevId + `" hidden="true"></span>`);
+                        $(item).find("span#chevron_" + id).hide();
+                        $(span).append(`<div class="alert alert-danger" role="alert" id="` + id + `">` + errorString + `</div>`);
+
+                        $(span).find('div#' + id).hover(function () {
+                            var searchString = "span#" + chevId;
+                            $(item).find("div.ruleInput.removeButton").find(searchString).show();
+                        }, function () {
+                            var searchString = "span#" + chevId;
+                            $(item).find("div.ruleInput.removeButton").find(searchString).hide();
+                        });
+                    }
+                });
+            });
+            return canContinue;
         }
-        $.ajax({
-            url: buildRequestUrl('api/metadata/columns'),
-            type: 'GET',
-            data: $.param({ tableName: tableValue }),
-            success: function (data) {
-                console.log(data);
-                var select = $('<select id="LeftPropertyInput"></select>');
-                $.each(data, function (index, value) {
-                    $(select).append(buildOptionItem(value.columnType, value.columnName, value.columnDisplayName, index == 0));
-                })
-                $(item).html();
-                $(item).html(select);
-            },
-            error: function (data) {
-                console.log(data);
+
+        function buildRequestUrl(endpoint) {
+            var url = '';
+            if (endpoint.charAt(0) !== '/') {
+                url = '/' + endpoint;
             }
-        });
-    }
+            return window.location.protocol + '//' + window.location.host + url;
+        }
 
-    function createRightProperty(self) {
-        var item = $(self).find('div#RightPropertyDiv').last();
-        var leftValue = $('#LeftPropertyInput').val();
-        if (leftValue) {
+        function buildOptionItem(type, value, text, selected) {
+            var optionResult = '<option';
+            if (type) {
+                optionResult += ' data-type="' + type + '"';
+            }
+            if (value) {
+                optionResult += ' value="' + value + '"';
+            }
+            if (selected) {
+                optionResult += "selected>";
+            }
+            else {
+                optionResult += ">";
+            }
+            if (text) {
+                optionResult += text + "</option>";
+            }
+            else {
+                optionResult += value + "</option>";
+            }
+            return optionResult;
+        }
+
+        function populateLeftSelect(self) {
+            var item = $(self).find('div#LeftPropertyDiv').last();
+            var tableValue = $("#QryTable").val();
+            if (!tableValue) {
+                tableValue = "Address";
+                $("#QryTable").val(tableValue);
+            }
             $.ajax({
-                url: buildRequestUrl('api/metadata/tables'),
+                url: buildRequestUrl('api/metadata/columns'),
                 type: 'GET',
-                data: $.param({ columnName: leftValue }),
+                data: $.param({ tableName: tableValue }),
                 success: function (data) {
                     console.log(data);
-                    if (data.length > 0) {
-                        var select = $('<select id="LeftPropertyInput"></select>');
-                        $.each(data, function (index, value) {
-                            $(select).append(buildOptionItem("Guid", value.key, value.value, index == 0));
-                        })
-                        $(self).parent().find('#EqualityComparisonInput').val("5").change();
-                        $(item).html();
-                        $(item).html(select);
-                    }
-                    else {
-                        $(item).html();
-                        $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
-                    }
+                    var select = $('<select id="LeftPropertyInput"></select>');
+                    $.each(data, function (index, value) {
+                        $(select).append(buildOptionItem(value.columnType, value.columnName, value.columnDisplayName, index == 0));
+                    })
+                    $(item).html();
+                    $(item).html(select);
                 },
                 error: function (data) {
                     console.log(data);
                 }
             });
         }
-        else {
-            $(item).html();
-            $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
-        }
-    }
 
-    function populateEqualitySelect(self) {
-        var item = $(self).find('div#EqualityPropertyDiv').last();
-        $.ajax({
-            url: buildRequestUrl('api/EqualityComparisons'),
-            type: 'GET',
-            success: function (data) {
-                console.log(data);
-                var select = $('<select id="EqualityComparisonInput"></select>');
-                $.each(data, function (index, value) {
-                    $(select).append(buildOptionItem(null, value.value, value.key, index == 0));
-                })
-                $(item).empty();
-                $(item).html(select)
-            },
-            error: function (data) {
-                console.log(data);
+        function createRightProperty(self) {
+            var item = $(self).find('div#RightPropertyDiv').last();
+            var leftValue = $('#LeftPropertyInput').val();
+            if (leftValue) {
+                $.ajax({
+                    url: buildRequestUrl('api/metadata/tables'),
+                    type: 'GET',
+                    data: $.param({ columnName: leftValue }),
+                    success: function (data) {
+                        console.log(data);
+                        if (data.length > 0) {
+                            var select = $('<select id="RightPropertyInput"></select>');
+                            $.each(data, function (index, value) {
+                                $(select).append(buildOptionItem("Guid", value.key, value.value, index == 0));
+                            })
+                            $(self).parent().find('#EqualityComparisonInput').val("5").change();
+                            $(item).html();
+                            $(item).html(select);
+                        }
+                        else {
+                            $(item).html();
+                            $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
             }
-        });
-    }
+            else {
+                $(item).html();
+                $(item).html('<input class="ruleInputright" type="text" id="RightPropertyInput"></input>');
+            }
+        }
+
+        function populateEqualitySelect(self) {
+            var item = $(self).find('div#EqualityPropertyDiv').last();
+            $.ajax({
+                url: buildRequestUrl('api/EqualityComparisons'),
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    var select = $('<select id="EqualityComparisonInput"></select>');
+                    $.each(data, function (index, value) {
+                        $(select).append(buildOptionItem(null, value.value, value.key, index == 0));
+                    })
+                    $(item).empty();
+                    $(item).html(select)
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
 
 
-</script>
-<script src="~/js/queryBuilder.js"></script>
-    }
+    </script>
+    <script src="~/js/queryBuilder.js"></script>
+}
 

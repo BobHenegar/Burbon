@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -104,22 +103,18 @@ namespace ProjectMoonshine.EntityFramework
             //{
             //    System.Diagnostics.Debugger.Launch();
             //}
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys())) {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (typeof(EntityBase).IsAssignableFrom(entityType.ClrType))
-                {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes()) {
+                if (typeof(EntityBase).IsAssignableFrom(entityType.ClrType)) {
                     FieldInfo[] fields = entityType.ClrType
                         .GetFields(BindingFlags.Public
                         | BindingFlags.Static
                         | BindingFlags.FlattenHierarchy);
 
                     // Should only be one constant for these
-                    if (fields.Count() > 1)
-                    {
+                    if (fields.Count() > 1) {
                         throw new Exception("No more than 1 const field on object allowed");
                     }
                     var prefix = fields.First().GetRawConstantValue();
@@ -219,11 +214,15 @@ namespace ProjectMoonshine.EntityFramework
         {
             var entities = tracker.Entries().Where(x => x.Entity.GetType().BaseType == typeof(EntityBase) && (x.State != EntityState.Added && x.State == EntityState.Modified));
 
-            foreach (var entity in entities)
-            {
-                var Prefix = TablePrefixs.Where(x => x.Key == entity.Entity.GetType().Name).First().Value;
-                entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
-                entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
+            foreach (var entity in entities) {
+                try {
+                    var Prefix = TablePrefixs.Where(x => x.Key == entity.Entity.GetType().Name).First().Value;
+                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeDate")).CurrentValue = DateTimeOffset.Now;
+                    entity.Properties.First(x => x.Metadata.Name == (Prefix + "ChangeUser")).CurrentValue = username == null ? "Anonymous" : username;
+                }
+                catch {
+                    return;
+                }
             }
         }
         //
