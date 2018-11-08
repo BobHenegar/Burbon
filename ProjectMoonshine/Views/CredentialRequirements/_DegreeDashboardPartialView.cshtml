@@ -43,7 +43,7 @@
             @Html.DisplayFor(model => model.Degree.DegreeType.DetCode)
         </dd>
     </dl>
-        <a asp-controller="Degrees" asp-action="Edit" asp-route-id="@Model.Degree.DegKey" asp-route-requirementKey="@Model.Degree.DegCusKey" class="btn btn-primary">Edit Degree</a>
+        <a asp-controller="Degrees" asp-action="Edit" asp-route-id="@Model.Degree.DegKey" asp-route-customerKey="@Model.Degree.DegCusKey" asp-route-requirementKey="@Model.Cr3Key" class="btn btn-primary">Edit Degree</a>
         @*<a asp-controller="Degrees" asp-action="Create" asp-route-customerKey="@Model.CredentialProcess.Credential.Cr1CusKey"  asp-route-requirementKey="@Model.Cr3Key" class="btn btn-primary">Add New Degree</a>*@
     }
 
