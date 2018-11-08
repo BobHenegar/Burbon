@@ -6,7 +6,7 @@
     
     @if (!Model.Cr3ExsKey.IsGuidValid())
     {
-        <a asp-controller="ExamScores" asp-action="Create" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@ViewBag.requirementKey" class="btn btn-primary">Add Exam Score</a>
+        <a asp-controller="ExamScores" asp-action="Create" asp-route-requirementKey="@Model.Cr3Key" asp-route-customerKey="@ViewBag.customerKey" class="btn btn-primary">Add Exam Score</a>
     }
     else
     {
