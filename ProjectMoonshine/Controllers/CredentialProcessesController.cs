@@ -172,7 +172,7 @@ namespace ProjectMoonshine.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = credentialProcess.Cr2Key});
             }
             CredentialProcessViewModel credentialProcessViewModel = new CredentialProcessViewModel(_context, credentialProcess);
             return View(credentialProcessViewModel);
