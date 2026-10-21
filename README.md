@@ -1,4 +1,4 @@
-# Project Moonshine
+# Project Burbon
 
 **A standalone, credentialing-focused CRM built with C# and ASP.NET Core.**
 
